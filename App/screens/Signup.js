@@ -5,6 +5,9 @@ const Signup = (props) => {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Signup</Text>
+        <TouchableOpacity onPress={() => props.navigation.navigate('FirstName')}>
+          <Text>First Name</Text>
+        </TouchableOpacity>
         <TouchableOpacity onPress={() => props.navigation.goBack()}>
           <Text style={styles.goBack}>Go Back</Text>
         </TouchableOpacity>
