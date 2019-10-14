@@ -3,6 +3,8 @@ import { Text, View, StyleSheet, Button } from 'react-native';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import {doCreateQr} from '../../store/actions/workActions'
+import { connect } from 'react-redux';
 
 const ScanForWorkOrder = (props) => {
     const [hasCameraPermission, setHasCameraPermission] = useState(null);
@@ -20,9 +22,19 @@ const ScanForWorkOrder = (props) => {
     setHasCameraPermission('granted');
   };
 
+
   const handleBarCodeScanned = ({ type, data }) => {
    setScanned(true)
+   const mut = `mutation {
+    createWorkorder(order: "plumbing", qrcode: ${data}){
+      id
+      order
+      qrcode
+    }
+  }`
+  token = `"${props.token}"`
     props.navigation.navigate('WorkOrderCheck', {qrcode: data});
+    // props.doCreateQr(token, mut)
   };
  
     if (hasCameraPermission === null) {
@@ -53,4 +65,10 @@ const ScanForWorkOrder = (props) => {
 
 
 
-export default ScanForWorkOrder
+
+const mapStateToProps = (state) => ({
+    token: state.authReducer.token
+  })
+
+
+export default connect (mapStateToProps, {doCreateQr})(ScanForWorkOrder)

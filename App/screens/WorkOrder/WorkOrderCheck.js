@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {doCreateQr} from '../../store/actions/workActions'
+import { connect } from 'react-redux';
 
  const WorkOrderCheck = (props) => {
     console.log("TCL: WorkOrderCheck -> props", props.navigation.state.params.qrcode)
@@ -31,4 +33,9 @@ const styles = StyleSheet.create({
     color: "blue"
   }
 });
-export default WorkOrderCheck
+const mapStateToProps = (state) => ({
+    token: state.authReducer.token
+  })
+
+
+export default connect (mapStateToProps, {doCreateQr})(WorkOrderCheck)
