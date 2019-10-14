@@ -3,7 +3,7 @@ import {ActivityIndicator, View, StyleSheet} from 'react-native';
 import {connect} from 'react-redux'
 
 const LoginChecker = (props) => {
-console.log("TCL: LoginChecker -> props", props)
+// console.log("TCL: LoginChecker -> props", props.navigation.params)
 
     if(props.token) {
         props.navigation.navigate('Dashboard')

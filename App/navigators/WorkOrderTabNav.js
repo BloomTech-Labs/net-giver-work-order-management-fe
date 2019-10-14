@@ -1,13 +1,13 @@
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import WorkOrderGlobal from "../screens/WorkOrder/WorkOrderGlobal";
+import ScanForWorkOrder from "../screens/WorkOrder/ScanForWorkOrder";
 import WorkOrderLocal from "../screens/WorkOrder/WorkOrderLocal";
 
 const WorkOrderTabNav = createBottomTabNavigator(
   {
-    WorkOrderGlobal: {
-      screen: WorkOrderGlobal,
+    ScanForWorkOrder: {
+      screen: ScanForWorkOrder,
       navigationOptions: {
-        tabBarLabel: "Global"
+        tabBarLabel: "Scanner"
       },
     },
     WorkOrderLocal: {
