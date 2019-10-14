@@ -5,7 +5,17 @@ import {doLogin} from '../../store/actions/authActions'
 const LoginVerify = (props) => {
   console.log("TCL: LoginVerify -> props", props)
   const [vercode, setVercode] = useState('');
-
+  if(props.navigation.state.params && props.navigation.state.params.sentBack)
+  {
+    Alert.alert(
+      'User Not Valid',
+      'Sorry That is an Invalid UserName',
+      [
+        {text: 'OK'},
+      ],
+      {cancelable: false},
+    );
+  }
   const vercodeMutation = ``;
   const handlePress = () => {
     const devVerCode = `mutation { authyVerifyDev( username: "${props.username}", code: "${vercode}" ) { token }}`

@@ -8,7 +8,7 @@ console.log("TCL: LoginChecker -> props", props)
     if(props.token) {
         props.navigation.navigate('Dashboard')
     }    else{
-        props.navigation.navigate('LoginVerify')
+        props.navigation.navigate('LoginVerify', {sentBack: true})
     }
     return (
         <View style={styles.container}>

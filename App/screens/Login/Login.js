@@ -4,7 +4,8 @@ import {
   Text,
   TextInput,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import axios from 'axios';
