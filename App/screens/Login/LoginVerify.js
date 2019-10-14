@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Text, TextInput, View, StyleSheet, Button } from 'react-native';
 import {connect} from 'react-redux'
-import {doLogin} from '../store/actions/authActions'
+import {doLogin} from '../../store/actions/authActions'
 const LoginVerify = (props) => {
   console.log("TCL: LoginVerify -> props", props)
   const [vercode, setVercode] = useState('');

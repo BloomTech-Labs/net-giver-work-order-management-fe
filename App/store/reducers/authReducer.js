@@ -22,7 +22,8 @@ export default (state = initialState, action) => {
         isLoading: true,
         isAuth: false,
         isSuccess: false,
-        errors: null
+        errors: null,
+        username: null
       };
     case types.LOGIN_SUCCESS:
       return {

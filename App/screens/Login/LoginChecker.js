@@ -3,11 +3,12 @@ import {ActivityIndicator, View, StyleSheet} from 'react-native';
 import {connect} from 'react-redux'
 
 const LoginChecker = (props) => {
+console.log("TCL: LoginChecker -> props", props)
 
     if(props.token) {
         props.navigation.navigate('Dashboard')
     }    else{
-        props.navigation.navigate('Login')
+        props.navigation.navigate('LoginVerify')
     }
     return (
         <View style={styles.container}>

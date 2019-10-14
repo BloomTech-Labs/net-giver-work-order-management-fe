@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import axios from 'axios';
-import { doSignIn } from '../store/actions/authActions';
+import { doSignIn } from '../../store/actions/authActions';
 // Needs Login Form / Function
 import { connect } from 'react-redux';
 const Login = props => {
@@ -23,7 +23,7 @@ const Login = props => {
     const queryDev = `mutation { signInDev( username: "${username}" ) { username } }`
 
     props.doSignIn(queryDev)
-    props.navigation.navigate('LoginVerify');
+    props.navigation.navigate('UserChecker');
   };
 
   const { navigation } = props;
