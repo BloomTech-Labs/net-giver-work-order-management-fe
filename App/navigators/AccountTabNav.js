@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import AccountProfile from "../screens/AccountProfile";
-import AccountSetting from "../screens/AccountSetting";
+import AccountProfile from "../screens/Account/AccountProfile";
+import AccountSetting from "../screens/Account/AccountSetting";
 
 const AccountTabNav = createBottomTabNavigator(
   {

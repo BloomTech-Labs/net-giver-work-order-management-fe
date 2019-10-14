@@ -3,6 +3,7 @@ import { types } from '../actions';
 const initialState = {
   token: '',
   user: null,
+  username: null,
   signedin: false,
   isAuth: false,
   isLoading: false,
@@ -21,7 +22,8 @@ export default (state = initialState, action) => {
         isLoading: true,
         isAuth: false,
         isSuccess: false,
-        errors: null
+        errors: null,
+        username: null
       };
     case types.LOGIN_SUCCESS:
       return {
@@ -30,8 +32,26 @@ export default (state = initialState, action) => {
         isAuth: true,
         isSuccess: true,
         signedin: true,
-        token: payload
+        username: payload
       };
+      case types.TOKEN_START:
+        return {
+          ...state,
+          isLoading: true,
+          isAuth: false,
+          isSuccess: false,
+          errors: null,
+          token: null
+        };
+      case types.TOKEN_SUCCESS:
+        return {
+          ...state,
+          isLoading: false,
+          isAuth: true,
+          isSuccess: true,
+          signedin: true,
+          token: payload
+        };
     case types.LOGIN_FAIL:
       return {
         ...state,

@@ -1,10 +1,17 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import BarcodeScanner from "../components/BarCodeScanner";
+import CameraExample from "../components/Camera";
 // NEED TO BUILD SIGN UP FORM
+
 const Signup = (props) => {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Signup</Text>
+        <TouchableOpacity onPress={() => props.navigation.navigate('FirstName')}>
+          <Text>First Name</Text>
+          <CameraExample />
+        </TouchableOpacity>
         <TouchableOpacity onPress={() => props.navigation.goBack()}>
           <Text style={styles.goBack}>Go Back</Text>
         </TouchableOpacity>
