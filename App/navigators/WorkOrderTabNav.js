@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import WorkOrderGlobal from "../screens/WorkOrderGlobal";
-import WorkOrderLocal from "../screens/WorkOrderLocal";
+import WorkOrderGlobal from "../screens/WorkOrder/WorkOrderGlobal";
+import WorkOrderLocal from "../screens/WorkOrder/WorkOrderLocal";
 
 const WorkOrderTabNav = createBottomTabNavigator(
   {

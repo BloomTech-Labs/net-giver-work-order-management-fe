@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import BarcodeScanner from "../components/BarCodeScanner";
 // NEED TO BUILD SIGN UP FORM
+
 const Signup = (props) => {
     return (
       <View style={styles.container}>

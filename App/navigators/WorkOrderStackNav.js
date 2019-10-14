@@ -1,6 +1,6 @@
 import { createStackNavigator } from "react-navigation-stack";
 import WorkOrderTabNav from './WorkOrderTabNav';
-import WorkOrderDetail from '../screens/WorkOrderDetail';
+import WorkOrderDetail from '../screens/WorkOrder/WorkOrderDetail';
 
 const WorkOrderStackNav = createStackNavigator(
   {
