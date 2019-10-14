@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { Text, TextInput, View, StyleSheet, Button } from 'react-native';
-
+import {connect} from 'react-redux'
+import {doLogin} from '../store/actions/authActions'
 const LoginVerify = (props) => {
+  console.log("TCL: LoginVerify -> props", props)
   const [vercode, setVercode] = useState('');
 
   const vercodeMutation = ``;
   const handlePress = () => {
-    props.doLogin(vercodeMutation);
+    const devVerCode = `mutation { authyVerifyDev( username: "${props.username}", code: "${vercode}" ) { token }}`
+    props.doLogin(devVerCode)
+    props.navigation.navigate('LoginChecker')
   };
 
   const goBack = () =>{
@@ -57,4 +61,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default LoginVerify;
+const mapStateToProps = (state) => ({
+    username: state.authReducer.username
+  })
+export default connect(mapStateToProps, {doLogin})(LoginVerify)

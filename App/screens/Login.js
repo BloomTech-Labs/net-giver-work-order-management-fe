@@ -18,9 +18,11 @@ const Login = props => {
   }
 
   const submit = () => {
-    const query = ` mutation { signIn(   login: "${username}" ) {   token   user {     username     authyId   } }} `;
+    console.log(", username", username)
+    const query = `mutation{signIn(login:"${username}"){  token   user {     username     authyId   } }} `;
+    const queryDev = `mutation { signInDev( username: "${username}" ) { username } }`
 
-    // props.doSignIn(query)
+    props.doSignIn(queryDev)
     props.navigation.navigate('LoginVerify');
   };
 

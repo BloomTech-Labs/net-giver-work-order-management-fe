@@ -17,6 +17,7 @@ import { types } from "./index";
 //       };
 
 export const doSignIn = credentials => dispatch => {
+    dispatch({ type: types.LOGIN_START });
     axios({
         url: 'https://netgiverdb.herokuapp.com/graphql',
         method: 'post',
@@ -24,8 +25,25 @@ export const doSignIn = credentials => dispatch => {
           query: credentials
         }
       }).then((result) => {
-        console.log(result.data)
-        const map = result.data.map(map=>map)
-        console.log(map)
+      console.log("TCL: result", result)
+          const data = result.data.data.signInDev.username
+        
+          dispatch({ type: types.LOGIN_SUCCESS, payload:data});
       });
       };
+
+      export const doLogin = credentials => dispatch => {
+        dispatch({ type: types.TOKEN_START });
+        axios({
+            url: 'https://netgiverdb.herokuapp.com/graphql',
+            method: 'post',
+            data: {
+              query: credentials
+            }
+          }).then((result) => {
+            const token = result.data.data.authyVerifyDev.token  
+            console.log(token)
+             
+              dispatch({ type: types.TOKEN_SUCCESS, payload:token });
+          });
+          };
