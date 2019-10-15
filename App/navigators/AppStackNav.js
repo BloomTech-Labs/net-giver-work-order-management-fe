@@ -5,6 +5,7 @@ import Signup from '../screens/Signup';
 import LoginChecker from '../screens/Login/LoginChecker';
 import LoginVerify from '../screens/Login/LoginVerify';
 import UserChecker from '../screens/Login/UserChecker';
+import WorkOrderDetail from '../screens/WorkOrder/WorkOrderDetail';
 
 const AppStackNav = createStackNavigator(
   {
@@ -25,6 +26,9 @@ const AppStackNav = createStackNavigator(
     },
     Signup: {
       screen: Signup
+    },
+    WorkOrderDetail: {
+    screen: WorkOrderDetail
     }
   },
   {
