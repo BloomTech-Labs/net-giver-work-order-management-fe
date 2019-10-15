@@ -68,6 +68,7 @@ export default (state = initialState, action) => {
         isSuccess: false
       };
     case types.GET_USER_SUCCESS:
+      console.log(payload)
       return {
         ...state,
         isLoading: false,

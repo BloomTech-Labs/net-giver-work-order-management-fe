@@ -25,25 +25,45 @@ export const doSignIn = credentials => dispatch => {
           query: credentials
         }
       }).then((result) => {
-      console.log("TCL: result", result)
-          const data = result.data.data.signInDev.username
-        
-          dispatch({ type: types.LOGIN_SUCCESS, payload:data});
+        // console.log("TCL: result", result)
+        const data = result.data.data.signInDev.username
+        console.log('DATA', result.data.data.signInDev)
+        dispatch({ type: types.LOGIN_SUCCESS, payload:data});
       });
       };
 
-      export const doLogin = credentials => dispatch => {
-        dispatch({ type: types.TOKEN_START });
-        axios({
-            url: 'https://netgiverdb.herokuapp.com/graphql',
-            method: 'post',
-            data: {
-              query: credentials
-            }
-          }).then((result) => {
-            const token = result.data.data.authyVerifyDev.token  
-            console.log(token)
-             
-              dispatch({ type: types.TOKEN_SUCCESS, payload:token });
-          });
-          };
+export const doLogin = credentials => dispatch => {
+  dispatch({ type: types.TOKEN_START });
+  axios({
+      url: 'https://netgiverdb.herokuapp.com/graphql',
+      method: 'post',
+      data: {
+        query: credentials
+      }
+    }).then((result) => {
+      const token = result.data.data.authyVerifyDev.token  
+      console.log(token)
+      dispatch({ type: types.TOKEN_SUCCESS, payload:token });
+
+      const req = `query { me {phone, email}}`
+      dispatch(getUser(req, token));
+    });
+    };
+
+export const getUser = (req, token) => dispatch => {
+  dispatch({ type: types.GET_USER_START });
+  axios({
+      url: 'https://netgiverdb.herokuapp.com/graphql',
+      method: 'post',
+      data: {
+        query: req
+      },
+      headers: {
+        "x-token": token
+    },
+    }).then((result) => {
+      const data = result.data.data.me
+        dispatch({ type: types.GET_USER_SUCCESS, payload:data });
+    });
+    };
+
