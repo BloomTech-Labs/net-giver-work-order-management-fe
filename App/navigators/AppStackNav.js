@@ -25,7 +25,7 @@ const AppStackNav = createStackNavigator(
     },
     Signup: {
       screen: Signup
-    }
+    },
   },
   {
     defaultNavigationOptions: {
