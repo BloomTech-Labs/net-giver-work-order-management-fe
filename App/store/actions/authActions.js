@@ -19,7 +19,7 @@ import { types } from "./index";
 export const doSignIn = credentials => dispatch => {
     dispatch({ type: types.LOGIN_START });
     axios({
-        url: 'https://netgiverdb.herokuapp.com/graphql',
+        url: 'https://netgiver-stage.herokuapp.com/graphql',
         method: 'post',
         data: {
           query: credentials
@@ -35,7 +35,7 @@ export const doSignIn = credentials => dispatch => {
       export const doLogin = credentials => dispatch => {
         dispatch({ type: types.TOKEN_START });
         axios({
-            url: 'https://netgiverdb.herokuapp.com/graphql',
+            url: 'https://netgiver-stage.herokuapp.com/graphql',
             method: 'post',
             data: {
               query: credentials
