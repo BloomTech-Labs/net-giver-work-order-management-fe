@@ -4,22 +4,17 @@ import BarcodeScanner from "../components/BarCodeScanner";
 import CameraExample from "../components/Camera";
 import { Input, Icon } from 'react-native-elements';
 import Onboarding from 'react-native-onboarding-swiper';
-// NEED TO BUILD SIGN UP FORM
+
+//To-Do
+//  Photo input
+//  Submitting to server
+//  Formatting and styling
 
 // username: String!
 // email: String!
 // role: String
 // phone: String!
 // picture: String
-
-    //    <Text style={styles.welcome}>Signup</Text>
-    //   <TouchableOpacity onPress={() => props.navigation.navigate('FirstName')}>
-    //     <Text>First Name</Text>
-    //     <CameraExample />
-    //   </TouchableOpacity>
-    //   <TouchableOpacity onPress={() => props.navigation.goBack()}>
-    //     <Text style={styles.goBack}>Go Back</Text>
-    //   </TouchableOpacity> 
 
 const Signup = (props) => {
 
@@ -31,9 +26,9 @@ const Signup = (props) => {
     setUser({ ...user, [name]: text})
 };
 
-useEffect(() => {
-  console.log('user changed ', user);
-}, [user]);
+// useEffect(() => {
+//   console.log('user changed ', user);
+// }, [user]);
 
   //Temp solution for input masking - will see if anyone else
   // wants to use a masking library
