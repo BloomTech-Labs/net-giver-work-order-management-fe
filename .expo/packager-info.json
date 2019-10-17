@@ -11,9 +11,11 @@
 =======
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 2388,
-  "expoServerNgrokUrl": "https://u3-hi9.anonymous.net-giver-work-order-management-fe.exp.direct",
-  "packagerNgrokUrl": "https://packager.u3-hi9.anonymous.net-giver-work-order-management-fe.exp.direct",
-  "ngrokPid": 9000
+
+  "packagerPid": 12604,
+  "expoServerNgrokUrl": "https://94-8mf.anonymous.net-giver-work-order-management-fe.exp.direct",
+  "packagerNgrokUrl": "https://packager.94-8mf.anonymous.net-giver-work-order-management-fe.exp.direct",
+  "ngrokPid": 12637
+
 }
 >>>>>>> origin
