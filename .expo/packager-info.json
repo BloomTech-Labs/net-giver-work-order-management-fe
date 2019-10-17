@@ -1,5 +1,6 @@
 {
   "devToolsPort": 19002,
+<<<<<<< HEAD
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
@@ -7,3 +8,12 @@
   "packagerNgrokUrl": null,
   "ngrokPid": null
 }
+=======
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 2388,
+  "expoServerNgrokUrl": "https://u3-hi9.anonymous.net-giver-work-order-management-fe.exp.direct",
+  "packagerNgrokUrl": "https://packager.u3-hi9.anonymous.net-giver-work-order-management-fe.exp.direct",
+  "ngrokPid": 9000
+}
+>>>>>>> origin
