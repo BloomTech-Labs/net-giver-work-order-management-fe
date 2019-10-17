@@ -40,8 +40,7 @@ const CheckBarCode = props => {
       url: "https://netgiver-stage.herokuapp.com/graphql",
       headers: {
         "x-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJza3lsZXIyNDQwQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoic2t5bGVyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MTI3ODkyOCwiZXhwIjoxNTcxMjgwNzI4fQ.2YSaRrkC9nJvBsEIzoRPlY7JAam8P7k_vY8Tds8garA"
-      },
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJza3lsZXIyNDQwQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoic2t5bGVyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MTMzNzQ1MywiZXhwIjoxNTcxMzM5MjUzfQ.kkCHXxlnKV4LFYMX6QRB5fEpgAjBDVJI2PxsNhKQGMQ"      },
       data: {
         query: getMutation
       }
@@ -68,7 +67,6 @@ const CheckBarCode = props => {
     <>
       <View style={styles.container}>
         <ActivityIndicator size="large" color="black" />
-        <Button onPress={handlePress} title="Test" />
       </View>
     </>
   );
