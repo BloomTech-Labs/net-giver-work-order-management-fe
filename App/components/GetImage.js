@@ -1,22 +1,18 @@
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Button, Image, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 
-export default class ImagePickerExample extends React.Component {
-  state = {
-    image: null,
-  };
+const GetImage = props => {
 
-  render() {
-    let { image } = this.state;
+    const [image, setImage] = useState(null);
 
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Button
           title="Pick an image from camera roll"
-          onPress={this._pickImage}
+          onPress={_pickImage}
         />
         {image &&
           <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
@@ -24,11 +20,12 @@ export default class ImagePickerExample extends React.Component {
     );
   }
 
-  componentDidMount() {
-    this.getPermissionAsync();
-  }
-
-  getPermissionAsync = async () => {
+useEffect(() => {
+    getPermissionAsync();
+   
+}, [])
+  
+  const getPermissionAsync = async () => {
     if (Constants.platform.ios) {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
       if (status !== 'granted') {
@@ -37,7 +34,7 @@ export default class ImagePickerExample extends React.Component {
     }
   }
 
-  _pickImage = async () => {
+  const _pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -47,7 +44,7 @@ export default class ImagePickerExample extends React.Component {
     console.log(result);
 
     if (!result.cancelled) {
-      this.setState({ image: result.uri });
+      setImage(result.uri)
     }
   };
-}
+export default GetImage

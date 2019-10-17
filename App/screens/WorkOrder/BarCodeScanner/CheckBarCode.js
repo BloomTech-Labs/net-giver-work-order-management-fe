@@ -40,10 +40,7 @@ const CheckBarCode = props => {
       url: "https://netgiver-stage.herokuapp.com/graphql",
       headers: {
         "x-token":
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJza3lsZXIyNDQwQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoic2t5bGVyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MTMzNzQ1MywiZXhwIjoxNTcxMzM5MjUzfQ.kkCHXxlnKV4LFYMX6QRB5fEpgAjBDVJI2PxsNhKQGMQ"      },
-      data: {
-        query: getMutation
-      }
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJza3lsZXIyNDQwQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoic2t5bGVyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MTM0MDQ5NiwiZXhwIjoxNTcxMzQyMjk2fQ.iX7LML1CAYuuT_21ZMpk93piGqNLXcBRrCwn9a1BfPE"      }
     }).then(res => {
       const isWorkOrder = res.data.data;
       if (isWorkOrder) {

@@ -1,21 +1,22 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 
-export default class CameraExample extends React.Component {
-  state = {
-    hasCameraPermission: null,
-    type: Camera.Constants.Type.back,
-  };
+const Camera = props => {
+console.log("TCL: props -> Camera -> MainProps", props)
 
-  async componentDidMount() {
+  const [hasCameraPermission, setHasCameraPermission] = useState(null);
+  const [type, setType] = useState(Camera.Constants.Type.back);
+
+
+  useEffect(() => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted' });
-  }
+    setHasCameraPermission("granted");
 
-  render() {
-    const { hasCameraPermission } = this.state;
+  }, [hasCameraPermission])
+ 
+
     if (hasCameraPermission === null) {
       return <View />;
     } else if (hasCameraPermission === false) {
@@ -23,7 +24,7 @@ export default class CameraExample extends React.Component {
     } else {
       return (
         <View style={{ flex: 1 }}>
-          <Camera style={{ flex: 1 }} type={this.state.type}>
+          <Camera style={{ flex: 1 }} type={type}>
             <View
               style={{
                 flex: 1,
@@ -39,7 +40,7 @@ export default class CameraExample extends React.Component {
                 onPress={() => {
                   this.setState({
                     type:
-                      this.state.type === Camera.Constants.Type.back
+                      type === Camera.Constants.Type.back
                         ? Camera.Constants.Type.front
                         : Camera.Constants.Type.back,
                   });
@@ -52,4 +53,4 @@ export default class CameraExample extends React.Component {
       );
     }
   }
-}
+export default Camera
