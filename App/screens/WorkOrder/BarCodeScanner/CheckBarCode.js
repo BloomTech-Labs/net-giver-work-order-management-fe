@@ -40,7 +40,7 @@ const CheckBarCode = props => {
       url: "https://netgiver-stage.herokuapp.com/graphql",
       headers: {
         "x-token":
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJza3lsZXIyNDQwQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoic2t5bGVyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MTM0NDUzOSwiZXhwIjoxNTcxMzQ2MzM5fQ.cLQqqAQ1yQweK7X5j4_k5iGQcwaTxZX3K2NJlnERHxI"      },
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJza3lsZXIyNDQwQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoic2t5bGVyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MTM1MzA5MywiZXhwIjoxNTcxMzU0ODkzfQ.-gLxaI3gk84Vy3kd9H6rB10Uk5pg06iid3d5UlpvTZc"      },
       data: {
         query: getMutation
       }
