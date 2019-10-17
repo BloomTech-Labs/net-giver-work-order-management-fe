@@ -4,7 +4,7 @@ import { types } from "./index";
 //     console.log("TCL: credentials", credentials)
 //         dispatch({ type: types.LOGIN_START });
 //         return axios
-//           .post('https://netgiverdb.herokuapp.com/graphql', credentials)
+//           .post('https://netgiver-stage.herokuapp.com/graphql', credentials)
 //           .then(res => {
 //               console.log(res)
 //             //   dispatch({ type: types.LOGIN_SUCCESS });
@@ -19,7 +19,7 @@ import { types } from "./index";
 export const doSignIn = credentials => dispatch => {
     dispatch({ type: types.LOGIN_START });
     axios({
-        url: 'https://netgiverdb.herokuapp.com/graphql',
+        url: 'https://netgiver-stage.herokuapp.com/graphql',
         method: 'post',
         data: {
           query: credentials
@@ -33,9 +33,9 @@ export const doSignIn = credentials => dispatch => {
       };
 
 export const doLogin = credentials => dispatch => {
-  dispatch({ type: types.TOKEN_START });
+    dispatch({ type: types.TOKEN_START });
   axios({
-      url: 'https://netgiverdb.herokuapp.com/graphql',
+      url: 'https://netgiver-stage.herokuapp.com/graphql',
       method: 'post',
       data: {
         query: credentials
@@ -50,10 +50,27 @@ export const doLogin = credentials => dispatch => {
     });
     };
 
+export const doSignup = newUser => dispatch => {
+  dispatch({ type: types.CREATE_USER_START });
+  console.log('actions', newUser)
+  axios({
+      url: 'https://netgiver-stage.herokuapp.com/graphql',
+      method: 'post',
+      data: {
+        query: newUser
+      }
+    }).then((result) => {
+      const data = result.data.data
+      console.log('DATA', result.data.data)
+      dispatch({ type: types.SIGNUP_SUCCESS, payload:data});
+    })
+    .catch(err => console.log(err.response));
+    };
+
 export const getUser = (req, token) => dispatch => {
   dispatch({ type: types.GET_USER_START });
   axios({
-      url: 'https://netgiverdb.herokuapp.com/graphql',
+      url: 'https://netgiver-stage.herokuapp.com/graphql',
       method: 'post',
       data: {
         query: req
