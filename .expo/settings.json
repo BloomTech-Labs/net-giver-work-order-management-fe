@@ -3,6 +3,6 @@
   "lanType": "ip",
   "dev": true,
   "minify": false,
-  "urlRandomness": "sm-wr6",
+  "urlRandomness": null,
   "https": false
 }
