@@ -91,20 +91,19 @@ if (hide) {
                     <Picker.Item label="Complete" value="Complete" />
                     </Picker>
                 </View>
-
-                <View  >
-                <Button onPress={handleSubmit} 
-                        title="Submit" 
-                         />
-                </View>
                 <View>
                     <TouchableOpacity onPress={hideButton}>
                         <Text>ChoosePhoto</Text>
                     </TouchableOpacity>
-                <View >
-                    
+                
                 </View>
+                <View>
+                    <TouchableOpacity onPress={handleSubmit}>
+                        <Text>Submit</Text>
+                    </TouchableOpacity>
+                
                 </View>
+          
         
             </View>
         </SafeAreaView>
@@ -170,14 +169,6 @@ if (hide) {
                     <Picker.Item label="Complete" value="Complete" />
                     </Picker>
                 </View>
-
-                <View  >
-                <Button onPress={handleSubmit} 
-                        title="Submit" 
-                         />
-                </View>
-                <View>
-
                 <View >
                     <View style={styles.display}>
                         <TouchableOpacity>
@@ -188,6 +179,14 @@ if (hide) {
                         </TouchableOpacity>
                     </View>
                 </View>
+                <View  >
+                <TouchableOpacity onPress={handleSubmit}>
+                        <Text>Submit</Text>
+                    </TouchableOpacity>
+                </View>
+                <View>
+
+
                 </View>
         
             </View>
