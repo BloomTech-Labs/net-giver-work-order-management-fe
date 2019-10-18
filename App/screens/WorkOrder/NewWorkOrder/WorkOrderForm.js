@@ -28,6 +28,8 @@ function Form(props){
 
                         </View>
                 <Text> Title </Text>
+
+                sdsds
                 <View >
                     <TextInput
                         onChangeText={handleChange("title")}
