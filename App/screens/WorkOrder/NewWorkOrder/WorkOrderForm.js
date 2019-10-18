@@ -1,11 +1,22 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { View, TextInput, Text, Button, Alert, SafeAreaView, Picker, StyleSheet } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup"
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 
+
 function Form(props){
+const [hide, setHide] = useState(true);
+
+const hideButton = e => {
+    setHide(false)
+}
+
+useEffect(() => {
+   hideButton   
+}, [hide])
+
     console.log("props", props)
         var {
             handleChange, 
@@ -17,7 +28,7 @@ function Form(props){
             navigation } = props; 
                         
             const qrcode = props.navigation.state.params.qrCode
-
+if (hide) {
         return (
         <SafeAreaView>
             <View >
@@ -87,9 +98,86 @@ function Form(props){
                          />
                 </View>
                 <View>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={hideButton}>
                         <Text>ChoosePhoto</Text>
                     </TouchableOpacity>
+                <View >
+                    
+                </View>
+                </View>
+        
+            </View>
+        </SafeAreaView>
+    )} else {return (
+        <SafeAreaView>
+            <View >
+                <View> 
+                    <TextInput
+                    name="qrcode"
+                    />
+
+                        </View>
+                <Text> Title </Text>
+                <View >
+                    <TextInput
+                        onChangeText={handleChange("title")}
+                        onBlur={handleBlur("title")}
+                        value={values.title}
+                    />
+                </View>
+
+                <Text  >
+                {errors.title && touched.title
+                    ? errors.title 
+                    :null}
+                </Text>
+
+                <Text>Detail</Text>
+
+                <View>
+                    <TextInput
+                    
+                        textContentType={"detail"}
+                        onChangeText={handleChange("detail")}
+                        onBlur={handleBlur("detail")}
+                        value={values.detail}
+                    />
+                </View>
+
+                <Text  >
+                {errors.detail && touched.detail
+                    ? errors.detail 
+                    : null}
+                </Text>
+
+                <Text>Priority</Text>
+
+                <View>
+                    <Picker selectedValue={values.priority} onValueChange={handleChange("priority")} >
+                    <Picker.Item label="Emergency" value="Emergency" />
+                    <Picker.Item label="High" value="High" />
+                    <Picker.Item label="Medium" value="Medium" />
+                    <Picker.Item label="Low" value="Low" />
+                    </Picker>
+                </View>
+                
+                <Text>Status</Text>
+
+                <View>
+                    <Picker selectedValue={values.status} onValueChange={handleChange("status")} >
+                    <Picker.Item label="Not yet Started" value="Not yet Started" />
+                    <Picker.Item label="In Progress" value="In Progress" />
+                    <Picker.Item label="Complete" value="Complete" />
+                    </Picker>
+                </View>
+
+                <View  >
+                <Button onPress={handleSubmit} 
+                        title="Submit" 
+                         />
+                </View>
+                <View>
+
                 <View >
                     <View style={styles.display}>
                         <TouchableOpacity>
@@ -105,6 +193,8 @@ function Form(props){
             </View>
         </SafeAreaView>
     )
+
+    }
 }
 const styles = StyleSheet.create({
     hidden: {
