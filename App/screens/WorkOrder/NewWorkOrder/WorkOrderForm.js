@@ -227,33 +227,33 @@ function WorkOrderForm(props, {qrcode}) {
                     }}
                     onSubmit={(values, formikBag, props) => {
                         // console.log("on submit props", props)
-                        console.log("values", values)
+                        // console.log("values", values)
                         // console.log("formik bag", formikBag)
                         // console.log("qr code", qrcode)
-                        console.log("values detail", values.detail)
+                        // console.log("values detail", values.detail)
                     //     const qrcode = "00000"
-                    //     const editMutation = `mutation {
-                    //         editWorkorder( qrcode: "${qrcode}", detail: "${values.detail}", priority: "${values.priority}, status: "${values.status}, title: "${values.title}){
-                    //           qrcode
-                    //           detail
-                    //           priority
-                    //           status
-                    //           title
-                    //         }
-                    //       }`
+                        const editMutation = `mutation {
+                            editWorkorder( qrcode: "00034", detail: "${values.detail}", priority: "${values.priority}, status: "${values.status}, title: "${values.title}){
+                              qrcode
+                              detail
+                              priority
+                              status
+                              title
+                            }
+                          }`
                         
-                    //     axios({
-                    //         method: "post",
-                    //         url: "https://netgiver-stage.herokuapp.com/graphql",
-                    //         headers: {
-                    //           "x-token":
-                    //           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJza3lsZXIyNDQwQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoic2t5bGVyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MTM1MTE4MCwiZXhwIjoxNTcxMzUyOTgwfQ.rKtfQ4YsKWf92Cjrz3QOKkyAOeQ84Mi8J7bpocnHGbQ"      },
-                    //         data: {
-                    //           query: editMutation
-                    //         }
-                    //       }).then(res => {
-                    //           console.log("response", res)
-                    //       });
+                        axios({
+                            method: "post",
+                            url: "https://netgiver-stage.herokuapp.com/graphql",
+                            headers: {
+                              "x-token":
+                              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJza3lsZXIyNDQwQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoic2t5bGVyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MTQzMDcwOCwiZXhwIjoxNTcxNDMyNTA4fQ.JFe8w3z4GKWMXfppINKTHOoE5kJ3VIQDPi27yxSDZ5c"      },
+                            data: {
+                              query: editMutation
+                            }
+                          }).then(res => {
+                              console.log("response", res)
+                          });
                     }}
         
                     render={(props) => {
