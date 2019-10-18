@@ -6,6 +6,8 @@ import NewWorkOrderPhoto from '../screens/WorkOrder/NewWorkOrder/NewWorkOrderPho
 import EditViewHolder from '../screens/WorkOrder/ExistingWorkOrder/EditViewHolder';
 import Camera from '../components/Camera'
 import GetImage from '../components/GetImage'
+import WorkOrderForm from "../screens/WorkOrder/NewWorkOrder/WorkOrderForm"
+
 const WorkOrderStackNav = createStackNavigator(
   {
     WorkOrderTabNav: { 
@@ -25,6 +27,9 @@ const WorkOrderStackNav = createStackNavigator(
     },
     GetImage:{
       screen: GetImage,
+    },
+    WorkOrderForm:{
+      screen: WorkOrderForm
     },
     
    WorkOrderDetail: { screen: WorkOrderDetail },
