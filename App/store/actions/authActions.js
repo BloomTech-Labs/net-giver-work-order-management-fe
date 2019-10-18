@@ -83,4 +83,3 @@ export const getUser = (req, token) => dispatch => {
         dispatch({ type: types.GET_USER_SUCCESS, payload:data });
     });
     };
-

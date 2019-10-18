@@ -1,23 +1,33 @@
 import { createStackNavigator } from "react-navigation-stack";
 import WorkOrderTabNav from './WorkOrderTabNav';
 import WorkOrderDetail from '../screens/WorkOrder/WorkOrderDetail';
-import WorkOrderCheck from '../screens/WorkOrder/WorkOrderCheck';
-import WorkOrderNew from '../screens/WorkOrder/WorkOrderNew';
-
-
+import CheckBarCode from '../screens/WorkOrder/BarCodeScanner/CheckBarCode';
+import NewWorkOrderPhoto from '../screens/WorkOrder/NewWorkOrder/NewWorkOrderPhoto';
+import EditViewHolder from '../screens/WorkOrder/ExistingWorkOrder/EditViewHolder';
+import Camera from '../components/Camera'
+import GetImage from '../components/GetImage'
 const WorkOrderStackNav = createStackNavigator(
   {
     WorkOrderTabNav: { 
       screen: WorkOrderTabNav 
     },
-    WorkOrderCheck:{
-      screen:WorkOrderCheck,
+    CheckBarCode: {
+      screen:CheckBarCode,
     },
-    WorkOrderNew: {
-      screen: WorkOrderNew,
+    NewWorkOrderPhoto: {
+      screen: NewWorkOrderPhoto,
     },
-
-    WorkOrderDetail: { screen: WorkOrderDetail },
+    EditViewHolder: {
+      screen: EditViewHolder,
+    },
+    Camera: {
+      screen: Camera,
+    },
+    GetImage:{
+      screen: GetImage,
+    },
+    
+   WorkOrderDetail: { screen: WorkOrderDetail },
   },
   {
     headerMode: 'none',

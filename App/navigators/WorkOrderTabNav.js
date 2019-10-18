@@ -1,21 +1,22 @@
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import ScanForWorkOrder from "../screens/WorkOrder/ScanForWorkOrder";
+import BarCodeScanner from "../screens/WorkOrder/BarCodeScanner/BarCodeScanner";
 import WorkOrderLocal from "../screens/WorkOrder/WorkOrderLocal";
 
 const WorkOrderTabNav = createBottomTabNavigator(
   {
-    ScanForWorkOrder: {
-      screen: ScanForWorkOrder,
-      navigationOptions: {
-        tabBarLabel: "Scanner"
-      },
-    },
+    
     WorkOrderLocal: {
       screen: WorkOrderLocal,
       navigationOptions: {
         tabBarLabel: "Local"
+    },
+  },
+      BarCodeScanner: {
+        screen: BarCodeScanner,
+        navigationOptions: {
+          tabBarLabel: "QR Scanner"
+        },
       },
-    }
   },
   {
     backBehavior: 'none',
