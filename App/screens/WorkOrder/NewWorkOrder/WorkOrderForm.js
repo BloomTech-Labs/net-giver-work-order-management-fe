@@ -1,7 +1,8 @@
 import React from "react";
-import { View, TextInput, Text, Button, Alert, SafeAreaView, Picker } from "react-native";
+import { View, TextInput, Text, Button, Alert, SafeAreaView, Picker, StyleSheet } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup"
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 
 function Form(props){
@@ -76,11 +77,31 @@ function Form(props){
                         title="Submit" 
                          />
                 </View>
+                <View>
+                    <TouchableOpacity>
+                        <Text>ChoosePhoto</Text>
+                    </TouchableOpacity>
+                <View >
+                    <View style={styles.display}>
+                        <TouchableOpacity>
+                            <Text>Choose From Gallery</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => props.navigation.navigate('Camera', {from: "workOrderFormNew"})}>
+                            <Text >Take A Picture</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                </View>
         
             </View>
         </SafeAreaView>
     )
 }
+const styles = StyleSheet.create({
+    hidden: {
+        display:"none"
+    },
+})
 
 function WorkOrderForm(props) {
     var schema = Yup.object().shape({

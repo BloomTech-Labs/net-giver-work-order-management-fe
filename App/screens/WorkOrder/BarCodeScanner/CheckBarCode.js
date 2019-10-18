@@ -13,7 +13,7 @@ import { NavigationActions } from "react-navigation";
 const CheckBarCode = props => {
   console.log("TCL: props", props.navigation.state.params.qrData);
   const qrCode = props.navigation.state.params.qrData;
-
+// const qrCode="00004"
   const getMutation = `query {
     workorder( qrcode: "${qrCode}"){
       id
@@ -40,8 +40,9 @@ const CheckBarCode = props => {
       url: "https://netgiver-stage.herokuapp.com/graphql",
       headers: {
         "x-token":
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJza3lsZXIyNDQwQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoic2t5bGVyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MTM0NDUzOSwiZXhwIjoxNTcxMzQ2MzM5fQ.cLQqqAQ1yQweK7X5j4_k5iGQcwaTxZX3K2NJlnERHxI"      },
-      data: {
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJza3lsZXIyNDQwQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoic2t5bGVyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MTM1NzA4NywiZXhwIjoxNTcxMzU4ODg3fQ.14ZsjJD5m8FMWoKczcItNyTlsssWx-WMC7iuHOLJj8U"
+      },
+         data: {
         query: getMutation
       }
     }).then(res => {
