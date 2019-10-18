@@ -25,9 +25,9 @@ useEffect(() => {
             errors, 
             touched,
             handleSubmit,
-            navigation } = props;
+            navigation } = props; 
                         
-            const qrcode = props.navigation.state.params.qrCode.qrCode
+            const qrcode = props.navigation.state.params.qrCode
 if (hide) {
         return (
         <SafeAreaView>
@@ -201,10 +201,7 @@ const styles = StyleSheet.create({
     },
 })
 
-function WorkOrderForm(props) {
-    const {qrCode} = props.navigation.state.params.qrCode
-    console.log("the big one", props.navigation.state.params.qrCode.qrCode)
-console.log("TCL: WorkOrderForm -> qrCode", qrCode)
+function WorkOrderForm(props, {qrcode}) {
     console.log("TCL: WorkOrderForm -> props", props)
     var schema = Yup.object().shape({
         title: Yup.string(),
@@ -226,8 +223,7 @@ console.log("TCL: WorkOrderForm -> qrCode", qrCode)
                         detail: "",
                         priority: "",
                         status: "",
-                        qrcode: qrCode
-
+                        qrcode: qrcode
                     }}
                     onSubmit={(values, formikBag, props) => {
                         // console.log("on submit props", props)
