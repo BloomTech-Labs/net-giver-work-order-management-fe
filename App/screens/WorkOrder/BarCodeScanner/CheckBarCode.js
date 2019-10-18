@@ -54,8 +54,8 @@ const token =
       url: "https://netgiver-stage.herokuapp.com/graphql",
       headers: {
         "x-token":
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJza3lsZXIyNDQwQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoic2t5bGVyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MTQzMDcwOCwiZXhwIjoxNTcxNDMyNTA4fQ.JFe8w3z4GKWMXfppINKTHOoE5kJ3VIQDPi27yxSDZ5c"
-           },     data: {
+        token },
+      data: {
         query: getMutation
       }
     }).then(res => {
