@@ -3,6 +3,5 @@
   "lanType": "ip",
   "dev": true,
   "minify": false,
-  "urlRandomness": "bb-ntc",
-  "https": false
+  "urlRandomness": null
 }

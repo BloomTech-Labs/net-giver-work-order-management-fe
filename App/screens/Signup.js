@@ -14,7 +14,7 @@ import { doSignup} from "../store/actions/authActions";
 //To-Do
 //  Input validation -- functions built out just need to implement
 //  Data sent and received by server - need to build after signup process
-//  Add all required fields (password, role, picture, authId??)
+//  Add all required fields (role, picture, authId??)
 //  Formatting and styling
 
 const Signup = (props) => {
@@ -71,9 +71,12 @@ const Signup = (props) => {
     >
       
       <View style={styles.slide1}>
-        <Text style={styles.title}>Welcome to Netgiver!</Text>
-        <Text style={styles.text}>We just need to get some info before you get started</Text>
-        
+        <Text style={styles.title}>
+          Welcome to Netgiver!
+        </Text>
+        <Text style={styles.text}>
+          We just need to get some info before you get started
+        </Text>
         <View style={styles.inputContainer}>
           <Text style={styles.text}>Please enter your email:</Text>
           <TextInput
@@ -88,12 +91,15 @@ const Signup = (props) => {
             <Text style={styles.buttonText}>Next</Text>
           </TouchableOpacity>
         </View>
-
       </View>
       <View style={styles.slide2}>
-        <Text style={styles.title}>Username</Text>
+        <Text style={styles.title}>
+          Username
+        </Text>
         <View style={styles.inputContainer}>
-          <Text style={styles.text}>Please enter your username:</Text>
+          <Text style={styles.text}>
+            Please enter your username:
+          </Text>
           <TextInput
             name='username'
             value={user.username}
@@ -108,9 +114,31 @@ const Signup = (props) => {
         </View>
       </View>
       <View style={styles.slide3}>
-      <Text style={styles.title}>Username</Text>
+        <Text style={styles.title}>
+          Phone
+        </Text>
         <View style={styles.inputContainer}>
-          <Text style={styles.text}>Please enter your phone number:</Text>
+          <Text style={styles.text}>
+            Please enter your phone number:
+          </Text>
+          <TextInput
+            name='phone'
+            value={user.phone}
+            keyboardType='phone-pad'
+            textContentType='telephoneNumber'
+            dataDetectorTypes='phoneNumber'
+            onChangeText={(text) => onInputChange('phone', text) }
+            placeholder='Phone'
+            style={styles.input}
+          />
+          <TouchableOpacity style={styles.buttonStyle} onPress={() => handleSubmit()}>
+            <Text style={styles.buttonText}>Submit</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.text}>
+            Please select a profile photo:
+          </Text>
           <TextInput
             name='phone'
             value={user.phone}
