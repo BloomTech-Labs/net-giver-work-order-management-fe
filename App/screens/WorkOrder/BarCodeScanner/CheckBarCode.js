@@ -13,7 +13,7 @@ import { NavigationActions } from "react-navigation";
 const CheckBarCode = props => {
   console.log("TCL: props", props.navigation.state.params.qrData);
   const qrCode = props.navigation.state.params.qrData;
-
+// const qrCode="00004"
   const getMutation = `query {
     workorder( qrcode: "${qrCode}"){
       id
