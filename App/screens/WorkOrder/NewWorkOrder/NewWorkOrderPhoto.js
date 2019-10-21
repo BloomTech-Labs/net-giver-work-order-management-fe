@@ -24,10 +24,14 @@ const NewWorkOrderPhoto = props => {
         <Text>Please Choose a Photo to Start your Workorder</Text>
       </View>
       <View>
+        <TouchableOpacity onPress={() => props.navigation.navigate('WorkOrderForm', {from:'newWorkOrder', qrCode:qrCode})}>
+          <Text>Form</Text>
+        </TouchableOpacity>
+      </View>
+      <View>
         <TouchableOpacity onPress={() => props.navigation.navigate('GetImage', {from:'newWorkOrder'})}>
           <Text>Choose From Gallery</Text>
         </TouchableOpacity>
-        <GetImage />
       </View>
       <View>
         <TouchableOpacity onPress={() => props.navigation.navigate('Camera', {from:'newWorkOrder'})}>
