@@ -7,6 +7,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 
 function Form(props){
+console.log("TCL: Form -> props", props)
 const [hide, setHide] = useState(true);
 
 const hideButton = e => {
@@ -201,7 +202,8 @@ const styles = StyleSheet.create({
     },
 })
 
-function WorkOrderForm(props, {qrcode}) {
+function WorkOrderForm(props) {
+    const {qrCode} = props.navigation.state.params.qrCode
     console.log("TCL: WorkOrderForm -> props", props)
     var schema = Yup.object().shape({
         title: Yup.string(),
@@ -223,7 +225,7 @@ function WorkOrderForm(props, {qrcode}) {
                         detail: "",
                         priority: "",
                         status: "",
-                        qrcode: qrcode
+                        qrcode: qrCode
                     }}
                     onSubmit={(values, formikBag, props) => {
                         // console.log("on submit props", props)
@@ -247,7 +249,7 @@ function WorkOrderForm(props, {qrcode}) {
                             url: "https://netgiver-stage.herokuapp.com/graphql",
                             headers: {
                               "x-token":
-                              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJza3lsZXIyNDQwQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoic2t5bGVyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MTQzMDcwOCwiZXhwIjoxNTcxNDMyNTA4fQ.JFe8w3z4GKWMXfppINKTHOoE5kJ3VIQDPi27yxSDZ5c"      },
+                              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJza3lsZXIyNDQwQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoic2t5bGVyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MTQzMzAwMywiZXhwIjoxNTcxNDM0ODAzfQ.JjOHcGSuvG2IqrOWCRgIKTBJqTGy70Fy35bKtDN0qLw"      },
                             data: {
                               query: editMutation
                             }

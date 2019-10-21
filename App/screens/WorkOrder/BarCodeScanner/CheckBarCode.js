@@ -12,8 +12,7 @@ import { NavigationActions } from "react-navigation";
 
 const CheckBarCode = props => {
 const token =
- "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJza3lsZXIyNDQwQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoic2t5bGVyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MTQzMDcwOCwiZXhwIjoxNTcxNDMyNTA4fQ.JFe8w3z4GKWMXfppINKTHOoE5kJ3VIQDPi27yxSDZ5c"
-;
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJza3lsZXIyNDQwQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoic2t5bGVyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MTQzMzAwMywiZXhwIjoxNTcxNDM0ODAzfQ.JjOHcGSuvG2IqrOWCRgIKTBJqTGy70Fy35bKtDN0qLw";
   console.log("TCL: props", props.navigation.state.params.qrData);
   const qrCode = props.navigation.state.params.qrData;
 // const qrCode="00004"

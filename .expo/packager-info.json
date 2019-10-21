@@ -2,8 +2,8 @@
   "expoServerPort": 19000,
   "expoServerNgrokUrl": "https://sn-zni.anonymous.net-giver-work-order-management-fe.exp.direct",
   "packagerNgrokUrl": "https://packager.sn-zni.anonymous.net-giver-work-order-management-fe.exp.direct",
-  "ngrokPid": 89280,
+  "ngrokPid": 90422,
   "devToolsPort": 19002,
   "packagerPort": 19003,
-  "packagerPid": 89261
+  "packagerPid": 90409
 }
