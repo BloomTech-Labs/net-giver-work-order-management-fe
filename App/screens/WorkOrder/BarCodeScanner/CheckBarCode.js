@@ -51,10 +51,13 @@ const qrCode="12346"
       url: "https://netgiver-stage.herokuapp.com/graphql",
       headers: {
         "x-token":
+
         token },
+
       data: {
         query: getMutation
       }
+
     }).then(res => {
       const isWorkOrder = res.data.data;
       if (isWorkOrder) {
