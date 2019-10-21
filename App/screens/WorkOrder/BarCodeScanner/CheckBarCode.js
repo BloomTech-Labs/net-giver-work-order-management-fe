@@ -9,11 +9,11 @@ import {
   ActivityIndicator
 } from "react-native";
 import { NavigationActions } from "react-navigation";
+import { token } from "../../../token"
 
 const CheckBarCode = props => {
-  console.log("TCL: props", props.navigation.state.params.qrData);
-  const qrCode = props.navigation.state.params.qrData;
-// const qrCode="00004"
+  // const qrCode = props.navigation.state.params.qrData;
+const qrCode="12346"
   const getMutation = `query {
     workorder( qrcode: "${qrCode}"){
       id
@@ -26,6 +26,17 @@ const CheckBarCode = props => {
   
   }
   }`;
+  const createMutation = `mutation {
+    createWorkorder( qrcode: "${qrCode}"){
+      id
+      qrcode
+      detail
+      createdAt
+      priority
+      status
+      title
+    }
+  }`
 
   //check to see if there is a qr code if not send back to the scanner
   if (!qrCode) {
@@ -41,7 +52,8 @@ const CheckBarCode = props => {
       headers: {
         "x-token":
 
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJza3lsZXIyNDQwQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoic2t5bGVyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MTM1MzA5MywiZXhwIjoxNTcxMzU0ODkzfQ.-gLxaI3gk84Vy3kd9H6rB10Uk5pg06iid3d5UlpvTZc"      },
+        token },
+
       data: {
         query: getMutation
       }
@@ -56,9 +68,18 @@ const CheckBarCode = props => {
         });
         console.log("yesWorkOrder");
       } else {
-        //IF THERE IS NOT A QR CODE SEND THE QR CODE AS PROPS TO THE PHOTO PAGE
-        props.navigation.navigate("NewWorkOrderPhoto", { qrCode: { qrCode } });
-        console.log("noWorkOrder");
+        axios({
+          method: "post",
+          url: "https://netgiver-stage.herokuapp.com/graphql",
+          headers: {
+            "x-token":
+            token },
+          data: {
+            query: createMutation
+          }
+        }).then(res => { console.log("created")
+        props.navigation.navigate("WorkOrderForm", { qrCode: { qrCode } });
+      })
       }
     });
   }

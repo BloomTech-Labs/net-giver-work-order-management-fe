@@ -46,8 +46,8 @@ const BarcodeScanner = props => {
   //add a workorder without a qr code
   const addWithoutQr = () => {
     //generate a random 5 digit string starting with n
-    var genQr = "00034";
-    // var genQr ="n" + Date.now().toString().slice(7,11);
+    // var genQr = "00034";
+    var genQr ="n" + Date.now().toString().slice(7,11);
     //   send genQr as qrData to Login
     props.navigation.navigate("CheckBarCode", {
       qrData: genQr
