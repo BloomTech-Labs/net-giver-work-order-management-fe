@@ -5,16 +5,30 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "lint": "eslint *.js **/*.js",
+    "prettiercheck": "prettier --check *.js **/*.js */*/*.js */*/*/*.js */*/*/*/*.js",
+    "format": "prettier --config ./.prettierrc.json *.js **/*.js */*/*.js */*/*/*.js */*/*/*/*.js"
+
   },
   "dependencies": {
+    "@ant-design/icons-react-native": "^1.0.2",
+    "@ant-design/react-native": "^3.2.0",
+    "antd-mobile-rn": "^2.3.3",
     "axios": "^0.19.0",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-prettier": "^3.1.1",
     "expo": "^35.0.0",
     "expo-barcode-scanner": "~7.0.0",
     "expo-camera": "~7.0.0",
     "expo-constants": "~7.0.0",
     "expo-image-picker": "~7.0.0",
     "expo-permissions": "~7.0.0",
+
+    "prettier": "^1.18.2",
+
+    "formik": "^1.5.8",
+
     "react": "16.8.3",
     "react-dom": "16.8.3",
     "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
@@ -29,12 +43,20 @@
     "react-navigation-tabs": "^2.5.6",
     "react-redux": "^7.1.1",
     "redux": "^4.0.4",
-    "redux-axios-middleware": "^4.0.1",
     "redux-thunk": "^2.3.0",
-    "thunk": "^0.0.1"
+    "thunk": "^0.0.1",
+    "yup": "^0.27.0"
   },
   "devDependencies": {
-    "babel-preset-expo": "^7.0.0"
+
+    "babel-eslint": "^10.0.3",
+    "babel-preset-expo": "^7.0.0",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.16.0"
+
   },
   "private": true
 }
