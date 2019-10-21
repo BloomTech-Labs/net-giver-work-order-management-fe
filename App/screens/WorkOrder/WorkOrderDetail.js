@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+
 import {textS} from '../../Style'
  const WorkOrderDetail = (props) => {
     const { navigation } = props;
@@ -18,24 +19,44 @@ import {textS} from '../../Style'
           style={{ 
             width: 300, 
             height: 240 
-          }}
-        />
 
-        <Text style={textS.heading}>Description: Signing of the United States Declaration of Independence</Text>
-        <Text style={textS.heading}>Created by: Me</Text>
-        <Text style={textS.heading}>Assigned To: You</Text>
-        <Image 
-          source={{
-            uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png'
-          }} 
-          style={{ 
-            width: 100, 
-            height: 100 
           }}
-        />
-      </View>
-    );
-}
+        >
+          High
+        </Text>
+      </Text>
+      <Image
+        source={{
+          uri:
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Declaration_of_Independence_%281819%29%2C_by_John_Trumbull.jpg/1920px-Declaration_of_Independence_%281819%29%2C_by_John_Trumbull.jpg"
+        }}
+        style={{
+          width: 300,
+          height: 240
+        }}
+      />
+
+
+      <Text style={textS.heading}>
+        Description: Signing of the United States Declaration of Independence
+      </Text>
+      <Text style={textS.heading}>Created by: Me</Text>
+      <Text style={textS.heading}>Assigned To: You</Text>
+      <Button>antd-mobile-rn button</Button>
+      <Image
+        source={{
+          uri:
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png"
+        }}
+        style={{
+          width: 100,
+          height: 100
+        }}
+      />
+    </View>
+  );
+};
+
 
 const styles = StyleSheet.create({
   container: {
@@ -59,4 +80,4 @@ const styles = StyleSheet.create({
     margin: 10
   }
 });
-export default WorkOrderDetail
+export default WorkOrderDetail;

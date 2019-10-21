@@ -9,13 +9,11 @@ import {
   ActivityIndicator
 } from "react-native";
 import { NavigationActions } from "react-navigation";
+import { token } from "../../../token"
 
 const CheckBarCode = props => {
-const token =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJicnlhbnRwYXR0b25AZ21haWwuY29tIiwidXNlcm5hbWUiOiJicnlhbnQiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE1NzE0Mzk2ODYsImV4cCI6MTU3MTQ0MTQ4Nn0.d86FyBiYromnb5n3zEQ2TmhnkypjMjUZCgUT0BJX7XM";
-  console.log("TCL: props", props.navigation.state.params.qrData);
-  const qrCode = props.navigation.state.params.qrData;
-// const qrCode="00004"
+  // const qrCode = props.navigation.state.params.qrData;
+const qrCode="12346"
   const getMutation = `query {
     workorder( qrcode: "${qrCode}"){
       id

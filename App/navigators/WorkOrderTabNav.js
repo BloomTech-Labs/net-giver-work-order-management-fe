@@ -8,6 +8,7 @@ import WorkOrderDetail from '../screens/WorkOrder/WorkOrderDetail';
 const WorkOrderTabNav = createBottomTabNavigator(
   {
 
+
     WorkOrderLocal: {
       //SCREEN TO BE RENDERED SD 10/21/2019
       screen: WorkOrderLocal,

@@ -3,10 +3,12 @@ import { View, TextInput, Text, Button, Alert, SafeAreaView, Picker, StyleSheet 
 import { Formik } from "formik";
 import * as Yup from "yup"
 import { TouchableOpacity } from "react-native-gesture-handler";
-
+import { token } from "../../../token"
+import axios from "axios"
 
 
 function Form(props){
+console.log("TCL: Form -> props", props)
 const [hide, setHide] = useState(true);
 
 const hideButton = e => {
@@ -201,7 +203,8 @@ const styles = StyleSheet.create({
     },
 })
 
-function WorkOrderForm(props, {qrcode}) {
+function WorkOrderForm(props) {
+    const {qrCode} = props.navigation.state.params.qrCode
     console.log("TCL: WorkOrderForm -> props", props)
     var schema = Yup.object().shape({
         title: Yup.string(),
@@ -223,7 +226,7 @@ function WorkOrderForm(props, {qrcode}) {
                         detail: "",
                         priority: "",
                         status: "",
-                        qrcode: qrcode
+                        qrcode: qrCode
                     }}
                     onSubmit={(values, formikBag, props) => {
                         // console.log("on submit props", props)
@@ -233,7 +236,7 @@ function WorkOrderForm(props, {qrcode}) {
                         // console.log("values detail", values.detail)
                     //     const qrcode = "00000"
                         const editMutation = `mutation {
-                            editWorkorder( qrcode: "00034", detail: "${values.detail}", priority: "${values.priority}, status: "${values.status}, title: "${values.title}){
+                            editWorkorder( qrcode: "${values.qrcode}", detail: "${values.detail}", priority: "${values.priority}", status: "${values.status}", title: "${values.title}"){
                               qrcode
                               detail
                               priority
@@ -241,13 +244,14 @@ function WorkOrderForm(props, {qrcode}) {
                               title
                             }
                           }`
-                        
+                          console.log("values.qrcode", values.qrcode)
+                        console.log("token", token)
                         axios({
                             method: "post",
                             url: "https://netgiver-stage.herokuapp.com/graphql",
                             headers: {
                               "x-token":
-                              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJza3lsZXIyNDQwQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoic2t5bGVyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MTQzMDcwOCwiZXhwIjoxNTcxNDMyNTA4fQ.JFe8w3z4GKWMXfppINKTHOoE5kJ3VIQDPi27yxSDZ5c"      },
+                              token },
                             data: {
                               query: editMutation
                             }
