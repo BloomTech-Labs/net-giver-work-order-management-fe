@@ -3,7 +3,7 @@ import { View, TextInput, Text, Button, Alert, SafeAreaView, Picker, StyleSheet 
 import { Formik } from "formik";
 import * as Yup from "yup"
 import { TouchableOpacity } from "react-native-gesture-handler";
-
+import { token } from "../../../token"
 
 
 function Form(props){
@@ -249,7 +249,7 @@ function WorkOrderForm(props) {
                             url: "https://netgiver-stage.herokuapp.com/graphql",
                             headers: {
                               "x-token":
-                              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJza3lsZXIyNDQwQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoic2t5bGVyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MTQzMzAwMywiZXhwIjoxNTcxNDM0ODAzfQ.JjOHcGSuvG2IqrOWCRgIKTBJqTGy70Fy35bKtDN0qLw"      },
+                              `${token}` },
                             data: {
                               query: editMutation
                             }
