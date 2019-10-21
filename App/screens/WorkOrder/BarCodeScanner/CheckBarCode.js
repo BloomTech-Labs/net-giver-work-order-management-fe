@@ -12,8 +12,8 @@ import { NavigationActions } from "react-navigation";
 import { token } from "../../../token"
 
 const CheckBarCode = props => {
-  const qrCode = props.navigation.state.params.qrData;
-// const qrCode="00004"
+  // const qrCode = props.navigation.state.params.qrData;
+const qrCode="12345"
   const getMutation = `query {
     workorder( qrcode: "${qrCode}"){
       id
@@ -61,8 +61,7 @@ const CheckBarCode = props => {
         //IF THERE IS A QR CODE OF THAT VALUE SEND TO EDIT PAGE
         //WITH WORKORDER PROPS PASSED TO IT
         props.navigation.navigate("EditViewHolder", {
-          workOrder: { isWorkOrder }
-        });
+          workOrder: { isWorkOrder }        });
         console.log("yesWorkOrder");
       } else {
         axios({
