@@ -12,8 +12,8 @@ import { NavigationActions } from "react-navigation";
 import { token } from "../../../token"
 
 const CheckBarCode = props => {
-  const qrCode = props.navigation.state.params.qrData;
-// const qrCode="00004"
+  // const qrCode = props.navigation.state.params.qrData;
+const qrCode="12346"
   const getMutation = `query {
     workorder( qrcode: "${qrCode}"){
       id
