@@ -1,21 +1,25 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
-import { textS } from "../../Style";
-import { Button } from "antd-mobile-rn";
-const WorkOrderDetail = props => {
-  const { navigation } = props;
-  return (
-    <View style={styles.container}>
-      <Text style={textS.heading}>WorkOrderDetail</Text>
-      <Text style={textS.heading}>Date Created: 07/04/1776</Text>
-      <Text style={textS.heading}>Location: Philly</Text>
-      <Text style={textS.heading}>
-        Priority:
-        <Text
-          style={{
-            color: "#fff",
-            paddingHorizontal: 24,
-            backgroundColor: "red"
+
+import {textS} from '../../Style'
+ const WorkOrderDetail = (props) => {
+    const { navigation } = props;
+    return (
+      <View style={styles.container}>
+        <Text style={textS.heading}>WorkOrderDetail</Text>
+        <Text style={textS.heading}>Date Created: 07/04/1776</Text>
+        <Text style={textS.heading}>Location: Philly</Text>
+        <Text style={textS.heading}>Priority:      
+        <Text style={{ color: '#fff', paddingHorizontal: 24, backgroundColor: 'red' }}>High</Text>
+        </Text>
+        <Image 
+          source={{
+            uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Declaration_of_Independence_%281819%29%2C_by_John_Trumbull.jpg/1920px-Declaration_of_Independence_%281819%29%2C_by_John_Trumbull.jpg'
+          }} 
+          style={{ 
+            width: 300, 
+            height: 240 
+
           }}
         >
           High
@@ -31,6 +35,7 @@ const WorkOrderDetail = props => {
           height: 240
         }}
       />
+
 
       <Text style={textS.heading}>
         Description: Signing of the United States Declaration of Independence
@@ -51,6 +56,7 @@ const WorkOrderDetail = props => {
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
