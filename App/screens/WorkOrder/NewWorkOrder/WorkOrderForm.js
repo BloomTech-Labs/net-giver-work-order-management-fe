@@ -4,6 +4,7 @@ import { Formik } from "formik";
 import * as Yup from "yup"
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { token } from "../../../token"
+import axios from "axios"
 
 
 function Form(props){
@@ -235,7 +236,7 @@ function WorkOrderForm(props) {
                         // console.log("values detail", values.detail)
                     //     const qrcode = "00000"
                         const editMutation = `mutation {
-                            editWorkorder( qrcode: "00034", detail: "${values.detail}", priority: "${values.priority}, status: "${values.status}, title: "${values.title}){
+                            editWorkorder( qrcode: "${values.qrcode}", detail: "${values.detail}", priority: "${values.priority}", status: "${values.status}", title: "${values.title}"){
                               qrcode
                               detail
                               priority
@@ -243,13 +244,14 @@ function WorkOrderForm(props) {
                               title
                             }
                           }`
-                        
+                          console.log("values.qrcode", values.qrcode)
+                        console.log("token", token)
                         axios({
                             method: "post",
                             url: "https://netgiver-stage.herokuapp.com/graphql",
                             headers: {
                               "x-token":
-                              `${token}` },
+                              token },
                             data: {
                               query: editMutation
                             }
