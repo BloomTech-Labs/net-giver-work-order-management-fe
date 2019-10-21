@@ -1,11 +1,24 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { View, TextInput, Text, Button, Alert, SafeAreaView, Picker, StyleSheet } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup"
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { token } from "../../../token"
+import axios from "axios"
 
 
 function Form(props){
+console.log("TCL: Form -> props", props)
+const [hide, setHide] = useState(true);
+
+const hideButton = e => {
+    setHide(false)
+}
+
+useEffect(() => {
+   hideButton   
+}, [hide])
+
     console.log("props", props)
         var {
             handleChange, 
@@ -17,7 +30,7 @@ function Form(props){
             navigation } = props; 
                         
             const qrcode = props.navigation.state.params.qrCode
-
+if (hide) {
         return (
         <SafeAreaView>
             <View >
@@ -80,16 +93,84 @@ function Form(props){
                     <Picker.Item label="Complete" value="Complete" />
                     </Picker>
                 </View>
-
-                <View  >
-                <Button onPress={handleSubmit} 
-                        title="Submit" 
-                         />
-                </View>
                 <View>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={hideButton}>
                         <Text>ChoosePhoto</Text>
                     </TouchableOpacity>
+                
+                </View>
+                <View>
+                    <TouchableOpacity onPress={handleSubmit}>
+                        <Text>Submit</Text>
+                    </TouchableOpacity>
+                
+                </View>
+          
+        
+            </View>
+        </SafeAreaView>
+    )} else {return (
+        <SafeAreaView>
+            <View >
+                <View> 
+                    <TextInput
+                    name="qrcode"
+                    />
+
+                        </View>
+                <Text> Title </Text>
+                <View >
+                    <TextInput
+                        onChangeText={handleChange("title")}
+                        onBlur={handleBlur("title")}
+                        value={values.title}
+                    />
+                </View>
+
+                <Text  >
+                {errors.title && touched.title
+                    ? errors.title 
+                    :null}
+                </Text>
+
+                <Text>Detail</Text>
+
+                <View>
+                    <TextInput
+                    
+                        textContentType={"detail"}
+                        onChangeText={handleChange("detail")}
+                        onBlur={handleBlur("detail")}
+                        value={values.detail}
+                    />
+                </View>
+
+                <Text  >
+                {errors.detail && touched.detail
+                    ? errors.detail 
+                    : null}
+                </Text>
+
+                <Text>Priority</Text>
+
+                <View>
+                    <Picker selectedValue={values.priority} onValueChange={handleChange("priority")} >
+                    <Picker.Item label="Emergency" value="Emergency" />
+                    <Picker.Item label="High" value="High" />
+                    <Picker.Item label="Medium" value="Medium" />
+                    <Picker.Item label="Low" value="Low" />
+                    </Picker>
+                </View>
+                
+                <Text>Status</Text>
+
+                <View>
+                    <Picker selectedValue={values.status} onValueChange={handleChange("status")} >
+                    <Picker.Item label="Not yet Started" value="Not yet Started" />
+                    <Picker.Item label="In Progress" value="In Progress" />
+                    <Picker.Item label="Complete" value="Complete" />
+                    </Picker>
+                </View>
                 <View >
                     <View style={styles.display}>
                         <TouchableOpacity>
@@ -100,11 +181,21 @@ function Form(props){
                         </TouchableOpacity>
                     </View>
                 </View>
+                <View  >
+                <TouchableOpacity onPress={handleSubmit}>
+                        <Text>Submit</Text>
+                    </TouchableOpacity>
+                </View>
+                <View>
+
+
                 </View>
         
             </View>
         </SafeAreaView>
     )
+
+    }
 }
 const styles = StyleSheet.create({
     hidden: {
@@ -112,7 +203,8 @@ const styles = StyleSheet.create({
     },
 })
 
-function WorkOrderForm(props, {qrcode}) {
+function WorkOrderForm(props) {
+    const {qrCode} = props.navigation.state.params.qrCode
     console.log("TCL: WorkOrderForm -> props", props)
     var schema = Yup.object().shape({
         title: Yup.string(),
@@ -134,37 +226,38 @@ function WorkOrderForm(props, {qrcode}) {
                         detail: "",
                         priority: "",
                         status: "",
-                        qrcode: qrcode
+                        qrcode: qrCode
                     }}
                     onSubmit={(values, formikBag, props) => {
                         // console.log("on submit props", props)
-                        console.log("values", values)
+                        // console.log("values", values)
                         // console.log("formik bag", formikBag)
                         // console.log("qr code", qrcode)
-                        console.log("values detail", values.detail)
+                        // console.log("values detail", values.detail)
                     //     const qrcode = "00000"
-                    //     const editMutation = `mutation {
-                    //         editWorkorder( qrcode: "${qrcode}", detail: "${values.detail}", priority: "${values.priority}, status: "${values.status}, title: "${values.title}){
-                    //           qrcode
-                    //           detail
-                    //           priority
-                    //           status
-                    //           title
-                    //         }
-                    //       }`
-                        
-                    //     axios({
-                    //         method: "post",
-                    //         url: "https://netgiver-stage.herokuapp.com/graphql",
-                    //         headers: {
-                    //           "x-token":
-                    //           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJza3lsZXIyNDQwQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoic2t5bGVyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MTM1MTE4MCwiZXhwIjoxNTcxMzUyOTgwfQ.rKtfQ4YsKWf92Cjrz3QOKkyAOeQ84Mi8J7bpocnHGbQ"      },
-                    //         data: {
-                    //           query: editMutation
-                    //         }
-                    //       }).then(res => {
-                    //           console.log("response", res)
-                    //       });
+                        const editMutation = `mutation {
+                            editWorkorder( qrcode: "${values.qrcode}", detail: "${values.detail}", priority: "${values.priority}", status: "${values.status}", title: "${values.title}"){
+                              qrcode
+                              detail
+                              priority
+                              status
+                              title
+                            }
+                          }`
+                          console.log("values.qrcode", values.qrcode)
+                        console.log("token", token)
+                        axios({
+                            method: "post",
+                            url: "https://netgiver-stage.herokuapp.com/graphql",
+                            headers: {
+                              "x-token":
+                              token },
+                            data: {
+                              query: editMutation
+                            }
+                          }).then(res => {
+                              console.log("response", res)
+                          });
                     }}
         
                     render={(props) => {
