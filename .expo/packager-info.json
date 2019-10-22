@@ -1,19 +1,10 @@
 {
   "expoServerPort": 19000,
-
-
-  "expoServerNgrokUrl": "https://et-2ix.bryantpatton.net-giver-work-order-management-fe.exp.direct",
-  "packagerNgrokUrl": "https://packager.et-2ix.bryantpatton.net-giver-work-order-management-fe.exp.direct",
-  "ngrokPid": 6977,
-  "devToolsPort": 19003,
-  "packagerPort": 19001,
-
-
-  "packagerPid": 11544,
-  "expoServerNgrokUrl": "https://u3-hi9.anonymous.net-giver-work-order-management-fe.exp.direct",
-  "packagerNgrokUrl": "https://packager.u3-hi9.anonymous.net-giver-work-order-management-fe.exp.direct",
-  "ngrokPid": 16624
-
-
-
+  "expoServerNgrokUrl": "https://hz-dyf.anonymous.net-giver-work-order-management-fe.exp.direct",
+  "packagerNgrokUrl": "https://packager.hz-dyf.anonymous.net-giver-work-order-management-fe.exp.direct",
+  "ngrokPid": 22352,
+  "devToolsPort": 19002,
+  "packagerPort": 19005,
+  "packagerPid": 22319,
+  "webpackServerPort": null
 }

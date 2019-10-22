@@ -20,10 +20,10 @@ const GetImage = props => {
     );
   }
 
-useEffect(() => {
-    getPermissionAsync();
+// useEffect(() => {
+//     getPermissionAsync();
    
-}, [])
+// }, [])
   
   const getPermissionAsync = async () => {
     if (Constants.platform.ios) {

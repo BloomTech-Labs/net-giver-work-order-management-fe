@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import * as Permissions from 'expo-permissions';
-import { Camera } from 'expo-camera';
+import { Camera as Camera1 } from 'expo-camera';
 
 const Camera = props => {
 console.log("TCL: props -> Camera -> MainProps", props)
@@ -11,8 +11,8 @@ console.log("TCL: props -> Camera -> MainProps", props)
 
 
   useEffect(() => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    setHasCameraPermission("granted");
+    // const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    // setHasCameraPermission("granted");
 
   }, [hasCameraPermission])
  
@@ -24,7 +24,7 @@ console.log("TCL: props -> Camera -> MainProps", props)
     } else {
       return (
         <View style={{ flex: 1 }}>
-          <Camera style={{ flex: 1 }} type={type}>
+          <Camera1 style={{ flex: 1 }} type={type}>
             <View
               style={{
                 flex: 1,
@@ -48,7 +48,7 @@ console.log("TCL: props -> Camera -> MainProps", props)
                 <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flip </Text>
               </TouchableOpacity>
             </View>
-          </Camera>
+          </Camera1>
         </View>
       );
     }
