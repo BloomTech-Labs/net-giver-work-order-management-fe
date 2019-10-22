@@ -22,13 +22,12 @@ const GetImage = props => {
         </View>
     )
 }
-
 // useEffect(() => {
 //     getPermissionAsync();
-   
+
 // }, [])
-  
-  const getPermissionAsync = async () => {
+
+const getPermissionAsync = async () => {
     if (Constants.platform.ios) {
         const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL)
         if (status !== 'granted') {
