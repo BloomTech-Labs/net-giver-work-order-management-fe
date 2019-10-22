@@ -11,11 +11,13 @@ const Camera = props => {
         // setHasCameraPermission("granted");
     }, [hasCameraPermission])
 
+
     if (hasCameraPermission === null) {
         return <View />
     } else if (hasCameraPermission === false) {
         return <Text>No access to camera</Text>
     } else {
+
         return (
             <View style={{ flex: 1 }}>
                 <Camera1 style={{ flex: 1 }} type={type}>
@@ -56,6 +58,8 @@ const Camera = props => {
                 </Camera1>
             </View>
         )
+
+
     }
 }
 export default Camera

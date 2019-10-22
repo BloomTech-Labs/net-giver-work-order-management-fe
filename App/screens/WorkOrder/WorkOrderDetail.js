@@ -5,11 +5,13 @@ import { textS } from '../../Style'
 const WorkOrderDetail = props => {
     const { navigation } = props
     return (
+
         <View style={styles.container}>
             <Text>Work Order Detail View</Text>
         </View>
     )
 }
+
 
 const styles = StyleSheet.create({
     container: {
