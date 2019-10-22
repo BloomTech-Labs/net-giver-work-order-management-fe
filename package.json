@@ -10,6 +10,7 @@
     "format": "prettier --config ./.prettierrc.json *.js **/*.js */*/*.js */*/*/*.js */*/*/*/*.js"
   },
   "dependencies": {
+    "@ant-design/react-native": "^3.2.0",
     "axios": "^0.19.0",
     "babel": "^6.23.0",
     "babel-eslint": "^10.0.3",
