@@ -3,18 +3,56 @@ import {
   Text,
   View,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   StyleSheet,
   BackHandler,
   ImageBackground,
   Dimensions,
-  Alert,
-  Vibration
 } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import { Ionicons } from '@expo/vector-icons';
 
+// How this component works:
+// (1) Check camera permissions -- if granted move on, if not request them.
+// (2) Sub-component layout
+      // +-----------------------------------+
+      // |  TopButtons                       |
+      // |                                   |
+      // |  +---------+    +--------------+  |
+      // |  FlashButton    CameraTypeButton  |
+      // |  +---------+    +--------------+  |
+      // |                                   |
+      // +-----------------------------------+
+      // |  CameraView                       |
+      // |                                   |
+      // |       +----+      +-------+       |
+      // |       Camera--OR--ViewImage       |
+      // |       +----+      +-------+       |
+      // |                                   |
+      // |                                   |
+      // +-----------------------------------+
+      // |  BottomButtons                    |
+      // |                                   |
+      // | +-----------+      +------------+ |
+      // | CaptureButton--OR--ContentButtons |
+      // | +-----------+      +------------+ |
+      // |                                   |
+      // +-----------------------------------+
+// (3) Check to see if 'uri' is set in state:
+//      (a) 'uri' = null => render Camera
+//      (b) !'uri' = null => render ViewImage
+// (4) Camera buttons
+//      (a) TopButtons: FlashButton & CameraType (front or back)
+//      (b) BottomButtons: CaptureButton
+// (4) CaptureButton calls async function to take photo
+// (5) Base64 code of photo is returned & set to 'uri' state
+// (6) This triggers the conditional at step 3 above - ViewImage is rendered
+// (7) ViewImage buttons
+//      (a) TopButtons: None
+//      (b) BottomButtons: Done (accept photo) & Cancel (setUri(null) -> return to Camera)
+// (8) User returned to component they were at previously 
+// (9) TODO -- need to return photo to prior component or send off to server
+// (10) TODO -- return ios user to previous component
 
   const AppCamera = (props) => {
 
@@ -23,14 +61,18 @@ import { Ionicons } from '@expo/vector-icons';
   const [cameraType, setCameraType] = useState(CameraTypes.back);
   const [flashMode, setFlashMode] = useState(CameraFlashModes.off);
 
+  //Base64 of captured photo
   const [uri, setUri] = useState(null);
+
+  // May not need anymore - was work around for async issues
   const [photoConfirm, setPhotoConfirm] = useState(false);
 
+  //Reference to camera component
   const cameraRef = useRef(null);
 
   useEffect(() => {
     requestCameraPermission();
-
+    // Event listener for android hardware back button
     if (props) {// Need to check if device is android and from prop is present.
       BackHandler.addEventListener("hardwareBackPress", handleBackButton);
     } 
@@ -46,19 +88,16 @@ import { Ionicons } from '@expo/vector-icons';
 
   useEffect(() => {
     setPhotoConfirm(true)
-    console.log(photoConfirm)
   }, [uri]);
-
 
   // Button Handlers
   takePicture = async() => {
-    console.log('pic')
     if (cameraRef) {
-        const options = { quality: 0.5, base64: true };
-        const data = await cameraRef.current.takePictureAsync(options);
-        setUri(data.base64)
+      const options = { quality: 0.5, base64: true };
+      const data = await cameraRef.current.takePictureAsync(options);
+      setUri(data.base64)
     }
-};
+  };
 
   const handleSubmit = () => {
   }
@@ -67,13 +106,14 @@ import { Ionicons } from '@expo/vector-icons';
     props.navigation.goBack(null);
   };
 
+
+  // Sub-components
   const CameraView = () => {
     //Determine whether to display camera or photo just taken.
     return (
       <View style={styles.cameraContainer}>
         {uri ?
           <ImageBackground
-            // style={{ width: "100%", height: "100%" }}
             style={styles.preview}
             source={{ uri: 'data:image/jpeg;base64,' + uri }}>
           </ImageBackground>
@@ -87,7 +127,7 @@ import { Ionicons } from '@expo/vector-icons';
     )
   }
 
-  const SwitchCameraButton = () => {
+  const CameraTypeButton = () => {
     return (
       <TouchableOpacity
       style={styles.button}
@@ -119,7 +159,7 @@ import { Ionicons } from '@expo/vector-icons';
     return (
         <View style={styles.topButtons}>
             <FlashButton />
-            <SwitchCameraButton />
+            <CameraTypeButton />
         </View>
     );
   }
@@ -141,7 +181,6 @@ import { Ionicons } from '@expo/vector-icons';
         <TouchableOpacity onPress={() => handleSubmit()}>
           <Text style={styles.previewButttons}>Done</Text>
         </TouchableOpacity>
-
     </>
     )
   }
@@ -152,28 +191,26 @@ import { Ionicons } from '@expo/vector-icons';
         {uri
         ? <ContentButtons />
         : <CaptureButton />
-
         }
       </View>
     )
-
   }
 
   return (
-  <View style={styles.container}>
-    {hasCameraPermission === null 
-      ? ( <View /> )
-      : hasCameraPermission === false
-      ? ( <Text> No access to camera </Text> )
-      : (
-          <View style={{ flex: 1, alignSelf: 'stretch',}}>
-            <TopButtons />
-            <CameraView />
-            <BottomButtons />
-          </View>
-      )
-    }
-  </View>
+    <View style={styles.container}>
+      {hasCameraPermission === null 
+        ? ( <View /> )
+        : hasCameraPermission === false
+        ? ( <Text> No access to camera </Text> )
+        : (
+            <View style={{ flex: 1, alignSelf: 'stretch',}}>
+              <TopButtons />
+              <CameraView />
+              <BottomButtons />
+            </View>
+        )
+      }
+    </View>
   )
 }
 
@@ -202,7 +239,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    // justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'black',
   },
