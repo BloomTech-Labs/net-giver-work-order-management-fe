@@ -11,6 +11,8 @@ import {
 import Swiper from 'react-native-swiper';
 import { doSignup} from "../store/actions/authActions";
 
+import Camera from '../components/Camera';
+
 //To-Do
 //  Input validation -- functions built out just need to implement
 //  Data sent and received by server - need to build after signup process
@@ -131,28 +133,26 @@ const Signup = (props) => {
             placeholder='Phone'
             style={styles.input}
           />
-          <TouchableOpacity style={styles.buttonStyle} onPress={() => handleSubmit()}>
-            <Text style={styles.buttonText}>Submit</Text>
+          <TouchableOpacity style={styles.buttonStyle} onPress={() => handleClick()}>
+            <Text style={styles.buttonText}>Next</Text>
           </TouchableOpacity>
         </View>
+      </View>
+      <View style={styles.slide4}>
+        <Text style={styles.title}>
+          Phone
+        </Text>
         <View style={styles.inputContainer}>
           <Text style={styles.text}>
             Please select a profile photo:
           </Text>
-          <TextInput
-            name='phone'
-            value={user.phone}
-            keyboardType='phone-pad'
-            textContentType='telephoneNumber'
-            dataDetectorTypes='phoneNumber'
-            onChangeText={(text) => onInputChange('phone', text) }
-            placeholder='Phone'
-            style={styles.input}
-          />
+          <TouchableOpacity style={styles.buttonStyle} onPress={() => props.navigation.navigate('Camera', {from:'Signup'})}>
+          <Text style={styles.buttonText}>Use the Camera</Text>
+        </TouchableOpacity>
           <TouchableOpacity style={styles.buttonStyle} onPress={() => handleSubmit()}>
             <Text style={styles.buttonText}>Submit</Text>
           </TouchableOpacity>
-        </View>
+          </View>
       </View>
   </Swiper>
   </KeyboardAvoidingView>
