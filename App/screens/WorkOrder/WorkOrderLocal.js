@@ -1,40 +1,20 @@
-import React, { Component } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import React from 'react'
+import {
+    SafeAreaView,
+    View,
+    Text,
+    TextInput,
+    TouchableOpacity,
+} from 'react-native'
 
- const WorkOrderLocal = (props) => {
+const WorkOrderLocal = () => {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>WorkOrderLocal</Text>
-        <TouchableOpacity
-          onPress={() =>
-           props.navigation.navigate("WorkOrderDetail", {
-              topic: "React Navigation"
-            })
-          }
-        >
-          <Text style={styles.link}>Go to WorkOrder Detail with params</Text>
-        </TouchableOpacity>
-      </View>
-    );
+        <SafeAreaView>
+            <View>
+                <Text>Work Order Local</Text>
+            </View>
+        </SafeAreaView>
+    )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F5FCFF"
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: "center",
-    margin: 10
-  },
-  link: {
-    fontSize: 16,
-    textAlign: "center",
-    margin: 10,
-    color: "blue"
-  }
-});
 export default WorkOrderLocal

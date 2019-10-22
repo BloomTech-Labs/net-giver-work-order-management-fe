@@ -9,11 +9,11 @@ import {
   ActivityIndicator
 } from "react-native";
 import { NavigationActions } from "react-navigation";
+import { token } from "../../../token"
 
 const CheckBarCode = props => {
-  console.log("TCL: props", props.navigation.state.params.qrData);
-  const qrCode = props.navigation.state.params.qrData;
-
+  // const qrCode = props.navigation.state.params.qrData;
+const qrCode="12346"
   const getMutation = `query {
     workorder( qrcode: "${qrCode}"){
       id
@@ -26,6 +26,17 @@ const CheckBarCode = props => {
   
   }
   }`;
+  const createMutation = `mutation {
+    createWorkorder( qrcode: "${qrCode}"){
+      id
+      qrcode
+      detail
+      createdAt
+      priority
+      status
+      title
+    }
+  }`
 
   //check to see if there is a qr code if not send back to the scanner
   if (!qrCode) {
@@ -40,23 +51,34 @@ const CheckBarCode = props => {
       url: "https://netgiver-stage.herokuapp.com/graphql",
       headers: {
         "x-token":
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJza3lsZXIyNDQwQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoic2t5bGVyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MTMzNzQ1MywiZXhwIjoxNTcxMzM5MjUzfQ.kkCHXxlnKV4LFYMX6QRB5fEpgAjBDVJI2PxsNhKQGMQ"      },
+
+        token },
+
       data: {
         query: getMutation
       }
+
     }).then(res => {
       const isWorkOrder = res.data.data;
       if (isWorkOrder) {
         //IF THERE IS A QR CODE OF THAT VALUE SEND TO EDIT PAGE
         //WITH WORKORDER PROPS PASSED TO IT
         props.navigation.navigate("EditViewHolder", {
-          workOrder: { isWorkOrder }
-        });
+          workOrder: { isWorkOrder }        });
         console.log("yesWorkOrder");
       } else {
-        //IF THERE IS NOT A QR CODE SEND THE QR CODE AS PROPS TO THE PHOTO PAGE
-        props.navigation.navigate("NewWorkOrderPhoto", { qrCode: { qrCode } });
-        console.log("noWorkOrder");
+        axios({
+          method: "post",
+          url: "https://netgiver-stage.herokuapp.com/graphql",
+          headers: {
+            "x-token":
+            token },
+          data: {
+            query: createMutation
+          }
+        }).then(res => { console.log("created")
+        props.navigation.navigate("WorkOrderForm", { qrCode: { qrCode } });
+      })
       }
     });
   }

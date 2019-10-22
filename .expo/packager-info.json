@@ -1,10 +1,8 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
-  "webpackServerPort": null
-}
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 1353,
+  "expoServerNgrokUrl": "https://2c-3dx.anonymous.net-giver-work-order-management-fe.exp.direct",
+  "packagerNgrokUrl": "https://packager.2c-3dx.anonymous.net-giver-work-order-management-fe.exp.direct",
+  "ngrokPid": 1364
