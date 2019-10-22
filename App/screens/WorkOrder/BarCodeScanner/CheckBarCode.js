@@ -64,8 +64,7 @@ const qrCode="12346"
         //IF THERE IS A QR CODE OF THAT VALUE SEND TO EDIT PAGE
         //WITH WORKORDER PROPS PASSED TO IT
         props.navigation.navigate("EditViewHolder", {
-          workOrder: { isWorkOrder }
-        });
+          workOrder: { isWorkOrder }        });
         console.log("yesWorkOrder");
       } else {
         axios({

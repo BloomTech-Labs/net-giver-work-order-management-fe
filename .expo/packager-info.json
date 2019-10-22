@@ -1,5 +1,6 @@
 {
   "expoServerPort": 19000,
+<<<<<<< HEAD
 
 
   "expoServerNgrokUrl": "https://et-2ix.bryantpatton.net-giver-work-order-management-fe.exp.direct",
@@ -16,4 +17,12 @@
 
 
 
+=======
+  "expoServerNgrokUrl": "https://xe-fzt.anonymous.net-giver-work-order-management-fe.exp.direct",
+  "packagerNgrokUrl": "https://packager.xe-fzt.anonymous.net-giver-work-order-management-fe.exp.direct",
+  "ngrokPid": 24544,
+  "devToolsPort": 19002,
+  "packagerPort": 19004,
+  "packagerPid": 24512
+>>>>>>> work-order-list-display
 }
