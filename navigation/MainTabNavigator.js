@@ -1,5 +1,5 @@
 import React from "react";
-import { Platform, Text, Button, TouchableOpacity } from "react-native";
+import { Platform, Text, View, Button, TouchableOpacity } from "react-native";
 import {
   createStackNavigator,
   createBottomTabNavigator
@@ -25,17 +25,22 @@ const WorkOrderStack = createStackNavigator(
   {
     WorkOrderList: {
       screen: WorkOrderListView,
-      navigationOptions: {
-        title: "Work Order List View"
-      }
+      navigationOptions: (props) => ({
+        title: "Work Order List View",
+        headerRight:<View style={{marginRight: 15}}><TouchableOpacity onPress={() => props.navigation.navigate('Logout')}><Text>Logout</Text></TouchableOpacity></View>
+        })
     },
     EditWorkOrder: {
       screen: EditWorkOrder,
-      navigationOptions: {
-        title: "Edit Work Order"
-      }
-    }
+            navigationOptions: (props) => ({
+
+        title: "Edit Work Order",
+        headerRight:<View style={{marginRight: 15}}><TouchableOpacity onPress={() => props.navigation.navigate('Logout')}><Text>Logout</Text></TouchableOpacity></View>
+
+      
+    })
   },
+},
   config
 );
 // console.log("TCL: WorkOrderStack", WorkOrderStack)
@@ -62,21 +67,27 @@ const QRStack = createStackNavigator(
   {
     BarCodeScanner: {
       screen: BarcodeScanner,
-      navigationOptions: {
-        title: "QR Scanner"
-      }
+            navigationOptions: (props) => ({
+
+        title: "QR Scanner",
+        headerRight:<View style={{marginRight: 15}}><TouchableOpacity onPress={() => props.navigation.navigate('Logout')}><Text>Logout</Text></TouchableOpacity></View>
+      })
     },
     CheckBarCode: {
       screen: CheckBarCode,
-      navigationOptions: {
-        title: "Verify QR Code"
-      }
+            navigationOptions: (props) => ({
+
+        title: "Verify QR Code",
+        headerRight:<View style={{marginRight: 15}}><TouchableOpacity onPress={() => props.navigation.navigate('Logout')}><Text>Logout</Text></TouchableOpacity></View>
+      })
     },
     NewWorkOrder: {
       screen: WorkOrderForm,
-      navigationOptions: {
-        title: "Create Work Order"
-      }
+            navigationOptions: (props) => ({
+
+        title: "Create Work Order",
+        headerRight:<View style={{marginRight: 15}}><TouchableOpacity onPress={() => props.navigation.navigate('Logout')}><Text>Logout</Text></TouchableOpacity></View>
+      })
     }
   },
   config
@@ -98,9 +109,11 @@ const AccountStack = createStackNavigator(
   {
     AccountSettings: {
       screen: AccountSettings,
-      navigationOptions: {
-        title: "Account Settings"
-      }
+            navigationOptions: (props) => ({
+
+        title: "Account Settings",
+        headerRight:<View style={{marginRight: 15}}><TouchableOpacity onPress={() => props.navigation.navigate('Logout')}><Text>Logout</Text></TouchableOpacity></View>
+      })
     }
   },
   config

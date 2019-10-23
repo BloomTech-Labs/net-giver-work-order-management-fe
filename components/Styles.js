@@ -49,3 +49,36 @@ export const styles = StyleSheet.create({
       height: 40
     }
   });
+  export const wOList = StyleSheet.create({
+    card: {
+        borderWidth: 1,
+        width:'95%',
+        alignSelf: 'center',
+        borderColor:'grey',
+        flexDirection: 'row',
+        marginBottom: 4,
+    },
+    cardLeft: {
+        flex: 2,
+        textAlign: 'right',
+        padding: 10,
+    },
+    cardMiddle: {
+        flex: 4,
+        padding: 5,
+    },
+    cardRight: {
+        flex: 2,
+        justifyContent: 'center',
+    },
+    image: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+    },
+    title: {
+        fontSize: 20,
+        fontWeight: '700',
+        marginBottom: 10,
+    },
+})
