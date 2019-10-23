@@ -132,7 +132,7 @@ AccountStack.navigationOptions = {
 AccountStack.path = "";
 
 const tabNavigator = createBottomTabNavigator({
-  // WorkOrderStack,
+  WorkOrderStack,
   QRStack,
   AccountStack
 });
