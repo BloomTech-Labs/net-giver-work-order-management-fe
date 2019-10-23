@@ -1,18 +1,20 @@
 import React, { useState, useRef } from "react";
-// import { useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Formik } from 'formik';
 import { 
           StyleSheet,
           Text,
+          Image,
           View,
           TextInput,
           KeyboardAvoidingView,
           TouchableOpacity
         } from "react-native";
 import Swiper from 'react-native-swiper';
-// import { doSignup} from "../store/actions/authActions";
+import { doSignup} from "../store/actions/authActions";
 import * as Yup from 'yup';
-import Camera from '../../components/camera/Camera';
+import { Ionicons } from '@expo/vector-icons';
+
 //To-Do
 //  Input validation -- functions built out just need to implement
 //  Data sent and received by server - need to build after signup process
@@ -23,49 +25,95 @@ const Signup = (props) => {
   const [user, setUser] = useState({});
   const [disabled, setDisabled] = useState(false);
   const [err, setErr] = useState();
+  const [photoUri, setPhotoUri] = useState();
   const [current, setCurrent] = useState(0);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+
   const onInputChange = (name, text) => {
     const updatedUser = { ...user, [name]: text };
     setUser(updatedUser)
-    console.log(user)
-    // setUser({ ...user, [name]: text})
   };
+
+  const handlePhoto = (uri) => {
+    setPhotoUri(uri)
+  }
+
   const handleSubmit = () => {
     console.log('user', user)
     const { username, email, phone } = user
     const password = 123456 //temp password for testing
     const newUser = `mutation { signUp( username: "${username}", password: "${password}", email: "${email}", phone: "${phone}" ) { token user {id} } }`
-    // dispatch(doSignup(newUser))
+    dispatch(doSignup(newUser))
   };
   const swipeRef = useRef();
+
+  const PhotoInput = () => {
+    return (
+      <TouchableOpacity
+        style={styles.photoContainer}
+        onPress={() => props.navigation.navigate('Camera', {from:'Signup', callback:handlePhoto})}
+      >
+        {
+          !photoUri
+          ? <Ionicons
+              name="md-camera"
+              color="white"
+              size={90}
+            />
+          : <Image
+          style={{
+            alignSelf: 'center',
+            width: 200,
+            height: 200,
+            // borderWidth: 6,
+            borderRadius: 200/2,
+          }}
+          source={{ uri: 'data:image/jpeg;base64,' + photoUri }}
+          resizeMode="cover"
+        />
+          
+      }
+
+      </TouchableOpacity>
+    )
+  }
+
   const pages = [
     {
+      type: "text",
       slideTitle: "Welcome to Netgiver!",
       text: "We just need to get some info before you get started",
       text2: "Please enter your email:",
       name: "email",
       keyboard: "email-address",
-      placeholder: "Email"
+      placeholder: "Email",
+      button: "Next"
     },
     {
+      type: "text",
       slideTitle: "Welcome to Netgiver!",
       text: "We just need to get some info before you get started",
       text2: "Please enter your username:",
       name: "username",
-      placeholder: "username"
+      placeholder: "username",
+      button: "Next"
     },
     {
+      type: "text",
       slideTitle: "Welcome to Netgiver!",
       text: "",
       text2: "Please enter your phone number:",
       name: "phone",
       placeholder: "Phone Number",
-      keyboard: "phone-pad"
+      keyboard: "phone-pad",
+      button: "Next"
     },
     {
       type: "photo",
-    },
+      text: "Tap to add",
+      topComponent: <PhotoInput />,
+      button: "Submit"
+  },
   ]
   const SignupSchema = Yup.object().shape({
     firstName: Yup.string()
@@ -88,7 +136,7 @@ const Signup = (props) => {
     </Text>
     <View style={styles.inputContainer}>
       <Text style={styles.text}>
-        Please select a profile photo:
+        Tap to add
       </Text>
       <TouchableOpacity style={styles.buttonStyle} onPress={() => props.navigation.navigate('Camera', {from:'Signup'})}>
       <Text style={styles.buttonText}>Use the Camera</Text>
@@ -120,15 +168,17 @@ const Signup = (props) => {
           buttonWrapperStyle={{position: "relative", marginVertical: 80, paddingHorizontal: 0}}
         >
           {pages.map((input, index) =>  {
-            if (input.type === 'photo'){
-              return <LastSlide />
-            } else
             return (
               <View style={styles['slide' + ++index]} key={'slide' + input.id}>
-                <Text style={styles.title}> {input.slideTitle} </Text>
+                {input.topComponent}
+                {input.slideTitle &&
+                  <Text style={styles.title}> {input.slideTitle} </Text>
+                }
                 <Text style={styles.text}> {input.text} </Text>
                 <View style={styles.inputContainer}>
                   <Text style={styles.text}> {input.text2} </Text>
+                  {input.type === 'photo' ?
+                  <></> :
                   <TextInput
                     key={input.name + input.id}
                     name={input.name}
@@ -138,8 +188,10 @@ const Signup = (props) => {
                     placeholder={input.placeholder}
                     style={styles.input}
                   />
-                  <TouchableOpacity style={styles.buttonStyle} onPress={() => handleClick()}>
-                    <Text style={styles.buttonText}>Next</Text>
+            }
+                  <TouchableOpacity style={styles.buttonStyle} onPress={() =>
+                    input.button === "Submit" ? handleSubmit() : handleClick()}>
+                    <Text style={styles.buttonText}>{input.button}</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -158,6 +210,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
     width: '100%',
     paddingHorizontal: 10,
+    justifyContent: 'center'
   },
   input: {
     width: '100%',
@@ -207,7 +260,6 @@ btnNext: {
   title: {
     color: '#282424',
     fontSize: 26,
-    
     marginTop: '10%',
     textAlign: 'center',
     paddingBottom: 3,
@@ -216,6 +268,18 @@ btnNext: {
     color: '#282424',
     fontSize: 16,
     textAlign: 'center',
-  }
+  }, 
+  photoContainer: {
+    width: 200,
+    height: 200,
+    borderWidth: 6,
+    borderRadius: 200/2,
+    borderColor: "lightgray",
+    backgroundColor: "lightgray",
+    alignSelf: 'center',
+    marginTop: '10%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }, 
 })
 export default Signup
