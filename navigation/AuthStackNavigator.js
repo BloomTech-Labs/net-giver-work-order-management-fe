@@ -1,5 +1,5 @@
 import React from "react";
-import { createStackNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 import Login from "../screens/Login/Login";
 import UserChecker from "../screens/Login/UserChecker";
 import LoginVerify from "../screens/Login/LoginVerify";

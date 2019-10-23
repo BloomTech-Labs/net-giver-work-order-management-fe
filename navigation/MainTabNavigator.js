@@ -1,20 +1,17 @@
 import React from "react";
 import { Platform, Text, View, Button, TouchableOpacity } from "react-native";
 import {
-  createStackNavigator,
+  
   createBottomTabNavigator
-} from "react-navigation";
+} from "react-navigation-tabs";
+import {createStackNavigator} from 'react-navigation-stack'
 import TabBarIcon from "../components/TabBarIcon";
-import HomeScreen from "../screens/HomeScreen";
-import LinksScreen from "../screens/LinksScreen";
-import SettingsScreen from "../screens/SettingsScreen";
 import WorkOrderListView from "../screens/WorkOrder/WorkOrderListView";
 import AccountSettings from "../screens/Account/AccountSetting";
 import BarcodeScanner from "../screens/WorkOrder/BarCodeScanner/BarCodeScanner";
 import CheckBarCode from "../screens/WorkOrder/BarCodeScanner/CheckBarCode";
 import WorkOrderForm from "../screens/WorkOrder/NewWorkOrder/WorkOrderForm";
 import EditWorkOrder from "../screens/WorkOrder/ExistingWorkOrder/EditWorkOrder";
-import Test from "../screens/WorkOrder/NewWorkOrder/Test";
 
 const config = Platform.select({
   web: { headerMode: "screen" },
@@ -65,22 +62,22 @@ WorkOrderStack.path = "";
 
 const QRStack = createStackNavigator(
   {
-    // BarCodeScanner: {
-    //   screen: BarcodeScanner,
-    //         navigationOptions: (props) => ({
+    BarCodeScanner: {
+      screen: BarcodeScanner,
+            navigationOptions: (props) => ({
 
-    //     title: "QR Scanner",
-    //     headerRight:<View style={{marginRight: 15}}><TouchableOpacity onPress={() => props.navigation.navigate('Logout')}><Text>Logout</Text></TouchableOpacity></View>
-    //   })
-    // },
-    // CheckBarCode: {
-    //   screen: CheckBarCode,
-    //         navigationOptions: (props) => ({
+        title: "QR Scanner",
+        headerRight:<View style={{marginRight: 15}}><TouchableOpacity onPress={() => props.navigation.navigate('Logout')}><Text>Logout</Text></TouchableOpacity></View>
+      })
+    },
+    CheckBarCode: {
+      screen: CheckBarCode,
+            navigationOptions: (props) => ({
 
-    //     title: "Verify QR Code",
-    //     headerRight:<View style={{marginRight: 15}}><TouchableOpacity onPress={() => props.navigation.navigate('Logout')}><Text>Logout</Text></TouchableOpacity></View>
-    //   })
-    // },
+        title: "Verify QR Code",
+        headerRight:<View style={{marginRight: 15}}><TouchableOpacity onPress={() => props.navigation.navigate('Logout')}><Text>Logout</Text></TouchableOpacity></View>
+      })
+    },
     NewWorkOrder: {
       screen: WorkOrderForm,
             navigationOptions: (props) => ({
