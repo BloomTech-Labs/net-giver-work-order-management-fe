@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { Text, TextInput, View, StyleSheet, Button } from 'react-native';
+import { Text, TextInput, View, StyleSheet } from 'react-native';
 // import {connect} from 'react-redux' sd 10/23/2019
 // import {doLogin} from '../../store/actions/authActions' sd 10/23/2019
+import {styles} from '../../components/Styles'
+import { Button, InputItem } from '@ant-design/react-native';
+
 const LoginVerify = (props) => {
   console.log("TCL: LoginVerify -> props", props)
   const [vercode, setVercode] = useState('');
@@ -18,9 +21,10 @@ const LoginVerify = (props) => {
   }
   return (
     <View style={styles.container}>
+      <Text style={styles.welcome}>ADD LOGO</Text>
       <Text>Please Verify Your Code</Text>
       <TextInput
-        style={styles.textBox}
+        style={styles.loginTextInput}
         placeholder="Verification Code"
         name="vercode"
         id="vercode"
@@ -28,38 +32,38 @@ const LoginVerify = (props) => {
         autoCapitalize="none"
         onChangeText={setVercode}
       />
-      <Button onPress={handlePress} title="Login" />
-      <Text>Didn't get the code? Try Again!</Text>
-      <Button onPress={goBack} title="Go Back" />
+      <Button onPress={handlePress} style={styles.button}>Verify Access</Button>
+      <Text style={styles.marginTop}>Didn't get the code? Try Again!</Text>
+      <Button onPress={goBack} style={styles.button}>Get Another Code!</Button>
     </View>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
-  },
-  textBox: {
-    borderWidth: 1,
-    borderColor: '#000',
-    margin: 5,
-    // fontSize: 30,
-    height: 40
-  },
-  tO: {
-    borderWidth: 1,
-    borderColor: '#000',
-    fontSize: 30,
-    marginTop: 5,
-    marginLeft: 50,
-    marginRight: 50,
-    textAlign: 'center',
-    alignContent: 'center',
-    justifyContent: 'center'
-  }
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: '#F5FCFF'
+//   },
+//   textBox: {
+//     borderWidth: 1,
+//     borderColor: '#000',
+//     margin: 5,
+//     // fontSize: 30,
+//     height: 40
+//   },
+//   tO: {
+//     borderWidth: 1,
+//     borderColor: '#000',
+//     fontSize: 30,
+//     marginTop: 5,
+//     marginLeft: 50,
+//     marginRight: 50,
+//     textAlign: 'center',
+//     alignContent: 'center',
+//     justifyContent: 'center'
+//   }
+// });
 
 // const mapStateToProps = (state) => ({
 //     username: state.authReducer.username

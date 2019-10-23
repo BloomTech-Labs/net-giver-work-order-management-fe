@@ -41,11 +41,13 @@ const Login = props => {
   const { navigation } = props;
   return (
     <View style={styles.container}>
+      <Text style={styles.welcome}>ADD LOGO</Text>
+
       <Text style={styles.welcome}>Sign In</Text>
       <Text>And leave your paperwork behind!</Text>
       <TextInput
         
-        style={styles.loginText}
+        style={styles.loginTextInput}
         placeholder="User Name"
         name="username"
         id="username"
@@ -54,8 +56,10 @@ const Login = props => {
         onChangeText={setUsername}
       />
       <Button style={styles.button} onPress={submit}>
-        Get Verified
+        Sign In
       </Button>
+      <Text style={styles.marginTop}>Don't Have an Account?</Text>
+      <Button onPress={() => props.navigation.navigate('SignUp')} style={styles.button}>Sign Up</Button>
       {/* <TouchableOpacity onPress={() => navigation.goBack()}>
         <Text style={styles.link}>Go Back</Text>
       </TouchableOpacity> */}
