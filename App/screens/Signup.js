@@ -145,8 +145,7 @@ const Signup = (props) => {
                     name={input.name}
                     value={user[input.name]}
                     keyboardType={input.keyboard}
-                    onChangeText={(text) => onInputChange(input.name, text) }
-                    // onChangeText={input.formikinput.handleChange(input.name)}
+                    onChangeText={(text) => onInputChange(input.name, text)}
                     placeholder={input.placeholder}
                     style={styles.input}
                   />
@@ -171,11 +170,11 @@ const styles = StyleSheet.create({
   inputContainer: {
     marginTop: 50,
     width: '100%',
-    paddingHorizontal: 70,
+    paddingHorizontal: 10,
   },
   input: {
     width: '100%',
-    backgroundColor: 'white',
+    backgroundColor: '#EDF1F3',
     marginVertical: 10,
     paddingVertical: 5,
     paddingVertical: 5,
@@ -187,13 +186,15 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: 'center',
     alignItems: 'center',
-    padding: 10
+    padding: 10,
+    color: 'white'
   },
 buttonStyle: {
-  padding:5,
-  backgroundColor: '#DDDDDD',
+  padding:2,
+  backgroundColor: '#006E13',
   alignItems: 'center',
-  borderRadius:1
+  borderRadius:4,
+  width: '100%',
   },
 btnNext: {
   color: 'green'
@@ -202,30 +203,30 @@ btnNext: {
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#9DD6EB',
+    
   },
   slide2: {
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#97CAE5',
+    
   },
   slide3: {
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#92BBD9',
+    
   },
   title: {
-    color: '#fff',
+    color: '#282424',
     fontSize: 26,
-    fontWeight: 'bold',
+    
     marginTop: '10%',
     textAlign: 'center',
-    paddingBottom: 15,
+    paddingBottom: 3,
   },
   text: {
-    color: '#fff',
+    color: '#282424',
     fontSize: 16,
     textAlign: 'center',
   }
