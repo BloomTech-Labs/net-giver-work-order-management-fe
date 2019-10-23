@@ -11,6 +11,9 @@ import axios from 'axios';
 // import { doSignIn } from '../../store/actions/authActions';sd 10/23/2019
 // Needs Login Form / Function
 // import { connect } from 'react-redux'; sd 10/23/2019
+import { Button, InputItem } from '@ant-design/react-native';
+import {styles} from '../../components/Styles'
+
 const Login = props => {
   const [username, setUsername] = useState();
   const [token, setToken] = useState();
@@ -38,9 +41,11 @@ const Login = props => {
   const { navigation } = props;
   return (
     <View style={styles.container}>
-      <Text style={styles.welcome}>Login</Text>
+      <Text style={styles.welcome}>Sign In</Text>
+      <Text>And leave your paperwork behind!</Text>
       <TextInput
-        style={styles.textBox}
+        
+        style={styles.loginText}
         placeholder="User Name"
         name="username"
         id="username"
@@ -48,41 +53,49 @@ const Login = props => {
         autoCapitalize="none"
         onChangeText={setUsername}
       />
-      <TouchableOpacity onPress={submit}>
-        <Text style={[styles.link, { color: 'blue' }]}>Get Verified</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
+      <Button style={styles.button} onPress={submit}>
+        Get Verified
+      </Button>
+      {/* <TouchableOpacity onPress={() => navigation.goBack()}>
         <Text style={styles.link}>Go Back</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10
-  },
-  link: {
-    fontSize: 16,
-    textAlign: 'center',
-    margin: 10
-  },
-  textBox: {
-    borderWidth: 1,
-    borderColor: '#000',
-    margin: 5,
-    // fontSize: 30,
-    height: 40
-  }
-});
+// const styles = StyleSheet.create({
+//   button:{
+//     backgroundColor: '#006E13',
+//     // border: 1px solid #EDF1F3;
+//     // boxSizing: 'border-box',
+//     borderRadius: 4, 
+//     // width:400,
+//     alignSelf: 'stretch',
+//   },
+//   container: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: '#F5FCFF'
+//   },
+//   welcome: {
+//     fontSize: 20,
+//     textAlign: 'center',
+//     margin: 10
+//   },
+//   link: {
+//     fontSize: 16,
+//     textAlign: 'center',
+//     margin: 10
+//   },
+//   textBox: {
+//     borderWidth: 1,
+//     borderColor: '#000',
+//     margin: 5,
+//     // fontSize: 30,
+//     height: 40
+//   }
+// });
 // export default connect(
 //   null,
 //   { doSignIn }
