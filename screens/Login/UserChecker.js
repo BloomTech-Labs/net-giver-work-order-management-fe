@@ -3,10 +3,10 @@ import {ActivityIndicator, View, StyleSheet} from 'react-native';
 // import {connect} from 'react-redux'
 
 const UserChecker = (props) => {
-console.log("TCL: UserChecker -> props", props)
-
-    if(props.username) {
-        props.navigation.navigate('LoginVerify')
+console.log("TCL: UserChecker -> props", props.navigation.state.params.username)
+const username = props.navigation.state.params.username
+    if(username) {
+        props.navigation.navigate('VerifyLogin', {username: username})
     }    else{
         props.navigation.navigate('Login')
     }

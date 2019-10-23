@@ -4,16 +4,28 @@ import { Text, TextInput, View, StyleSheet } from 'react-native';
 // import {doLogin} from '../../store/actions/authActions' sd 10/23/2019
 import {styles} from '../../components/Styles'
 import { Button, InputItem } from '@ant-design/react-native';
+import axios from 'axios';
 
 const LoginVerify = (props) => {
+  const username = props.navigation.state.params.username
   console.log("TCL: LoginVerify -> props", props)
   const [vercode, setVercode] = useState('');
 
   const vercodeMutation = ``;
   const handlePress = () => {
-    const devVerCode = `mutation { authyVerifyDev( username: "${props.username}", code: "${vercode}" ) { token }}`
+    const devVerCode = `mutation { authyVerifyDev( username: "${username}", code: "${vercode}" ) { token }}`
     // props.doLogin(devVerCode) sd 10/23/2019
-    props.navigation.navigate('LoginChecker')
+    axios({
+      method: "post",
+      url: "https://netgiver-stage.herokuapp.com/graphql",
+      data: {
+        query: devVerCode
+      }
+    }).then(res => {
+        console.log(res.data.data.authyVerifyDev)
+        props.navigation.navigate('CheckLogin', {username: username, token: res.data.data.authyVerifyDev.token})
+    });
+    
   };
 
   const goBack = () =>{
