@@ -1,0 +1,92 @@
+import React, { useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  TouchableOpacity,
+  Alert
+} from 'react-native';
+import axios from 'axios';
+// import { doSignIn } from '../../store/actions/authActions';sd 10/23/2019
+// Needs Login Form / Function
+// import { connect } from 'react-redux'; sd 10/23/2019
+const Login = props => {
+  const [username, setUsername] = useState();
+  const [token, setToken] = useState();
+
+  function resetToDashboard() {
+    props.navigation.navigate('Dashboard');
+  }
+
+  const submit = () => {
+    console.log(", username", username)
+    const query = `mutation{signIn(login:"${username}"){  token   user {     username     authyId   } }} `;
+    const queryDev = `mutation { signInDev( username: "${username}" ) { username } }`
+    
+    axios({
+      method: "post",
+      url: "https://netgiver-stage.herokuapp.com/graphql",
+      data: {
+        query: queryDev
+      }
+    }).then(res => {
+        props.navigation.navigate('UserChecker', {username: res.data.data.signInDev.username})
+    });
+  };
+
+  const { navigation } = props;
+  return (
+    <View style={styles.container}>
+      <Text style={styles.welcome}>Login</Text>
+      <TextInput
+        style={styles.textBox}
+        placeholder="User Name"
+        name="username"
+        id="username"
+        value={username}
+        autoCapitalize="none"
+        onChangeText={setUsername}
+      />
+      <TouchableOpacity onPress={submit}>
+        <Text style={[styles.link, { color: 'blue' }]}>Get Verified</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Text style={styles.link}>Go Back</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF'
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10
+  },
+  link: {
+    fontSize: 16,
+    textAlign: 'center',
+    margin: 10
+  },
+  textBox: {
+    borderWidth: 1,
+    borderColor: '#000',
+    margin: 5,
+    // fontSize: 30,
+    height: 40
+  }
+});
+// export default connect(
+//   null,
+//   { doSignIn }
+// )(Login); sd 10/23/2019
+
+
+export default Login;
