@@ -15,6 +15,7 @@ import * as Yup from 'yup'
 import { token } from '../../../token'
 import axios from 'axios'
 import { Button, InputItem } from '@ant-design/react-native'
+import { wOForm } from '../../../components/Styles'
 
 function Form(props) {
     console.log('TCL: Form -> props', props)
@@ -50,7 +51,7 @@ function Form(props) {
                             onChangeText={handleChange('title')}
                             onBlur={handleBlur('title')}
                             value={values.title}
-                            style={styles.textInput}
+                            style={wOForm.textInput}
                         />
                     </View>
 
@@ -64,7 +65,7 @@ function Form(props) {
                             onChangeText={handleChange('detail')}
                             onBlur={handleBlur('detail')}
                             value={values.detail}
-                            style={styles.textInput}
+                            style={wOForm.textInput}
                         />
                     </View>
 
@@ -82,54 +83,54 @@ function Form(props) {
                             <Picker.Item label="Medium" value="Medium" />
                             <Picker.Item label="Low" value="Low" />
                         </Picker> */}
-                        <View style={styles.priorityBar}>
-                            <View style={styles.pBarTextBox}>
-                                <Text style={styles.pBarText}>Priority:</Text>
+                        <View style={wOForm.priorityBar}>
+                            <View style={wOForm.pBarTextBox}>
+                                <Text style={wOForm.pBarText}>Priority:</Text>
                             </View>
-                            <View style={styles.pBarButtonBox}>
-                                <TouchableOpacity style={styles.pBarButton}>
+                            <View style={wOForm.pBarButtonBox}>
+                                <TouchableOpacity style={wOForm.pBarButton}>
                                     <Text>N/A</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.pBarButton}>
+                                <TouchableOpacity style={wOForm.pBarButton}>
                                     <Text>Low</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.pBarButton}>
+                                <TouchableOpacity style={wOForm.pBarButton}>
                                     <Text>Medium</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.pBarButton}>
+                                <TouchableOpacity style={wOForm.pBarButton}>
                                     <Text>High</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.pBarButton}>
+                                <TouchableOpacity style={wOForm.pBarButton}>
                                     <Text>Emergency</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
                     </View>
-                    <View style={styles.priorityBar}>
-                        <View style={styles.pBarTextBox}>
-                            <Text style={styles.pBarText}>Status: </Text>
+                    <View style={wOForm.priorityBar}>
+                        <View style={wOForm.pBarTextBox}>
+                            <Text style={wOForm.pBarText}>Status: </Text>
                         </View>
-                        <View style={styles.pBarButtonBox}>
-                            <TouchableOpacity style={styles.pBarButton}>
+                        <View style={wOForm.pBarButtonBox}>
+                            <TouchableOpacity style={wOForm.pBarButton}>
                                 <Text>Not Started</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.pBarButton}>
+                            <TouchableOpacity style={wOForm.pBarButton}>
                                 <Text>In Progress</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.pBarButton}>
+                            <TouchableOpacity style={wOForm.pBarButton}>
                                 <Text>Complete</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
 
                     {/* <View>
-                        <Button style={styles.button} onPress={hideButton}>
+                        <Button style={wOForm.button} onPress={hideButton}>
                             <Text>ChoosePhoto</Text>
                         </Button>
                     </View> */}
-                    <View style={styles.imageBox}>
+                    <View style={wOForm.imageBox}>
                         <Image
-                            style={styles.placeholder}
+                            style={wOForm.placeholder}
                             source={{
                                 uri:
                                     img
@@ -137,7 +138,7 @@ function Form(props) {
                         />
                     </View>
                     <View>
-                        <Button type='primary' style={styles.button} onPress={handleSubmit} color='white'>
+                        <Button type='primary' style={wOForm.button} onPress={handleSubmit} color='white'>
                             <Text>Submit</Text>
                         </Button>
                     </View>
@@ -212,7 +213,7 @@ function Form(props) {
                         </Picker>
                     </View>
                     <View>
-                        <View style={styles.display}>
+                        <View style={wOForm.display}>
                             <TouchableOpacity>
                                 <Text>Choose From Gallery</Text>
                             </TouchableOpacity>
@@ -238,60 +239,7 @@ function Form(props) {
         )
     }
 }
-const styles = StyleSheet.create({
-    hidden: {
-        display: 'none',
-    },
-    button: {
-        backgroundColor: '#006E13',
-        borderWidth: 2,
-        borderColor: '#EDF1F3',
-        width: '96%',
-        alignSelf: 'center',
-    },
-    textInput: {
-        marginBottom: 15,
-        backgroundColor: '#EDF1F3',
-        borderWidth: 2,
-        borderColor: '#C5C2C2',
-        // box-sizing: border-box;
-        borderRadius: 4,
-        // alignSelf: "stretch",
-        width: '95%',
-        alignSelf: 'center',
-        padding: 10,
-    },
-    priorityBar: {
-        flexDirection: 'row',
-        marginBottom: 25,
-    },
-    pBarText: {
-        marginLeft: 10,
-    },
-    pBarButtonBox: {
-        flexDirection: 'row',
-        marginRight: 'auto',
-        marginLeft: 'auto',
-        borderWidth: 1,
-        borderRightWidth: 0.5,
-        borderRadius: 4,
-    },
-    pBarButton: {
-        // borderWidth: 0.5,
-        // borderRadius:4,
-        borderRightWidth: 0.5,
-        padding: 2,
-        // borderTopRightRadius:4,
-        // borderBottomRightRadius:4,
-    },
-    placeholder:{
-        width:200,
-        height:200,
-        alignSelf:'center',
-        marginBottom:25,
-        borderRadius:100,
-    },
-})
+
 
 function WorkOrderForm(props) {
     // const {qrCode} = props.navigation.state.params.qrCode

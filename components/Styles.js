@@ -82,3 +82,58 @@ export const styles = StyleSheet.create({
         marginBottom: 10,
     },
 })
+
+export const wOForm = StyleSheet.create({
+    hidden: {
+        display: 'none',
+    },
+    button: {
+        backgroundColor: '#006E13',
+        borderWidth: 2,
+        borderColor: '#EDF1F3',
+        width: '96%',
+        alignSelf: 'center',
+    },
+    textInput: {
+        marginBottom: 15,
+        backgroundColor: '#EDF1F3',
+        borderWidth: 2,
+        borderColor: '#C5C2C2',
+        // box-sizing: border-box;
+        borderRadius: 4,
+        // alignSelf: "stretch",
+        width: '95%',
+        alignSelf: 'center',
+        padding: 10,
+    },
+    priorityBar: {
+        flexDirection: 'row',
+        marginBottom: 25,
+    },
+    pBarText: {
+        marginLeft: 10,
+    },
+    pBarButtonBox: {
+        flexDirection: 'row',
+        marginRight: 'auto',
+        marginLeft: 'auto',
+        borderWidth: 1,
+        borderRightWidth: 0.5,
+        borderRadius: 4,
+    },
+    pBarButton: {
+        // borderWidth: 0.5,
+        // borderRadius:4,
+        borderRightWidth: 0.5,
+        padding: 2,
+        // borderTopRightRadius:4,
+        // borderBottomRightRadius:4,
+    },
+    placeholder:{
+        width:200,
+        height:200,
+        alignSelf:'center',
+        marginBottom:25,
+        borderRadius:100,
+    },
+})
