@@ -14,7 +14,7 @@ import axios from 'axios';
 import { Button, InputItem } from '@ant-design/react-native';
 import {styles} from '../../components/Styles'
 
-const Login = props => {
+const Login = (props) => {
   const [username, setUsername] = useState();
   const [token, setToken] = useState();
 
@@ -23,7 +23,6 @@ const Login = props => {
   }
 
   const submit = () => {
-    console.log(", username", username)
     const query = `mutation{signIn(login:"${username}"){  token   user {     username     authyId   } }} `;
     const queryDev = `mutation { signInDev( username: "${username}" ) { username } }`
     
@@ -34,7 +33,8 @@ const Login = props => {
         query: queryDev
       }
     }).then(res => {
-        props.navigation.navigate('UserChecker', {username: res.data.data.signInDev.username})
+        console.log(res.data.data.signInDev.username)
+        props.navigation.navigate('CheckUser', {username: res.data.data.signInDev.username})
     });
   };
 
