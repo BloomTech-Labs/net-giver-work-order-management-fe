@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useDispatch } from 'react-redux'
+import { Formik } from 'formik';
 import { 
           StyleSheet,
           Text,
@@ -10,7 +11,7 @@ import {
         } from "react-native";
 import Swiper from 'react-native-swiper';
 import { doSignup} from "../store/actions/authActions";
-
+import * as Yup from 'yup';
 import Camera from '../components/Camera';
 
 //To-Do
@@ -28,22 +29,12 @@ const Signup = (props) => {
   const [current, setCurrent] = useState(0);
   const dispatch = useDispatch();
 
-  // Validation stuff not built in to components yet
-  const validateInput = (name, text) => {
-    if(name === 'username'){
-      return /^[a-zA-Z \.\-]{1,50}$/g.test(text);
-    }
-    if(name === 'email'){
-      return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(text);
-    }
-    if(name === 'phone'){
-      return /^\d{10}$/.test(text);
-    }
-  }
 
-  const onInputChange = (name, text, validator) => {
-    setErr(() =>validateInput(name, text))
-    setUser({ ...user, [name]: text})
+  const onInputChange = (name, text) => {
+    const updatedUser = { ...user, [name]: text };
+    setUser(updatedUser)
+    console.log(user)
+    // setUser({ ...user, [name]: text})
   };
 
   const handleSubmit = () => {
@@ -56,105 +47,120 @@ const Signup = (props) => {
 
   const swipeRef = useRef();
 
+  const pages = [
+    {
+      slideTitle: "Welcome to Netgiver!",
+      text: "We just need to get some info before you get started",
+      text2: "Please enter your email:",
+      name: "email",
+      keyboard: "email-address",
+      placeholder: "Email"
+    },
+    {
+      slideTitle: "Welcome to Netgiver!",
+      text: "We just need to get some info before you get started",
+      text2: "Please enter your username:",
+      name: "username",
+      placeholder: "username"
+    },
+    {
+      slideTitle: "Welcome to Netgiver!",
+      text: "",
+      text2: "Please enter your phone number:",
+      name: "phone",
+      placeholder: "Phone Number",
+      keyboard: "phone-pad"
+    },
+    {
+      type: "photo",
+    },
+  ]
+
+  const SignupSchema = Yup.object().shape({
+    firstName: Yup.string()
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Required'),
+    lastName: Yup.string()
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Required'),
+    email: Yup.string()
+      .email('Invalid email')
+      .required('Required'),
+  });
+
+  const LastSlide = () => {
+    return(
+    <View style={styles.slide4}>
+    <Text style={styles.title}>
+      Phone
+    </Text>
+    <View style={styles.inputContainer}>
+      <Text style={styles.text}>
+        Please select a profile photo:
+      </Text>
+      <TouchableOpacity style={styles.buttonStyle} onPress={() => props.navigation.navigate('Camera', {from:'Signup'})}>
+      <Text style={styles.buttonText}>Use the Camera</Text>
+    </TouchableOpacity>
+      <TouchableOpacity style={styles.buttonStyle} onPress={() => handleSubmit()}>
+        <Text style={styles.buttonText}>Submit</Text>
+      </TouchableOpacity>
+      </View>
+  </View>
+    )
+  }
+
   const handleClick = () => {
-    console.log(swipeRef.current.state)
     swipeRef.current.scrollBy(1, true)
     setCurrent(current + 1)
   }
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
-    <Swiper 
-      ref={swipeRef}
-      style={styles.wrapper}
-      showsButtons={false}
-      disableNextButton={disabled}
-      loop={false}
-      buttonWrapperStyle={{position: "relative", marginVertical: 80, paddingHorizontal: 0}}
-    >
-      
-      <View style={styles.slide1}>
-        <Text style={styles.title}>
-          Welcome to Netgiver!
-        </Text>
-        <Text style={styles.text}>
-          We just need to get some info before you get started
-        </Text>
-        <View style={styles.inputContainer}>
-          <Text style={styles.text}>Please enter your email:</Text>
-          <TextInput
-            name='email'
-            value={user.email}
-            keyboardType='email-address'
-            onChangeText={(text) => onInputChange('email', text) }
-            placeholder='Email'
-            style={styles.input}
-          />
-          <TouchableOpacity style={styles.buttonStyle} onPress={() => handleClick()}>
-            <Text style={styles.buttonText}>Next</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={styles.slide2}>
-        <Text style={styles.title}>
-          Username
-        </Text>
-        <View style={styles.inputContainer}>
-          <Text style={styles.text}>
-            Please enter your username:
-          </Text>
-          <TextInput
-            name='username'
-            value={user.username}
-            keyboardType='default'
-            onChangeText={(text) => onInputChange('username', text) }
-            placeholder='Username'
-            style={styles.input}
-          />
-          <TouchableOpacity style={styles.buttonStyle} onPress={() => handleClick()}>
-            <Text style={styles.buttonText}>Next</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={styles.slide3}>
-        <Text style={styles.title}>
-          Phone
-        </Text>
-        <View style={styles.inputContainer}>
-          <Text style={styles.text}>
-            Please enter your phone number:
-          </Text>
-          <TextInput
-            name='phone'
-            value={user.phone}
-            keyboardType='phone-pad'
-            textContentType='telephoneNumber'
-            dataDetectorTypes='phoneNumber'
-            onChangeText={(text) => onInputChange('phone', text) }
-            placeholder='Phone'
-            style={styles.input}
-          />
-          <TouchableOpacity style={styles.buttonStyle} onPress={() => handleClick()}>
-            <Text style={styles.buttonText}>Next</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={styles.slide4}>
-        <Text style={styles.title}>
-          Phone
-        </Text>
-        <View style={styles.inputContainer}>
-          <Text style={styles.text}>
-            Please select a profile photo:
-          </Text>
-          <TouchableOpacity style={styles.buttonStyle} onPress={() => props.navigation.navigate('Camera', {from:'Signup'})}>
-          <Text style={styles.buttonText}>Use the Camera</Text>
-        </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonStyle} onPress={() => handleSubmit()}>
-            <Text style={styles.buttonText}>Submit</Text>
-          </TouchableOpacity>
-          </View>
-      </View>
-  </Swiper>
+      <Formik
+        onSubmit={values => console.log(values)}
+        validationSchema={SignupSchema}
+        initialValues={{ email: '', username: '', phone: '' }}
+        >
+        <Swiper 
+          ref={swipeRef}
+          style={styles.wrapper}
+          showsButtons={false}
+          disableNextButton={disabled}
+          loop={false}
+          buttonWrapperStyle={{position: "relative", marginVertical: 80, paddingHorizontal: 0}}
+        >
+          {pages.map((input, index) =>  {
+            if (input.type === 'photo'){
+              return <LastSlide />
+            } else
+            return (
+              <View style={styles['slide' + ++index]} key={'slide' + input.id}>
+                <Text style={styles.title}> {input.slideTitle} </Text>
+                <Text style={styles.text}> {input.text} </Text>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.text}> {input.text2} </Text>
+                  <TextInput
+                    key={input.name + input.id}
+                    name={input.name}
+                    value={user[input.name]}
+                    keyboardType={input.keyboard}
+                    onChangeText={(text) => onInputChange(input.name, text) }
+                    // onChangeText={input.formikinput.handleChange(input.name)}
+                    placeholder={input.placeholder}
+                    style={styles.input}
+                  />
+                  <TouchableOpacity style={styles.buttonStyle} onPress={() => handleClick()}>
+                    <Text style={styles.buttonText}>Next</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )})}
+          
+
+    </Swiper>
+    </Formik>
+
   </KeyboardAvoidingView>
   );
 }
