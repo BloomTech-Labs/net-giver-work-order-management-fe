@@ -12,7 +12,7 @@ import BarcodeScanner from "../screens/WorkOrder/BarCodeScanner/BarCodeScanner";
 import CheckBarCode from "../screens/WorkOrder/BarCodeScanner/CheckBarCode";
 import WorkOrderForm from "../screens/WorkOrder/NewWorkOrder/WorkOrderForm";
 import EditWorkOrder from "../screens/WorkOrder/ExistingWorkOrder/EditWorkOrder";
-
+import CameraModule from '../components/camera/Camera'
 const config = Platform.select({
   web: { headerMode: "screen" },
   default: {}
@@ -85,7 +85,17 @@ const QRStack = createStackNavigator(
         title: "Create Work Order",
         headerRight:<View style={{marginRight: 15}}><TouchableOpacity onPress={() => props.navigation.navigate('Logout')}><Text>Logout</Text></TouchableOpacity></View>
       })
-    }
+    },
+    // ADDS CAMERA SCREEN TO NAVIGATION STACK 10/24/2019 SD
+    // NEED TO TRY TO FIND A WAY TO HIDE THE BOTTOM TAB NAV WHEN THE CAMERA IS OPEN
+    CameraModule: {
+      screen: CameraModule,
+            navigationOptions: (props) => ({
+        title: "Take a Photo",
+        headerRight:<View style={{marginRight: 15}}><TouchableOpacity onPress={() => props.navigation.navigate('Logout')}><Text>Logout</Text></TouchableOpacity></View>,
+        
+      })
+    },
   },
   config
 );
@@ -129,7 +139,7 @@ AccountStack.navigationOptions = {
 AccountStack.path = "";
 
 const tabNavigator = createBottomTabNavigator({
-  WorkOrderStack,
+  WorkOrderStack, 
   QRStack,
   AccountStack
 });

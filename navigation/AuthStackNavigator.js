@@ -19,12 +19,14 @@ const AuthStackNavigator = createStackNavigator(
         title: "Login"
       }
     },
+    //CHECK USER SCREEN CHECKS TO SEE IF A USER IS IN THE SYSTEM 10/24/2019 SD
     CheckUser: {
       screen: UserChecker,
       navigationOptions: {
         title: "Verify User"
       }
     },
+    //AFTER CHECK USER YOU ARE SENT A TEXT WITH A VERIFICATION CODE AND THAT IS ENTERED ON VERIFYLOGIN 10/24/2019 SD
     VerifyLogin: {
       screen: LoginVerify,
       navigationOptions: {
