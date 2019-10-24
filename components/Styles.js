@@ -130,10 +130,20 @@ export const wOForm = StyleSheet.create({
         // borderBottomRightRadius:4,
     },
     placeholder:{
-        width:200,
-        height:200,
-        alignSelf:'center',
-        marginBottom:25,
-        borderRadius:100,
+        width:75,
+        height:75,
+        // alignSelf:'center',
+        // marginBottom:25,
+        // borderRadius:100,
     },
+    imageBox:{
+        width: '95%',
+        flexDirection: 'row',
+        justifyContent:'space-around',
+        marginRight: 'auto',
+        marginLeft:'auto',
+        borderWidth: 1,
+        padding: 10,
+        
+    }
 })
