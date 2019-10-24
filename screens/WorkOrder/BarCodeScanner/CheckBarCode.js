@@ -5,9 +5,9 @@ import axios from "axios";
 import { StyleSheet, View, Button, ActivityIndicator } from "react-native";
 import { NavigationActions } from "react-navigation";
 import { token } from "../../../token";
+import { styles } from '../../../components/Styles'
 
-const CheckBarCode = props => {
-console.log("TCL: props", props)
+const CheckBarCode = props => {console.log("TCL: props", props)
   const isWorkOrder = {qrCode:"12345", detail:"The Toilet is Leaking", title:"Fix Toilet", priority:"High", status:"Not Yet Started", user:"John Smith"};
   const qrCode = props.navigation.state.params.qrData;
   // const qrCode = "12346";
@@ -35,7 +35,7 @@ console.log("TCL: props", props)
     }
   }`;
 
-  //CHECK TO SEE IF QR AND SEND BACK
+  //CHECK TO SEE IF QR AND SEND BACK 10/16/2019 SD
   if (!qrCode) {
     props.navigation.navigate("BarCodeScanner");
   } else {
@@ -43,18 +43,18 @@ console.log("TCL: props", props)
     //TODO NEEDS TO BE MOVED OUT OF THIS FILE SD 10/16/19
 
     //   TOKEN IS NOT CONSTANT!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // axios({
-    //   method: "post",
-    //   url: "https://netgiver-stage.herokuapp.com/graphql",
-    //   headers: {
-    //     "x-token": token
-    //   },
+    axios({
+      method: "post",
+      url: "https://netgiver-stage.herokuapp.com/graphql",
+      headers: {
+        "x-token": token
+      },
 
-    //   data: {
-    //     query: getMutation
-    //   }
-    // }).then(res => {
-      // const isWorkOrder = res.data.data;
+      data: {
+        query: getMutation
+      }
+    }).then(res => {
+      const isWorkOrder = res.data.data;
       if (isWorkOrder) {
         //IF THERE IS A QR CODE OF THAT VALUE SEND TO EDIT PAGE
         //WITH WORKORDER PROPS PASSED TO IT
@@ -63,23 +63,24 @@ console.log("TCL: props", props)
         });
         console.log("yesWorkOrder");
       } else {
-        // axios({
-        //   method: "post",
-        //   url: "https://netgiver-stage.herokuapp.com/graphql",
-        //   headers: {
-        //     "x-token": token
-        //   },
-        //   data: {
-        //     query: createMutation
-        //   }
-        // }).then(res => {
+        // IF THERE IS NOT AN EXISTING QR CODE SEND TO THE NEWWORKORDER SCREEN AND SEND THE QR CODE TO THE SCREEN AS PROPS 10/24/2019 SD
+        axios({
+          method: "post",
+          url: "https://netgiver-stage.herokuapp.com/graphql",
+          headers: {
+            "x-token": token
+          },
+          data: {
+            query: createMutation
+          }
+        }).then(res => {
           console.log("created");
           props.navigation.navigate("NewWorkOrder", { qrCode: { qrCode } });
-        // });
+        });
       }
-    // });
+    });
   }
-  //DISPLAYS A SPINNER IN CASE OF LOAD TIME
+  //DISPLAYS A SPINNER IN CASE OF LOAD TIME 10/16/19 SD
 
   //TODO: NEEDS TO BE STYLED SD 10/16/19
   return (
@@ -90,10 +91,5 @@ console.log("TCL: props", props)
     </>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column"
-  }
-});
+
 export default CheckBarCode;
