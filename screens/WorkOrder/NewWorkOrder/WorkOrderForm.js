@@ -25,7 +25,7 @@ import { token } from '../../../token'
 import axios from 'axios'
 // import { Button, InputItem } from '@ant-design/react-native'
 import { wOForm } from '../../../components/Styles'
-import ChooseCamera from '../../../components/camera/ChooseCamera'
+
 
 function Form(props) {
     console.log('TCL: Form -> props', props)
@@ -53,7 +53,7 @@ function Form(props) {
         navigation,
     } = props
     // REDIRECTS TO CAMERA PAGE SO THAT YOU CAN TAKE A PICTURE SENDS PAGE SENTFROM PROPS SO THAT IT CAN EASILY BE SENT BACK UPON TAKING THE PHOTO  10/24/2019 SD
-    const camRedirect = () => {() => {props.navigation.navigate('Camera', {sentFrom:'NewWorkOrder'})}};
+    const camRedirect = (e)  => {  {props.navigation.navigate('CameraModule', {sentFrom:'NewWorkOrder'})}};
     // REDIRECTS TO IMG GALLERY PAGE SO THAT YOU CAN TAKE A PICTURE SENDS PAGE SENTFROM PROPS SO THAT IT CAN EASILY BE SENT BACK UPON TAKING THE PHOTO  10/24/2019 SD
     const galRedirect = () => {() => {props.navigation.navigate('Gallery', { sentFrom: 'NewWorkOrder'})}}
     //SET BUTTONS FOR ACTIONSHEET 12/24/2019 SD
