@@ -23,7 +23,6 @@ import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { token } from '../../../token'
 import axios from 'axios'
-// import { Button, InputItem } from '@ant-design/react-native'
 import { wOForm } from '../../../components/Styles'
 
 

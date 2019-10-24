@@ -7,7 +7,7 @@ import {
     TouchableOpacity,
     SafeAreaView,
 } from 'react-native'
-import { Button } from '@ant-design/react-native'
+import { Button } from 'native-base'
 import { token } from '../../../token'
 // import axios from 'axios'
 // //THIS IS THE EDIT / VIEW WORK ORDER COMPONENT AFTER THE BARCODE IS FOUND...
@@ -110,8 +110,6 @@ import { token } from '../../../token'
 // export default EditWorkOrder
 
 // //SD 10/16/19 PLACEHOLDER
-
-
 
 const EditWorkOrder = () => {
     return (

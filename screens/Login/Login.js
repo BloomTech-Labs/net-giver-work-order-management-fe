@@ -8,7 +8,7 @@ import {
     Alert,
 } from 'react-native'
 import axios from 'axios'
-import { Button, InputItem } from '@ant-design/react-native'
+import { Button } from 'native-base'
 import { styles } from '../../components/Styles'
 
 const Login = props => {
@@ -53,14 +53,14 @@ const Login = props => {
                 onChangeText={setUsername}
             />
             <Button style={styles.button} onPress={submit}>
-                Sign In
+                <Text>Sign In</Text>
             </Button>
             <Text style={styles.marginTop}>Don't Have an Account?</Text>
             <Button
                 onPress={() => props.navigation.navigate('SignUp')}
                 style={styles.button}
             >
-                Sign Up
+                <Text>Sign Up</Text>
             </Button>
         </View>
     )

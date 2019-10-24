@@ -3,7 +3,7 @@ import { Text, TextInput, View, StyleSheet } from 'react-native'
 // import {connect} from 'react-redux' sd 10/23/2019
 // import {doLogin} from '../../store/actions/authActions' sd 10/23/2019
 import { styles } from '../../components/Styles'
-import { Button, InputItem } from '@ant-design/react-native'
+import { Button } from 'native-base'
 import axios from 'axios'
 
 // SENDS A TEXT FROM THE AUTH SERVER > ENTER THE TEXT CODE > GET THE TOKEN 10/24/2019 SD
@@ -51,13 +51,13 @@ const LoginVerify = props => {
                 onChangeText={setVercode}
             />
             <Button onPress={handlePress} style={styles.button}>
-                Verify Access
+                <Text>Verify Access</Text>
             </Button>
             <Text style={styles.marginTop}>
                 Didn't get the code? Try Again!
             </Text>
             <Button onPress={goBack} style={styles.button}>
-                Get Another Code!
+                <Text>Get Another Code!</Text>
             </Button>
         </View>
     )
