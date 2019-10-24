@@ -19,6 +19,7 @@ const LoginVerify = props => {
         //DEVELOPMENT VERIFICATION CODE MUTATION SENT TO SERVER AND RETURNING TOKEN IN THE RESULTS 10/24/2019 SD
         const devVerCode = `mutation { authyVerifyDev( username: "${username}", code: "${vercode}" ) { token }}`
 
+
         axios({
             method: 'post',
             url: 'https://netgiver-stage.herokuapp.com/graphql',

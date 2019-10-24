@@ -12,6 +12,7 @@ const LoginChecker = props => {
         props.navigation.navigate('WorkOrderList', { token: token })
     } else {
         props.navigation.navigate('VerifyLogin', { sentBack: true })
+
     }
     return (
         <View style={styles.container}>

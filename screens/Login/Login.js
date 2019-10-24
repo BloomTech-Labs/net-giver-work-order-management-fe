@@ -16,6 +16,7 @@ const Login = props => {
     // SETS USERNAME FROM INPUT BOX 10/24/2019 SD
     const [username, setUsername] = useState()
 
+
     // SENDS MUTATION TO GQL SERVER TO GET BACK USERNAME IF THERE IS A VERIFIED USER BY THAT NAME
     // NEEDS TO BE INTEGRATED SO THAT YOU ONLY HAVE TO ENTER USERNAME ONE TIME 10/24/2019 SD
     const submit = () => {
@@ -36,6 +37,7 @@ const Login = props => {
             })
         })
     }
+
 
     const { navigation } = props
     return (
