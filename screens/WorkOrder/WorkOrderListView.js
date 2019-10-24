@@ -8,12 +8,11 @@ import {
     TouchableOpacity,
     StyleSheet,
 } from 'react-native'
-import { Card, WhiteSpace, WingBlank } from '@ant-design/react-native'
 import { dummyWorkOrder } from '../../Data'
 import { wOList } from '../../components/Styles'
 
 const WorkOrderListView = props => {
-    console.log('dummy wo', dummyWorkOrder)
+    // console.log('dummy wo', dummyWorkOrder)
     return (
         <SafeAreaView>
             {dummyWorkOrder.map(res => (
@@ -44,16 +43,6 @@ const WorkOrderListView = props => {
                     </View>
                 </TouchableOpacity>
 
-                // <WingBlank size="lg">
-                //     <Card>
-                //         <Card.Header
-                //             thumbStyle={{ width: 100, height: 100 }}
-                //             key={res.id}
-                //             title={res.title}
-                //             thumb={res.photoUrl}
-                //         />
-                //     </Card>
-                // </WingBlank>
             ))}
         </SafeAreaView>
     )
