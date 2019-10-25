@@ -33,14 +33,15 @@ const Signup = (props) => {
   const pages = [
     {
       name: "email",
-      slideTitle: "Welcome to Netgiver!",
-      text: "We just need to get some info before you get started",
-      text2: "Please enter your email:",
-      keyboard: "email-address",
-      placeholder: "Email",
-      schema: {
-        email: Yup.string().email("Must be a valid email.").required("Email is required."),
-      }
+      slideTitle: "Sign Up",
+      text: "And leave your paperwork behind!",
+      // text2: "Please enter your email:",
+      // keyboard: "email-address",
+      keyboard: "phone-pad",
+      placeholder: "Enter your Phone Number",
+      // schema: {
+      //   email: Yup.string().email("Must be a valid email.").required("Email is required."),
+      // }
     },
     {
       name: "username",
@@ -48,9 +49,19 @@ const Signup = (props) => {
       text: "We just need to get some info before you get started",
       text2: "Please enter your username:",
       placeholder: "username",
-      schema: {
-        username: Yup.string().min(2).max(50).required('Username is required.'),
-      }
+      // schema: {
+      //   username: Yup.string().min(2).max(50).required('Username is required.'),
+      // }
+    },
+    {
+      name: "username",
+      slideTitle: "Welcome to Netgiver!",
+      text: "We just need to get some info before you get started",
+      text2: "Please enter your username:",
+      placeholder: "username",
+      // schema: {
+      //   username: Yup.string().min(2).max(50).required('Username is required.'),
+      // }
     },
     {
       name: "phone",
@@ -58,10 +69,10 @@ const Signup = (props) => {
       text: "",
       text2: "Please enter your phone number:",
       placeholder: "Phone Number",
-      keyboard: "phone-pad",
-      schema: {
-        phone: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required("Phone number is required."),
-      }
+      // keyboard: "phone-pad",
+      // schema: {
+      //   phone: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required("Phone number is required."),
+      // }
     },
     {
       type:"photo"
@@ -132,7 +143,7 @@ const Signup = (props) => {
                 <TouchableOpacity style={styles.buttonStyle} onPress={() => {
                   props.handleSubmit(props.values);
                 }}>
-                  <Text style={styles.buttonText}>Next</Text>
+                  <Text style={styles.buttonText}>Get Started</Text>
                 </TouchableOpacity>
               </View>
             </View>}
@@ -175,6 +186,8 @@ const Signup = (props) => {
       return Form.call(pages[2], Slide);
     case 3:
       return Form.call(pages[3], Slide);
+    case 4:
+    return Form.call(pages[4], Slide);
   }
 
 }
@@ -183,14 +196,15 @@ const styles = StyleSheet.create({
   },
   container: { flex: 1 },
   inputContainer: {
-    marginTop: 50,
+    marginTop: -25,
+    marginVertical: 20,
     width: '100%',
     paddingHorizontal: 10,
   },
   input: {
     width: '100%',
     backgroundColor: '#EDF1F3',
-    marginVertical: 30,
+    marginVertical: 20,
     paddingVertical: 5,
     paddingVertical: 5,
     paddingHorizontal: 10,
@@ -206,13 +220,14 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     padding: 2,
-    backgroundColor: '#006E13',
+    marginVertical: -20,
+    backgroundColor: '#009900',
     alignItems: 'center',
     borderRadius: 4,
     width: '100%',
   },
   btnNext: {
-    color: 'green'
+    color: '#009900'
   },
   slide: {
     flex: 1,
@@ -222,11 +237,11 @@ const styles = StyleSheet.create({
 
   title: {
     color: '#282424',
-    fontSize: 26,
+    fontSize: 24,
 
-    marginTop: '10%',
+    //marginVertical: 80,
     textAlign: 'center',
-    paddingBottom: 3,
+    //paddingBottom: 3,
   },
   text: {
     color: '#282424',
