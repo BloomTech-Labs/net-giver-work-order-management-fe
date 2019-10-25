@@ -1,221 +1,387 @@
 import React, { useState, useRef } from "react";
-// import { useDispatch } from 'react-redux'
-import { Formik } from 'formik';
-import { 
-          StyleSheet,
-          Text,
-          View,
-          TextInput,
-          KeyboardAvoidingView,
-          TouchableOpacity
-        } from "react-native";
-import Swiper from 'react-native-swiper';
-// import { doSignup} from "../store/actions/authActions";
-import * as Yup from 'yup';
-import Camera from '../../components/camera/Camera';
-//To-Do
-//  Input validation -- functions built out just need to implement
-//  Data sent and received by server - need to build after signup process
-//  Add all required fields (role, picture, authId??)
-//  Formatting and styling
-const Signup = (props) => {
-  // Need to clean up a lot of this code - was plowing ahead towards a solution & mvp.
-  const [user, setUser] = useState({});
+import {
+  Alert,
+  LayoutAnimation,
+  TouchableOpacity,
+  TextInput,
+  Dimensions,
+  Image,
+  UIManager,
+  KeyboardAvoidingView,
+  StyleSheet,
+  ScrollView,
+  Text,
+  View
+} from "react-native";
+import { Input, Button, Icon } from "react-native-elements";
+import Swiper from "react-native-swiper";
+import CameraExample from "../../components/camera/CameraExample";
+
+const SCREEN_WIDTH = Dimensions.get("window").width;
+const SCREEN_HEIGHT = Dimensions.get("window").height;
+export const LinearGradient = undefined;
+UIManager.setLayoutAnimationEnabledExperimental &&
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+
+const Signup = props => {
+  const initialState = {
+    isLoading: false,
+    selectedType: null,
+    username: "",
+    email: "",
+    password: "",
+    confirmationPassword: "",
+    emailValid: true,
+    passwordValid: true,
+    usernameValid: true,
+    confirmationPasswordValid: true
+  };
+
+  const [user, setUser] = useState(initialState);
+  //const [user, setUser] = useState({});
   const [disabled, setDisabled] = useState(false);
   const [err, setErr] = useState();
   const [current, setCurrent] = useState(0);
   // const dispatch = useDispatch();
-  const onInputChange = (name, text) => {
-    const updatedUser = { ...user, [name]: text };
-    setUser(updatedUser)
-    console.log(user)
-    // setUser({ ...user, [name]: text})
+
+  const signup = () => {
+    LayoutAnimation.easeInEaseOut();
+    const usernameValid = validateUsername();
+    const emailValid = validateEmail();
+    const passwordValid = validatePassword();
+    const confirmationPasswordValid = validateConfirmationPassword();
+    if (
+      emailValid &&
+      passwordValid &&
+      confirmationPasswordValid &&
+      usernameValid
+    ) {
+      setUser({ isLoading: true });
+      setTimeout(() => {
+        LayoutAnimation.easeInEaseOut();
+        setUser({ isLoading: false });
+        Alert.alert("🎸", "You rock");
+      }, 1500);
+    }
   };
-  const handleSubmit = () => {
-    console.log('user', user)
-    const { username, email, phone } = user
-    const password = 123456 //temp password for testing
-    const newUser = `mutation { signUp( username: "${username}", password: "${password}", email: "${email}", phone: "${phone}" ) { token user {id} } }`
-    // dispatch(doSignup(newUser))
+
+  const validateUsername = () => {
+    const { username } = user;
+    const usernameValid = username.length > 0;
+    LayoutAnimation.easeInEaseOut();
+    setUser({ usernameValid });
+    usernameValid || usernameInput.shake();
+    return usernameValid;
   };
-  const swipeRef = useRef();
-  const pages = [
-    {
-      slideTitle: "Welcome to Netgiver!",
-      text: "We just need to get some info before you get started",
-      text2: "Please enter your email:",
-      name: "email",
-      keyboard: "email-address",
-      placeholder: "Email"
-    },
-    {
-      slideTitle: "Welcome to Netgiver!",
-      text: "We just need to get some info before you get started",
-      text2: "Please enter your username:",
-      name: "username",
-      placeholder: "username"
-    },
-    {
-      slideTitle: "Welcome to Netgiver!",
-      text: "",
-      text2: "Please enter your phone number:",
-      name: "phone",
-      placeholder: "Phone Number",
-      keyboard: "phone-pad"
-    },
-    {
-      type: "photo",
-    },
-  ]
-  const SignupSchema = Yup.object().shape({
-    firstName: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required'),
-    lastName: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required'),
-    email: Yup.string()
-      .email('Invalid email')
-      .required('Required'),
-  });
-  const LastSlide = () => {
-    return(
-    <View style={styles.slide4}>
-    <Text style={styles.title}>
-      Phone
-    </Text>
-    <View style={styles.inputContainer}>
-      <Text style={styles.text}>
-        Please select a profile photo:
-      </Text>
-      <TouchableOpacity style={styles.buttonStyle} onPress={() => props.navigation.navigate('Camera', {from:'Signup'})}>
-      <Text style={styles.buttonText}>Use the Camera</Text>
-    </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonStyle} onPress={() => handleSubmit()}>
-        <Text style={styles.buttonText}>Submit</Text>
-      </TouchableOpacity>
-      </View>
-  </View>
-    )
-  }
-  const handleClick = () => {
-    swipeRef.current.scrollBy(1, true)
-    setCurrent(current + 1)
-  }
+
+  const validateEmail = () => {
+    const { email } = user;
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const emailValid = re.test(email);
+    LayoutAnimation.easeInEaseOut();
+    setUser({ emailValid });
+    emailValid || emailInput.shake();
+    return emailValid;
+  };
+
+  const validatePassword = () => {
+    const { password } = user;
+    const passwordValid = password.length >= 8;
+    LayoutAnimation.easeInEaseOut();
+    setUser({ passwordValid });
+    passwordValid || passwordInput.shake();
+    return passwordValid;
+  };
+
+  const validateConfirmationPassword = () => {
+    const { password, confirmationPassword } = user;
+    const confirmationPasswordValid = password === confirmationPassword;
+    LayoutAnimation.easeInEaseOut();
+    setUser({ confirmationPasswordValid });
+    confirmationPasswordValid || confirmationPasswordInput.shake();
+    return confirmationPasswordValid;
+  };
+
+  const setSelectedType = selectedType =>
+    LayoutAnimation.easeInEaseOut() || setUser({ selectedType });
+
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <Formik
-        onSubmit={values => console.log(values)}
-        validationSchema={SignupSchema}
-        initialValues={{ email: '', username: '', phone: '' }}
-        >
-        <Swiper 
-          ref={swipeRef}
-          style={styles.wrapper}
-          showsButtons={false}
-          disableNextButton={disabled}
-          loop={false}
-          buttonWrapperStyle={{position: "relative", marginVertical: 80, paddingHorizontal: 0}}
-        >
-          {pages.map((input, index) =>  {
-            if (input.type === 'photo'){
-              return <LastSlide />
-            } else
-            return (
-              <View style={styles['slide' + ++index]} key={'slide' + input.id}>
-                <Text style={styles.title}> {input.slideTitle} </Text>
-                <Text style={styles.text}> {input.text} </Text>
-                <View style={styles.inputContainer}>
-                  <Text style={styles.text}> {input.text2} </Text>
-                  <TextInput
-                    key={input.name + input.id}
-                    name={input.name}
-                    value={user[input.name]}
-                    keyboardType={input.keyboard}
-                    onChangeText={(text) => onInputChange(input.name, text)}
-                    placeholder={input.placeholder}
-                    style={styles.input}
-                  />
-                  <TouchableOpacity style={styles.buttonStyle} onPress={() => handleClick()}>
-                    <Text style={styles.buttonText}>Next</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            )})}
-          
-    </Swiper>
-    </Formik>
-  </KeyboardAvoidingView>
+    <ScrollView
+      keyboardShouldPersistTaps="handled"
+      contentContainerStyle={styles.container}
+    >
+      <KeyboardAvoidingView
+        behavior="position"
+        contentContainerStyle={styles.formContainer}
+      >
+        <Text style={styles.signUpText}>Sign up</Text>
+        <Text style={styles.whoAreYouText}>WHO YOU ARE ?</Text>
+        <View style={styles.userTypesContainer}>
+          <UserTypeItem
+            label="COOL"
+            labelColor="#ECC841"
+            // image={USER_COOL}
+            onPress={() => setSelectedType("parent")}
+            selected={user.selectedType === "parent"}
+          />
+          <UserTypeItem
+            label="STUDENT"
+            labelColor="#2CA75E"
+            // image={USER_STUDENT}
+            onPress={() => setSelectedType("child")}
+            selected={user.selectedType === "child"}
+          />
+          <UserTypeItem
+            label="HARRY POTTER"
+            labelColor="#36717F"
+            // image={USER_HP}
+            onPress={() => setSelectedType("teacher")}
+            selected={user.selectedType === "teacher"}
+          />
+        </View>
+        <View style={{ width: "80%", alignItems: "center" }}>
+          <FormInput
+            refInput={input => (usernameInput = input)}
+            icon="user"
+            value={user.username}
+            onChangeText={username => setUser({ username })}
+            placeholder="Username"
+            returnKeyType="next"
+            errorMessage={
+              user.usernameValid ? null : "Your username can't be blank"
+            }
+            onSubmitEditing={() => {
+              validateUsername();
+              emailInput.focus();
+            }}
+          />
+          <FormInput
+            refInput={input => (emailInput = input)}
+            icon="envelope"
+            value={user.email}
+            onChangeText={email => setUser({ email })}
+            placeholder="Email"
+            keyboardType="email-address"
+            returnKeyType="next"
+            errorMessage={
+              user.emailValid ? null : "Please enter a valid email address"
+            }
+            onSubmitEditing={() => {
+              validateEmail();
+              passwordInput.focus();
+            }}
+          />
+          <FormInput
+            refInput={input => (passwordInput = input)}
+            icon="lock"
+            value={user.password}
+            onChangeText={password => setUser({ password })}
+            placeholder="Password"
+            secureTextEntry
+            returnKeyType="next"
+            errorMessage={
+              user.passwordValid ? null : "Please enter at least 8 characters"
+            }
+            onSubmitEditing={() => {
+              validatePassword();
+              confirmationPasswordInput.focus();
+            }}
+          />
+          <FormInput
+            refInput={input => (confirmationPasswordInput = input)}
+            icon="lock"
+            value={user.confirmationPassword}
+            onChangeText={confirmationPassword =>
+              setUser({ confirmationPassword })}
+            placeholder="Confirm Password"
+            secureTextEntry
+            errorMessage={
+              user.confirmationPasswordValid
+                ? null
+                : "The password fields are not identics"
+            }
+            returnKeyType="go"
+            onSubmitEditing={() => {
+              validateConfirmationPassword();
+              signup();
+            }}
+          />
+        </View>
+        <Button
+          loading={user.isLoading}
+          title="SIGNUP"
+          containerStyle={{ flex: -1 }}
+          buttonStyle={styles.signUpButton}
+          linearGradientProps={{
+            colors: ["#FF9800", "#F44336"],
+            start: [1, 0],
+            end: [0.2, 0]
+          }}
+          ViewComponent={LinearGradient}
+          titleStyle={styles.signUpButtonText}
+          onPress={signup}
+          disabled={user.isLoading}
+        />
+      </KeyboardAvoidingView>
+      <View style={styles.loginHereContainer}>
+        <Text style={styles.alreadyAccountText}>Already have an account.</Text>
+        <Button
+          title="Login here"
+          titleStyle={styles.loginHereText}
+          containerStyle={{ flex: -1 }}
+          buttonStyle={{ backgroundColor: "transparent" }}
+          underlayColor="transparent"
+          onPress={() => Alert.alert("🔥", "You can login here")}
+        />
+      </View>
+    </ScrollView>
   );
-}
+};
+
+export const UserTypeItem = props => {
+  const { image, label, labelColor, selected, ...attributes } = props;
+  return (
+    <TouchableOpacity {...attributes}>
+      <View
+        style={[
+          styles.userTypeItemContainer,
+          selected && styles.userTypeItemContainerSelected
+        ]}
+      >
+        <Text style={[styles.userTypeLabel, { color: labelColor }]}>
+          {label}
+        </Text>
+        <Image
+          source={image}
+          style={[
+            styles.userTypeMugshot,
+            selected && styles.userTypeMugshotSelected
+          ]}
+        />
+      </View>
+    </TouchableOpacity>
+  );
+};
+
+export const FormInput = props => {
+  const { icon, refInput, ...otherProps } = props;
+  return (
+    <Input
+      {...otherProps}
+      ref={refInput}
+      inputContainerStyle={styles.inputContainer}
+      leftIcon={
+        <Icon name={icon} type={"simple-line-icon"} color="#7384B4" size={18} />
+      }
+      inputStyle={styles.inputStyle}
+      autoFocus={false}
+      autoCapitalize="none"
+      keyboardAppearance="dark"
+      errorStyle={styles.errorInputStyle}
+      autoCorrect={false}
+      blurOnSubmit={false}
+      placeholderTextColor="#7384B4"
+    />
+  );
+};
+
 const styles = StyleSheet.create({
-  wrapper: {
+  container: {
+    flexGrow: 1,
+    paddingBottom: 20,
+    paddingTop: 20,
+    backgroundColor: "#293046",
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT,
+    alignItems: "center",
+    justifyContent: "space-around"
   },
-  container: {flex: 1},
+  formContainer: {
+    flex: 1,
+    justifyContent: "space-around",
+    alignItems: "center"
+  },
+  signUpText: {
+    color: "white",
+    fontSize: 28
+    // fontFamily: "UbuntuLight"
+  },
+  whoAreYouText: {
+    color: "#7384B4",
+    // fontFamily: "UbuntuBold",
+    fontSize: 14
+  },
+  userTypesContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: SCREEN_WIDTH,
+    alignItems: "center"
+  },
+  userTypeItemContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    opacity: 0.5
+  },
+  userTypeItemContainerSelected: {
+    opacity: 1
+  },
+  userTypeMugshot: {
+    margin: 4,
+    height: 70,
+    width: 70
+  },
+  userTypeMugshotSelected: {
+    height: 100,
+    width: 100
+  },
+  userTypeLabel: {
+    color: "yellow",
+    // fontFamily: "UbuntuBold",
+    fontSize: 11
+  },
   inputContainer: {
-    marginTop: 50,
-    width: '100%',
-    paddingHorizontal: 10,
+    paddingLeft: 8,
+    borderRadius: 40,
+    borderWidth: 1,
+    borderColor: "rgba(110, 120, 170, 1)",
+    height: 45,
+    marginVertical: 10
   },
-  input: {
-    width: '100%',
-    backgroundColor: '#EDF1F3',
-    marginVertical: 30,
-    paddingVertical: 5,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 6,
-    borderColor: 'gray',
-    borderWidth: 1
-  },
-  buttonText: {
-    textAlign: 'center',
-    alignItems: 'center',
-    padding: 10,
-    color: 'white'
-  },
-buttonStyle: {
-  padding:2,
-  backgroundColor: '#006E13',
-  alignItems: 'center',
-  borderRadius:4,
-  width: '100%',
-  },
-btnNext: {
-  color: 'green'
-},
-  slide1: {
+  inputStyle: {
     flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    
+    marginLeft: 10,
+    color: "white",
+    // fontFamily: "UbuntuLight",
+    fontSize: 16
   },
-  slide2: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    
+  errorInputStyle: {
+    marginTop: 0,
+    textAlign: "center",
+    color: "#F44336"
   },
-  slide3: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    
+  signUpButtonText: {
+    // fontFamily: "UbuntuBold",
+    fontSize: 13
   },
-  title: {
-    color: '#282424',
-    fontSize: 26,
-    
-    marginTop: '10%',
-    textAlign: 'center',
-    paddingBottom: 3,
+  signUpButton: {
+    width: 250,
+    borderRadius: Math.round(45 / 2),
+    height: 45
   },
-  text: {
-    color: '#282424',
-    fontSize: 16,
-    textAlign: 'center',
+  loginHereContainer: {
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  alreadyAccountText: {
+    // fontFamily: "UbuntuLightItalic",
+    fontSize: 12,
+    color: "white"
+  },
+  loginHereText: {
+    color: "#FF9800",
+    // fontFamily: "UbuntuLightItalic",
+    fontSize: 12
   }
-})
-export default Signup
+});
+
+export default Signup;
