@@ -7,6 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import AppNavigator from "./navigation/AppNavigator";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
+import { Root } from "native-base";
 
 const client = new ApolloClient({
   uri: "https://netgiver-stage.herokuapp.com"
@@ -31,6 +32,7 @@ export default function App(props) {
           <AppNavigator />
         </View>
       </ApolloProvider>
+
     );
   }
 }
@@ -46,8 +48,14 @@ async function loadResourcesAsync() {
       ...Ionicons.font,
       // We include SpaceMono because we use it in HomeScreen.js. Feel free to
       // remove this if you are not using it in your app
-      "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf")
-    })
+
+      'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+      'Roboto_medium': require('./assets/fonts/Roboto_medium.ttf'),
+      'IBMPlexSans-Regular': require('./assets/fonts/IBMPlexSans-Regular.ttf'),
+      'IBMPlexSans-Bold': require('./assets/fonts/IBMPlexSans-Bold.ttf'),
+      'IBMPlexSans-Medium': require('./assets/fonts/IBMPlexSans-Medium.ttf'),
+      
+    }),
   ]);
 }
 

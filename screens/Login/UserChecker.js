@@ -1,14 +1,19 @@
 import React from "react";
 import { ActivityIndicator, View, StyleSheet } from "react-native";
+import { styles } from "../../components/Styles";
 // import {connect} from 'react-redux'
 
 const UserChecker = props => {
   console.log("TCL: UserChecker -> props", props);
-
-  if (props.username) {
-    props.navigation.navigate("LoginVerify");
+  // PULLS USERNAME FROM PROPS 10/24/2019 SD
+  const username = props.navigation.state.params.username;
+  if (username) {
+    // IF IT GETS BACK A USERNAME SENDS TO LOGINVERIFY AND SETS USERNAME TO PROPS 10/24/2019 SD
+    props.navigation.navigate("VerifyLogin", { username: username });
   } else {
-    props.navigation.navigate("LoginVerify");
+    //ELSE SENDS BACK TO LOGIN TO TRY AGAIN
+    // NEED TO DO SOMETHING TO LOGIN IF USER IS SENT BACK TO "RE-VERIFY" 10/24/2019 SD
+    props.navigation.navigate("Login", { sentBack: "true" });
   }
   return (
     <View style={styles.container}>
@@ -16,18 +21,5 @@ const UserChecker = props => {
     </View>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F5FCFF"
-  }
-});
 
-// const mapStateToProps = (state) => ({
-//     username: state.authReducer.username
-//   })
-
-// export default connect (mapStateToProps)(UserChecker)
 export default UserChecker;

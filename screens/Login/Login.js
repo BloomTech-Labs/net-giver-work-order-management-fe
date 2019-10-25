@@ -5,23 +5,21 @@ import {
   TextInput,
   View,
   TouchableOpacity,
-  Alert
+  Alert,
+  Image
 } from "react-native";
 import axios from "axios";
-// import { doSignIn } from '../../store/actions/authActions';sd 10/23/2019
-// Needs Login Form / Function
-// import { connect } from 'react-redux'; sd 10/23/2019
-import { Button, InputItem } from "@ant-design/react-native";
+import { Button } from "native-base";
 import { styles } from "../../components/Styles";
-
+import logo from "../../components/Images/NetGiverLogo.svg";
+import SafeAreaView from "react-native-safe-area-view";
 const Login = props => {
-  const [username, setUsername] = useState();
   const [token, setToken] = useState();
+  // SETS USERNAME FROM INPUT BOX 10/24/2019 SD
+  const [username, setUsername] = useState("Enter Your Username");
 
-  function resetToDashboard() {
-    props.navigation.navigate("Dashboard");
-  }
-
+  // SENDS MUTATION TO GQL SERVER TO GET BACK USERNAME IF THERE IS A VERIFIED USER BY THAT NAME
+  // NEEDS TO BE INTEGRATED SO THAT YOU ONLY HAVE TO ENTER USERNAME ONE TIME 10/24/2019 SD
   const submit = () => {
     console.log(", username", username);
     const query = `mutation{signIn(login:"${username}"){  token   user {     username     authyId   } }} `;
@@ -34,9 +32,8 @@ const Login = props => {
         query: queryDev
       }
     }).then(res => {
-      console.log(res);
-      const username = res.data.data.signInDev.username;
-      props.navigation.navigate("UserChecker", {
+      //NAVIGATES TO USERCHECKER AND SETS USERNAME TO PROPS 10/24/2019 SD
+      props.navigation.navigate("CheckUser", {
         username: res.data.data.signInDev.username
       });
     });
@@ -44,73 +41,149 @@ const Login = props => {
 
   const { navigation } = props;
   return (
-    <View style={styles.container}>
-      <Text style={styles.welcome}>ADD LOGO</Text>
-
-      <Text style={styles.welcome}>Sign In</Text>
-      <Text>And leave your paperwork behind!</Text>
+    <SafeAreaView style={styles.container}>
+      {/* LOGO CONTAINER 10/25/2019 */}
+      {/* <View style={loginStyles.logo}> */}
+      <Image
+        style={loginStyles.logo}
+        source={require("../../components/Images/ng.png")}
+      />
+      {/* </View> */}
+      <Text style={loginStyles.header}>Sign In</Text>
+      <Text style={loginStyles.subHeader}>
+        And leave your paperwork behind!
+      </Text>
       <TextInput
-        style={styles.loginTextInput}
-        placeholder="User Name"
+        style={loginStyles.loginTextInput}
+        placeholder="UserName"
         name="username"
-        id="username"
-        value={username}
+        // value={username}
         autoCapitalize="none"
         onChangeText={setUsername}
+        onFocus={() => setUsername("")}
       />
-      <Button style={styles.button} onPress={submit}>
-        Sign In
+      {/* <View style={loginStyles.signIn}> */}
+      <Button style={loginStyles.signIn} onPress={submit}>
+        <Text style={loginStyles.buttonText}>Sign In</Text>
       </Button>
-      <Text style={styles.marginTop}>Don't Have an Account?</Text>
+
+      <Text style={loginStyles.buttonHeader}>Don't Have an Account?</Text>
+
       <Button
         onPress={() => props.navigation.navigate("SignUp")}
-        style={styles.button}
+        style={loginStyles.signUp}
       >
-        Sign Up
+        <Text style={loginStyles.buttonText}>Sign Up</Text>
       </Button>
-      {/* <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text style={styles.link}>Go Back</Text>
-      </TouchableOpacity> */}
-    </View>
+      {/* NEEDS TO LINK TO CONTACT */}
+      <Text style={loginStyles.footerText}>Contact Netgiver Team</Text>
+    </SafeAreaView>
   );
 };
 
-// const styles = StyleSheet.create({
-//   button:{
-//     backgroundColor: '#006E13',
-//     // border: 1px solid #EDF1F3;
-//     // boxSizing: 'border-box',
-//     borderRadius: 4,
-//     // width:400,
-//     alignSelf: 'stretch',
-//   },
-//   container: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     backgroundColor: '#F5FCFF'
-//   },
-//   welcome: {
-//     fontSize: 20,
-//     textAlign: 'center',
-//     margin: 10
-//   },
-//   link: {
-//     fontSize: 16,
-//     textAlign: 'center',
-//     margin: 10
-//   },
-//   textBox: {
-//     borderWidth: 1,
-//     borderColor: '#000',
-//     margin: 5,
-//     // fontSize: 30,
-//     height: 40
-//   }
-// });
-// export default connect(
-//   null,
-//   { doSignIn }
-// )(Login); sd 10/23/2019
+// LEFT IN STYLESHEET SO THAT IT COULD BE LOOKED AT EASILY FOR REFERENCE 10/25/2019 SD
+
+// const loginStyles = StyleSheet.create({
+//     //LOGO CONTAINER -- GET STYLES FROM FIGMA 10/25/2019 SD
+//     logo: {
+//         borderWidth: 2,
+//         position: 'absolute',
+//         left: 'auto',
+//         right: 'auto',
+//         top: '9.15%',
+//         bottom: '73.91%',
+//         // width:222,
+//     },
+//     header: {
+//         position: 'absolute',
+//         left: '38.93%',
+//         right: '39.2%',
+//         top: '30.28%',
+//         bottom: '60.62%',
+//         fontFamily: 'IBMPlexSans-Medium',
+//         fontSize: 24,
+//         // lineHeight: 25,
+//         textAlign: 'center',
+//         letterSpacing: -0.165,
+//         color: 'black',
+//     },
+//     subHeader: {
+//         position: 'absolute',
+//         left: '14.67%',
+//         right: '14.67%',
+//         top: '37.93%',
+//         bottom: '57.97%',
+//         fontFamily: 'IBMPlexSans-Regular',
+//         fontSize: 17,
+//         lineHeight: 16,
+//         textAlign: 'center',
+//         // letterSpacing: -0.165,
+//         color: 'black',
+//     },
+//     loginTextInput: {
+//         position: 'absolute',
+//         left: '4.27%',
+//         right: '4.27%',
+//         top: '45.28%',
+//         bottom: '46.48%',
+//         color: 'black',
+//         backgroundColor: '#C4C4C4',
+//         borderWidth: 1,
+//         // box-sizing: border-box,
+//         borderRadius: 4,
+//         padding:10,
+//         fontFamily:'IBMPlexSans-Regular',
+//     },
+//     signIn: {
+//         position: 'absolute',
+//         left: '4.27%',
+//         right: '4.27%',
+//         top: '58.17%',
+//         bottom: '35.08%',
+//         borderColor: 'black',
+//         backgroundColor: '#00830B',
+//         borderWidth: 1,
+//         // boxSizing: 'border-box',
+//         borderRadius: 4,
+//     },
+//     signUp: {
+//         position: 'absolute',
+//         left: '4.27%',
+//         right: '4.27%',
+//         top: '72.17%',
+//         bottom: '25.08%',
+//         borderColor: 'black',
+//         backgroundColor: '#00830B',
+//         borderWidth: 1,
+//         borderColor: '#EDF1F3',
+//         // boxSizing: 'border-box',
+//         borderRadius: 4,
+//     },
+//     buttonHeader: {
+//         position: 'absolute',
+//         left: 'auto',
+//         right: 'auto',
+//         top: '67.17%',
+//         bottom: '25.08%',
+//             },
+//     buttonText: {
+//         fontFamily: 'IBMPlexSans-Regular',
+//         fontSize: 17,
+//         // lineHeight: 14,
+//         marginRight: 'auto',
+//         marginLeft: 'auto',
+//         color: '#FFFFFF',
+//     },
+//     footerText:{
+//         position: 'absolute',
+//         left: 'auto',
+//         right: 'auto',
+//         top: '85.41%',
+//         bottom: '10.49%',
+//         fontFamily: 'IBMPlexSans-Regular',
+//         fontSize: 17,
+//         // fontWeight: '500',
+//     },
+// })
 
 export default Login;

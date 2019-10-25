@@ -1,7 +1,5 @@
 {
-    "presets": [
-        "babel-preset-expo"
-    ],
+    "presets": ["babel-preset-expo"],
     "plugins": [
         [
             "import",

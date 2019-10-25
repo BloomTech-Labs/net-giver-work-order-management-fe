@@ -1,7 +1,7 @@
 import React from 'react'
 
 import {StyleSheet} from 'react-native'
-
+const plex = "fontFamily: 'IBMPlexSans-Regular'"
 export const styles = StyleSheet.create({
     button:{
       backgroundColor: '#006E13',
@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
       borderColor: "#EDF1F3",
     //   alignSelf: 'stretch',
     width:'96%',
+    fontFamily:'IBMPlexSans-Regular',
     },
     loginTextInput:{
     marginBottom: 30,
@@ -74,8 +75,7 @@ export const styles = StyleSheet.create({
     image: {
         width: 100,
         height: 100,
-        borderRadius: 50,
-    },
+        },
     title: {
         fontSize: 20,
         fontWeight: '700',
@@ -130,10 +130,20 @@ export const wOForm = StyleSheet.create({
         // borderBottomRightRadius:4,
     },
     placeholder:{
-        width:200,
-        height:200,
-        alignSelf:'center',
-        marginBottom:25,
-        borderRadius:100,
+        width:75,
+        height:75,
+        // alignSelf:'center',
+        // marginBottom:25,
+        // borderRadius:100,
     },
+    imageBox:{
+        width: '95%',
+        flexDirection: 'row',
+        justifyContent:'space-around',
+        marginRight: 'auto',
+        marginLeft:'auto',
+        borderWidth: 1,
+        padding: 10,
+        
+    }
 })
