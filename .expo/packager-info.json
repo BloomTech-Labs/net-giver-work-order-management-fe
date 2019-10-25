@@ -1,5 +1,6 @@
 {
   "devToolsPort": 19002,
+N
   "expoServerPort": 19000,
   "packagerPort": 19001,
   "packagerPid": 31575,
@@ -7,4 +8,3 @@
   "packagerNgrokUrl": "https://packager.wd-u3v.anonymous.net-giver-work-order-management-fe.exp.direct",
   "ngrokPid": 31633,
   "webpackServerPort": null
-}
