@@ -10,7 +10,7 @@ import WorkOrderListView from "../screens/WorkOrder/WorkOrderListView";
 import AccountSettings from "../screens/Account/AccountSetting";
 import BarcodeScanner from "../screens/WorkOrder/BarCodeScanner/BarCodeScanner";
 import CheckBarCode from "../screens/WorkOrder/BarCodeScanner/CheckBarCode";
-import WorkOrderForm from "../screens/WorkOrder/NewWorkOrder/WorkOrderForm";
+import NewWorkOrderForm from "../screens/WorkOrder/NewWorkOrder/NewWorkOrderForm";
 import EditWorkOrder from "../screens/WorkOrder/ExistingWorkOrder/EditWorkOrder";
 import CameraModule from '../components/camera/Camera'
 const config = Platform.select({
@@ -20,13 +20,14 @@ const config = Platform.select({
 
 const WorkOrderStack = createStackNavigator(
   {
-    // WorkOrderList: {
-    //   screen: WorkOrderListView,
-    //   navigationOptions: (props) => ({
-    //     title: "Work Order List View",
-    //     headerRight:<View style={{marginRight: 15}}><TouchableOpacity onPress={() => props.navigation.navigate('Logout')}><Text>Logout</Text></TouchableOpacity></View>
-    //     })
-    // },
+    WorkOrderList: {
+      screen: WorkOrderListView,
+      navigationOptions: (props) => ({
+        title: "Work Order List View",
+        headerRight:<View style={{marginRight: 15}}><TouchableOpacity onPress={() => props.navigation.navigate('Logout')}><Text>Logout</Text></TouchableOpacity></View>
+      })
+
+    },
     EditWorkOrder: {
       screen: EditWorkOrder,
             navigationOptions: (props) => ({
@@ -79,7 +80,7 @@ const QRStack = createStackNavigator(
       })
     },
     NewWorkOrder: {
-      screen: WorkOrderForm,
+      screen: NewWorkOrderForm,
             navigationOptions: (props) => ({
 
         title: "Create Work Order",

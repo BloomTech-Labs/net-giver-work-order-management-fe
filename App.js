@@ -44,6 +44,10 @@ async function loadResourcesAsync() {
       // remove this if you are not using it in your app
       'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
       'Roboto_medium': require('./assets/fonts/Roboto_medium.ttf'),
+      'IBMPlexSans-Regular': require('./assets/fonts/IBMPlexSans-Regular.ttf'),
+      'IBMPlexSans-Bold': require('./assets/fonts/IBMPlexSans-Bold.ttf'),
+      'IBMPlexSans-Medium': require('./assets/fonts/IBMPlexSans-Medium.ttf'),
+      
     }),
   ]);
 }
