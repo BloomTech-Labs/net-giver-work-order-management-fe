@@ -74,8 +74,7 @@ export const styles = StyleSheet.create({
     image: {
         width: 100,
         height: 100,
-        borderRadius: 50,
-    },
+        },
     title: {
         fontSize: 20,
         fontWeight: '700',

@@ -25,7 +25,8 @@ const WorkOrderStack = createStackNavigator(
       navigationOptions: (props) => ({
         title: "Work Order List View",
         headerRight:<View style={{marginRight: 15}}><TouchableOpacity onPress={() => props.navigation.navigate('Logout')}><Text>Logout</Text></TouchableOpacity></View>
-        })
+      })
+
     },
     EditWorkOrder: {
       screen: EditWorkOrder,
