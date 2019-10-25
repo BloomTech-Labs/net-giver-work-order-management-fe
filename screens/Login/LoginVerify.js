@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, TextInput, View, StyleSheet } from 'react-native'
+import { AsyncStorage, Text, TextInput, View, StyleSheet } from 'react-native'
 // import {connect} from 'react-redux' sd 10/23/2019
 // import {doLogin} from '../../store/actions/authActions' sd 10/23/2019
 import { styles } from '../../components/Styles'
@@ -13,12 +13,11 @@ const LoginVerify = props => {
     const username = props.navigation.state.params.username
     //SETS VERIFY CODE FROM USER INPUT 10/24/2019 SD
     const [vercode, setVercode] = useState('')
-
+    const [token, setToken] = useState('')
     const vercodeMutation = ``
     const handlePress = () => {
         //DEVELOPMENT VERIFICATION CODE MUTATION SENT TO SERVER AND RETURNING TOKEN IN THE RESULTS 10/24/2019 SD
         const devVerCode = `mutation { authyVerifyDev( username: "${username}", code: "${vercode}" ) { token }}`
-
 
         axios({
             method: 'post',
@@ -28,8 +27,17 @@ const LoginVerify = props => {
             },
         }).then(res => {
             // NAVIGATES TO LOGINCKECKER AND SETS TOKEN TO PROPS 10/24/2019 SD
-            props.navigation.navigate('CheckLogin', {
-                token: res.data.data.authyVerifyDev.token,
+            AsyncStorage.removeItem('TOKEN', (err, result) => {
+                AsyncStorage.setItem(
+                    'TOKEN',
+                    JSON.stringify(res.data.data.authyVerifyDev.token),
+                    () => {
+                        AsyncStorage.getItem('TOKEN', (err, result) => {
+                            console.log('FROM ASYNC', result)
+                            props.navigation.navigate('WorkOrderList')
+                        })
+                    }
+                )
             })
         })
     }

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import {StyleSheet} from 'react-native'
-
+const plex = "fontFamily: 'IBMPlexSans-Regular'"
 export const styles = StyleSheet.create({
     button:{
       backgroundColor: '#006E13',
@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
       borderColor: "#EDF1F3",
     //   alignSelf: 'stretch',
     width:'96%',
+    fontFamily:'IBMPlexSans-Regular',
     },
     loginTextInput:{
     marginBottom: 30,
