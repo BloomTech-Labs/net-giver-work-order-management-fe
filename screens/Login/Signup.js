@@ -32,23 +32,24 @@ const Signup = (props) => {
   const phoneRegExp = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
   const pages = [
     {
-      name: "email",
+      name: "phone",
       slideTitle: "Sign Up",
       text: "And leave your paperwork behind!",
       // text2: "Please enter your email:",
       // keyboard: "email-address",
       keyboard: "phone-pad",
       placeholder: "Enter your Phone Number",
+      // keyboard: "phone-pad",
       // schema: {
-      //   email: Yup.string().email("Must be a valid email.").required("Email is required."),
+      //   phone: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required("Phone number is required."),
       // }
     },
     {
       name: "username",
-      slideTitle: "Welcome to Netgiver!",
-      text: "We just need to get some info before you get started",
+      slideTitle: "We need to verify your phone number",
+      text: "We just sent a one-time code to",
       text2: "Please enter your username:",
-      placeholder: "username",
+      placeholder: "6-digit code",
       // schema: {
       //   username: Yup.string().min(2).max(50).required('Username is required.'),
       // }
@@ -69,10 +70,7 @@ const Signup = (props) => {
       text: "",
       text2: "Please enter your phone number:",
       placeholder: "Phone Number",
-      // keyboard: "phone-pad",
-      // schema: {
-      //   phone: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required("Phone number is required."),
-      // }
+      
     },
     {
       type:"photo"
@@ -121,7 +119,7 @@ const Signup = (props) => {
       >{
           (this.type === 'photo') ? <LastSlide {...props} />
             :
-            <View style={styles.slide}>
+            <View style={styles['slide' + current]}>
               <Text style={styles.title}> {this.slideTitle} </Text>
 
               <Text style={styles.text}> {this.text} </Text>
@@ -201,6 +199,11 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 10,
   },
+
+  slide0: {
+    backgroundColor: '#008000'
+  },
+
   input: {
     width: '100%',
     backgroundColor: '#EDF1F3',
