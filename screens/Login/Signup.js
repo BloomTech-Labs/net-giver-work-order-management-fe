@@ -32,7 +32,7 @@ const Signup = (props) => {
   const phoneRegExp = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
   const pages = [
     {
-      name: "phone",
+      name: "Sign Up",
       slideTitle: "Sign Up",
       text: "And leave your paperwork behind!",
       // text2: "Please enter your email:",
@@ -45,10 +45,10 @@ const Signup = (props) => {
       // }
     },
     {
-      name: "username",
+      name: "Number Verification",
       slideTitle: "We need to verify your phone number",
       text: "We just sent a one-time code to",
-      text2: "Please enter your username:",
+      text2: formValues['phone'],
       placeholder: "6-digit code",
       // schema: {
       //   username: Yup.string().min(2).max(50).required('Username is required.'),
@@ -121,10 +121,10 @@ const Signup = (props) => {
             :
             <View style={styles['slide' + current]}>
               <Text style={styles.title}> {this.slideTitle} </Text>
-
+              <Text style={styles.text}> {this.text2} </Text>
               <Text style={styles.text}> {this.text} </Text>
               <View style={styles.inputContainer}>
-                <Text style={styles.text}> {this.text2} </Text>
+               
                 <TextInput
                   key={this.name + this.id}
                   name={this.name}
@@ -194,15 +194,31 @@ const styles = StyleSheet.create({
   },
   container: { flex: 1 },
   inputContainer: {
-    marginTop: -25,
+    marginTop: -5,
     marginVertical: 20,
     width: '100%',
     paddingHorizontal: 10,
   },
 
-  slide0: {
-    backgroundColor: '#008000'
-  },
+   slide0: {
+    //backgroundColor: '#008000',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    
+     
+   },
+
+   slideTitle: {
+    fontWeight: 'bold',
+   },
+
+   slide1: {
+    
+    flexDirection: "column",
+    paddingTop: 70,
+     
+   },
+
 
   input: {
     width: '100%',
@@ -236,20 +252,26 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
+
   },
 
   title: {
     color: '#282424',
-    fontSize: 24,
-
+    fontSize: 22,
+    fontWeight: 'bold',
+    
     //marginVertical: 80,
     textAlign: 'center',
     //paddingBottom: 3,
   },
   text: {
     color: '#282424',
-    fontSize: 16,
-    textAlign: 'center',
+    fontSize: 17,
+    //textAlign: 'center',
+    fontWeight: 'bold',
+    
+    
+
   }
 })
 export default Signup
