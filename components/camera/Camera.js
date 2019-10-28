@@ -93,9 +93,9 @@ import { Ionicons } from '@expo/vector-icons';
   // Button Handlers
   takePicture = async() => {
     if (cameraRef) {
-      const options = { quality: 0.5, base64: true };
+      const options = { quality: 0.7 };
       const data = await cameraRef.current.takePictureAsync(options);
-      setUri(data.base64)
+      setUri(data.uri)
     }
   };
 
@@ -119,7 +119,7 @@ import { Ionicons } from '@expo/vector-icons';
         {uri ?
           <ImageBackground
             style={styles.preview}
-            source={{ uri: 'data:image/jpeg;base64,' + uri }}>
+            source={{ uri: uri }}>
           </ImageBackground>
         :
           <Camera 

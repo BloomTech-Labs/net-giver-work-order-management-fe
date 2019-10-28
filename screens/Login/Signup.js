@@ -1,5 +1,4 @@
-import React, { useState, useRef } from "react";
-import { useDispatch } from 'react-redux'
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { Formik } from 'formik';
 import { 
           StyleSheet,
@@ -11,9 +10,9 @@ import {
           TouchableOpacity
         } from "react-native";
 import Swiper from 'react-native-swiper';
-import { doSignup} from "../store/actions/authActions";
 import * as Yup from 'yup';
 import { Ionicons } from '@expo/vector-icons';
+import { UserContext } from "../../context/userState";
 
 //To-Do
 //  Input validation -- functions built out just need to implement
@@ -22,16 +21,29 @@ import { Ionicons } from '@expo/vector-icons';
 //  Formatting and styling
 const Signup = (props) => {
   // Need to clean up a lot of this code - was plowing ahead towards a solution & mvp.
-  const [user, setUser] = useState({});
+  // const [newUser, setNewUser] = useState({});
   const [disabled, setDisabled] = useState(false);
   const [err, setErr] = useState();
   const [photoUri, setPhotoUri] = useState();
   const [current, setCurrent] = useState(0);
-  const dispatch = useDispatch();
+  const { user, addUser } = useContext(UserContext)
+  const swipeRef = useRef();
 
+  //TESTING -- auto fill form 
+  let i = Math.random()
+  const newUser = {username: `foo${i}`, email: `foo${i}@aol.com`, phone: '5126369874'}
+
+  useEffect(() => {
+    if(user.reg_complete === true){
+    props.navigation.navigate('Main')
+    }
+  }, [user.reg_complete]);
+
+
+  // handlers
   const onInputChange = (name, text) => {
-    const updatedUser = { ...user, [name]: text };
-    setUser(updatedUser)
+    const updatedUser = { ...newUser, [name]: text };
+    setNewUser(updatedUser)
   };
 
   const handlePhoto = (uri) => {
@@ -39,41 +51,44 @@ const Signup = (props) => {
   }
 
   const handleSubmit = () => {
-    console.log('user', user)
-    const { username, email, phone } = user
+    const photo = photoUri
+    const { username, email, phone } = newUser
+    console.log('NEWUSER', newUser)
     const password = 123456 //temp password for testing
-    const newUser = `mutation { signUp( username: "${username}", password: "${password}", email: "${email}", phone: "${phone}" ) { token user {id} } }`
-    dispatch(doSignup(newUser))
+    const query = `mutation { signUp( username: "${username}", password: "${password}", email: "${email}", phone: "${phone}" ) { token user {id} } }`
+    const res = addUser(query, photo); 
+    console.log('SIGNUP', res);
   };
-  const swipeRef = useRef();
 
+  const handleClick = () => {
+    swipeRef.current.scrollBy(1, true)
+    setCurrent(current + 1)
+  }
+
+  // components
   const PhotoInput = () => {
     return (
       <TouchableOpacity
         style={styles.photoContainer}
         onPress={() => props.navigation.navigate('Camera', {from:'Signup', callback:handlePhoto})}
       >
-        {
-          !photoUri
+        {!photoUri
           ? <Ionicons
               name="md-camera"
               color="white"
               size={90}
             />
           : <Image
-          style={{
-            alignSelf: 'center',
-            width: 200,
-            height: 200,
-            // borderWidth: 6,
-            borderRadius: 200/2,
-          }}
-          source={{ uri: 'data:image/jpeg;base64,' + photoUri }}
-          resizeMode="cover"
-        />
-          
-      }
-
+              style={{
+                alignSelf: 'center',
+                width: 200,
+                height: 200,
+                borderRadius: 200/2,
+              }}
+              source={{ uri: photoUri }}
+              resizeMode="cover"
+          />
+        }
       </TouchableOpacity>
     )
   }
@@ -113,8 +128,9 @@ const Signup = (props) => {
       text: "Tap to add",
       topComponent: <PhotoInput />,
       button: "Submit"
-  },
+    }
   ]
+  
   const SignupSchema = Yup.object().shape({
     firstName: Yup.string()
       .min(2, 'Too Short!')
@@ -128,30 +144,7 @@ const Signup = (props) => {
       .email('Invalid email')
       .required('Required'),
   });
-  const LastSlide = () => {
-    return(
-    <View style={styles.slide4}>
-    <Text style={styles.title}>
-      Phone
-    </Text>
-    <View style={styles.inputContainer}>
-      <Text style={styles.text}>
-        Tap to add
-      </Text>
-      <TouchableOpacity style={styles.buttonStyle} onPress={() => props.navigation.navigate('Camera', {from:'Signup'})}>
-      <Text style={styles.buttonText}>Use the Camera</Text>
-    </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonStyle} onPress={() => handleSubmit()}>
-        <Text style={styles.buttonText}>Submit</Text>
-      </TouchableOpacity>
-      </View>
-  </View>
-    )
-  }
-  const handleClick = () => {
-    swipeRef.current.scrollBy(1, true)
-    setCurrent(current + 1)
-  }
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <Formik
@@ -177,28 +170,29 @@ const Signup = (props) => {
                 <Text style={styles.text}> {input.text} </Text>
                 <View style={styles.inputContainer}>
                   <Text style={styles.text}> {input.text2} </Text>
-                  {input.type === 'photo' ?
-                  <></> :
-                  <TextInput
-                    key={input.name + input.id}
-                    name={input.name}
-                    value={user[input.name]}
-                    keyboardType={input.keyboard}
-                    onChangeText={(text) => onInputChange(input.name, text)}
-                    placeholder={input.placeholder}
-                    style={styles.input}
-                  />
-            }
-                  <TouchableOpacity style={styles.buttonStyle} onPress={() =>
-                    input.button === "Submit" ? handleSubmit() : handleClick()}>
+                  {input.type === 'photo'
+                    ? <></>
+                    : <TextInput
+                        key={input.name + input.id}
+                        name={input.name}
+                        value={newUser[input.name]}
+                        keyboardType={input.keyboard}
+                        onChangeText={(text) => onInputChange(input.name, text)}
+                        placeholder={input.placeholder}
+                        style={styles.input}
+                      />
+                  }
+                  <TouchableOpacity
+                    style={styles.buttonStyle}
+                    onPress={() => input.button === "Submit" ? handleSubmit() : handleClick()}
+                  >
                     <Text style={styles.buttonText}>{input.button}</Text>
                   </TouchableOpacity>
                 </View>
               </View>
             )})}
-          
-    </Swiper>
-    </Formik>
+        </Swiper>
+      </Formik>
   </KeyboardAvoidingView>
   );
 }
