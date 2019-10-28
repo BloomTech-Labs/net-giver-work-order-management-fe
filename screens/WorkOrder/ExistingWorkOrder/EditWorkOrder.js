@@ -85,7 +85,7 @@ console.log("TCL: props", props)
             },
         }).then(res => {
             console.log('response submit', res)
-            props.navigation.navigate('WorkOrderListView')
+            props.navigation.navigate('WorkOrderList')
         })
     }
 
