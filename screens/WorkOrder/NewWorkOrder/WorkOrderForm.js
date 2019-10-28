@@ -222,8 +222,8 @@ function Form(props) {
 }
 
 function WorkOrderForm(props) {
-    // const {qrCode} = props.navigation.state.params.qrCode
-    const { qrCode } = 7
+    const {qrCode} = props.navigation.state.params.qrCode
+    // const { qrCode } = 7
 
     console.log('TCL: WorkOrderForm -> props', props)
     var schema = Yup.object().shape({
