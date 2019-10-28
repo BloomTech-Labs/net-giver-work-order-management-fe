@@ -12,12 +12,7 @@ import {
     TouchableOpacity,
 } from 'react-native'
 import {
-    Container,
-    Header,
-    Button,
-    Content,
-    ActionSheet,
-    Text,
+    Container, Header, Left, Body, Right, Button, ActionSheet, Icon, Title, Segment, Content, Text
 } from 'native-base'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
@@ -27,7 +22,7 @@ import { wOForm } from '../../../components/Styles'
 
 
 function Form(props) {
-    console.log('TCL: Form -> props', props)
+    // console.log('TCL: Form -> props', props)
     // SET PLACEHOLDER IMAGES TO STATE 10/24/2019 SD
     const [img1, setImg1] = useState(
         'http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image'
@@ -41,7 +36,7 @@ function Form(props) {
     //SET CLICKED TO STATE FOR ACTIONsHEET (CAMERA FUNCTIONS) 10/24/2019 SD
     const [clicked, setClicked] = useState()
     
-    console.log('props', props)
+    // console.log('props', props)
     var {
         handleChange,
         handleBlur,
@@ -52,12 +47,14 @@ function Form(props) {
         navigation,
     } = props
     // REDIRECTS TO CAMERA PAGE SO THAT YOU CAN TAKE A PICTURE SENDS PAGE SENTFROM PROPS SO THAT IT CAN EASILY BE SENT BACK UPON TAKING THE PHOTO  10/24/2019 SD
-    const camRedirect = (e)  => {  {props.navigation.navigate('CameraModule', {sentFrom:'NewWorkOrder'})}};
-    // REDIRECTS TO IMG GALLERY PAGE SO THAT YOU CAN TAKE A PICTURE SENDS PAGE SENTFROM PROPS SO THAT IT CAN EASILY BE SENT BACK UPON TAKING THE PHOTO  10/24/2019 SD
-    const galRedirect = () => {() => {props.navigation.navigate('Gallery', { sentFrom: 'NewWorkOrder'})}}
+    const camRedirect = null;
+    // (e)  => {  {props.navigation.navigate('CameraModule', {sentFrom:'NewWorkOrder'})}};
+    // // REDIRECTS TO IMG GALLERY PAGE SO THAT YOU CAN TAKE A PICTURE SENDS PAGE SENTFROM PROPS SO THAT IT CAN EASILY BE SENT BACK UPON TAKING THE PHOTO  10/24/2019 SD
+    const galRedirect = null;
+    // () => {() => {props.navigation.navigate('Gallery', { sentFrom: 'NewWorkOrder'})}}
     //SET BUTTONS FOR ACTIONSHEET 12/24/2019 SD
     const BUTTONS = [
-        { text: 'Take Picture with Camera', onPress:camRedirect() },
+        { text: 'Take Picture with Camera', },
         { text: 'Use Existing Photo' },
         { text: 'Cancel' },
     ]
@@ -225,7 +222,7 @@ function WorkOrderForm(props) {
     const {qrCode} = props.navigation.state.params.qrCode
     // const { qrCode } = 7
 
-    console.log('TCL: WorkOrderForm -> props', props)
+    // console.log('TCL: WorkOrderForm -> props', props)
     var schema = Yup.object().shape({
         title: Yup.string(),
         detail: Yup.string()
@@ -263,8 +260,8 @@ function WorkOrderForm(props) {
                               title
                             }
                           }`
-                        console.log('values.qrcode', values.qrcode)
-                        console.log('token', token)
+                        // console.log('values.qrcode', values.qrcode)
+                        // console.log('token', token)
                         axios({
                             method: 'post',
                             url: 'https://netgiver-stage.herokuapp.com/graphql',
@@ -275,7 +272,7 @@ function WorkOrderForm(props) {
                                 query: editMutation,
                             },
                         }).then(res => {
-                            console.log('response', res)
+                            console.log('response submit', res)
                         })
                     }}
                     render={props => {
