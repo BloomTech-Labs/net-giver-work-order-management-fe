@@ -32,15 +32,27 @@ const Signup = (props) => {
   const phoneRegExp = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
   const pages = [
     {
-      name: "email",
-      slideTitle: "Welcome to Netgiver!",
-      text: "We just need to get some info before you get started",
-      text2: "Please enter your email:",
-      keyboard: "email-address",
-      placeholder: "Email",
-      schema: {
-        email: Yup.string().email("Must be a valid email.").required("Email is required."),
-      }
+      name: "Sign Up",
+      slideTitle: "Sign Up",
+      text: "And leave your paperwork behind!",
+      // text2: "Please enter your email:",
+      // keyboard: "email-address",
+      keyboard: "phone-pad",
+      placeholder: "Enter your Phone Number",
+      // keyboard: "phone-pad",
+      // schema: {
+      //   phone: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required("Phone number is required."),
+      // }
+    },
+    {
+      name: "Number Verification",
+      slideTitle: "We need to verify your phone number",
+      text: "We just sent a one-time code to",
+      text2: formValues['phone'],
+      placeholder: "6-digit code",
+      // schema: {
+      //   username: Yup.string().min(2).max(50).required('Username is required.'),
+      // }
     },
     {
       name: "username",
@@ -48,9 +60,9 @@ const Signup = (props) => {
       text: "We just need to get some info before you get started",
       text2: "Please enter your username:",
       placeholder: "username",
-      schema: {
-        username: Yup.string().min(2).max(50).required('Username is required.'),
-      }
+      // schema: {
+      //   username: Yup.string().min(2).max(50).required('Username is required.'),
+      // }
     },
     {
       name: "phone",
@@ -58,10 +70,7 @@ const Signup = (props) => {
       text: "",
       text2: "Please enter your phone number:",
       placeholder: "Phone Number",
-      keyboard: "phone-pad",
-      schema: {
-        phone: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required("Phone number is required."),
-      }
+      
     },
     {
       type:"photo"
@@ -110,12 +119,12 @@ const Signup = (props) => {
       >{
           (this.type === 'photo') ? <LastSlide {...props} />
             :
-            <View style={styles.slide}>
+            <View style={styles['slide' + current]}>
               <Text style={styles.title}> {this.slideTitle} </Text>
-
+              <Text style={styles.text}> {this.text2} </Text>
               <Text style={styles.text}> {this.text} </Text>
               <View style={styles.inputContainer}>
-                <Text style={styles.text}> {this.text2} </Text>
+               
                 <TextInput
                   key={this.name + this.id}
                   name={this.name}
@@ -132,7 +141,7 @@ const Signup = (props) => {
                 <TouchableOpacity style={styles.buttonStyle} onPress={() => {
                   props.handleSubmit(props.values);
                 }}>
-                  <Text style={styles.buttonText}>Next</Text>
+                  <Text style={styles.buttonText}>Get Started</Text>
                 </TouchableOpacity>
               </View>
             </View>}
@@ -175,6 +184,8 @@ const Signup = (props) => {
       return Form.call(pages[2], Slide);
     case 3:
       return Form.call(pages[3], Slide);
+    case 4:
+    return Form.call(pages[4], Slide);
   }
 
 }
@@ -183,14 +194,36 @@ const styles = StyleSheet.create({
   },
   container: { flex: 1 },
   inputContainer: {
-    marginTop: 50,
+    marginTop: -5,
+    marginVertical: 20,
     width: '100%',
     paddingHorizontal: 10,
   },
+
+   slide0: {
+    //backgroundColor: '#008000',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    
+     
+   },
+
+   slideTitle: {
+    fontWeight: 'bold',
+   },
+
+   slide1: {
+    
+    flexDirection: "column",
+    paddingTop: 70,
+     
+   },
+
+
   input: {
     width: '100%',
     backgroundColor: '#EDF1F3',
-    marginVertical: 30,
+    marginVertical: 20,
     paddingVertical: 5,
     paddingVertical: 5,
     paddingHorizontal: 10,
@@ -206,32 +239,40 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     padding: 2,
-    backgroundColor: '#006E13',
+    marginVertical: -20,
+    backgroundColor: '#009900',
     alignItems: 'center',
     borderRadius: 4,
     width: '100%',
   },
   btnNext: {
-    color: 'green'
+    color: '#009900'
   },
   slide: {
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
+
   },
 
   title: {
     color: '#282424',
-    fontSize: 26,
-
-    marginTop: '10%',
+    fontSize: 22,
+    fontWeight: 'bold',
+    
+    //marginVertical: 80,
     textAlign: 'center',
-    paddingBottom: 3,
+    //paddingBottom: 3,
   },
   text: {
     color: '#282424',
-    fontSize: 16,
-    textAlign: 'center',
+    fontSize: 17,
+    //textAlign: 'center',
+    fontWeight: 'bold',
+    
+    
+
   }
 })
 export default Signup
+
