@@ -1,9 +1,10 @@
 {
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
-  "webpackServerPort": null
+  "expoServerPort": 19000,
+  "packagerPort": 19003,
+  "packagerPid": 90983,
+  "expoServerNgrokUrl": "https://pv-2u7.anonymous.net-giver-work-order-management-fe.exp.direct",
+  "packagerNgrokUrl": "https://packager.pv-2u7.anonymous.net-giver-work-order-management-fe.exp.direct",
+  "ngrokPid": 91005,
+  "webpackServerPort": null,
+  "devToolsPort": 19002
 }
