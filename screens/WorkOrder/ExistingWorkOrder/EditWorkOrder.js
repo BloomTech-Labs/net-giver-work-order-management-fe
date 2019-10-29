@@ -10,6 +10,7 @@ import {
     Picker,
     StyleSheet,
     TouchableOpacity,
+    TouchableHighlight,
 } from 'react-native'
 import {
     Container,
@@ -70,6 +71,8 @@ const EditWorkOrder = props => {
     const CANCEL_INDEX = 2
     //SET QR CODE FROM PROPS 10/24/2019 SD
 
+    const [activeStatus, setActiveStatus] = useState(0)
+
     console.log('TCL: qrcode', qrcode)
     //SUBMIT HANDLER 10/24/2019 SD
     const handleSubmit = () => {
@@ -125,25 +128,46 @@ const EditWorkOrder = props => {
                         <View style={wOForm.pBarButtonBox}>
                             <TouchableOpacity
                                 style={wOForm.pBarButton}
-                                onPress={() => setPriority('N/A')}
+                                onPress={() => {
+                                    setPriority('N/A')
+                                    setActiveStatus(0)
+                                }}
                             >
                                 <Text>N/A</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={wOForm.pBarButton}
-                                onPress={() => setPriority('Low')}
+                                // style={wOForm.pBarButton }
+                                style={[
+                                    wOForm.pBarButton,
+                                    {
+                                        backgroundColor:
+                                            activeStatus === 1
+                                                ? 'blue'
+                                                : 'grey',
+                                    },
+                                ]}
+                                onPress={() => {
+                                    setPriority('Low')
+                                    setActiveStatus(1)
+                                }}
                             >
                                 <Text>Low</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={wOForm.pBarButton}
-                                onPress={() => setPriority('Medium')}
+                                onPress={() => {
+                                    setPriority('Medium')
+                                    setActiveStatus()
+                                }}
                             >
                                 <Text>Medium</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={wOForm.pBarButton}
-                                onPress={() => setPriority('High')}
+                                onPress={() => {
+                                    setPriority('High')
+                                    setActiveStatus()
+                                }}
                             >
                                 <Text>High</Text>
                             </TouchableOpacity>
@@ -176,6 +200,8 @@ const EditWorkOrder = props => {
                         <TouchableOpacity
                             style={wOForm.pBarButton}
                             onPress={() => setStatus('Complete')}
+                            // add another hook activeSTatus, setActiveSataus for when the button is clicked
+                            //</View> add a highlight feature to styling
                         >
                             <Text>Complete</Text>
                         </TouchableOpacity>
