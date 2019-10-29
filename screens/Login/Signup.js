@@ -126,7 +126,8 @@ const Signup = (props) => {
       text: "We just sent a one-time code to",
       // text2: formValues['phone'],
       placeholder: "6-digit code",
-      button: "Next",
+      button: "Sign Up",
+      text3: "Contact The Net Giver Team"
       // schema: {
       //   username: Yup.string().min(2).max(50).required('Username is required.'),
       // }
@@ -335,7 +336,12 @@ const styles = StyleSheet.create({
 
    slide1: {
     flexDirection: "column",
-    paddingTop: 70,
+    
+   },
+
+   slide2: {
+    flexDirection: "column",
+    marginTop: 100,
    },
 
 
