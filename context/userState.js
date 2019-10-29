@@ -19,13 +19,17 @@ const reducer = (state, action) => {
       return{
         ...state
       }
+    case "SET_TOKEN":
+      return{
+        ...state,
+        token: action.payload.token
+      }
     case "GET_USER_SUCCESS":
       console.log('SUCCESS!!!! :', action.payload)
       return{
         ...state,
         reg_complete: true
       }
-
     default:
       return state;
   }
@@ -54,8 +58,13 @@ export const UserProvider = props => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   // Actions
+
+  function setToken(token) {
+    dispatch({ type: "SET_TOKEN", payload: token });
+  }
+
   function getUser(token) {
-    console.log('GET USER:  ', token)
+    // console.log('GET USER:  ', token)
     const req = `query { me {id, picture, phone, email}}`
     // dispatch({ type: types.GET_USER_START });
     axios({
@@ -109,8 +118,6 @@ async function uploadImageAsync(uri, token) {
 }
 
   async function addUser(req, img) {
-    console.log(req)
-    dispatch({ type: "SET_IMG", payload: img })
     const res = await axios({
                   url: 'https://netgiver-stage.herokuapp.com/graphql',
                   method: 'post',

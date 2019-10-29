@@ -7,9 +7,12 @@ import {
   TextInput,
   KeyboardAvoidingView,
   TouchableOpacity,
-  Image
+  Image,
+  Alert, 
+  ActivityIndicator
 } from "react-native";
 import Swiper from 'react-native-swiper';
+import { Overlay } from 'react-native-elements';
 import * as Yup from 'yup';
 import { Ionicons } from '@expo/vector-icons';
 import { UserContext } from "../../context/userState";
@@ -23,25 +26,34 @@ const Signup = (props) => {
   // Need to clean up a lot of this code - was plowing ahead towards a solution & mvp.
   // const [newUser, setNewUser] = useState({});
   const [disabled, setDisabled] = useState(false);
+  const [toggleOverlay, setToggleOverlay] = useState(false);
   const [err, setErr] = useState();
   const [photoUri, setPhotoUri] = useState();
   const [current, setCurrent] = useState(0);
   const { user, addUser } = useContext(UserContext)
   const swipeRef = useRef();
-  var [formValues, setFormValues] = useState({
-    username:"",
-    email:"",
-    phone:""
-  })
+  // var [formValues, setFormValues] = useState({
+  //   username:"",
+  //   email:"",
+  //   phone:""
+  // })
   const phoneRegExp = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
 
   //TESTING -- auto fill form 
-  // let i = Math.random()
-  // const newUser = {username: `foo${i}`, email: `foo${i}@aol.com`, phone: '5126369874'}
+  let i = Math.random()
+  const formValues = {username: `foo${i}`, email: `foo${i}@aol.com`, phone: '7186369874'}
 
   useEffect(() => {
+    // Need to add error handling
     if(user.reg_complete === true){
-    props.navigation.navigate('Main')
+      Alert.alert(
+        'User Added!',
+        `User id: ${user.id}`,
+        [
+          {text: 'OK', onPress: () => props.navigation.navigate('Main')},
+        ],
+        {cancelable: false},
+      );
     }
   }, [user.reg_complete]);
 
@@ -58,6 +70,7 @@ const Signup = (props) => {
   }
 
   const handleSubmit = () => {
+    setToggleOverlay(true);
     const photo = photoUri
     const { username, email, phone } = formValues
     const password = 123456 //temp password for testing
@@ -74,6 +87,7 @@ const Signup = (props) => {
   }
 
   // components
+
   const PhotoInput = () => {
     return (
       <TouchableOpacity
@@ -240,6 +254,13 @@ const Signup = (props) => {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <Overlay
+        isVisible={toggleOverlay}
+        onBackdropPress={() => setToggleOverlay(false)}
+      >
+        <Text>Some Random Message</Text>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </Overlay>
       <Formik
         onSubmit={values => console.log(values)}
         validationSchema={SignupSchema}
