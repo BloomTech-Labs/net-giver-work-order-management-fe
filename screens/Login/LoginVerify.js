@@ -27,7 +27,7 @@ const LoginVerify = props => {
                 query: devVerCode,
             },
         }).then(res => {
-            // NAVIGATES TO LOGINCKECKER AND SETS TOKEN TO PROPS 10/24/2019 SD
+            // NAVIGATES TO LOGINCKECKER AND SETS TddOKEN TO PROPS 10/24/2019 SD
             AsyncStorage.removeItem('TOKEN', (err, result) => {
                 AsyncStorage.setItem(
                     'TOKEN',
