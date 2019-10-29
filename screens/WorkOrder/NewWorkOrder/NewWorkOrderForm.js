@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {
     ScrollView,
     View,
@@ -28,10 +28,21 @@ import {
 // import { token } from '../../../token'
 import axios from 'axios'
 import { wOForm } from '../../../components/Styles'
+// import {token} from '../../../token'
+import {StackActions, NavigationActions} from 'react-navigation'
+import { UserContext } from "../../../context/userState";
 
 const NewWorkOrderForm = props => {
-    const token = props.navigation.state.params.token
- 
+    const { user } = useContext(UserContext)
+    const token = user.token
+     const resetAction = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: 'WorkOrderList' })],
+      })
+      const resetAction1 = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: 'BarCodeScanner' })],
+      })
 console.log("TCL: props", props)
     // SET PLACEHOLDER IMAGES TO STATE 10/24/2019 SD
     const [img1, setImg1] = useState(
@@ -86,7 +97,10 @@ console.log("TCL: props", props)
             },
         }).then(res => {
             console.log('response submit', res)
-            props.navigation.navigate('WorkOrderList')
+            props.navigation.dispatch(resetAction1);
+            props.navigation.navigate('WorkOrderList', {sentFrom:'NewWorkOrder', token:token})
+            props.navigation.dispatch(resetAction);
+
         })
     }
 
