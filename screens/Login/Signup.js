@@ -13,6 +13,7 @@ import Swiper from 'react-native-swiper';
 import * as Yup from 'yup';
 import { Ionicons } from '@expo/vector-icons';
 import { UserContext } from "../../context/userState";
+import { loginStyles } from '../../components/Styles';
 import { isUpdateExpression } from "@babel/types";
 //To-Do
 //  Input validation -- functions built out just need to implement
@@ -29,7 +30,7 @@ const Signup = (props) => {
   const { user, addUser } = useContext(UserContext)
   const swipeRef = useRef();
   var [formValues, setFormValues] = useState({
-    username:"",
+    fullname:"",
     email:"",
     phone:""
   })
@@ -62,6 +63,16 @@ const Signup = (props) => {
     const { username, email, phone } = formValues
     const password = 123456 //temp password for testing
     const query = `mutation { signUp( username: "${username}", password: "${password}", email: "${email}", phone: "${phone}" ) { token user {id} } }`
+  //   const textInputForm = <TextInput
+  //   key={input.name + input.id}
+  //   name={input.name}
+  //   value={formValues[input.name]}
+  //   keyboardType={input.keyboard}
+  //   onChangeText={(text) => onInputChange(input.name, text)}
+  //   placeholder={input.placeholder}
+  //   style={styles.input}
+  // />
+
     const res = addUser(query, photo); 
     console.log("final values",formValues)
   };
@@ -104,6 +115,7 @@ const Signup = (props) => {
   const pages = [
 
     {
+      image: true,
       type: "text",
       name: "phone",
       slideTitle: "Sign Up",
@@ -132,33 +144,38 @@ const Signup = (props) => {
       //   username: Yup.string().min(2).max(50).required('Username is required.'),
       // }
     },
-    {
-      type: "text",
-      name: "email",
-      slideTitle: "Email",
-      text: "Email",
-      // text2: formValues['email'],
-      placeholder: "6-digit code",
-      button: "Next",
-      // schema: {
-      //   username: Yup.string().min(2).max(50).required('Username is required.'),
-      // }
-    },
-    {
-      name: "username",
-      slideTitle: "Welcome to Netgiver!",
-      text: "We just need to get some info before you get started",
-      text2: "Please enter your username:",
-      placeholder: "username",
-      button: "Next",
-      // schema: {
-      //   username: Yup.string().min(2).max(50).required('Username is required.'),
-      // }
-    },
+    // {
+    //   type: "text",
+    //   name: "email",
+    //   slideTitle: "Email",
+    //   text: "Email",
+    //   // text2: formValues['email'],
+    //   placeholder: "6-digit code",
+    //   button: "Next",
+    //   // schema: {
+    //   //   username: Yup.string().min(2).max(50).required('Username is required.'),
+    //   // }
+    // },
+    // {
+    //   name: "username",
+    //   slideTitle: "Welcome to Netgiver!",
+    //   text: "We just need to get some info before you get started",
+    //   text2: "Please enter your username:",
+    //   placeholder: "username",
+    //   button: "Next",
+    //   // schema: {
+    //   //   username: Yup.string().min(2).max(50).required('Username is required.'),
+    //   // }
+    // },
     {
       type: "photo",
+      slideTitle: "Create your Profile",
       text: "Tap to add",
+      name: 'fullname',
+      name2: 'email',
       topComponent: <PhotoInput />,
+      placeholder: "Full Name",
+      placeholder2: "Email",
       button: "Submit"
     }
   ]
@@ -258,16 +275,18 @@ const Signup = (props) => {
           {pages.map((input, index) =>  {
             return (
               <View style={styles['slide' + ++index]} key={'slide' + input.id}>
+                {input.image ? <Image  style={loginStyles.logo} source={require('../../components/Images/ng.png')}/> : null}
                 {input.topComponent}
                 {input.slideTitle &&
                   <Text style={styles.title}> {input.slideTitle} </Text>
                 }
                 <Text style={styles.text}> {input.text} </Text>
+                
                 <View style={styles.inputContainer}>
+                
                   <Text style={styles.text}> {input.text2} </Text>
-                  {input.type === 'photo'
-                    ? <></>
-                    : <TextInput
+
+                  <TextInput
                         key={input.name + input.id}
                         name={input.name}
                         value={formValues[input.name]}
@@ -276,6 +295,20 @@ const Signup = (props) => {
                         placeholder={input.placeholder}
                         style={styles.input}
                       />
+                  
+                  {input.name2 
+                    ? <TextInput
+                        key={input.name2 + input.id}
+                        name={input.name2}
+                        value={formValues[input.name2]}
+                        keyboardType={input.keyboard}
+                        onChangeText={(text) => onInputChange(input.name2, text)}
+                        placeholder={input.placeholder2}
+                        style={styles.input}
+                      /> 
+                      : 
+                      null
+
                   }
                   <TouchableOpacity
                     style={styles.buttonStyle}
@@ -327,16 +360,27 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     
-     
    },
 
    slideTitle: {
     fontWeight: 'bold',
    },
 
+   logo: {
+    borderWidth: 2,
+    position: 'absolute',
+    left: 'auto',
+    right: 'auto',
+    top: '9.15%',
+    bottom: '73.91%',
+    
+   },
+
    slide1: {
     flexDirection: "column",
-    
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingTop: 100,
    },
 
    slide2: {
