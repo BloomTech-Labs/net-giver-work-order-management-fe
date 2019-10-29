@@ -10,10 +10,6 @@ import {
     Picker,
     StyleSheet,
     TouchableOpacity,
-<<<<<<< HEAD
-    TouchableHighlight,
-=======
->>>>>>> b7d70bc1edc8edb2159fee3cedc88c8aec49f453
 } from 'react-native'
 import {
     Container,
@@ -29,27 +25,17 @@ import {
     Content,
     Text,
 } from 'native-base'
-<<<<<<< HEAD
 import { token } from '../../../token'
 import axios from 'axios'
 import { wOForm } from '../../../components/Styles'
+
 const EditWorkOrder = props => {
+    // const token = props.navigation.state.params.token
+
     const {
         qrcode,
     } = props.navigation.state.params.workOrder.isWorkOrder.workorder
     console.log('TCL: props', props)
-=======
-// import { token } from '../../../token'
-import axios from 'axios'
-import { wOForm } from '../../../components/Styles'
-
-const EditWorkOrder = props => {
-    const token = props.navigation.state.params.token
-
- 
-    const {qrcode} = props.navigation.state.params.workOrder.isWorkOrder.workorder
-console.log("TCL: props", props)
->>>>>>> b7d70bc1edc8edb2159fee3cedc88c8aec49f453
     // SET PLACEHOLDER IMAGES TO STATE 10/24/2019 SD
     const [img1, setImg1] = useState(
         'http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image'
@@ -63,7 +49,6 @@ console.log("TCL: props", props)
     //SET CLICKED TO STATE FOR ACTIONsHEET (CAMERA FUNCTIONS) 10/24/2019 SD
     const [clicked, setClicked] = useState()
     // SET PRIORITY 10/24/2019 SD
-<<<<<<< HEAD
     const [priority, setPriority] = useState(
         props.navigation.state.params.workOrder.isWorkOrder.workorder.priority
     )
@@ -79,15 +64,10 @@ console.log("TCL: props", props)
     const [detail, setDetail] = useState(
         props.navigation.state.params.workOrder.isWorkOrder.workorder.detail
     )
-=======
-    const [priority, setPriority] = useState(props.navigation.state.params.workOrder.isWorkOrder.workorder.priority)
-    // SET STATUS 10/24/2019 SD
-    const [status, setStatus] = useState(props.navigation.state.params.workOrder.isWorkOrder.workorder.status)
-    //SET TITLE 10/24/2019 SD
-    const [title, setTitle] = useState(props.navigation.state.params.workOrder.isWorkOrder.workorder.title)
-    //SET DETAIL 10/24/2019 SD`
-    const [detail, setDetail] = useState(props.navigation.state.params.workOrder.isWorkOrder.workorder.detail)
->>>>>>> b7d70bc1edc8edb2159fee3cedc88c8aec49f453
+    const [activePriority, setActivePriority] = useState(0)
+
+    const [activeStatus, setActiveStatus] = useState(0)
+
     //SET BUTTONS AND CANCEL_INDEX FOR ACTIONSHEET 12/24/2019 SD
     const BUTTONS = [
         { text: 'Take Picture with Camera' },
@@ -96,9 +76,6 @@ console.log("TCL: props", props)
     ]
     const CANCEL_INDEX = 2
     //SET QR CODE FROM PROPS 10/24/2019 SD
-<<<<<<< HEAD
-
-    const [activeStatus, setActiveStatus] = useState(0)
 
     console.log('TCL: qrcode', qrcode)
     //SUBMIT HANDLER 10/24/2019 SD
@@ -112,34 +89,6 @@ console.log("TCL: props", props)
               title
             }
           }`
-        axios({
-            method: 'post',
-            url: 'https://netgiver-stage.herokuapp.com/graphql',
-            headers: {
-                'x-token': token,
-            },
-            data: {
-                query: editMutation,
-            },
-        }).then(res => {
-            console.log('response submit', res)
-            props.navigation.navigate('WorkOrderList')
-        })
-    }
-=======
-    
-    console.log("TCL: qrcode", qrcode)
-    //SUBMIT HANDLER 10/24/2019 SD
-    const handleSubmit = () => {
-        const editMutation = `mutation {
-            editWorkorder( qrcode: "${qrcode}", detail: "${detail}", priority: "${priority}", status: "${status}", title: "${title}"){
-              qrcode
-              detail
-              priority
-              status
-              title
-            }
-          }`
 
         axios({
             method: 'post',
@@ -156,7 +105,6 @@ console.log("TCL: props", props)
         })
     }
 
->>>>>>> b7d70bc1edc8edb2159fee3cedc88c8aec49f453
     return (
         <ScrollView>
             <View>
@@ -185,74 +133,71 @@ console.log("TCL: props", props)
                         </View>
                         <View style={wOForm.pBarButtonBox}>
                             <TouchableOpacity
-                                style={wOForm.pBarButton}
-<<<<<<< HEAD
-                                onPress={() => {
-                                    setPriority('N/A')
-                                    setActiveStatus(0)
-                                }}
-=======
-                                onPress={()=>setPriority('N/A')}
->>>>>>> b7d70bc1edc8edb2159fee3cedc88c8aec49f453
-                            >
-                                <Text>N/A</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-<<<<<<< HEAD
                                 // style={wOForm.pBarButton }
                                 style={[
                                     wOForm.pBarButton,
                                     {
                                         backgroundColor:
-                                            activeStatus === 1
+                                            activePriority === 1
                                                 ? 'blue'
-                                                : 'grey',
+                                                : 'white',
                                     },
                                 ]}
                                 onPress={() => {
                                     setPriority('Low')
-                                    setActiveStatus(1)
+                                    setActivePriority(1)
                                 }}
-=======
-                                style={wOForm.pBarButton}
-                                onPress={()=>setPriority('Low')}
->>>>>>> b7d70bc1edc8edb2159fee3cedc88c8aec49f453
                             >
                                 <Text>Low</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={wOForm.pBarButton}
-<<<<<<< HEAD
+                                style={[
+                                    wOForm.pBarButton,
+                                    {
+                                        backgroundColor:
+                                            activePriority === 2
+                                                ? 'blue'
+                                                : 'white',
+                                    },
+                                ]}
                                 onPress={() => {
                                     setPriority('Medium')
-                                    setActiveStatus()
+                                    setActivePriority(2)
                                 }}
-=======
-                                onPress={()=>setPriority('Medium')}
->>>>>>> b7d70bc1edc8edb2159fee3cedc88c8aec49f453
                             >
                                 <Text>Medium</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={wOForm.pBarButton}
-<<<<<<< HEAD
+                                style={[
+                                    wOForm.pBarButton,
+                                    {
+                                        backgroundColor:
+                                            activePriority === 3
+                                                ? 'blue'
+                                                : 'white',
+                                    },
+                                ]}
                                 onPress={() => {
                                     setPriority('High')
-                                    setActiveStatus()
+                                    setActivePriority(3)
                                 }}
-=======
-                                onPress={()=>setPriority('High')}
->>>>>>> b7d70bc1edc8edb2159fee3cedc88c8aec49f453
                             >
                                 <Text>High</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={wOForm.pBarButton}
-<<<<<<< HEAD
-                                onPress={() => setPriority('Emergency')}
-=======
-                                onPress={()=>setPriority('Emergency')}
->>>>>>> b7d70bc1edc8edb2159fee3cedc88c8aec49f453
+                                style={[
+                                    wOForm.pBarButton,
+                                    {
+                                        backgroundColor:
+                                            activePriority === 4
+                                                ? 'blue'
+                                                : 'white',
+                                    },
+                                ]}
+                                onPress={() => {
+                                    setPriority('Emergency')
+                                    setActivePriority(4)
+                                }}
                             >
                                 <Text>Emergency</Text>
                             </TouchableOpacity>
@@ -265,43 +210,53 @@ console.log("TCL: props", props)
                     </View>
                     <View style={wOForm.pBarButtonBox}>
                         <TouchableOpacity
-                            style={wOForm.pBarButton}
-<<<<<<< HEAD
-                            onPress={() => setStatus('Not Started')}
-=======
-                            onPress={()=>setStatus('Not Started')}
->>>>>>> b7d70bc1edc8edb2159fee3cedc88c8aec49f453
+                            style={[
+                                wOForm.pBarButton,
+                                {
+                                    backgroundColor:
+                                        activeStatus === 1 ? 'blue' : 'white',
+                                },
+                            ]}
+                            onPress={() => {
+                                setStatus('Not Yet Started')
+                                setActiveStatus(1)
+                            }}
                         >
                             <Text>Not Started</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={wOForm.pBarButton}
-<<<<<<< HEAD
-                            onPress={() => setStatus('In Progress')}
-=======
-                            onPress={()=>setStatus('In Progress')}
->>>>>>> b7d70bc1edc8edb2159fee3cedc88c8aec49f453
+                            style={[
+                                wOForm.pBarButton,
+                                {
+                                    backgroundColor:
+                                        activeStatus === 2 ? 'blue' : 'white',
+                                },
+                            ]}
+                            onPress={() => {
+                                setStatus('In Progress')
+                                setActiveStatus(2)
+                            }}
                         >
                             <Text>In Progress</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={wOForm.pBarButton}
-<<<<<<< HEAD
-                            onPress={() => setStatus('Complete')}
-                            // add another hook activeSTatus, setActiveSataus for when the button is clicked
-                            //</View> add a highlight feature to styling
-=======
-                            onPress={()=>setStatus('Complete')}
->>>>>>> b7d70bc1edc8edb2159fee3cedc88c8aec49f453
+                            style={[
+                                wOForm.pBarButton,
+                                {
+                                    backgroundColor:
+                                        activeStatus === 3 ? 'blue' : 'white',
+                                },
+                            ]}
+                            onPress={() => {
+                                setStatus('Complete')
+                                setActiveStatus(3)
+                            }}
                         >
                             <Text>Complete</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
-<<<<<<< HEAD
-=======
 
->>>>>>> b7d70bc1edc8edb2159fee3cedc88c8aec49f453
                 <Text>Work Order Images (Long Press to Delete)</Text>
                 {/* WORK ORDER IMAGE BOX 12/24/2019 SD */}
                 <View style={wOForm.imageBox}>
@@ -380,4 +335,5 @@ console.log("TCL: props", props)
         </ScrollView>
     )
 }
+
 export default EditWorkOrder

@@ -13,23 +13,21 @@ import {
 import axios from 'axios'
 import { dummyWorkOrder } from '../../Data'
 import { wOList } from '../../components/Styles'
-// import { token } from "../../token";
-
+import { token } from '../../token'
 
 const WorkOrderListView = props => {
-    const [userMap, setUserMap] = useState();
-    const [workOrderMap, setWorkOrderMap] = useState(null);
+    const [userMap, setUserMap] = useState()
+    const [workOrderMap, setWorkOrderMap] = useState(null)
     // const [token, setToken] = useState(props.navigation.state.params.token);
-    const token = props.navigation.state.params.token
-//    (AsyncStorage.getItem('TOKEN', (err, result) => {
-//     setToken(result);
-//       }))
-console.log("TCL: props", props)
-// console.log("sync", token)
+    // const token = props.navigation.state.params.token
+    //    (AsyncStorage.getItem('TOKEN', (err, result) => {
+    //     setToken(result);
+    //       }))
+    console.log('TCL: props', props)
+    // console.log("sync", token)
     // GQL QUERY TO RETURN USER OBJECTS WITH WORKORDERS 10/24/2019 SD
     const queryDb = `query {users{id username displayName picture photo{path} phone email workorders{id qrcode title detail status priority createdAt}}}`
     useEffect(() => {
-
         axios({
             method: 'post',
             url: 'https://netgiver-stage.herokuapp.com/graphql',
@@ -61,26 +59,23 @@ console.log("TCL: props", props)
             // console.log('response recd from wol', res. data)
             // setUserMap(res.data.data.users)
             // console.log("TCL: userMap", userMap)
-            setWorkOrderMap(res.data.data.workorders.edges.map(res=>res ))
-            console.log("workOrderMap", workOrderMap)
-            
+            setWorkOrderMap(res.data.data.workorders.edges.map(res => res))
+            console.log('workOrderMap', workOrderMap)
+
             // props.navigation.navigate('WorkOrderListView')
-        })}, [token])
-        console.log("workOrderMap1", workOrderMap)
-        
+        })
+    }, [token])
+    console.log('workOrderMap1', workOrderMap)
+
     //    const map = workOrderMap || workOrderMap.map(res => console.log(res))
-   
+
     let r = Math.random()
     return (
         <ScrollView>
             {/* MAP WORK ORDER DATA AND PULL OUT THE VALUES 10/24/2019 SD */}
             {dummyWorkOrder.map(res => (
                 // MAKE THE WHOLE BOX A BUTTON THAT CAN BE CLICKED TO OPEN THE w/o 10/24/2019 SD
-                <TouchableOpacity
-                    onPress={() =>
-                        console.log(token)
-                    }
-                >
+                <TouchableOpacity onPress={() => console.log(token)}>
                     {/* BUILD THE WORKORDER CARD 10/24/2019 SD */}
                     {/* 3 FLEX COLUMNS */}
                     <View style={wOList.card}>
