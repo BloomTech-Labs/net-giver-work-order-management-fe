@@ -18,13 +18,14 @@ import { wOList } from '../../components/Styles'
 
 const WorkOrderListView = props => {
     const [userMap, setUserMap] = useState();
-    const [workOrderMap, setWorkOrderMap] = useState();
-    const [token, setToken] = useState();
-   (AsyncStorage.getItem('TOKEN', (err, result) => {
-    setToken(result);
-      }))
+    const [workOrderMap, setWorkOrderMap] = useState(null);
+    // const [token, setToken] = useState(props.navigation.state.params.token);
+    const token = props.navigation.state.params.token
+//    (AsyncStorage.getItem('TOKEN', (err, result) => {
+//     setToken(result);
+//       }))
 console.log("TCL: props", props)
-console.log("sync", token)
+// console.log("sync", token)
     // GQL QUERY TO RETURN USER OBJECTS WITH WORKORDERS 10/24/2019 SD
     const queryDb = `query {users{id username displayName picture photo{path} phone email workorders{id qrcode title detail status priority createdAt}}}`
     useEffect(() => {
@@ -37,18 +38,37 @@ console.log("sync", token)
             },
             data: {
                 query: `query {
-                    user(id: 3){
-                  username}
+                    workorders {
+                      edges {
+                        id
+                        detail
+                        createdAt
+                        qrcode
+                        priority
+                        status
+                        title
+                        userId
+                      }
+                      pageInfo {
+                        hasNextPage
+                        endCursor
+                      }
+                    }
                   }
                   `,
             },
         }).then(res => {
-            console.log('response recd from wol', res)
+            // console.log('response recd from wol', res. data)
             // setUserMap(res.data.data.users)
             // console.log("TCL: userMap", userMap)
+            setWorkOrderMap(res.data.data.workorders.edges.map(res=>res ))
+            console.log("workOrderMap", workOrderMap)
             
             // props.navigation.navigate('WorkOrderListView')
-        })}, )
+        })}, [token])
+        console.log("workOrderMap1", workOrderMap)
+        
+    //    const map = workOrderMap || workOrderMap.map(res => console.log(res))
    
     let r = Math.random()
     return (

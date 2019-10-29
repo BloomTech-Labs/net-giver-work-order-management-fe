@@ -1,9 +1,9 @@
 {
   "expoServerPort": 19000,
-  "expoServerNgrokUrl": "https://v7-k5s.anonymous.net-giver-work-order-management-fe.exp.direct",
-  "packagerNgrokUrl": "https://packager.v7-k5s.anonymous.net-giver-work-order-management-fe.exp.direct",
-  "ngrokPid": 27040,
+  "expoServerNgrokUrl": "https://wd-u3v.anonymous.net-giver-work-order-management-fe.exp.direct",
+  "packagerNgrokUrl": "https://packager.wd-u3v.anonymous.net-giver-work-order-management-fe.exp.direct",
+  "ngrokPid": 16161,
   "devToolsPort": 19002,
-  "packagerPort": 19001,
-  "packagerPid": 27023
+  "packagerPort": 19006,
+  "packagerPid": 16128
 }

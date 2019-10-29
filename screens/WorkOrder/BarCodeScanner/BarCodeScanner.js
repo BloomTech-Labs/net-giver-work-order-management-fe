@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Button,
   SafeAreaView,
-  TouchableOpacity
+  TouchableOpacity,
+  AsyncStorage
 } from "react-native";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
@@ -17,12 +18,19 @@ console.log("TCL: props", props)
   //Set initial state of camera permission and if barcode has been scanned
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [scanned, setscanned] = useState(false);
+  const [token, setToken] = useState();
 
   // update state upon changing of camera permissions
   useEffect(() => {
     getPermissionsAsync();
-  }, [hasCameraPermission]);
 
+
+   
+  }, [hasCameraPermission]);
+  (AsyncStorage.getItem('TOKEN', (err, result) => {
+    setToken(result);
+      }))
+  
   // request camera permission from phone
   const getPermissionsAsync = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
@@ -34,7 +42,8 @@ console.log("TCL: props", props)
     setscanned(true);
     //   send genQr as qrData to Login
     props.navigation.navigate("CheckBarCode", {
-      qrData: data
+      qrData: data,
+      token: token
     });
   };
 
@@ -52,7 +61,8 @@ console.log("TCL: props", props)
     // var genQr = "n6779";
     //   send genQr as qrData to Login
     props.navigation.navigate("CheckBarCode", {
-      qrData: genQr
+      qrData: genQr,
+      token: JSON.parse(token)
     });
   };
   return (

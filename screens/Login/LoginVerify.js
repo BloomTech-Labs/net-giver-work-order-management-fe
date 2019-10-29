@@ -34,7 +34,7 @@ const LoginVerify = props => {
                     () => {
                         AsyncStorage.getItem('TOKEN', (err, result) => {
                             console.log('FROM ASYNC', result)
-                            props.navigation.navigate('WorkOrderList')
+                            props.navigation.navigate('WorkOrderList', {token:res.data.data.authyVerifyDev.token})
                         })
                     }
                 )

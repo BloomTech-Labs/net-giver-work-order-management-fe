@@ -25,11 +25,13 @@ import {
     Content,
     Text,
 } from 'native-base'
-import { token } from '../../../token'
+// import { token } from '../../../token'
 import axios from 'axios'
 import { wOForm } from '../../../components/Styles'
 
 const NewWorkOrderForm = props => {
+    const token = props.navigation.state.params.token
+ 
 console.log("TCL: props", props)
     // SET PLACEHOLDER IMAGES TO STATE 10/24/2019 SD
     const [img1, setImg1] = useState(
@@ -84,7 +86,7 @@ console.log("TCL: props", props)
             },
         }).then(res => {
             console.log('response submit', res)
-            props.navigation.navigate('WorkOrderListView')
+            props.navigation.navigate('WorkOrderList')
         })
     }
 
