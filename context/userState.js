@@ -109,6 +109,7 @@ async function uploadImageAsync(uri, token) {
 }
 
   async function addUser(req, img) {
+    console.log(req)
     dispatch({ type: "SET_IMG", payload: img })
     const res = await axios({
                   url: 'https://netgiver-stage.herokuapp.com/graphql',

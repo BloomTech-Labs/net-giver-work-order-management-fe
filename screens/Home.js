@@ -5,6 +5,7 @@ const Home = props => {
   const { navigate } = props.navigation;
   return (
     <View style={styles.container}>
+      <View style={homeStyle.logo}>Logo</View>
       <Text style={styles.welcome}>Net Giver Work Order Management</Text>
       <View style={styles.wrapper}>
         {/* NAVIGATE TO LOGIN OR SIGNUP PAGE */}
@@ -19,7 +20,7 @@ const Home = props => {
   );
 };
 
-const styles = StyleSheet.create({
+const homeStyle = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
