@@ -5,6 +5,8 @@ import UserChecker from "../screens/Login/UserChecker";
 import LoginVerify from "../screens/Login/LoginVerify";
 import LoginChecker from "../screens/Login/LoginChecker";
 import Signup from "../screens/Login/Signup";
+import Camera from '../components/camera/Camera';
+
 import {Platform} from 'react-native'
 const config = Platform.select({
   web: { headerMode: "screen" },
@@ -49,6 +51,9 @@ const AuthStackNavigator = createStackNavigator(
       navigationOptions: {
         header:null
       }
+    },
+    Camera: {
+      screen: Camera
     }
   },
   config

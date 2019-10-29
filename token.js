@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 export const token =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJsYXVyYWRvbmRpZWdvQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoibGF1cmFkZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MjM2NjUwMSwiZXhwIjoxNTcyMzY4MzAxfQ.ZOrgf9TRX2mpCvdqQ8q6Mz1HfhcCv2-g9QOhn8TaFE4'
+=======
+
+export const token =  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJza3lsZXIyNDQwQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoic2t5bGVyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MjMwNjk2OSwiZXhwIjoxNTcyMzA4NzY5fQ.xsBSGfr7hfe_mUqBPzpPeFsJDrX3S_nzLU4I5Ke4Jbo"
+>>>>>>> b7d70bc1edc8edb2159fee3cedc88c8aec49f453

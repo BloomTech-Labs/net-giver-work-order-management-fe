@@ -25,11 +25,13 @@ import {
     Content,
     Text,
 } from 'native-base'
-import { token } from '../../../token'
+// import { token } from '../../../token'
 import axios from 'axios'
 import { wOForm } from '../../../components/Styles'
 
 const NewWorkOrderForm = props => {
+    const token = props.navigation.state.params.token
+ 
 console.log("TCL: props", props)
     // SET PLACEHOLDER IMAGES TO STATE 10/24/2019 SD
     const [img1, setImg1] = useState(
@@ -49,7 +51,7 @@ console.log("TCL: props", props)
     const [status, setStatus] = useState('Not Started')
     //SET TITLE 10/24/2019 SD
     const [title, setTitle] = useState()
-    //SET DETAIL 10/24/2019 SD
+    //SET DETAIL 10/24/2019 SD`
     const [detail, setDetail] = useState()
     //SET BUTTONS AND CANCEL_INDEX FOR ACTIONSHEET 12/24/2019 SD
     const BUTTONS = [
@@ -84,7 +86,7 @@ console.log("TCL: props", props)
             },
         }).then(res => {
             console.log('response submit', res)
-            props.navigation.navigate('WorkOrderListView')
+            props.navigation.navigate('WorkOrderList')
         })
     }
 
