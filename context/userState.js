@@ -135,7 +135,7 @@ async function uploadImageAsync(uri, token) {
   }, [state]);
 
   return (
-    <UserContext.Provider value={{user: state, addUser}}>
+    <UserContext.Provider value={{user: state, addUser, setToken}}>
       {props.children}
     </UserContext.Provider>
   );

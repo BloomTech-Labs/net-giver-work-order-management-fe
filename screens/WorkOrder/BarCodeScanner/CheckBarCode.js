@@ -1,42 +1,50 @@
 //SD 10/16/19
 
-import React, { Component } from "react";
+import React, { useState , useEffect, useContext} from "react";
 import axios from "axios";
-import { StyleSheet, View, Button, ActivityIndicator } from "react-native";
+import { StyleSheet, View, Button, ActivityIndicator, AsyncStorage } from "react-native";
 import { NavigationActions } from "react-navigation";
-import { token } from "../../../token";
+// import { token } from "../../../token";
 import { styles } from '../../../components/Styles'
+import { UserContext } from "../../../context/userState";
 
 const CheckBarCode = props => {console.log("TCL: props", props)
+// const [token, setToken] = useState();
+
+const { user } = useContext(UserContext)
+// user = state
+console.log(user)
   const isWorkOrder = {qrCode:"12345", detail:"The Toilet is Leaking", title:"Fix Toilet", priority:"High", status:"Not Yet Started", user:"John Smith"};
   const qrCode = props.navigation.state.params.qrData;
-  // const qrCode = "12346";
-  console.log("QT Work Order Check", qrCode)
-
-  const getMutation = `query {
-    workorder( qrcode: "${qrCode}"){
-      id
-          qrcode
-      detail
-      createdAt
-      priority
-      status
-      title
   
-  }
-  }`;
-  const createMutation = `mutation {
-    createWorkorder( qrcode: "${qrCode}"){
-      id
-      qrcode
-      detail
-      createdAt
-      priority
-      status
-      title
-    }
-  }`;
+  // BARCODE FOR TESTING HERE
+  // const qrCode = "n1706";
+  console.log("QT Work Order Check", qrCode)
+  const token = user.token
 
+const getMutation = `query {
+  workorder( qrcode: "${qrCode}"){
+    id
+        qrcode
+    detail
+    createdAt
+    priority
+    status
+    title
+
+}
+}`;
+const createMutation = `mutation {
+  createWorkorder( qrcode: "${qrCode}"){
+    id
+    qrcode
+    detail
+    createdAt
+    priority
+    status
+    title
+  }
+}`;
   //CHECK TO SEE IF QR AND SEND BACK 10/16/2019 SD
   if (!qrCode) {
     props.navigation.navigate("BarCodeScanner");
@@ -61,7 +69,7 @@ const CheckBarCode = props => {console.log("TCL: props", props)
         //IF THERE IS A QR CODE OF THAT VALUE SEND TO EDIT PAGE
         //WITH WORKORDER PROPS PASSED TO IT
         props.navigation.navigate("EditWorkOrder", {
-          workOrder: { isWorkOrder }
+          workOrder: { isWorkOrder }, token: token
         });
         console.log("yesWorkOrder");
       } else {
@@ -77,7 +85,7 @@ const CheckBarCode = props => {console.log("TCL: props", props)
           }
         }).then(res => {
           console.log("created");
-          props.navigation.navigate("NewWorkOrder", { qrCode: { qrCode } });
+          props.navigation.navigate("NewWorkOrder", { qrCode: { qrCode }, token: token });
         });
       }
     });

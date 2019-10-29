@@ -258,8 +258,10 @@ const Signup = (props) => {
         isVisible={toggleOverlay}
         onBackdropPress={() => setToggleOverlay(false)}
       >
-        <Text>Some Random Message</Text>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <>
+          <Text>Some Random Message</Text>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </>
       </Overlay>
       <Formik
         onSubmit={values => console.log(values)}
@@ -357,7 +359,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     paddingTop: 70,
    },
-
 
   input: {
     width: '100%',

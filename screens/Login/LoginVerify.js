@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { AsyncStorage, Text, TextInput, View, StyleSheet } from 'react-native'
 // import {connect} from 'react-redux' sd 10/23/2019
 // import {doLogin} from '../../store/actions/authActions' sd 10/23/2019
 import { styles } from '../../components/Styles'
 import { Button } from 'native-base'
 import axios from 'axios'
-
+import { UserContext } from "../../context/userState";
 // SENDS A TEXT FROM THE AUTH SERVER > ENTER THE TEXT CODE > GET THE TOKEN 10/24/2019 SD
 const LoginVerify = props => {
     console.log('TCL: LoginVerify -> props', props)
@@ -13,7 +13,8 @@ const LoginVerify = props => {
     const username = props.navigation.state.params.username
     //SETS VERIFY CODE FROM USER INPUT 10/24/2019 SD
     const [vercode, setVercode] = useState('')
-    const [token, setToken] = useState('')
+    // const [token, setToken] = useState('')
+    const { user, setToken  } = useContext(UserContext)
     const vercodeMutation = ``
     const handlePress = () => {
         //DEVELOPMENT VERIFICATION CODE MUTATION SENT TO SERVER AND RETURNING TOKEN IN THE RESULTS 10/24/2019 SD
@@ -34,7 +35,8 @@ const LoginVerify = props => {
                     () => {
                         AsyncStorage.getItem('TOKEN', (err, result) => {
                             console.log('FROM ASYNC', result)
-                            props.navigation.navigate('WorkOrderList')
+                            setToken({  token:  res.data.data.authyVerifyDev.token}) 
+                            props.navigation.navigate('WorkOrderList', {token:res.data.data.authyVerifyDev.token})
                         })
                     }
                 )
