@@ -41,7 +41,7 @@ export const UserContext = createContext();
   const initialState = {  
     username: null,
     email: null,
-    token: null,
+    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJza3lsZXIyNDQwQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoic2t5bGVyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MjM4MDQ3MSwiZXhwIjoxNTcyMzgyMjcxfQ.YOE8sT6pduJnoyDNybyvrUBOI3qoCtXPWQMUUxfW2wA",
     id: null, 
     uploading: false, 
     img: null, 
@@ -53,7 +53,6 @@ export const UserProvider = props => {
   // Create UserProvider similar to redux store.
   // This code needs to be condensed and edited 
   // for consistency, but it is in working form.
-
 
   const [state, dispatch] = useReducer(reducer, initialState)
 
