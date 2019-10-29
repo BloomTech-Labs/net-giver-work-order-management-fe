@@ -49,7 +49,7 @@ console.log("TCL: props", props)
     //generate a random 5 digit string starting with n
     var genQr ="n" + Date.now().toString().slice(7,11);
     // or generate a static 5 digit number for testing 
-    // var genQr = "N1302";
+    // var genQr = "n6779";
     //   send genQr as qrData to Login
     props.navigation.navigate("CheckBarCode", {
       qrData: genQr

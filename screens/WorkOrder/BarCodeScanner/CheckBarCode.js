@@ -9,8 +9,8 @@ import { styles } from '../../../components/Styles'
 
 const CheckBarCode = props => {console.log("TCL: props", props)
   const isWorkOrder = {qrCode:"12345", detail:"The Toilet is Leaking", title:"Fix Toilet", priority:"High", status:"Not Yet Started", user:"John Smith"};
-  const qrCode = props.navigation.state.params.qrData;
-  // const qrCode = "12346";
+  // const qrCode = props.navigation.state.params.qrData;
+  const qrCode = "n8804";
   console.log("QT Work Order Check", qrCode)
 
   const getMutation = `query {

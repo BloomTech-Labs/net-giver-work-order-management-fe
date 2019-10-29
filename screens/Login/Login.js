@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 import axios from 'axios'
 import { Button } from 'native-base'
-import { styles } from '../../components/Styles'
+import { loginStyles, styles } from '../../components/Styles'
 import logo from '../../components/Images/NetGiverLogo.svg'
 import SafeAreaView from 'react-native-safe-area-view'
 const Login = props => {
