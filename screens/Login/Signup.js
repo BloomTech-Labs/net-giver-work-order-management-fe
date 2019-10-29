@@ -43,7 +43,7 @@ const Signup = (props) => {
 
   //TESTING -- auto fill form 
   let i = Math.random()
-  const formValues = {username: `foo${i}`, email: `foo${i}@aol.com`, phone: '7186369874'}
+  // const formValues = {username: `foo${i}`, email: `foo${i}@aol.com`, phone: '7186369874'}
 
   useEffect(() => {
     // Need to add error handling
