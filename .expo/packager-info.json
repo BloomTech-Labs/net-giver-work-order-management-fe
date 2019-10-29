@@ -2,9 +2,9 @@
   "expoServerPort": 19000,
   "expoServerNgrokUrl": "https://zc-a3p.anonymous.net-giver-work-order-management-fe.exp.direct",
   "packagerNgrokUrl": "https://packager.zc-a3p.anonymous.net-giver-work-order-management-fe.exp.direct",
-  "ngrokPid": 98791,
+  "ngrokPid": 1079,
   "packagerPort": 19004,
-  "packagerPid": 98773,
+  "packagerPid": 1046,
   "webpackServerPort": null,
   "devToolsPort": 19002
 }

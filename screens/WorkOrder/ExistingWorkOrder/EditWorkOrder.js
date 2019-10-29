@@ -32,9 +32,8 @@ import { wOForm } from '../../../components/Styles'
 const EditWorkOrder = props => {
     // const token = props.navigation.state.params.token
 
-    const {
-        qrcode,
-    } = props.navigation.state.params.workOrder.isWorkOrder.workorder
+    const { qrcode } = 'n7739'
+    // } = props.navigation.state.params.workOrder.isWorkOrder.workorder
     console.log('TCL: props', props)
     // SET PLACEHOLDER IMAGES TO STATE 10/24/2019 SD
     const [img1, setImg1] = useState(
@@ -50,19 +49,23 @@ const EditWorkOrder = props => {
     const [clicked, setClicked] = useState()
     // SET PRIORITY 10/24/2019 SD
     const [priority, setPriority] = useState(
-        props.navigation.state.params.workOrder.isWorkOrder.workorder.priority
+        'priority'
+        // props.navigation.state.params.workOrder.isWorkOrder.workorder.priority
     )
     // SET STATUS 10/24/2019 SD
     const [status, setStatus] = useState(
-        props.navigation.state.params.workOrder.isWorkOrder.workorder.status
+        'status'
+        // props.navigation.state.params.workOrder.isWorkOrder.workorder.status
     )
     //SET TITLE 10/24/2019 SD
     const [title, setTitle] = useState(
-        props.navigation.state.params.workOrder.isWorkOrder.workorder.title
+        'title'
+        // props.navigation.state.params.workOrder.isWorkOrder.workorder.title
     )
     //SET DETAIL 10/24/2019 SD`
     const [detail, setDetail] = useState(
-        props.navigation.state.params.workOrder.isWorkOrder.workorder.detail
+        'detail'
+        // props.navigation.state.params.workOrder.isWorkOrder.workorder.detail
     )
     const [activePriority, setActivePriority] = useState(0)
 
@@ -76,6 +79,8 @@ const EditWorkOrder = props => {
     ]
     const CANCEL_INDEX = 2
     //SET QR CODE FROM PROPS 10/24/2019 SD
+
+    // const ternbg = `? {backgroundColor: "black"} : {backgroundColor:white}`
 
     console.log('TCL: qrcode', qrcode)
     //SUBMIT HANDLER 10/24/2019 SD
@@ -133,73 +138,112 @@ const EditWorkOrder = props => {
                         </View>
                         <View style={wOForm.pBarButtonBox}>
                             <TouchableOpacity
-                                // style={wOForm.pBarButton }
                                 style={[
                                     wOForm.pBarButton,
-                                    {
-                                        backgroundColor:
-                                            activePriority === 1
-                                                ? 'blue'
-                                                : 'white',
-                                    },
+
+                                    activePriority === 1
+                                        ? {
+                                              backgroundColor: '#237804',
+                                          }
+                                        : { backgroundColor: 'white' },
                                 ]}
                                 onPress={() => {
                                     setPriority('Low')
                                     setActivePriority(1)
                                 }}
                             >
-                                <Text>Low</Text>
+                                <Text
+                                    style={[
+                                        activePriority === 1
+                                            ? {
+                                                  color: 'white',
+                                              }
+                                            : { color: '#237804' },
+                                    ]}
+                                >
+                                    Low
+                                </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[
                                     wOForm.pBarButton,
-                                    {
-                                        backgroundColor:
-                                            activePriority === 2
-                                                ? 'blue'
-                                                : 'white',
-                                    },
+
+                                    activePriority === 2
+                                        ? {
+                                              backgroundColor: '#237804',
+                                          }
+                                        : { backgroundColor: 'white' },
                                 ]}
                                 onPress={() => {
                                     setPriority('Medium')
                                     setActivePriority(2)
                                 }}
                             >
-                                <Text>Medium</Text>
+                                <Text
+                                    style={[
+                                        activePriority === 2
+                                            ? {
+                                                  color: 'white',
+                                              }
+                                            : { color: '#237804' },
+                                    ]}
+                                >
+                                    Medium
+                                </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[
                                     wOForm.pBarButton,
-                                    {
-                                        backgroundColor:
-                                            activePriority === 3
-                                                ? 'blue'
-                                                : 'white',
-                                    },
+
+                                    activePriority === 3
+                                        ? {
+                                              backgroundColor: '#237804',
+                                          }
+                                        : { backgroundColor: 'white' },
                                 ]}
                                 onPress={() => {
                                     setPriority('High')
                                     setActivePriority(3)
                                 }}
                             >
-                                <Text>High</Text>
+                                <Text
+                                    style={[
+                                        activePriority === 3
+                                            ? {
+                                                  color: 'white',
+                                              }
+                                            : { color: '#237804' },
+                                    ]}
+                                >
+                                    High
+                                </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[
                                     wOForm.pBarButton,
-                                    {
-                                        backgroundColor:
-                                            activePriority === 4
-                                                ? 'blue'
-                                                : 'white',
-                                    },
+
+                                    activePriority === 4
+                                        ? {
+                                              backgroundColor: '#237804',
+                                          }
+                                        : { backgroundColor: 'white' },
                                 ]}
                                 onPress={() => {
                                     setPriority('Emergency')
                                     setActivePriority(4)
                                 }}
                             >
-                                <Text>Emergency</Text>
+                                <Text
+                                    style={[
+                                        activePriority === 4
+                                            ? {
+                                                  color: 'white',
+                                              }
+                                            : { color: '#237804' },
+                                    ]}
+                                >
+                                    Emergency
+                                </Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -212,47 +256,83 @@ const EditWorkOrder = props => {
                         <TouchableOpacity
                             style={[
                                 wOForm.pBarButton,
-                                {
-                                    backgroundColor:
-                                        activeStatus === 1 ? 'blue' : 'white',
-                                },
+
+                                activeStatus === 1
+                                    ? {
+                                          backgroundColor: '#237804',
+                                      }
+                                    : { backgroundColor: 'white' },
                             ]}
                             onPress={() => {
-                                setStatus('Not Yet Started')
+                                setStatus('Not Started')
                                 setActiveStatus(1)
                             }}
                         >
-                            <Text>Not Started</Text>
+                            <Text
+                                style={[
+                                    activeStatus === 1
+                                        ? {
+                                              color: 'white',
+                                          }
+                                        : { color: '#237804' },
+                                ]}
+                            >
+                                Not Started
+                            </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={[
                                 wOForm.pBarButton,
-                                {
-                                    backgroundColor:
-                                        activeStatus === 2 ? 'blue' : 'white',
-                                },
+
+                                activeStatus === 2
+                                    ? {
+                                          backgroundColor: '#237804',
+                                      }
+                                    : { backgroundColor: 'white' },
                             ]}
                             onPress={() => {
                                 setStatus('In Progress')
                                 setActiveStatus(2)
                             }}
                         >
-                            <Text>In Progress</Text>
+                            <Text
+                                style={[
+                                    activeStatus === 2
+                                        ? {
+                                              color: 'white',
+                                          }
+                                        : { color: '#237804' },
+                                ]}
+                            >
+                                In Progress
+                            </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={[
                                 wOForm.pBarButton,
-                                {
-                                    backgroundColor:
-                                        activeStatus === 3 ? 'blue' : 'white',
-                                },
+
+                                activeStatus === 3
+                                    ? {
+                                          backgroundColor: '#237804',
+                                      }
+                                    : { backgroundColor: 'white' },
                             ]}
                             onPress={() => {
                                 setStatus('Complete')
                                 setActiveStatus(3)
                             }}
                         >
-                            <Text>Complete</Text>
+                            <Text
+                                style={[
+                                    activeStatus === 3
+                                        ? {
+                                              color: 'white',
+                                          }
+                                        : { color: '#237804' },
+                                ]}
+                            >
+                                Complete
+                            </Text>
                         </TouchableOpacity>
                     </View>
                 </View>
