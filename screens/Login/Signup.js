@@ -41,7 +41,7 @@ const Signup = (props) => {
 
   useEffect(() => {
     if(user.reg_complete === true){
-    props.navigation.navigate('Main')
+    props.navigation.navigate('WorkOrderList', {token: user.token})
     }
   }, [user.reg_complete]);
 
