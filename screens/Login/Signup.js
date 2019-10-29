@@ -16,6 +16,7 @@ import { Overlay } from 'react-native-elements';
 import * as Yup from 'yup';
 import { Ionicons } from '@expo/vector-icons';
 import { UserContext } from "../../context/userState";
+import { loginStyles } from '../../components/Styles';
 import { isUpdateExpression } from "@babel/types";
 //To-Do
 //  Input validation -- functions built out just need to implement
@@ -32,11 +33,12 @@ const Signup = (props) => {
   const [current, setCurrent] = useState(0);
   const { user, addUser } = useContext(UserContext)
   const swipeRef = useRef();
-  // var [formValues, setFormValues] = useState({
-  //   username:"",
-  //   email:"",
-  //   phone:""
-  // })
+  var [formValues, setFormValues] = useState({
+    fullname:"",
+    email:"",
+    phone:""
+  })
+
   const phoneRegExp = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
 
   //TESTING -- auto fill form 
@@ -75,6 +77,16 @@ const Signup = (props) => {
     const { username, email, phone } = formValues
     const password = 123456 //temp password for testing
     const query = `mutation { signUp( username: "${username}", password: "${password}", email: "${email}", phone: "${phone}" ) { token user {id} } }`
+  //   const textInputForm = <TextInput
+  //   key={input.name + input.id}
+  //   name={input.name}
+  //   value={formValues[input.name]}
+  //   keyboardType={input.keyboard}
+  //   onChangeText={(text) => onInputChange(input.name, text)}
+  //   placeholder={input.placeholder}
+  //   style={styles.input}
+  // />
+
     const res = addUser(query, photo); 
     console.log("final values",formValues)
   };
@@ -118,6 +130,7 @@ const Signup = (props) => {
   const pages = [
 
     {
+      image: true,
       type: "text",
       name: "phone",
       slideTitle: "Sign Up",
@@ -126,7 +139,8 @@ const Signup = (props) => {
       // keyboard: "email-address",
       keyboard: "phone-pad",
       placeholder: "Enter your Phone Number",
-      button: "Next",
+      button: "Get Started",
+      text3: "Contact The Net Giver Team"
       // keyboard: "phone-pad",
       // schema: {
       //   phone: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required("Phone number is required."),
@@ -139,38 +153,44 @@ const Signup = (props) => {
       text: "We just sent a one-time code to",
       // text2: formValues['phone'],
       placeholder: "6-digit code",
-      button: "Next",
+      button: "Sign Up",
+      text3: "Contact The Net Giver Team"
       // schema: {
       //   username: Yup.string().min(2).max(50).required('Username is required.'),
       // }
     },
-    {
-      type: "text",
-      name: "email",
-      slideTitle: "Email",
-      text: "Email",
-      // text2: formValues['email'],
-      placeholder: "6-digit code",
-      button: "Next",
-      // schema: {
-      //   username: Yup.string().min(2).max(50).required('Username is required.'),
-      // }
-    },
-    {
-      name: "username",
-      slideTitle: "Welcome to Netgiver!",
-      text: "We just need to get some info before you get started",
-      text2: "Please enter your username:",
-      placeholder: "username",
-      button: "Next",
-      // schema: {
-      //   username: Yup.string().min(2).max(50).required('Username is required.'),
-      // }
-    },
+    // {
+    //   type: "text",
+    //   name: "email",
+    //   slideTitle: "Email",
+    //   text: "Email",
+    //   // text2: formValues['email'],
+    //   placeholder: "6-digit code",
+    //   button: "Next",
+    //   // schema: {
+    //   //   username: Yup.string().min(2).max(50).required('Username is required.'),
+    //   // }
+    // },
+    // {
+    //   name: "username",
+    //   slideTitle: "Welcome to Netgiver!",
+    //   text: "We just need to get some info before you get started",
+    //   text2: "Please enter your username:",
+    //   placeholder: "username",
+    //   button: "Next",
+    //   // schema: {
+    //   //   username: Yup.string().min(2).max(50).required('Username is required.'),
+    //   // }
+    // },
     {
       type: "photo",
+      slideTitle: "Create your Profile",
       text: "Tap to add",
+      name: 'fullname',
+      name2: 'email',
       topComponent: <PhotoInput />,
+      placeholder: "Full Name",
+      placeholder2: "Email",
       button: "Submit"
     }
   ]
@@ -279,16 +299,18 @@ const Signup = (props) => {
           {pages.map((input, index) =>  {
             return (
               <View style={styles['slide' + ++index]} key={'slide' + input.id}>
+                {input.image ? <Image  style={loginStyles.logo} source={require('../../components/Images/ng.png')}/> : null}
                 {input.topComponent}
                 {input.slideTitle &&
                   <Text style={styles.title}> {input.slideTitle} </Text>
                 }
                 <Text style={styles.text}> {input.text} </Text>
+                
                 <View style={styles.inputContainer}>
+                
                   <Text style={styles.text}> {input.text2} </Text>
-                  {input.type === 'photo'
-                    ? <></>
-                    : <TextInput
+
+                  <TextInput
                         key={input.name + input.id}
                         name={input.name}
                         value={formValues[input.name]}
@@ -297,6 +319,20 @@ const Signup = (props) => {
                         placeholder={input.placeholder}
                         style={styles.input}
                       />
+                  
+                  {input.name2 
+                    ? <TextInput
+                        key={input.name2 + input.id}
+                        name={input.name2}
+                        value={formValues[input.name2]}
+                        keyboardType={input.keyboard}
+                        onChangeText={(text) => onInputChange(input.name2, text)}
+                        placeholder={input.placeholder2}
+                        style={styles.input}
+                      /> 
+                      : 
+                      null
+
                   }
                   <TouchableOpacity
                     style={styles.buttonStyle}
@@ -348,22 +384,39 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     
-     
    },
 
    slideTitle: {
     fontWeight: 'bold',
    },
 
+   logo: {
+    borderWidth: 2,
+    position: 'absolute',
+    left: 'auto',
+    right: 'auto',
+    top: '9.15%',
+    bottom: '73.91%',
+    
+   },
+
    slide1: {
     flexDirection: "column",
-    paddingTop: 70,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingTop: 100,
+   },
+
+   slide2: {
+    flexDirection: "column",
+    marginTop: 100,
    },
 
   input: {
     width: '100%',
     backgroundColor: '#EDF1F3',
     marginVertical: 20,
+    marginBottom: 45,
     paddingVertical: 5,
     paddingVertical: 5,
     paddingHorizontal: 10,
