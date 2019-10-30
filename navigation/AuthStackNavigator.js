@@ -8,6 +8,8 @@ import Signup from "../screens/Login/Signup";
 import Camera from '../components/camera/Camera';
 
 import {Platform} from 'react-native'
+import CameraExample from "../components/camera/CameraExample";
+import { Platform } from "react-native";
 const config = Platform.select({
   web: { headerMode: "screen" },
   default: {}
@@ -54,6 +56,11 @@ const AuthStackNavigator = createStackNavigator(
     },
     Camera: {
       screen: Camera
+    CameraExample: {
+      screen: CameraExample,
+      navigationOptions: {
+        title: "camera"
+      }
     }
   },
   config
