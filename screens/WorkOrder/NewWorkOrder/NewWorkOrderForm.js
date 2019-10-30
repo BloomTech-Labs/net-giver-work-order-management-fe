@@ -190,13 +190,13 @@ console.log("TCL: props", props)
                     </View>
                 </View>
 
-                <Text>Work Order Images (Long Press to Delete)</Text>
+                {/* <Text>Work Order Images (Long Press to Delete)</Text> */}
                 {/* WORK ORDER IMAGE BOX 12/24/2019 SD */}
-                <View style={wOForm.imageBox}>
-                    <View style={wOForm.image}>
+                {/* <View style={wOForm.imageBox}> */}
+                    {/* <View style={wOForm.image}> */}
                         {/* TURN IMAGE INTO BUTTON WITH LONGPRESS THAT WILL DELETE THE PHOTO
                             DELETE NEEDS FUNCTIONALITY 12/24/2019 SD */}
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                             onLongPress={() => handlePhotoDelete()}
                         >
                             <Image
@@ -206,8 +206,8 @@ console.log("TCL: props", props)
                                 }}
                             />
                         </TouchableOpacity>
-                    </View>
-                    <View style={wOForm.image}>
+                    </View> */}
+                    {/* <View style={wOForm.image}>
                         <TouchableOpacity
                             onLongPress={() => handlePhotoDelete()}
                         >
@@ -218,8 +218,8 @@ console.log("TCL: props", props)
                                 }}
                             />
                         </TouchableOpacity>
-                    </View>
-                    <View style={wOForm.image}>
+                    </View> */}
+                    {/* <View style={wOForm.image}>
                         <TouchableOpacity
                             onLongPress={() => handlePhotoDelete()}
                         >
@@ -231,10 +231,10 @@ console.log("TCL: props", props)
                             />
                         </TouchableOpacity>
                     </View>
-                </View>
-                <Content padder>
+                </View> */}
+                {/* <Content padder> */}
                     {/* ACTIONSHEET HAS CAMERA BUTTONS IN IT TO REDIRECT TO CAMERA 10/24/2019 SD */}
-                    <Button
+                    {/* <Button
                         bordered
                         danger
                         onPress={() =>
@@ -251,8 +251,8 @@ console.log("TCL: props", props)
                         }
                     >
                         <Text>Choose a Photo</Text>
-                    </Button>
-                </Content>
+                    </Button> */}
+                {/* </Content> */}
                 <View>
                     {/* SUBMIT BUTTON 10/24/2019 SD */}
                     <Button
