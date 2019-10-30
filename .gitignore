@@ -1,5 +1,6 @@
 node_modules/
 notes.txt
+packager-info.json
 # Xcode
 !**/*.xcodeproj
 !**/*.pbxproj
