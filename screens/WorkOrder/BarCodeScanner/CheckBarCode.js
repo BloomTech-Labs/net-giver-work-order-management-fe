@@ -8,8 +8,9 @@ import { NavigationActions } from "react-navigation";
 import { styles } from '../../../components/Styles'
 import { UserContext } from "../../../context/userState";
 
-const CheckBarCode = props => {console.log("TCL: props", props)
-// const [token, setToken] = useState();
+const CheckBarCode = props => {
+    console.log('TCL: props', props)
+    // const [token, setToken] = useState();
 
 const { user } = useContext(UserContext)
 // user = state
@@ -31,10 +32,9 @@ const getMutation = `query {
     priority
     status
     title
-
 }
-}`;
-const createMutation = `mutation {
+}`
+    const createMutation = `mutation {
   createWorkorder( qrcode: "${qrCode}"){
     id
     qrcode
@@ -44,62 +44,66 @@ const createMutation = `mutation {
     status
     title
   }
-}`;
-  //CHECK TO SEE IF QR AND SEND BACK 10/16/2019 SD
-  if (!qrCode) {
-    props.navigation.navigate("BarCodeScanner");
-  } else {
-    //RUN THE MUTATION
-    //TODO NEEDS TO BE MOVED OUT OF THIS FILE SD 10/16/19
+}`
+    //CHECK TO SEE IF QR AND SEND BACK 10/16/2019 SD
+    if (!qrCode) {
+        props.navigation.navigate('BarCodeScanner')
+    } else {
+        //RUN THE MUTATION
+        //TODO NEEDS TO BE MOVED OUT OF THIS FILE SD 10/16/19
 
-    //   TOKEN IS NOT CONSTANT!!!!!!!!!!!!!!!!!!!!!!!!!!
-    axios({
-      method: "post",
-      url: "https://netgiver-stage.herokuapp.com/graphql",
-      headers: {
-        "x-token": token
-      },
-
-      data: {
-        query: getMutation
-      }
-    }).then(res => {
-      const isWorkOrder = res.data.data;
-      if (isWorkOrder) {
-        //IF THERE IS A QR CODE OF THAT VALUE SEND TO EDIT PAGE
-        //WITH WORKORDER PROPS PASSED TO IT
-        props.navigation.navigate("EditWorkOrder", {
-          workOrder: { isWorkOrder }, token: token
-        });
-        console.log("yesWorkOrder");
-      } else {
-        // IF THERE IS NOT AN EXISTING QR CODE SEND TO THE NEWWORKORDER SCREEN AND SEND THE QR CODE TO THE SCREEN AS PROPS 10/24/2019 SD
+        //   TOKEN IS NOT CONSTANT!!!!!!!!!!!!!!!!!!!!!!!!!!
         axios({
-          method: "post",
-          url: "https://netgiver-stage.herokuapp.com/graphql",
-          headers: {
-            "x-token": token
-          },
-          data: {
-            query: createMutation
-          }
+            method: 'post',
+            url: 'https://netgiver-stage.herokuapp.com/graphql',
+            headers: {
+                'x-token': token,
+            },
+
+            data: {
+                query: getMutation,
+            },
         }).then(res => {
-          console.log("created");
-          props.navigation.navigate("NewWorkOrder", { qrCode: { qrCode }, token: token });
-        });
-      }
-    });
-  }
-  //DISPLAYS A SPINNER IN CASE OF LOAD TIME 10/16/19 SD
+            const isWorkOrder = res.data.data
+            if (isWorkOrder) {
+                //IF THERE IS A QR CODE OF THAT VALUE SEND TO EDIT PAGE
+                //WITH WORKORDER PROPS PASSED TO IT
+                props.navigation.navigate('EditWorkOrder', {
+                    workOrder: { isWorkOrder },
+                    token: token,
+                })
+                console.log('yesWorkOrder')
+            } else {
+                // IF THERE IS NOT AN EXISTING QR CODE SEND TO THE NEWWORKORDER SCREEN AND SEND THE QR CODE TO THE SCREEN AS PROPS 10/24/2019 SD
+                axios({
+                    method: 'post',
+                    url: 'https://netgiver-stage.herokuapp.com/graphql',
+                    headers: {
+                        'x-token': token,
+                    },
+                    data: {
+                        query: createMutation,
+                    },
+                }).then(res => {
+                    console.log('created')
+                    props.navigation.navigate('NewWorkOrder', {
+                        qrCode: { qrCode },
+                        token: token,
+                    })
+                })
+            }
+        })
+    }
+    //DISPLAYS A SPINNER IN CASE OF LOAD TIME 10/16/19 SD
 
-  //TODO: NEEDS TO BE STYLED SD 10/16/19
-  return (
-    <>
-      <View style={styles.container}>
-        <ActivityIndicator size="large" color="black" />
-      </View>
-    </>
-  );
-};
+    //TODO: NEEDS TO BE STYLED SD 10/16/19
+    return (
+        <>
+            <View style={styles.container}>
+                <ActivityIndicator size="large" color="black" />
+            </View>
+        </>
+    )
+}
 
-export default CheckBarCode;
+export default CheckBarCode
