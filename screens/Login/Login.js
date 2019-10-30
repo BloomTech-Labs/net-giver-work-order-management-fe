@@ -18,7 +18,9 @@ import { useApolloClient, useMutation } from "@apollo/react-hooks";
 
 export const SIGN_IN_DEV = gql`
   mutation signInDev($username: String!) {
-    signInDev(username: $username)
+    signInDev(username: $username) {
+      username
+    }
   }
 `;
 
@@ -27,32 +29,36 @@ const Login = props => {
   const [username, onChangeText] = useState("");
   const client = useApolloClient();
   const { navigation } = props;
-  const [login, { loading, error }] = useMutation(SIGN_IN_DEV, {
-    onCompleted({ login }) {
-      // localStorage.setItem("TOKEN", login);
-      client.writeData({ data: { isLoggedIn: true } });
+  const [signInDev, { loading, error }] = useMutation(SIGN_IN_DEV, {
+    onCompleted({ signInDev }) {
+      const username = signInDev.username;
+      console.log(username);
+      props.navigation.navigate("VerifyLogin", { username: username });
+      // client.writeData({ data: { isLoggedIn: true } });
     }
   });
-
-  const onSubmit = event => {
-    event.preventDefault();
-    login({ variables: { username: username } });
+  //SENDS BACK TO LOGIN INCASE OF NO TOKEN 10/24/2019 SD
+  const goBack = () => {
+    props.navigation.navigate("AuthLoading");
   };
 
-  // if (loading)
-  //   return (
-  //     <SafeAreaView style={styles.container}>
-  //       <Text style={loginStyles.header}>Loading</Text>
-  //     </SafeAreaView>
-  //   );
-  // if (error)
-  //   return (
-  //     <SafeAreaView style={styles.container}>
-  //       <Text style={loginStyles.header}>
-  //         Error :( {console.log(error)}
-  //       </Text>
-  //     </SafeAreaView>
-  //   );
+  if (loading)
+    return (
+      <SafeAreaView style={styles.container}>
+        <Text style={loginStyles.header}>Loading</Text>
+      </SafeAreaView>
+    );
+  if (error)
+    return (
+      <SafeAreaView style={styles.container}>
+        <Text style={loginStyles.header}>
+          Invalid Username :( {console.log(error)}
+        </Text>
+        <Button onPress={goBack} style={styles.button}>
+          <Text>Try again!</Text>
+        </Button>
+      </SafeAreaView>
+    );
   return (
     <SafeAreaView style={styles.container}>
       {/* LOGO CONTAINER 10/25/2019 */}
@@ -76,7 +82,15 @@ const Login = props => {
         onFocus={() => onChangeText("")}
       />
       {/* <View style={loginStyles.signIn}> */}
-      <Button style={loginStyles.signIn} onPress={() => onSubmit}>
+      <Button
+        style={loginStyles.signIn}
+        onPress={() =>
+          signInDev({
+            variables: {
+              username: username
+            }
+          })}
+      >
         <Text style={loginStyles.buttonText}>Sign In</Text>
       </Button>
 

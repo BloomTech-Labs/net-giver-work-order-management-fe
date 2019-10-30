@@ -12,38 +12,111 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import AppNavigator from "./navigation/AppNavigator";
 import { Root } from "native-base";
-import { ApolloClient } from "apollo-boost";
+
 import { ApolloProvider } from "@apollo/react-hooks";
+import { ApolloClient } from "apollo-client";
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { HttpLink } from "apollo-link-http";
+import { onError } from "apollo-link-error";
+import { withClientState } from "apollo-link-state";
+import { ApolloLink, Observable } from "apollo-link";
+import { setContext } from "apollo-link-context";
 
-//const cache = new InMemoryCache();
-// const client = new ApolloClient({
-//   cache,
-//   uri: "https://netgiver-stage.herokuapp.com/graphql",
-//   headers: {
-//     "x-token": AsyncStorage.getItem("TOKEN"),
-//     "client-name": "WOM [app]",
-//     "client-version": "1.0.0"
-//   },
-//   typeDefs,
-//   resolvers
-// });
-
-const client = new ApolloClient({
-  uri: "http://localhost:3000/graphql"
+const cache = new InMemoryCache();
+///////////////reset token functionality//////////
+const resetToken = onError(({ networkError }) => {
+  if (
+    networkError &&
+    networkError.name === "ServerError" &&
+    networkError.statusCode === 400
+  ) {
+    // remove cached token on 401 from the server
+    token = null;
+  }
 });
 
-// cache.writeData({
-//   data: {
-//     isLoggedIn: !!AsyncStorage.getItem("TOKEN"),
-//     cartItems: []
-//   }
-// });
+///////////////reset token functionality//////////
 
-const IS_LOGGED_IN = gql`
-  query IsUserLoggedIn {
-    isLoggedIn @client
-  }
-`;
+const request = async operation => {
+  const token = (await AsyncStorage.getItem("userToken")) || null;
+  operation.setContext({
+    headers: {
+      "x-token": token
+    }
+  });
+};
+
+const authMiddleware = new ApolloLink(
+  (operation, forward) =>
+    new Observable(observer => {
+      let handle;
+      Promise.resolve(operation)
+        .then(oper => request(oper))
+        .then(() => {
+          handle = forward(operation).subscribe({
+            next: observer.next.bind(observer),
+            error: observer.error.bind(observer),
+            complete: observer.complete.bind(observer)
+          });
+        })
+        .catch(observer.error.bind(observer));
+
+      return () => {
+        if (handle) handle.unsubscribe();
+      };
+    })
+);
+
+const removeToken = async () => {
+  await AsyncStorage.removeItem("userToken");
+  // .then(() => {
+  //   this.props.navigation.navigate("Auth");
+  // });
+};
+
+const client = new ApolloClient({
+  link: ApolloLink.from([
+    onError(({ graphQLErrors, networkError }) => {
+      if (graphQLErrors)
+        graphQLErrors.forEach(({ message, locations, path }) =>
+          console.log(
+            `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(
+              locations
+            )}, Path: ${path}`
+          )
+        );
+      if (
+        networkError &&
+        networkError.name === "ServerError" &&
+        networkError.statusCode === 400
+      ) {
+        // remove cached token on 401 from the server
+        return (token = null);
+      }
+      if (networkError) console.log(`[Network error]: ${networkError}`);
+    }),
+    authMiddleware,
+    withClientState({
+      defaults: {
+        isConnected: true
+      },
+      resolvers: {
+        Mutation: {
+          updateNetworkStatus: (_, { isConnected }, { cache }) => {
+            cache.writeData({ data: { isConnected } });
+            return null;
+          }
+        }
+      },
+      cache
+    }),
+    new HttpLink({
+      // uri: "http://localhost:3000/graphql"
+      uri: "https://netgiver-stage-pr-10.herokuapp.com/graphql"
+    })
+  ]),
+  cache
+});
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
@@ -61,9 +134,7 @@ export default function App(props) {
       <View style={styles.container}>
         {Platform.OS === "ios" && <StatusBar barStyle="default" />}
         <ApolloProvider client={client}>
-          <AppNavigator>
-            {/* {console.log(client)} */}
-          </AppNavigator>
+          <AppNavigator />
         </ApolloProvider>
       </View>
     );
