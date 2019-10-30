@@ -140,7 +140,7 @@ const Signup = (props) => {
       keyboard: "phone-pad",
       placeholder: "Enter your Phone Number",
       button: "Get Started",
-      text3: "Contact The Net Giver Team"
+      text3: "Contact The Net Giver Team"       
       // keyboard: "phone-pad",
       // schema: {
       //   phone: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required("Phone number is required."),
@@ -299,7 +299,7 @@ const Signup = (props) => {
           {pages.map((input, index) =>  {
             return (
               <View style={styles['slide' + ++index]} key={'slide' + input.id}>
-                {input.image ? <Image  style={loginStyles.logo} source={require('../../components/Images/ng.png')}/> : null}
+                {input.image ? <Image  style={loginStyles.logo1} source={require('../../components/Images/ng.png')}/> : null}
                 {input.topComponent}
                 {input.slideTitle &&
                   <Text style={styles.title}> {input.slideTitle} </Text>
@@ -340,7 +340,9 @@ const Signup = (props) => {
                   >
                     <Text style={styles.buttonText}>{input.button}</Text>
                   </TouchableOpacity>
+                  
                 </View>
+                <Text style={styles.text3}> {input.text3} </Text>
               </View>
             )})}
         </Swiper>
@@ -372,7 +374,7 @@ const styles = StyleSheet.create({
   },
   container: { flex: 1 },
   inputContainer: {
-    marginTop: -5,
+    padding: -20,
     marginVertical: 20,
     width: '100%',
     paddingHorizontal: 10,
@@ -381,6 +383,7 @@ const styles = StyleSheet.create({
 
    slide0: {
     //backgroundColor: '#008000',
+    
     justifyContent: 'flex-start',
     alignItems: 'center',
     
@@ -390,26 +393,23 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
    },
 
-   logo: {
-    borderWidth: 2,
-    position: 'absolute',
-    left: 'auto',
-    right: 'auto',
-    top: '9.15%',
-    bottom: '73.91%',
-    
+   logo1: {
+
    },
 
    slide1: {
     flexDirection: "column",
     justifyContent: 'flex-start',
-    alignItems: 'center',
     paddingTop: 100,
+    alignItems: 'center',
+
+    
    },
 
    slide2: {
+     
     flexDirection: "column",
-    marginTop: 100,
+    paddingTop: 200,
    },
 
   input: {
@@ -464,6 +464,12 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: 'bold',
   }, 
+
+    text3: {
+      textAlign: 'center',
+      marginTop: 50,
+    },
+
   photoContainer: {
     width: 200,
     height: 200,
