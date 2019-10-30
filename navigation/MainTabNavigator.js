@@ -63,22 +63,22 @@ WorkOrderStack.path = "";
 
 const QRStack = createStackNavigator(
   {
-    BarCodeScanner: {
-      screen: BarcodeScanner,
-            navigationOptions: (props) => ({
+    // BarCodeScanner: {
+    //   screen: BarcodeScanner,
+    //         navigationOptions: (props) => ({
 
-        title: "QR Scanner",
-        headerRight:<View style={{marginRight: 15}}><TouchableOpacity onPress={() => props.navigation.navigate('Logout')}><Text>Logout</Text></TouchableOpacity></View>
-      })
-    },
-    CheckBarCode: {
-      screen: CheckBarCode,
-            navigationOptions: (props) => ({
+    //     title: "QR Scanner",
+    //     headerRight:<View style={{marginRight: 15}}><TouchableOpacity onPress={() => props.navigation.navigate('Logout')}><Text>Logout</Text></TouchableOpacity></View>
+    //   })
+    // },
+    // CheckBarCode: {
+    //   screen: CheckBarCode,
+    //         navigationOptions: (props) => ({
 
-        title: "Verify QR Code",
-        headerRight:<View style={{marginRight: 15}}><TouchableOpacity onPress={() => props.navigation.navigate('Logout')}><Text>Logout</Text></TouchableOpacity></View>
-      })
-    },
+    //     title: "Verify QR Code",
+    //     headerRight:<View style={{marginRight: 15}}><TouchableOpacity onPress={() => props.navigation.navigate('Logout')}><Text>Logout</Text></TouchableOpacity></View>
+    //   })
+    // },
     NewWorkOrder: {
       screen: NewWorkOrderForm,
             navigationOptions: (props) => ({
@@ -140,7 +140,7 @@ AccountStack.navigationOptions = {
 AccountStack.path = "";
 
 const tabNavigator = createBottomTabNavigator({
-  WorkOrderStack, 
+  // WorkOrderStack, 
   QRStack,
   AccountStack
 });

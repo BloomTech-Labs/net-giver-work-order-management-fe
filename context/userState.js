@@ -41,7 +41,7 @@ export const UserContext = createContext();
   const initialState = {  
     username: null,
     email: null,
-    token: null,
+    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJza3lsZXIyNDQwQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoic2t5bGVyZCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTU3MjQ1Mzc1MiwiZXhwIjoxNTcyNDU1NTUyfQ.4CvJH9K9TynUJuy6qsVnS60QWeJRkE_cG6UXIoHQ_qY",
     id: null, 
     uploading: false, 
     img: null, 
