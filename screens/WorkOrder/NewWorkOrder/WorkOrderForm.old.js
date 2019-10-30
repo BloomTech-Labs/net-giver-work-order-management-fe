@@ -12,14 +12,24 @@ import {
     TouchableOpacity,
 } from 'react-native'
 import {
-    Container, Header, Left, Body, Right, Button, ActionSheet, Icon, Title, Segment, Content, Text
+    Container,
+    Header,
+    Left,
+    Body,
+    Right,
+    Button,
+    ActionSheet,
+    Icon,
+    Title,
+    Segment,
+    Content,
+    Text,
 } from 'native-base'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { token } from '../../../token'
 import axios from 'axios'
 import { wOForm } from '../../../components/Styles'
-
 
 function Form(props) {
     // console.log('TCL: Form -> props', props)
@@ -35,7 +45,7 @@ function Form(props) {
     )
     //SET CLICKED TO STATE FOR ACTIONsHEET (CAMERA FUNCTIONS) 10/24/2019 SD
     const [clicked, setClicked] = useState()
-    
+
     // console.log('props', props)
     var {
         handleChange,
@@ -47,179 +57,177 @@ function Form(props) {
         navigation,
     } = props
     // REDIRECTS TO CAMERA PAGE SO THAT YOU CAN TAKE A PICTURE SENDS PAGE SENTFROM PROPS SO THAT IT CAN EASILY BE SENT BACK UPON TAKING THE PHOTO  10/24/2019 SD
-    const camRedirect = null;
+    const camRedirect = null
     // (e)  => {  {props.navigation.navigate('CameraModule', {sentFrom:'NewWorkOrder'})}};
     // // REDIRECTS TO IMG GALLERY PAGE SO THAT YOU CAN TAKE A PICTURE SENDS PAGE SENTFROM PROPS SO THAT IT CAN EASILY BE SENT BACK UPON TAKING THE PHOTO  10/24/2019 SD
-    const galRedirect = null;
+    const galRedirect = null
     // () => {() => {props.navigation.navigate('Gallery', { sentFrom: 'NewWorkOrder'})}}
     //SET BUTTONS FOR ACTIONSHEET 12/24/2019 SD
     const BUTTONS = [
-        { text: 'Take Picture with Camera', },
+        { text: 'Take Picture with Camera' },
         { text: 'Use Existing Photo' },
         { text: 'Cancel' },
     ]
     const CANCEL_INDEX = 2
     // const qrcode = props.navigation.state.params.qrCode
-          return (
-            <ScrollView>
-                <View>
-                    <View style={{ marginTop: 15 }}>
-                        {/* TITLE TEXT INPUT 12/24/2019 SD */}
-                        <TextInput
-                            placeholder="What is broken?"
-                            onChangeText={handleChange('title')}
-                            onBlur={handleBlur('title')}
-                            value={values.title}
-                            style={wOForm.textInput}
-                        />
-                    </View>
+    return (
+        <ScrollView>
+            <View>
+                <View style={{ marginTop: 15 }}>
+                    {/* TITLE TEXT INPUT 12/24/2019 SD */}
+                    <TextInput
+                        placeholder="What is broken?"
+                        onChangeText={handleChange('title')}
+                        onBlur={handleBlur('title')}
+                        value={values.title}
+                        style={wOForm.textInput}
+                    />
+                </View>
 
-                    <Text>
-                        {errors.title && touched.title ? errors.title : null}
-                    </Text>
-                    <View>
-                        <TextInput
-                            // DETAIL TEXT INPUT 12/24/2019 SD
-                            placeholder="What's it doing?"
-                            // textContentType={'detail'}
-                            onChangeText={handleChange('detail')}
-                            onBlur={handleBlur('detail')}
-                            value={values.detail}
-                            style={wOForm.textInput}
-                        />
-                    </View>
-                    {/* THROW ERROR IF DETAIL IS NOT CORRECT 12/24/2019 SD */}
-                    {/* NEEDS TO BE STYLED
+                <Text>
+                    {errors.title && touched.title ? errors.title : null}
+                </Text>
+                <View>
+                    <TextInput
+                        // DETAIL TEXT INPUT 12/24/2019 SD
+                        placeholder="What's it doing?"
+                        // textContentType={'detail'}
+                        onChangeText={handleChange('detail')}
+                        onBlur={handleBlur('detail')}
+                        value={values.detail}
+                        style={wOForm.textInput}
+                    />
+                </View>
+                {/* THROW ERROR IF DETAIL IS NOT CORRECT 12/24/2019 SD */}
+                {/* NEEDS TO BE STYLED
                     NEEDS TO BE STYLED
                     NEEDS TO BE STYLED12/24/2019 SD */}
-                    <Text>
-                        {errors.detail && touched.detail ? errors.detail : null}
-                    </Text>
+                <Text>
+                    {errors.detail && touched.detail ? errors.detail : null}
+                </Text>
 
-                    <View>
-                        <View style={wOForm.priorityBar}>
-                            <View style={wOForm.pBarTextBox}>
-                                <Text style={wOForm.pBarText}>Priority:</Text>
-                            </View>
-                            <View style={wOForm.pBarButtonBox}>
-                                <TouchableOpacity style={wOForm.pBarButton}>
-                                    <Text>N/A</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={wOForm.pBarButton}>
-                                    <Text>Low</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={wOForm.pBarButton}>
-                                    <Text>Medium</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={wOForm.pBarButton}>
-                                    <Text>High</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={wOForm.pBarButton}>
-                                    <Text>Emergency</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </View>
+                <View>
                     <View style={wOForm.priorityBar}>
                         <View style={wOForm.pBarTextBox}>
-                            <Text style={wOForm.pBarText}>Status: </Text>
+                            <Text style={wOForm.pBarText}>Priority:</Text>
                         </View>
                         <View style={wOForm.pBarButtonBox}>
                             <TouchableOpacity style={wOForm.pBarButton}>
-                                <Text>Not Started</Text>
+                                <Text>N/A</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={wOForm.pBarButton}>
-                                <Text>In Progress</Text>
+                                <Text>Low</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={wOForm.pBarButton}>
-                                <Text>Complete</Text>
+                                <Text>Medium</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={wOForm.pBarButton}>
+                                <Text>High</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={wOForm.pBarButton}>
+                                <Text>Emergency</Text>
                             </TouchableOpacity>
                         </View>
-                    </View>
-
-                    <Text>Work Order Images (Long Press to Delete)</Text>
-                    {/* WORK ORDER IMAGE BOX 12/24/2019 SD */}
-                    <View style={wOForm.imageBox}>
-                        
-                        <View style={wOForm.image}>
-                            {/* TURN IMAGE INTO BUTTON WITH LONGPRESS THAT WILL DELETE THE PHOTO
-                            DELETE NEEDS FUNCTIONALITY 12/24/2019 SD */}
-                            <TouchableOpacity onLongPress={() => 
-                            handlePhotoDelete()
-                            }>
-                                <Image
-                                    style={wOForm.placeholder}
-                                    source={{
-                                        uri: img1,
-                                    }}
-                                />
-                            </TouchableOpacity>
-                        </View>
-                        <View style={wOForm.image}>
-                        <TouchableOpacity onLongPress={() => 
-                            handlePhotoDelete()
-                            }>
-                                <Image
-                                    style={wOForm.placeholder}
-                                    source={{
-                                        uri: img2,
-                                    }}
-                                />
-                            </TouchableOpacity>
-                        </View>
-                        <View style={wOForm.image}>
-                        <TouchableOpacity onLongPress={() => 
-                            handlePhotoDelete()
-                            }>
-                                <Image
-                                    style={wOForm.placeholder}
-                                    source={{
-                                        uri: img3,
-                                    }}
-                                />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <Content padder>
-                        {/* ACTIONSHEET HAS CAMERA BUTTONS IN IT TO REDIRECT TO CAMERA 10/24/2019 SD */}
-                        <Button
-                            bordered
-                            danger
-                            onPress={() =>
-                                ActionSheet.show(
-                                    {
-                                        options: BUTTONS,
-                                        cancelButtonIndex: CANCEL_INDEX,
-                                        title: 'Choose a Photo',
-                                    },
-                                    buttonIndex => {
-                                        setClicked(BUTTONS[buttonIndex])
-                                    }
-                                )
-                            }
-                        >
-                            <Text>Choose a Photo</Text>
-                        </Button>
-                    </Content>
-                    <View>
-                        {/* SUBMIT BUTTON 10/24/2019 SD */}
-                        <Button
-                            type="primary"
-                            style={wOForm.button}
-                            onPress={handleSubmit}
-                            color="white"
-                        >
-                            <Text>Submit</Text>
-                        </Button>
                     </View>
                 </View>
-            </ScrollView>
-        )
-    
+                <View style={wOForm.priorityBar}>
+                    <View style={wOForm.pBarTextBox}>
+                        <Text style={wOForm.pBarText}>Status: </Text>
+                    </View>
+                    <View style={wOForm.pBarButtonBox}>
+                        <TouchableOpacity style={wOForm.pBarButton}>
+                            <Text>Not Started</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={wOForm.pBarButton}>
+                            <Text>In Progress</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={wOForm.pBarButton}>
+                            <Text>Complete</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
+                <Text>Work Order Images (Long Press to Delete)</Text>
+                {/* WORK ORDER IMAGE BOX 12/24/2019 SD */}
+                <View style={wOForm.imageBox}>
+                    <View style={wOForm.image}>
+                        {/* TURN IMAGE INTO BUTTON WITH LONGPRESS THAT WILL DELETE THE PHOTO
+                            DELETE NEEDS FUNCTIONALITY 12/24/2019 SD */}
+                        <TouchableOpacity
+                            onLongPress={() => handlePhotoDelete()}
+                        >
+                            <Image
+                                style={wOForm.placeholder}
+                                source={{
+                                    uri: img1,
+                                }}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={wOForm.image}>
+                        <TouchableOpacity
+                            onLongPress={() => handlePhotoDelete()}
+                        >
+                            <Image
+                                style={wOForm.placeholder}
+                                source={{
+                                    uri: img2,
+                                }}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={wOForm.image}>
+                        <TouchableOpacity
+                            onLongPress={() => handlePhotoDelete()}
+                        >
+                            <Image
+                                style={wOForm.placeholder}
+                                source={{
+                                    uri: img3,
+                                }}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <Content padder>
+                    {/* ACTIONSHEET HAS CAMERA BUTTONS IN IT TO REDIRECT TO CAMERA 10/24/2019 SD */}
+                    <Button
+                        bordered
+                        danger
+                        onPress={() =>
+                            ActionSheet.show(
+                                {
+                                    options: BUTTONS,
+                                    cancelButtonIndex: CANCEL_INDEX,
+                                    title: 'Choose a Photo',
+                                },
+                                buttonIndex => {
+                                    setClicked(BUTTONS[buttonIndex])
+                                }
+                            )
+                        }
+                    >
+                        <Text>Choose a Photo</Text>
+                    </Button>
+                </Content>
+                <View>
+                    {/* SUBMIT BUTTON 10/24/2019 SD */}
+                    <Button
+                        type="primary"
+                        style={wOForm.button}
+                        onPress={handleSubmit}
+                        color="white"
+                    >
+                        <Text>Submit</Text>
+                    </Button>
+                </View>
+            </View>
+        </ScrollView>
+    )
 }
 
 function WorkOrderForm(props) {
-    const {qrCode} = props.navigation.state.params.qrCode
+    // const {qrCode} = props.navigation.state.params.qrCode
     // const { qrCode } = 7
 
     // console.log('TCL: WorkOrderForm -> props', props)
