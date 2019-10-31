@@ -75,7 +75,7 @@ const Login = props => {
                 <Text style={loginStyles.buttonText}>Sign Up</Text>
             </Button>
             {/* NEEDS TO LINK TO CONTACT */}
-            <Text style={loginStyles.footerText}>Contact Netgiver Team</Text>
+            <Text style={loginStyles.footerText}>Contact The Netgiver Team</Text>
         </SafeAreaView>
     )
 }

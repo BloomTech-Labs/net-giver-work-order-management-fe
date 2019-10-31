@@ -1,8 +1,8 @@
 {
-  "hostType": "lan",
-  "lanType": "ip",
-  "dev": true,
-  "minify": false,
-  "urlRandomness": "uc-i3v",
-  "https": false
+    "hostType": "lan",
+    "lanType": "ip",
+    "dev": true,
+    "minify": false,
+    "urlRandomness": "ny-nre",
+    "https": false
 }

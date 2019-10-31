@@ -46,15 +46,18 @@ const NewWorkOrderForm = props => {
     })
     console.log('TCL: props', props)
     // SET PLACEHOLDER IMAGES TO STATE 10/24/2019 SD
-    const [img1, setImg1] = useState(
+    const [photoUri, setPhotoUri] = useState(
         'http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image'
     )
-    const [img2, setImg2] = useState(
-        'http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image'
-    )
-    const [img3, setImg3] = useState(
-        'http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image'
-    )
+    useEffect(() => {
+        setPhotoUri(
+            props.navigation.getParam(
+                'uri',
+                'http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image'
+            )
+        )
+    }, [])
+
     //SET CLICKED TO STATE FOR ACTIONsHEET (CAMERA FUNCTIONS) 10/24/2019 SD
     const [clicked, setClicked] = useState()
     // SET PRIORITY 10/24/2019 SD
@@ -127,6 +130,7 @@ const NewWorkOrderForm = props => {
     // props.navigation.state.params.qrCode
     console.log('TCL: qrCode', qrCode)
     //SUBMIT HANDLER 10/24/2019 SD
+
     const handleSubmit = () => {
         const editMutation = `mutation {
             editWorkorder( qrcode: "${qrCode}", detail: "${detail}", priority: "${priority}", status: "${status}", title: "${title}"){
@@ -146,15 +150,66 @@ const NewWorkOrderForm = props => {
             data: {
                 query: editMutation,
             },
-        }).then(res => {
-            console.log('response submit', res)
-            props.navigation.dispatch(resetAction1)
-            props.navigation.navigate('WorkOrderList', {
-                sentFrom: 'NewWorkOrder',
-                token: token,
-            })
-            props.navigation.dispatch(resetAction)
         })
+            .then(res => {
+                console.log('response submit', res)
+                props.navigation.dispatch(resetAction1)
+                props.navigation.navigate('WorkOrderList', {
+                    sentFrom: 'NewWorkOrder',
+                    token: token,
+                })
+                props.navigation.dispatch(resetAction)
+            })
+            .then(res => {
+                const apiUrl = 'https://netgiver-stage.herokuapp.com/graphql'
+                const query = `mutation($photo: Upload!) { uploadWorkorderphoto(photo: ${photoUri}, workorderId: ${workOrderId}, primaryPhoto: true) { path, filename, workorderId, primaryPhoto, photocount, userId } }",
+                "variables": {
+                    "photo": null
+                }`
+
+                let fileName = photoUri.split('/').pop()
+                let match = /\.(\w+)$/.exec(fileName)
+                let mimeType = match ? `image/${match[1]}` : `image`
+
+                let data = {
+                    query,
+                    variables: { photo: null },
+                    operationName: null,
+                }
+                let fileMap = {}
+                fileMap[0] = ['variables.photo']
+
+                let body = new FormData()
+
+                body.append('operations', JSON.stringify(data))
+                body.append('map', JSON.stringify(fileMap))
+                body.append(0, {
+                    uri: photoUri,
+                    name: fileName,
+                    type: mimeType,
+                })
+
+                axios
+                    .post(apiUrl, body, {
+                        headers: {
+                            'x-token': token,
+                            Accept: 'application/json',
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    })
+                    .then(res => {
+                        console.log('response submit', res)
+                        // props.navigation.dispatch(resetAction1)
+                        props.navigation.navigate('WorkOrderList', {
+                            sentFrom: 'NewWorkOrder',
+                            token: token,
+                        })
+                        // props.navigation.dispatch(resetAction)
+                    })
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
     return (
         <ScrollView style={{ backgroundColor: '#f8f5f4' }}>
@@ -271,6 +326,22 @@ const NewWorkOrderForm = props => {
     )
 }
 const wOForm = StyleSheet.create({
+    imgCard: {
+        borderWidth: 1,
+        marginTop: 5,
+        padding: 5,
+        marginBottom: 5,
+    },
+    imgCardTop: {},
+    imgCardBot: {},
+    imgCardBot: {},
+    touchImage: {},
+    imgUpload: {
+        width: 150,
+        height: 150,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+    },
     statusDiv: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -307,6 +378,7 @@ const wOForm = StyleSheet.create({
         borderColor: '#C5C2C2',
         padding: 5,
         backgroundColor: 'white',
+        borderBottomWidth: 1,
     },
     priorityButtons: {
         backgroundColor: '#f4f3f3',
