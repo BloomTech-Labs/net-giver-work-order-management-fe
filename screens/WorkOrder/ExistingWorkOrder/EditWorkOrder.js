@@ -229,7 +229,7 @@ const EditWorkOrder = props => {
                                         : { backgroundColor: 'white' },
                                 ]}
                                 onPress={() => {
-                                    setPriority('Emergency')
+                                    setPriority('Urgent')
                                     setActivePriority(4)
                                 }}
                             >
@@ -242,7 +242,7 @@ const EditWorkOrder = props => {
                                             : { color: '#237804' },
                                     ]}
                                 >
-                                    Emergency
+                                    Urgent
                                 </Text>
                             </TouchableOpacity>
                         </View>

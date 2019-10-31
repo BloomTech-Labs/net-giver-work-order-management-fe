@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {
     ScrollView,
     View,
@@ -19,20 +19,32 @@ import {
     Right,
     Button,
     ActionSheet,
-    Icon,
+    // Icon,
     Title,
     Segment,
     Content,
     Text,
 } from 'native-base'
+import { Icon } from 'react-native-elements'
 // import { token } from '../../../token'
 import axios from 'axios'
-import { wOForm } from '../../../components/Styles'
-
+// import { wOForm } from '../../../components/Styles'
+// import {token} from '../../../token'
+import { StackActions, NavigationActions } from 'react-navigation'
+import { UserContext } from '../../../context/userState'
+import { wOList } from '../../../components/Styles'
 const NewWorkOrderForm = props => {
-    const token = props.navigation.state.params.token
- 
-console.log("TCL: props", props)
+    const { user } = useContext(UserContext)
+    const token = user.token
+    const resetAction = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: 'WorkOrderList' })],
+    })
+    const resetAction1 = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: 'BarCodeScanner' })],
+    })
+    console.log('TCL: props', props)
     // SET PLACEHOLDER IMAGES TO STATE 10/24/2019 SD
     const [img1, setImg1] = useState(
         'http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image'
@@ -60,9 +72,60 @@ console.log("TCL: props", props)
         { text: 'Cancel' },
     ]
     const CANCEL_INDEX = 2
+
+    const statusArray = [
+        {
+            type: '1 Open',
+            name: 'Open',
+            iconName: 'unlock',
+        },
+        {
+            type: '2 OnHold',
+            name: 'On Hold',
+            iconName: 'pause',
+        },
+        {
+            type: '3 InProgress',
+            name: 'In Progress',
+            iconName: 'sync',
+        },
+        {
+            type: '4 Complete',
+            name: 'Complete',
+            iconName: 'lock',
+        },
+    ]
+
+    const priorityArray = [
+        {
+            type: '1 Low',
+            name: 'Low',
+            color: '#087FFF',
+            backgroundColor: '#E2F5FC',
+        },
+        {
+            type: '2 Medium',
+            name: 'Medium',
+            color: '#07BD51',
+            backgroundColor: '#CBFBCB',
+        },
+        {
+            type: '3 High',
+            name: 'High',
+            color: '#DBA004',
+            backgroundColor: '#FFED9B',
+        },
+        {
+            type: '4 Urgent',
+            name: 'Urgent',
+            color: '#FE273A',
+            backgroundColor: '#FFD3D3',
+        },
+    ]
     //SET QR CODE FROM PROPS 10/24/2019 SD
-    const {qrCode} = props.navigation.state.params.qrCode
-    console.log("TCL: qrCode", qrCode)
+    const { qrCode } = 7
+    // props.navigation.state.params.qrCode
+    console.log('TCL: qrCode', qrCode)
     //SUBMIT HANDLER 10/24/2019 SD
     const handleSubmit = () => {
         const editMutation = `mutation {
@@ -74,7 +137,6 @@ console.log("TCL: props", props)
               title
             }
           }`
-
         axios({
             method: 'post',
             url: 'https://netgiver-stage.herokuapp.com/graphql',
@@ -86,17 +148,21 @@ console.log("TCL: props", props)
             },
         }).then(res => {
             console.log('response submit', res)
-            props.navigation.navigate('WorkOrderList')
+            props.navigation.dispatch(resetAction1)
+            props.navigation.navigate('WorkOrderList', {
+                sentFrom: 'NewWorkOrder',
+                token: token,
+            })
+            props.navigation.dispatch(resetAction)
         })
     }
-
     return (
-        <ScrollView>
+        <ScrollView style={{ backgroundColor: '#f8f5f4' }}>
             <View>
                 <View style={{ marginTop: 15 }}>
                     {/* TITLE TEXT INPUT 12/24/2019 SD */}
                     <TextInput
-                        placeholder="What is broken?"
+                        placeholder="Work Order Title*"
                         onChangeText={setTitle}
                         value={title}
                         style={wOForm.textInput}
@@ -105,154 +171,209 @@ console.log("TCL: props", props)
                 <View>
                     <TextInput
                         // DETAIL TEXT INPUT 12/24/2019 SD
-                        placeholder="What's it doing?"
+                        placeholder="Detailed Description"
                         onChangeText={setDetail}
                         value={detail}
-                        style={wOForm.textInput}
+                        style={wOForm.textInput1}
                     />
                 </View>
-                <View>
-                    <View style={wOForm.priorityBar}>
-                        <View style={wOForm.pBarTextBox}>
-                            <Text style={wOForm.pBarText}>Priority:</Text>
-                        </View>
-                        <View style={wOForm.pBarButtonBox}>
-                            <TouchableOpacity
-                                style={wOForm.pBarButton}
-                                onPress={()=>setPriority('N/A')}
-                            >
-                                <Text>N/A</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={wOForm.pBarButton}
-                                onPress={()=>setPriority('Low')}
-                            >
-                                <Text>Low</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={wOForm.pBarButton}
-                                onPress={()=>setPriority('Medium')}
-                            >
-                                <Text>Medium</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={wOForm.pBarButton}
-                                onPress={()=>setPriority('High')}
-                            >
-                                <Text>High</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={wOForm.pBarButton}
-                                onPress={()=>setPriority('Emergency')}
-                            >
-                                <Text>Emergency</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
+                <View style={{ backgroundColor: '#F4F3F3' }}>
+                    <Text>Tap to update status:</Text>
                 </View>
-                <View style={wOForm.priorityBar}>
-                    <View style={wOForm.pBarTextBox}>
-                        <Text style={wOForm.pBarText}>Status: </Text>
-                    </View>
-                    <View style={wOForm.pBarButtonBox}>
-                        <TouchableOpacity
-                            style={wOForm.pBarButton}
-                            onPress={()=>setStatus('Not Started')}
-                        >
-                            <Text>Not Started</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={wOForm.pBarButton}
-                            onPress={()=>setStatus('In Progress')}
-                        >
-                            <Text>In Progress</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={wOForm.pBarButton}
-                            onPress={()=>setStatus('Complete')}
-                        >
-                            <Text>Complete</Text>
-                        </TouchableOpacity>
-                    </View>
+                <View style={wOForm.statusDiv}>
+                    {statusArray.map((item, index) => {
+                        return (
+                            // THIS IS FOR STYLING UPDATE STATUS
+                            <TouchableOpacity
+                                onPress={() => setStatus(item.type)}
+                                style={[
+                                    wOForm.statusButtons,
+                                    {
+                                        backgroundColor:
+                                            status === item.type
+                                                ? 'green'
+                                                : 'white',
+                                    },
+                                ]}
+                            >
+                                <Icon
+                                    color={
+                                        status === item.type ? 'white' : 'green'
+                                    }
+                                    type="antdesign"
+                                    name={item.iconName}
+                                />
+                                <Text
+                                    style={[
+                                        wOForm.statusButtonsText,
+                                        {
+                                            color:
+                                                status === item.type
+                                                    ? 'white'
+                                                    : 'green',
+                                        },
+                                    ]}
+                                >
+                                    {item.name}
+                                </Text>
+                            </TouchableOpacity>
+                        )
+                    })}
                 </View>
-
-                <Text>Work Order Images (Long Press to Delete)</Text>
-                {/* WORK ORDER IMAGE BOX 12/24/2019 SD */}
-                <View style={wOForm.imageBox}>
-                    <View style={wOForm.image}>
-                        {/* TURN IMAGE INTO BUTTON WITH LONGPRESS THAT WILL DELETE THE PHOTO
-                            DELETE NEEDS FUNCTIONALITY 12/24/2019 SD */}
-                        <TouchableOpacity
-                            onLongPress={() => handlePhotoDelete()}
-                        >
-                            <Image
-                                style={wOForm.placeholder}
-                                source={{
-                                    uri: img1,
-                                }}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                    <View style={wOForm.image}>
-                        <TouchableOpacity
-                            onLongPress={() => handlePhotoDelete()}
-                        >
-                            <Image
-                                style={wOForm.placeholder}
-                                source={{
-                                    uri: img2,
-                                }}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                    <View style={wOForm.image}>
-                        <TouchableOpacity
-                            onLongPress={() => handlePhotoDelete()}
-                        >
-                            <Image
-                                style={wOForm.placeholder}
-                                source={{
-                                    uri: img3,
-                                }}
-                            />
-                        </TouchableOpacity>
-                    </View>
+                <View style={{ backgroundColor: 'white' }}>
+                    <Text>Tap to update priority:</Text>
                 </View>
-                <Content padder>
-                    {/* ACTIONSHEET HAS CAMERA BUTTONS IN IT TO REDIRECT TO CAMERA 10/24/2019 SD */}
-                    <Button
-                        bordered
-                        danger
-                        onPress={() =>
-                            ActionSheet.show(
-                                {
-                                    options: BUTTONS,
-                                    cancelButtonIndex: CANCEL_INDEX,
-                                    title: 'Choose a Photo',
-                                },
-                                buttonIndex => {
-                                    setClicked(BUTTONS[buttonIndex])
-                                }
-                            )
-                        }
-                    >
-                        <Text>Choose a Photo</Text>
-                    </Button>
-                </Content>
-                <View>
-                    {/* SUBMIT BUTTON 10/24/2019 SD */}
-                    <Button
-                        type="primary"
-                        style={wOForm.button}
-                        onPress={handleSubmit}
-                        color="white"
-                    >
-                        <Text>Submit</Text>
-                    </Button>
+                <View style={wOForm.priorityDiv}>
+                    {priorityArray.map((item, index) => {
+                        return (
+                            // THIS IS FOR STYLING UPDATE PRIORITY
+                            <TouchableOpacity
+                                onPress={() => setPriority(item.type)}
+                                style={[
+                                    wOForm.priorityButtons,
+                                    {
+                                        backgroundColor:
+                                            priority === item.type
+                                                ? item.backgroundColor
+                                                : '#F4F3F3',
+                                    },
+                                ]}
+                            >
+                                <Text
+                                    style={[
+                                        wOForm.priorityButtonsText,
+                                        {
+                                            color:
+                                                priority === item.type
+                                                    ? item.color
+                                                    : '#89898E',
+                                        },
+                                    ]}
+                                >
+                                    {item.name}
+                                </Text>
+                            </TouchableOpacity>
+                        )
+                    })}
                 </View>
+                {/* SUBMIT BUTTON 10/24/2019 SD */}
+                <Button
+                    type="primary"
+                    style={wOForm.button}
+                    onPress={handleSubmit}
+                    color="white"
+                >
+                    <Text>Submit</Text>
+                </Button>
             </View>
+            {/* </View> */}
         </ScrollView>
     )
 }
-
+const wOForm = StyleSheet.create({
+    statusDiv: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        borderColor: '#C5C2C2',
+        padding: 5,
+        backgroundColor: 'white',
+        borderBottomWidth: 1,
+    },
+    statusButtons: {
+        backgroundColor: '#f4f3f3',
+        width: '23%',
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: '#C5C2C2',
+        padding: 5,
+    },
+    statusButtonsText: { color: '#009900', textAlign: 'center', fontSize: 14 },
+    statusButtonsActive: {
+        backgroundColor: '#009900',
+        width: '23%',
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: '#C5C2C2',
+        padding: 5,
+    },
+    statusButtonsTextActive: {
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 14,
+    },
+    priorityDiv: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        borderColor: '#C5C2C2',
+        padding: 5,
+        backgroundColor: 'white',
+    },
+    priorityButtons: {
+        backgroundColor: '#f4f3f3',
+        width: '23%',
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: '#C5C2C2',
+        padding: 5,
+        height: 55,
+    },
+    priorityButtonsText: {
+        color: 'black',
+        textAlign: 'center',
+        fontSize: 14,
+        marginTop: 'auto',
+        marginBottom: 'auto',
+    },
+    priorityButtonsActive: {
+        backgroundColor: '#009900',
+        width: '23%',
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: '#C5C2C2',
+        padding: 5,
+        height: 53,
+    },
+    priorityButtonsTextActive: {
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 14,
+    },
+    hidden: {
+        display: 'none',
+        alignSelf: 'center',
+    },
+    button: {
+        backgroundColor: '#006E13',
+        borderWidth: 2,
+        borderColor: '#EDF1F3',
+        width: '96%',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        marginTop: 175,
+    },
+    textInput: {
+        marginTop: -15,
+        borderTopWidth: 1,
+        borderBottomWidth: 0,
+        borderRightWidth: 0,
+        borderLeftWidth: 0,
+        backgroundColor: '#ffffff',
+        borderColor: '#C5C2C2',
+        width: '102%',
+        alignSelf: 'center',
+        padding: 10,
+    },
+    textInput1: {
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
+        borderRightWidth: 0,
+        borderLeftWidth: 0,
+        backgroundColor: '#ffffff',
+        borderColor: '#C5C2C2',
+        width: '102%',
+        alignSelf: 'center',
+        padding: 10,
+        height: 90,
+    },
+})
 export default NewWorkOrderForm
