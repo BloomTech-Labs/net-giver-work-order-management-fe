@@ -108,12 +108,7 @@ const AppCamera = props => {
             props.navigation.goBack(null)
         } else if (props.navigation.state.params.from === 'NewWorkOrder') {
             props.navigation.navigate('NewWorkOrder', { uri: uri })
-        } else if (props.navigation.state.params.from === 'EditWorkOrder') {
-          props.navigation.navigate('EditWorkOrder', { uri: uri })
-        } else if (props.navigation.state.params.from === 'WorkOrderComments') {
-          props.navigation.navigate('WorkOrderComments', { uri: uri })}
-          else if (props.navigation.state.params.from === 'UpdateProfile') {
-            props.navigation.navigate('UpdateProfile', { uri: uri })
+        }
     }
 
     const handleBackButton = () => {

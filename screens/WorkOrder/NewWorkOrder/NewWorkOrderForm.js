@@ -71,15 +71,12 @@ const NewWorkOrderForm = props => {
     //SET DETAIL 10/24/2019 SD`
     const [detail, setDetail] = useState()
     //SET BUTTONS AND CANCEL_INDEX FOR ACTIONSHEET 12/24/2019 SD
-    const BUTTONS = [
-        { text: 'Take Picture with Camera' },
-        { text: 'Use Existing Photo' },
-        { text: 'Cancel' },
-    ]
-    const CANCEL_INDEX = 2
+
     //SET QR CODE FROM PROPS 10/24/2019 SD
     const { qrCode } = 7
+
     // props.navigation.state.params.qrCode
+    const { workOrderId } = 1
     console.log('TCL: qrCode', qrCode)
     //SUBMIT HANDLER 10/24/2019 SD
 
@@ -103,15 +100,57 @@ const NewWorkOrderForm = props => {
             data: {
                 query: editMutation,
             },
-        }).then(res => {
-            console.log('response submit', res)
-            // props.navigation.dispatch(resetAction1)
-            props.navigation.navigate('WorkOrderList', {
-                sentFrom: 'NewWorkOrder',
-                token: token,
-            })
-            // props.navigation.dispatch(resetAction)
         })
+            .then(res => {
+                const apiUrl = 'https://netgiver-stage.herokuapp.com/graphql'
+                const query = `mutation($photo: Upload!) { uploadWorkorderphoto(photo: ${photoUri}, workorderId: ${workOrderId}, primaryPhoto: true) { path, filename, workorderId, primaryPhoto, photocount, userId } }",
+                "variables": {
+                    "photo": null
+                }`
+
+                let fileName = photoUri.split('/').pop()
+                let match = /\.(\w+)$/.exec(fileName)
+                let mimeType = match ? `image/${match[1]}` : `image`
+
+                let data = {
+                    query,
+                    variables: { photo: null },
+                    operationName: null,
+                }
+                let fileMap = {}
+                fileMap[0] = ['variables.photo']
+
+                let body = new FormData()
+
+                body.append('operations', JSON.stringify(data))
+                body.append('map', JSON.stringify(fileMap))
+                body.append(0, {
+                    uri: photoUri,
+                    name: fileName,
+                    type: mimeType,
+                })
+
+                axios
+                    .post(apiUrl, body, {
+                        headers: {
+                            'x-token': token,
+                            Accept: 'application/json',
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    })
+                    .then(res => {
+                        console.log('response submit', res)
+                        // props.navigation.dispatch(resetAction1)
+                        props.navigation.navigate('WorkOrderList', {
+                            sentFrom: 'NewWorkOrder',
+                            token: token,
+                        })
+                        // props.navigation.dispatch(resetAction)
+                    })
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     return (
