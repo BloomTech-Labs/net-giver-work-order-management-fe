@@ -8,7 +8,7 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   Image,
-  Alert, 
+  Alert,
   ActivityIndicator
 } from "react-native";
 import Swiper from 'react-native-swiper';
@@ -34,9 +34,9 @@ const Signup = (props) => {
   const { user, addUser } = useContext(UserContext)
   const swipeRef = useRef();
   var [formValues, setFormValues] = useState({
-    fullname:"",
-    email:"",
-    phone:""
+    fullname: "",
+    email: "",
+    phone: ""
   })
 
   const phoneRegExp = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
@@ -47,14 +47,14 @@ const Signup = (props) => {
 
   useEffect(() => {
     // Need to add error handling
-    if(user.reg_complete === true){
+    if (user.reg_complete === true) {
       Alert.alert(
         'User Added!',
         `User id: ${user.id}`,
         [
-          {text: 'OK', onPress: () => props.navigation.navigate('Main')},
+          { text: 'OK', onPress: () => props.navigation.navigate('Main') },
         ],
-        {cancelable: false},
+        { cancelable: false },
       );
     }
   }, [user.reg_complete]);
@@ -77,23 +77,23 @@ const Signup = (props) => {
     const { username, email, phone } = formValues
     const password = 123456 //temp password for testing
     const query = `mutation { signUp( username: "${username}", password: "${password}", email: "${email}", phone: "${phone}" ) { token user {id} } }`
-  //   const textInputForm = <TextInput
-  //   key={input.name + input.id}
-  //   name={input.name}
-  //   value={formValues[input.name]}
-  //   keyboardType={input.keyboard}
-  //   onChangeText={(text) => onInputChange(input.name, text)}
-  //   placeholder={input.placeholder}
-  //   style={styles.input}
-  // />
+    //   const textInputForm = <TextInput
+    //   key={input.name + input.id}
+    //   name={input.name}
+    //   value={formValues[input.name]}
+    //   keyboardType={input.keyboard}
+    //   onChangeText={(text) => onInputChange(input.name, text)}
+    //   placeholder={input.placeholder}
+    //   style={styles.input}
+    // />
 
-    const res = addUser(query, photo); 
-    console.log("final values",formValues)
+    const res = addUser(query, photo);
+    console.log("final values", formValues)
   };
-  
+
   const handleNext = (values) => {
     //this function will set page to the next page when schema passes and change state
-    setFormValues({...formValues, ...values});
+    setFormValues({ ...formValues, ...values });
     swipeRef.current.scrollBy(1, true)
     setCurrent(current + 1)
   }
@@ -104,23 +104,23 @@ const Signup = (props) => {
     return (
       <TouchableOpacity
         style={styles.photoContainer}
-        onPress={() => props.navigation.navigate('Camera', {from:'Signup', callback:handlePhoto})}
+        onPress={() => props.navigation.navigate('Camera', { from: 'Signup', callback: handlePhoto })}
       >
         {!photoUri
           ? <Ionicons
-              name="md-camera"
-              color="white"
-              size={90}
-            />
+            name="md-camera"
+            color="white"
+            size={90}
+          />
           : <Image
-              style={{
-                alignSelf: 'center',
-                width: 200,
-                height: 200,
-                borderRadius: 200/2,
-              }}
-              source={{ uri: photoUri }}
-              resizeMode="cover"
+            style={{
+              alignSelf: 'center',
+              width: 200,
+              height: 200,
+              borderRadius: 200 / 2,
+            }}
+            source={{ uri: photoUri }}
+            resizeMode="cover"
           />
         }
       </TouchableOpacity>
@@ -194,7 +194,7 @@ const Signup = (props) => {
       button: "Submit"
     }
   ]
-  
+
   const SignupSchema = Yup.object().shape({
     firstName: Yup.string()
       .min(2, 'Too Short!')
@@ -219,7 +219,7 @@ const Signup = (props) => {
       }}
       validationSchema={schema}
       initialValues={{
-        [this.name]:""
+        [this.name]: ""
       }}
       render={props => {
         return slide.call(this, props);
@@ -287,51 +287,51 @@ const Signup = (props) => {
         onSubmit={values => console.log(values)}
         validationSchema={SignupSchema}
         initialValues={{ email: '', username: '', phone: '' }}
-        >
-        <Swiper 
+      >
+        <Swiper
           ref={swipeRef}
           style={styles.wrapper}
           showsButtons={false}
           disableNextButton={disabled}
           loop={false}
-          buttonWrapperStyle={{position: "relative", marginVertical: 80, paddingHorizontal: 0}}
+          buttonWrapperStyle={{ position: "relative", marginVertical: 80, paddingHorizontal: 0 }}
         >
-          {pages.map((input, index) =>  {
+          {pages.map((input, index) => {
             return (
               <View style={styles['slide' + ++index]} key={'slide' + input.id}>
-                {input.image ? <Image  style={loginStyles.logo} source={require('../../components/Images/ng.png')}/> : null}
+                {input.image ? <Image style={loginStyles.logo} source={require('../../components/Images/ng.png')} /> : null}
                 {input.topComponent}
                 {input.slideTitle &&
                   <Text style={styles.title}> {input.slideTitle} </Text>
                 }
                 <Text style={styles.text}> {input.text} </Text>
-                
+
                 <View style={styles.inputContainer}>
-                
+
                   <Text style={styles.text}> {input.text2} </Text>
 
                   <TextInput
-                        key={input.name + input.id}
-                        name={input.name}
-                        value={formValues[input.name]}
-                        keyboardType={input.keyboard}
-                        onChangeText={(text) => onInputChange(input.name, text)}
-                        placeholder={input.placeholder}
-                        style={styles.input}
-                      />
-                  
-                  {input.name2 
+                    key={input.name + input.id}
+                    name={input.name}
+                    value={formValues[input.name]}
+                    keyboardType={input.keyboard}
+                    onChangeText={(text) => onInputChange(input.name, text)}
+                    placeholder={input.placeholder}
+                    style={styles.input}
+                  />
+
+                  {input.name2
                     ? <TextInput
-                        key={input.name2 + input.id}
-                        name={input.name2}
-                        value={formValues[input.name2]}
-                        keyboardType={input.keyboard}
-                        onChangeText={(text) => onInputChange(input.name2, text)}
-                        placeholder={input.placeholder2}
-                        style={styles.input}
-                      /> 
-                      : 
-                      null
+                      key={input.name2 + input.id}
+                      name={input.name2}
+                      value={formValues[input.name2]}
+                      keyboardType={input.keyboard}
+                      onChangeText={(text) => onInputChange(input.name2, text)}
+                      placeholder={input.placeholder2}
+                      style={styles.input}
+                    />
+                    :
+                    null
 
                   }
                   <TouchableOpacity
@@ -342,10 +342,11 @@ const Signup = (props) => {
                   </TouchableOpacity>
                 </View>
               </View>
-            )})}
+            )
+          })}
         </Swiper>
       </Formik>
-  </KeyboardAvoidingView>
+    </KeyboardAvoidingView>
   );
 
 
@@ -379,38 +380,38 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
 
-   slide0: {
+  slide0: {
     //backgroundColor: '#008000',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    
-   },
 
-   slideTitle: {
+  },
+
+  slideTitle: {
     fontWeight: 'bold',
-   },
+  },
 
-   logo: {
+  logo: {
     borderWidth: 2,
     position: 'absolute',
     left: 'auto',
     right: 'auto',
     top: '9.15%',
     bottom: '73.91%',
-    
-   },
 
-   slide1: {
+  },
+
+  slide1: {
     flexDirection: "column",
     justifyContent: 'flex-start',
     alignItems: 'center',
     paddingTop: 100,
-   },
+  },
 
-   slide2: {
+  slide2: {
     flexDirection: "column",
     marginTop: 100,
-   },
+  },
 
   input: {
     width: '100%',
@@ -453,7 +454,7 @@ const styles = StyleSheet.create({
     marginTop: '10%',
     fontSize: 22,
     fontWeight: 'bold',
-    
+
     //marginVertical: 80,
     textAlign: 'center',
     //paddingBottom: 3,
@@ -463,18 +464,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 17,
     fontWeight: 'bold',
-  }, 
+  },
   photoContainer: {
     width: 200,
     height: 200,
     borderWidth: 6,
-    borderRadius: 200/2,
+    borderRadius: 200 / 2,
     borderColor: "lightgray",
     backgroundColor: "lightgray",
     alignSelf: 'center',
     marginTop: '10%',
     alignItems: 'center',
     justifyContent: 'center',
-  }, 
+  },
 })
 export default Signup
