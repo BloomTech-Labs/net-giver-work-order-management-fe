@@ -14,35 +14,34 @@ import { styles } from '../../../components/Styles'
 import { gql } from 'apollo-boost'
 import { useApolloClient, useMutation, useQuery } from '@apollo/react-hooks'
 
-const CHECK_FOR_WORKORDER = gql`
-    query {
-        workorder(qrcode: $qrcode) {
-            id
-            qrcode
-            detail
-            createdAt
-            priority
-            status
-            title
-        }
-    }
-`
-
-const CREATE_WORK_ORDER = gql`
-    mutation createWorkorder($qrcode: String!) {
-        createWorkorder(qrcode: $qrcode) {
-            id
-            qrcode
-            detail
-            createdAt
-            priority
-            status
-            title
-        }
-    }
-`
-
 const CheckBarCode = props => {
+    const CHECK_FOR_WORKORDER = gql`
+    query {
+        workorder(qrcode: ${props.navigation.state.params.qrData}) {
+            id
+            qrcode
+            detail
+            createdAt
+            priority
+            status
+            title
+        }
+    }
+`
+
+    const CREATE_WORK_ORDER = gql`
+        mutation createWorkorder($qrcode: String!) {
+            createWorkorder(qrcode: $qrcode) {
+                id
+                qrcode
+                detail
+                createdAt
+                priority
+                status
+                title
+            }
+        }
+    `
     console.log('TCL: props', props)
     // const qrcode = props.navigation.state.params.qrData
     const { loading, error, data } = useQuery(CHECK_FOR_WORKORDER, {
