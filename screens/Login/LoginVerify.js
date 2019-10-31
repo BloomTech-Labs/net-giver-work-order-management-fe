@@ -14,6 +14,7 @@ export const AUTHY_VERIFY_DEV = gql`
     }
   }
 `;
+
 // SENDS A TEXT FROM THE AUTH SERVER > ENTER THE TEXT CODE > GET THE TOKEN 10/24/2019 SD
 const LoginVerify = props => {
   // GETS USERNAME OUT OF PROPS 10/24/2019 SD
@@ -31,6 +32,7 @@ const LoginVerify = props => {
       });
     }
   });
+
 
   //SENDS BACK TO LOGIN INCASE OF NO TOKEN 10/24/2019 SD
   const goBack = () => {
@@ -69,5 +71,6 @@ const LoginVerify = props => {
     </View>
   );
 };
+
 
 export default LoginVerify;

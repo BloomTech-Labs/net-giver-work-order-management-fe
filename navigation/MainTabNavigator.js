@@ -17,10 +17,11 @@ import CheckBarCode from "../screens/WorkOrder/BarCodeScanner/CheckBarCode";
 import NewWorkOrderForm from "../screens/WorkOrder/NewWorkOrder/NewWorkOrderForm";
 import EditWorkOrder from "../screens/WorkOrder/ExistingWorkOrder/EditWorkOrder";
 import CameraModule from "../components/camera/Camera";
+
 const config = Platform.select({
-  web: { headerMode: "screen" },
-  default: {}
-});
+    web: { headerMode: 'screen' },
+    default: {},
+})
 
 const WorkOrderStack = createStackNavigator(
   {
@@ -158,10 +159,12 @@ QRStack.navigationOptions = {
     />
 };
 
-QRStack.path = "";
+
+QRStack.path = ''
 
 const AccountStack = createStackNavigator(
-  {
+
+{
     AccountSettings: {
       screen: AccountSettings,
       navigationOptions: props => ({
@@ -189,8 +192,9 @@ AccountStack.navigationOptions = {
       name={Platform.OS === "ios" ? "ios-options" : "md-options"}
     />
 };
+    
 
-AccountStack.path = "";
+AccountStack.path = ''
 
 const tabNavigator = createBottomTabNavigator({
   WorkOrderStack,
@@ -198,6 +202,7 @@ const tabNavigator = createBottomTabNavigator({
   AccountStack
 });
 
-tabNavigator.path = "";
 
-export default tabNavigator;
+tabNavigator.path = ''
+
+export default tabNavigator

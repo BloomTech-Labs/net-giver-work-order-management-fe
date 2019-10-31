@@ -192,7 +192,7 @@ export const loginStyles = StyleSheet.create({
             top: '45.28%',
             bottom: '46.48%',
             color: 'black',
-            backgroundColor: '#C4C4C4',
+            backgroundColor: '#EDF1F3',
             borderWidth: 1,
             // box-sizing: border-box,
             borderRadius: 4,

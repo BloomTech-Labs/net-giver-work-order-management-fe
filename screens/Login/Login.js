@@ -108,6 +108,7 @@ const Login = props => {
   );
 };
 
+
 // LEFT IN STYLESHEET SO THAT IT COULD BE LOOKED AT EASILY FOR REFERENCE 10/25/2019 SD
 
 const LoginStyles = StyleSheet.create({
