@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     ScrollView,
     View,
@@ -30,14 +30,10 @@ import { Icon } from 'react-native-elements'
 // import { token } from '../../../token'
 import axios from 'axios'
 // import { wOForm } from '../../../components/Styles'
-// import {token} from '../../../token'
 import { StackActions, NavigationActions } from 'react-navigation'
-import { UserContext } from '../../../context/userState'
 import { wOList } from '../../../components/Styles'
 
 const NewWorkOrderForm = props => {
-    const { user } = useContext(UserContext)
-    const token = user.token
     const resetAction = StackActions.reset({
         index: 0,
         actions: [NavigationActions.navigate({ routeName: 'WorkOrderList' })],
@@ -73,16 +69,16 @@ const NewWorkOrderForm = props => {
     //SET BUTTONS AND CANCEL_INDEX FOR ACTIONSHEET 12/24/2019 SD
 
     //SET QR CODE FROM PROPS 10/24/2019 SD
-    const { qrCode } = 7
+    const { qrcode } = 7
 
-    // props.navigation.state.params.qrCode
+    // props.navigation.state.params.qrcode
     const { workOrderId } = 1
-    console.log('TCL: qrCode', qrCode)
+    console.log('TCL: qrcode', qrcode)
     //SUBMIT HANDLER 10/24/2019 SD
 
     const handleSubmit = () => {
         const editMutation = `mutation {
-            editWorkorder( qrcode: "${qrCode}", detail: "${detail}", priority: "${priority}", status: "${status}", title: "${title}"){
+            editWorkorder( qrcode: "${qrcode}", detail: "${detail}", priority: "${priority}", status: "${status}", title: "${title}"){
               qrcode
               detail
               priority
@@ -94,9 +90,6 @@ const NewWorkOrderForm = props => {
         axios({
             method: 'post',
             url: 'https://netgiver-stage.herokuapp.com/graphql',
-            headers: {
-                'x-token': token,
-            },
             data: {
                 query: editMutation,
             },
