@@ -134,7 +134,7 @@ const Signup = (props) => {
       type: "text",
       name: "phone",
       slideTitle: "Sign Up",
-      text: "And leave your paperwork behind!",
+      text0: "And leave your paperwork behind!",
       // text2: "Please enter your email:",
       // keyboard: "email-address",
       keyboard: "phone-pad",
@@ -191,7 +191,9 @@ const Signup = (props) => {
       topComponent: <PhotoInput />,
       placeholder: "Full Name",
       placeholder2: "Email",
-      button: "Submit"
+      button: "Submit",
+      textToS: "By pressing Next above, you agree to our terms of service and privacy policy.",
+      text3: "Contact The Net Giver Team",
     }
   ]
   
@@ -305,7 +307,8 @@ const Signup = (props) => {
                   <Text style={styles.title}> {input.slideTitle} </Text>
                 }
                 <Text style={styles.text}> {input.text} </Text>
-                
+                <Text style={styles.text0}> {input.text0} </Text>
+
                 <View style={styles.inputContainer}>
                 
                   <Text style={styles.text}> {input.text2} </Text>
@@ -342,6 +345,9 @@ const Signup = (props) => {
                   </TouchableOpacity>
                   
                 </View>
+                  {input.textToS 
+                    ? <Text style={styles.textToS}> {input.textToS} </Text> : null}
+
                 <Text style={styles.text3}> {input.text3} </Text>
               </View>
             )})}
@@ -415,11 +421,12 @@ const styles = StyleSheet.create({
   input: {
     width: '100%',
     backgroundColor: '#EDF1F3',
-    marginVertical: 20,
+    //marginVertical: 20,
     marginBottom: 45,
-    paddingVertical: 5,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
+    paddingVertical: 15,
+    marginTop: -33,
+    // paddingVertical: 5,
+    paddingHorizontal: 15,
     borderRadius: 6,
     borderColor: 'gray',
     borderWidth: 1
@@ -431,7 +438,7 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   buttonStyle: {
-    padding: 2,
+    padding: 4,
     marginVertical: -20,
     backgroundColor: '#009900',
     alignItems: 'center',
@@ -445,7 +452,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-
   },
 
   title: {
@@ -453,7 +459,6 @@ const styles = StyleSheet.create({
     marginTop: '10%',
     fontSize: 22,
     fontWeight: 'bold',
-    
     //marginVertical: 80,
     textAlign: 'center',
     //paddingBottom: 3,
@@ -463,11 +468,20 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 17,
     fontWeight: 'bold',
+    marginBottom: 10,
+  }, 
+
+  text0: {
+    color: '#282424',
+    textAlign: 'center',
+    fontSize: 17,
+    marginTop: -25,
+    marginBottom: 10,
   }, 
 
     text3: {
       textAlign: 'center',
-      marginTop: 50,
+      marginTop: 35,
     },
 
   photoContainer: {
