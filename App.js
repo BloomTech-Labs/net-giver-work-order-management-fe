@@ -14,7 +14,6 @@ import AppNavigator from "./navigation/AppNavigator";
 import { Root } from "native-base";
 
 import { UserProvider } from "./context/userState";
-import AppNavigator from "./navigation/AppNavigator";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";

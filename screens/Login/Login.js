@@ -1,22 +1,5 @@
 import React, { useState } from "react";
 import {
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
-    TouchableOpacity,
-    Alert,
-    Image
-} from 'react-native'
-import axios from 'axios'
-import { Button } from 'native-base'
-import { loginStyles, styles } from '../../components/Styles'
-import logo from '../../components/Images/NetGiverLogo.svg'
-import SafeAreaView from 'react-native-safe-area-view'
-const Login = props => {
-    const [token, setToken] = useState()
-    // SETS USERNAME FROM INPUT BOX 10/24/2019 SD
-    const [username, setUsername] = useState("Enter Your Username")
   StyleSheet,
   Text,
   TextInput,
@@ -27,7 +10,7 @@ const Login = props => {
 } from "react-native";
 import axios from "axios";
 import { Button } from "native-base";
-import { styles } from "../../components/Styles";
+import { loginStyles, styles } from "../../components/Styles";
 import logo from "../../components/Images/NetGiverLogo.svg";
 import SafeAreaView from "react-native-safe-area-view";
 import { gql } from "apollo-boost";
@@ -127,7 +110,7 @@ const Login = props => {
 
 // LEFT IN STYLESHEET SO THAT IT COULD BE LOOKED AT EASILY FOR REFERENCE 10/25/2019 SD
 
-const loginStyles = StyleSheet.create({
+const LoginStyles = StyleSheet.create({
   //LOGO CONTAINER -- GET STYLES FROM FIGMA 10/25/2019 SD
   logo: {
     borderWidth: 2,
