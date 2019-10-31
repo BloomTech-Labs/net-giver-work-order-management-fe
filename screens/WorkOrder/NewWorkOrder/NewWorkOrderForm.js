@@ -3,35 +3,46 @@ import {
     ScrollView,
     View,
     TextInput,
-    // Text,
-    Alert,
     Image,
-    SafeAreaView,
-    Picker,
     StyleSheet,
     TouchableOpacity,
 } from 'react-native'
-import {
-    Container,
-    Header,
-    Left,
-    Body,
-    Right,
-    Button,
-    ActionSheet,
-    // Icon,
-    Title,
-    Segment,
-    Content,
-    Text,
-} from 'native-base'
+import { Button, Text } from 'native-base'
 import { Icon } from 'react-native-elements'
-
-// import { token } from '../../../token'
 import axios from 'axios'
 // import { wOForm } from '../../../components/Styles'
 import { StackActions, NavigationActions } from 'react-navigation'
 import { wOList } from '../../../components/Styles'
+import { gql } from 'apollo-boost'
+import { useApolloClient, useMutation } from '@apollo/react-hooks'
+export const EDIT_WORK_ORDER = gql`
+    mutation editWorkOrder($qrcode: String!, detail: String!,  priority: String, status: String, title: String!) {
+        editWorkOrder(qrcode: $qrcode, detail: $detail,  priority: $priority, status: $status, title: $title) {
+            qrcode
+            detail
+            priority
+            status
+            title
+        }
+    }
+`
+export const UPLOAD_ORDER_PHOTO = gql`
+    mutation uploadPhoto(
+        $photo: String!
+        $workorderId: ID!
+        $primaryPhoto: Boolean!
+        $commentId: ID
+    ) {
+        uploadPhoto(
+            photo: $photo
+            workorderId: $workorderId
+            primaryPhoto: $primaryPhoto
+            commentId: $commentId
+        ){
+            path
+        }
+    }
+`
 
 const NewWorkOrderForm = props => {
     const resetAction = StackActions.reset({
@@ -69,82 +80,91 @@ const NewWorkOrderForm = props => {
     //SET BUTTONS AND CANCEL_INDEX FOR ACTIONSHEET 12/24/2019 SD
 
     //SET QR CODE FROM PROPS 10/24/2019 SD
-    const { qrcode } = 7
+    const { qrcode } = 12345555
 
     // props.navigation.state.params.qrcode
     const { workOrderId } = 1
     console.log('TCL: qrcode', qrcode)
     //SUBMIT HANDLER 10/24/2019 SD
-
+    const [editWorkOrder, { data, loading, error }] = useMutation(EDIT_WORK_ORDER)
     const handleSubmit = () => {
-        const editMutation = `mutation {
-            editWorkorder( qrcode: "${qrcode}", detail: "${detail}", priority: "${priority}", status: "${status}", title: "${title}"){
-              qrcode
-              detail
-              priority
-              status
-              title
+        editWorkOrder({
+            variables:{
+                qrcode:qrcode,
+                title:title,
+                detail:detail,
+                status:status,
+                priority:priority
             }
-          }`
-
-        axios({
-            method: 'post',
-            url: 'https://netgiver-stage.herokuapp.com/graphql',
-            data: {
-                query: editMutation,
-            },
         })
-            .then(res => {
-                const apiUrl = 'https://netgiver-stage.herokuapp.com/graphql'
-                const query = `mutation($photo: Upload!) { uploadWorkorderphoto(photo: ${photoUri}, workorderId: ${workOrderId}, primaryPhoto: true) { path, filename, workorderId, primaryPhoto, photocount, userId } }",
-                "variables": {
-                    "photo": null
-                }`
+    //     const editMutation = `mutation {
+    //         editWorkorder( qrcode: "${qrcode}", detail: "${detail}", priority: "${priority}", status: "${status}", title: "${title}"){
+    //           qrcode
+    //           detail
+    //           priority
+    //           status
+    //           title
+    //         }
+    //       }`
 
-                let fileName = photoUri.split('/').pop()
-                let match = /\.(\w+)$/.exec(fileName)
-                let mimeType = match ? `image/${match[1]}` : `image`
+    //     axios({
+    //         method: 'post',
+    //         url: 'https://netgiver-stage.herokuapp.com/graphql',
+    //         data: {
+    //             query: editMutation,
+    //         },
+    //     })
+    //         .then(res => {
+    //             const apiUrl = 'https://netgiver-stage.herokuapp.com/graphql'
+    //             const query = `mutation($photo: Upload!) { uploadWorkorderphoto(photo: ${photoUri}, workorderId: ${workOrderId}, primaryPhoto: true) { path, filename, workorderId, primaryPhoto, photocount, userId } }",
+    //             "variables": {
+    //                 "photo": null
+    //             }`
 
-                let data = {
-                    query,
-                    variables: { photo: null },
-                    operationName: null,
-                }
-                let fileMap = {}
-                fileMap[0] = ['variables.photo']
+    //             let fileName = photoUri.split('/').pop()
+    //             let match = /\.(\w+)$/.exec(fileName)
+    //             let mimeType = match ? `image/${match[1]}` : `image`
 
-                let body = new FormData()
+    //             let data = {
+    //                 query,
+    //                 variables: { photo: null },
+    //                 operationName: null,
+    //             }
+    //             let fileMap = {}
+    //             fileMap[0] = ['variables.photo']
 
-                body.append('operations', JSON.stringify(data))
-                body.append('map', JSON.stringify(fileMap))
-                body.append(0, {
-                    uri: photoUri,
-                    name: fileName,
-                    type: mimeType,
-                })
+    //             let body = new FormData()
 
-                axios
-                    .post(apiUrl, body, {
-                        headers: {
-                            'x-token': token,
-                            Accept: 'application/json',
-                            'Content-Type': 'multipart/form-data',
-                        },
-                    })
-                    .then(res => {
-                        console.log('response submit', res)
-                        // props.navigation.dispatch(resetAction1)
-                        props.navigation.navigate('WorkOrderList', {
-                            sentFrom: 'NewWorkOrder',
-                            token: token,
-                        })
-                        // props.navigation.dispatch(resetAction)
-                    })
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }
+    //             body.append('operations', JSON.stringify(data))
+    //             body.append('map', JSON.stringify(fileMap))
+    //             body.append(0, {
+    //                 uri: photoUri,
+    //                 name: fileName,
+    //                 type: mimeType,
+    //             })
+
+    //             axios
+    //                 .post(apiUrl, body, {
+    //                     headers: {
+    //                         'x-token': token,
+    //                         Accept: 'application/json',
+    //                         'Content-Type': 'multipart/form-data',
+    //                     },
+    //                 })
+    //                 .then(res => {
+    //                     console.log('response submit', res)
+    //                     // props.navigation.dispatch(resetAction1)
+    //                     props.navigation.navigate('WorkOrderList', {
+    //                         sentFrom: 'NewWorkOrder',
+    //                         token: token,
+    //                     })
+    //                     // props.navigation.dispatch(resetAction)
+    //                 })
+    //         })
+    //         .catch(err => {
+    //             console.log(err)
+    //         })
+    // }
 
     return (
         <ScrollView style={{ backgroundColor: '#f8f5f4' }}>
