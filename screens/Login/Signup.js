@@ -159,6 +159,7 @@ const Signup = (props) => {
       //   username: Yup.string().min(2).max(50).required('Username is required.'),
       // }
     },
+    
     // {
     //   type: "text",
     //   name: "email",
@@ -184,8 +185,8 @@ const Signup = (props) => {
     // },
     {
       type: "photo",
-      slideTitle: "Create your Profile",
-      text: "Tap to add",
+      slideTitle2: "Create your Profile",
+      SubTextTop: "So your colleagues can recognize you!",
       name: 'fullname',
       name2: 'email',
       topComponent: <PhotoInput />,
@@ -194,7 +195,19 @@ const Signup = (props) => {
       button: "Submit",
       textToS: "By pressing Next above, you agree to our terms of service and privacy policy.",
       text3: "Contact The Net Giver Team",
+    },
+    {
+      type: "Create your Profile",
+      slideTitle2: "Name Your Organization",
+      SubTextTop: "Tap to add",
+      name: 'fullname',
+      name2: 'email',
+      topComponent: <PhotoInput />,
+      button: "Submit",
+      textToS: "By pressing Next above, you agree to our terms of service and privacy policy.",
+      text3: "Contact The Net Giver Team",
     }
+
   ]
   
   const SignupSchema = Yup.object().shape({
@@ -301,11 +314,15 @@ const Signup = (props) => {
           {pages.map((input, index) =>  {
             return (
               <View style={styles['slide' + ++index]} key={'slide' + input.id}>
+
+                {input.slideTitle2 ? <Text style={styles.title}> {input.slideTitle2} </Text> : null}
+                {input.SubTextTop ? <Text style={styles.SubTextTop}> {input.SubTextTop} </Text> : null}  
+                
                 {input.image ? <Image  style={loginStyles.logo1} source={require('../../components/Images/ng.png')}/> : null}
                 {input.topComponent}
-                {input.slideTitle &&
-                  <Text style={styles.title}> {input.slideTitle} </Text>
-                }
+
+
+                {input.slideTitle && <Text style={styles.title}> {input.slideTitle} </Text>}
                 <Text style={styles.text}> {input.text} </Text>
                 <Text style={styles.text0}> {input.text0} </Text>
 
