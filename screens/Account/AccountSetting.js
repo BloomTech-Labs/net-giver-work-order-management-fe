@@ -48,10 +48,7 @@ const AccountSettings = props => {
   if (loading)
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={styles.nameText}>
-          Loading
-          {console.log(loading)}
-        </Text>
+        <Text style={styles.nameText}>Loading</Text>
       </SafeAreaView>
     );
   //   if (error)
@@ -65,7 +62,7 @@ const AccountSettings = props => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.nameText}>
-        {console.log(data)}
+        {data.currentUser.username}
       </Text>
     </SafeAreaView>
   );
