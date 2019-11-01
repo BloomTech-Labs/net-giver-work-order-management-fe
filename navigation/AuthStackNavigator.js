@@ -56,13 +56,13 @@ const AuthStackNavigator = createStackNavigator(
     PP: {
       screen: Pp,
       navigationOptions: {
-        header:null
+      title:'Privacy Policy'
       }
     },
     TOS: {
       screen: ToS,
       navigationOptions: {
-        header:null
+        title:'Terms of Service'
       }
     },
     Camera: {

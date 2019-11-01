@@ -131,9 +131,9 @@ const Signup = (props) => {
   const TextTos = () => {
     return (
       
-      <TouchableOpacity>
-        <Text>TOS TOS</Text>
-      </TouchableOpacity>
+     
+        <><Text>By pressing submit you agree to our </Text><Text onPress={()=> props.navigation.navigate('TOS')}>Terms of Service</Text><Text> and</Text> <Text onPress={()=> props.navigation.navigate('PP')}> Privacy Policy.</Text></>
+      
       
     )
   }
@@ -204,7 +204,7 @@ const Signup = (props) => {
       placeholder: "Full Name",
       placeholder2: "Email",
       button: "Submit",
-    textToS: <PhotoInput />,
+    textToS: <TextTos />,
       text3: "Contact The Net Giver Team",
     },
     {
@@ -378,8 +378,8 @@ const Signup = (props) => {
                   {input.textToS 
                     ? 
                     // <View style={styles.textToS}><Text> 
-                    {input.textToS} 
-                    {/* </Text></View> */}
+                    <Text>{input.textToS} </Text>
+                    //{/* </Text></View> */}
                      : null}
 
                 <Text style={styles.text3}> {input.text3} </Text>
