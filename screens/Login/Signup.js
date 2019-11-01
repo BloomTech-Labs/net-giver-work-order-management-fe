@@ -124,6 +124,17 @@ const Signup = (props) => {
           />
         }
       </TouchableOpacity>
+
+      
+    )
+  }
+  const TextTos = () => {
+    return (
+      
+     
+        <><Text>By pressing submit you agree to our </Text><Text onPress={()=> props.navigation.navigate('TOS')}>Terms of Service</Text><Text> and</Text> <Text onPress={()=> props.navigation.navigate('PP')}> Privacy Policy.</Text></>
+      
+      
     )
   }
 
@@ -134,13 +145,13 @@ const Signup = (props) => {
       type: "text",
       name: "phone",
       slideTitle: "Sign Up",
-      text: "And leave your paperwork behind!",
+      text0: "And leave your paperwork behind!",
       // text2: "Please enter your email:",
       // keyboard: "email-address",
       keyboard: "phone-pad",
       placeholder: "Enter your Phone Number",
       button: "Get Started",
-      text3: "Contact The Net Giver Team"
+      text3: "Contact The Net Giver Team"       
       // keyboard: "phone-pad",
       // schema: {
       //   phone: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required("Phone number is required."),
@@ -159,6 +170,7 @@ const Signup = (props) => {
       //   username: Yup.string().min(2).max(50).required('Username is required.'),
       // }
     },
+    
     // {
     //   type: "text",
     //   name: "email",
@@ -184,17 +196,32 @@ const Signup = (props) => {
     // },
     {
       type: "photo",
-      slideTitle: "Create your Profile",
-      text: "Tap to add",
+      slideTitle2: "Create your Profile",
+      SubTextTop: "So your colleagues can recognize you!",
       name: 'fullname',
       name2: 'email',
       topComponent: <PhotoInput />,
       placeholder: "Full Name",
       placeholder2: "Email",
-      button: "Submit"
+      button: "Submit",
+    textToS: <TextTos />,
+      text3: "Contact The Net Giver Team",
+    },
+    {
+      type: "Create your Profile",
+      slideTitle2: "Name Your Organization",
+      SubTextTop: "Tap to add",
+      name: 'fullname',
+      name2: 'email',
+      topComponent: <PhotoInput />,
+      button: "Submit",
+      textToS: <TextTos />,
+      text3: "Contact The Net Giver Team",
     }
+
   ]
   
+
   const SignupSchema = Yup.object().shape({
     firstName: Yup.string()
       .min(2, 'Too Short!')
@@ -299,13 +326,18 @@ const Signup = (props) => {
           {pages.map((input, index) =>  {
             return (
               <View style={styles['slide' + ++index]} key={'slide' + input.id}>
-                {input.image ? <Image  style={loginStyles.logo} source={require('../../components/Images/ng.png')}/> : null}
-                {input.topComponent}
-                {input.slideTitle &&
-                  <Text style={styles.title}> {input.slideTitle} </Text>
-                }
-                <Text style={styles.text}> {input.text} </Text>
+
+                {input.slideTitle2 ? <Text style={styles.title}> {input.slideTitle2} </Text> : null}
+                {input.SubTextTop ? <Text style={styles.SubTextTop}> {input.SubTextTop} </Text> : null}  
                 
+                {input.image ? <Image  style={loginStyles.logo1} source={require('../../components/Images/ng.png')}/> : null}
+                {input.topComponent}
+
+
+                {input.slideTitle && <Text style={styles.title}> {input.slideTitle} </Text>}
+                <Text style={styles.text}> {input.text} </Text>
+                <Text style={styles.text0}> {input.text0} </Text>
+
                 <View style={styles.inputContainer}>
                 
                   <Text style={styles.text}> {input.text2} </Text>
@@ -340,7 +372,17 @@ const Signup = (props) => {
                   >
                     <Text style={styles.buttonText}>{input.button}</Text>
                   </TouchableOpacity>
+                  
                 </View>
+                
+                  {input.textToS 
+                    ? 
+                    // <View style={styles.textToS}><Text> 
+                    <Text>{input.textToS} </Text>
+                    //{/* </Text></View> */}
+                     : null}
+
+                <Text style={styles.text3}> {input.text3} </Text>
               </View>
             )})}
         </Swiper>
@@ -372,7 +414,7 @@ const styles = StyleSheet.create({
   },
   container: { flex: 1 },
   inputContainer: {
-    marginTop: -5,
+    padding: -20,
     marginVertical: 20,
     width: '100%',
     paddingHorizontal: 10,
@@ -381,6 +423,7 @@ const styles = StyleSheet.create({
 
    slide0: {
     //backgroundColor: '#008000',
+    
     justifyContent: 'flex-start',
     alignItems: 'center',
     
@@ -390,36 +433,34 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
    },
 
-   logo: {
-    borderWidth: 2,
-    position: 'absolute',
-    left: 'auto',
-    right: 'auto',
-    top: '9.15%',
-    bottom: '73.91%',
-    
+   logo1: {
+
    },
 
    slide1: {
     flexDirection: "column",
     justifyContent: 'flex-start',
-    alignItems: 'center',
     paddingTop: 100,
+    alignItems: 'center',
+
+    
    },
 
    slide2: {
+     
     flexDirection: "column",
-    marginTop: 100,
+    paddingTop: 200,
    },
 
   input: {
     width: '100%',
     backgroundColor: '#EDF1F3',
-    marginVertical: 20,
+    //marginVertical: 20,
     marginBottom: 45,
-    paddingVertical: 5,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
+    paddingVertical: 15,
+    marginTop: -33,
+    // paddingVertical: 5,
+    paddingHorizontal: 15,
     borderRadius: 6,
     borderColor: 'gray',
     borderWidth: 1
@@ -431,7 +472,7 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   buttonStyle: {
-    padding: 2,
+    padding: 4,
     marginVertical: -20,
     backgroundColor: '#009900',
     alignItems: 'center',
@@ -445,7 +486,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-
   },
 
   title: {
@@ -453,7 +493,6 @@ const styles = StyleSheet.create({
     marginTop: '10%',
     fontSize: 22,
     fontWeight: 'bold',
-    
     //marginVertical: 80,
     textAlign: 'center',
     //paddingBottom: 3,
@@ -463,7 +502,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 17,
     fontWeight: 'bold',
+    marginBottom: 10,
   }, 
+
+  text0: {
+    color: '#282424',
+    textAlign: 'center',
+    fontSize: 17,
+    marginTop: -25,
+    marginBottom: 10,
+  }, 
+
+    text3: {
+      textAlign: 'center',
+      marginTop: 35,
+    },
+
   photoContainer: {
     width: 200,
     height: 200,
