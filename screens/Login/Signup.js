@@ -124,6 +124,17 @@ const Signup = (props) => {
           />
         }
       </TouchableOpacity>
+
+      
+    )
+  }
+  const TextTos = () => {
+    return (
+      
+      <TouchableOpacity>
+        <Text>TOS TOS</Text>
+      </TouchableOpacity>
+      
     )
   }
 
@@ -193,7 +204,7 @@ const Signup = (props) => {
       placeholder: "Full Name",
       placeholder2: "Email",
       button: "Submit",
-      textToS: "By pressing Next above, you agree to our terms of service and privacy policy.",
+    textToS: <PhotoInput />,
       text3: "Contact The Net Giver Team",
     },
     {
@@ -204,12 +215,13 @@ const Signup = (props) => {
       name2: 'email',
       topComponent: <PhotoInput />,
       button: "Submit",
-      textToS: "By pressing Next above, you agree to our terms of service and privacy policy.",
+      textToS: <TextTos />,
       text3: "Contact The Net Giver Team",
     }
 
   ]
   
+
   const SignupSchema = Yup.object().shape({
     firstName: Yup.string()
       .min(2, 'Too Short!')
@@ -362,8 +374,13 @@ const Signup = (props) => {
                   </TouchableOpacity>
                   
                 </View>
+                
                   {input.textToS 
-                    ? <Text style={styles.textToS}> {input.textToS} </Text> : null}
+                    ? 
+                    // <View style={styles.textToS}><Text> 
+                    {input.textToS} 
+                    {/* </Text></View> */}
+                     : null}
 
                 <Text style={styles.text3}> {input.text3} </Text>
               </View>
