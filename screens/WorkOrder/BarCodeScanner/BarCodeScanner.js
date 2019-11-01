@@ -44,7 +44,19 @@ const BarcodeScanner = props => {
   const [scanned, setscanned] = useState(false);
   const [qrcode, setQrcode] = useState(null);
   const [code, setCode] = useState(null);
-  const [getQrcode, { loading, data }] = useLazyQuery(CHECK_FOR_WORKORDER);
+  const [getQrcode, { loading, data }] = useLazyQuery(CHECK_FOR_WORKORDER, {
+    onCompleted({ workorder }) {
+      if (!workorder) {
+        props.navigation.navigate("CheckBarCode", {
+          qrData: qrcode
+        });
+      } else {
+        props.navigation.navigate("EditWorkOrder", {
+          workorder: workorder
+        });
+      }
+    }
+  });
 
   useEffect(
     () => {
@@ -62,21 +74,12 @@ const BarcodeScanner = props => {
   if (hasCameraPermission === false) {
     return <Text>No access to camera</Text>;
   }
-  //   const getPermissionsAsync = async () => {
-  //     const { status } = await Permissions.askAsync(Permissions.CAMERA);
-  //     setHasCameraPermission("granted");
-  //   };
 
-  //what to do when the barcode is scanned
   const handleBarCodeScanned = ({ data }) => {
     console.log(`handleBarCodeScanned`);
     setscanned(true);
     setQrcode(data);
     getQrcode({ variables: { qrcode: data } });
-    //   send genQr as qrData to Login
-    props.navigation.navigate("CheckBarCode", {
-      qrData: qrcode
-    });
   };
 
   if (loading)
@@ -86,22 +89,13 @@ const BarcodeScanner = props => {
         <Text>Loading</Text>
       </SafeAreaView>
     );
-  if (data && data.workorder.qrcode) {
-    setQrcode(data.qrcode);
-    props.navigation.navigate("EditWorkOrder", {
-      workorder: data.workorder
-    });
-  }
+
   //add a workorder without a qr code
   const addWithoutQr = () => {
     console.log(`addWithoutQr`);
-    //generate a random 5 digit string starting with n
-    var genQr = "n" + Date.now().toString().slice(7, 11);
+    // var genQr = "n" + Date.now().toString().slice(7, 11);
+    var genQr = "000006";
     getQrcode({ variables: { qrcode: genQr } });
-    //   send genQr as qrData to Login
-    props.navigation.navigate("CheckBarCode", {
-      qrData: genQr
-    });
   };
 
   return (

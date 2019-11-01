@@ -12,7 +12,6 @@ import { Button } from "native-base";
 import { styles } from "../../../components/Styles";
 import { gql } from "apollo-boost";
 import { useApolloClient, useMutation, useQuery } from "@apollo/react-hooks";
-import NewWorkOrderQR from "../NewWorkOrder/NewWorkOrderQR";
 
 const CREATE_WORK_ORDER = gql`
   mutation createWorkorder($qrcode: String!) {
@@ -63,7 +62,9 @@ const CheckBarCode = props => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.welcome}>Create A New Work Order?</Text>
+      <Text style={styles.welcome}>
+        Create A New Work Order number {qrcode}?
+      </Text>
       <Button
         onPress={() =>
           createWorkorder({
