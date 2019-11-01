@@ -21,8 +21,10 @@ import { HttpLink } from "apollo-link-http";
 import { onError } from "apollo-link-error";
 import { withClientState } from "apollo-link-state";
 import { ApolloLink, Observable } from "apollo-link";
+import { typeDefs, resolvers } from "./resolvers";
 import { setContext } from "apollo-link-context";
 
+/*Cache: persists across sessions. stable images, logos, username */
 const cache = new InMemoryCache();
 ///////////////reset token functionality//////////
 const resetToken = onError(({ networkError }) => {
@@ -99,8 +101,12 @@ const client = new ApolloClient({
     authMiddleware,
     withClientState({
       defaults: {
-        isConnected: true
+        isConnected: true,
+        hasCameraPermission: false,
+        isLoggedIn: false,
+        hastoken: false
       },
+      // resolvers,
       resolvers: {
         Mutation: {
           updateNetworkStatus: (_, { isConnected }, { cache }) => {
