@@ -44,15 +44,15 @@ const Login = props => {
         <SafeAreaView style={styles.container}>
             {/* LOGO CONTAINER 10/25/2019 */}
             {/* <View style={loginStyles.logo}> */}
-                <Image  style={loginStyles.logo} source={require('../../components/Images/ng.png')}/>
+            <Image  style={loginStyles.logo} source={require('../../components/Images/ng.png')}/>
             {/* </View> */}
             <Text style={loginStyles.header}>Sign In</Text>
             <Text style={loginStyles.subHeader}>
                 And leave your paperwork behind!
             </Text>
             <TextInput
-                style={loginStyles.loginTextInput}
-                placeholder="UserName"
+                style={[loginStyles.loginTextInput, {marginBottom: 30}]}
+                placeholder="Username"
                 name="username"
                 // value={username}
                 autoCapitalize="none"
@@ -60,7 +60,7 @@ const Login = props => {
                 onFocus={() => setUsername('')}
             />
             {/* <View style={loginStyles.signIn}> */}
-            <Button style={loginStyles.signIn} onPress={submit}>
+            <Button style={loginStyles.buttons} onPress={submit}>
                 <Text style={loginStyles.buttonText}>Sign In</Text>
             </Button>
 
@@ -68,7 +68,7 @@ const Login = props => {
 
             <Button 
                 onPress={() => props.navigation.navigate('SignUp')}
-                style={loginStyles.signUp}
+                style={[loginStyles.buttons, {marginTop: 20}]}
             >
                 <Text style={loginStyles.buttonText}>Sign Up</Text>
             </Button>

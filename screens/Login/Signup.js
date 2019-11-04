@@ -11,6 +11,7 @@ import {
   Alert, 
   ActivityIndicator
 } from "react-native";
+import { Button } from 'native-base'
 import Swiper from 'react-native-swiper';
 import { Overlay } from 'react-native-elements';
 import * as Yup from 'yup';
@@ -42,8 +43,8 @@ const Signup = (props) => {
   const phoneRegExp = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
 
   //TESTING -- auto fill form 
-  let i = Math.random()
-  const formValues = {username: `foo${i}`, email: `foo${i}@aol.com`, phone: '7186369874'}
+  //let i = Math.random()
+  //const formValues = {username: `foo${i}`, email: `foo${i}@aol.com`, phone: '7186369874'}
 
   useEffect(() => {
     // Need to add error handling
@@ -130,6 +131,7 @@ const Signup = (props) => {
   const pages = [
 
     {
+      val: 1,
       image: true,
       type: "text",
       name: "phone",
@@ -147,6 +149,7 @@ const Signup = (props) => {
       // }
     },
     {
+      val: 2,
       type: "text",
       name: "Number Verification",
       slideTitle: "We need to verify your phone number",
@@ -183,9 +186,10 @@ const Signup = (props) => {
     //   // }
     // },
     {
+      val: 3,
       type: "photo",
       slideTitle: "Create your Profile",
-      text: "Tap to add",
+      text: "So your colleagues can recognize you!",
       name: 'fullname',
       name2: 'email',
       topComponent: <PhotoInput />,
@@ -298,13 +302,22 @@ const Signup = (props) => {
         >
           {pages.map((input, index) =>  {
             return (
-              <View style={styles['slide' + ++index]} key={'slide' + input.id}>
+              <View style={[styles['slide' + ++index], styles['signUpWrapper']]} key={'slide' + input.id}>
                 {input.image ? <Image  style={loginStyles.logo} source={require('../../components/Images/ng.png')}/> : null}
+                
+                <Text style={[styles.title, input.val === 2 ? {textAlign: 'left'} : null]}> {input.slideTitle} </Text>
+                <Text style={[styles.text, input.val === 2 ? {textAlign: 'left', marginTop: 20, fontWeight: "bold"} : null]}>{input.text} </Text>
                 {input.topComponent}
-                {input.slideTitle &&
-                  <Text style={styles.title}> {input.slideTitle} </Text>
+                {input.topComponent ? 
+                  <Text style={[styles.text, {fontSize: 15}]}>Tap to add</Text>
+                  :
+                  null
                 }
-                <Text style={styles.text}> {input.text} </Text>
+                {input.val === 2 ? 
+                  <Text style={{fontSize: 17}}>+1{formValues.phone}</Text>
+                  :
+                  null
+                }
                 
                 <View style={styles.inputContainer}>
                 
@@ -317,7 +330,7 @@ const Signup = (props) => {
                         keyboardType={input.keyboard}
                         onChangeText={(text) => onInputChange(input.name, text)}
                         placeholder={input.placeholder}
-                        style={styles.input}
+                        style={loginStyles.loginTextInput}
                       />
                   
                   {input.name2 
@@ -328,19 +341,20 @@ const Signup = (props) => {
                         keyboardType={input.keyboard}
                         onChangeText={(text) => onInputChange(input.name2, text)}
                         placeholder={input.placeholder2}
-                        style={styles.input}
+                        style={[loginStyles.loginTextInput, {marginTop: 15}]}
                       /> 
                       : 
                       null
 
                   }
-                  <TouchableOpacity
-                    style={styles.buttonStyle}
+                  <Button
+                    style={[loginStyles.buttons, {marginTop: 30}]}
                     onPress={() => input.button === "Submit" ? handleSubmit() : handleNext()}
                   >
-                    <Text style={styles.buttonText}>{input.button}</Text>
-                  </TouchableOpacity>
+                    <Text style={loginStyles.buttonText}>{input.button}</Text>
+                  </Button>
                 </View>
+                <Text style={[loginStyles.footerText, {width: '100%', textAlign: 'center'}]}>Contact Netgiver Team</Text>
               </View>
             )})}
         </Swiper>
@@ -370,15 +384,18 @@ const Signup = (props) => {
 const styles = StyleSheet.create({
   wrapper: {
   },
-  container: { flex: 1 },
+  container: { 
+    flex: 1, 
+    paddingHorizontal: 16
+  },
   inputContainer: {
     marginTop: -5,
-    marginVertical: 20,
     width: '100%',
-    paddingHorizontal: 10,
+  },
+  signUpWrapper: {
+    paddingTop: 44,
     justifyContent: 'center'
   },
-
    slide0: {
     //backgroundColor: '#008000',
     justifyContent: 'flex-start',
@@ -389,17 +406,6 @@ const styles = StyleSheet.create({
    slideTitle: {
     fontWeight: 'bold',
    },
-
-   logo: {
-    borderWidth: 2,
-    position: 'absolute',
-    left: 'auto',
-    right: 'auto',
-    top: '9.15%',
-    bottom: '73.91%',
-    
-   },
-
    slide1: {
     flexDirection: "column",
     justifyContent: 'flex-start',
@@ -409,21 +415,8 @@ const styles = StyleSheet.create({
 
    slide2: {
     flexDirection: "column",
-    marginTop: 100,
+    marginTop: 40,
    },
-
-  input: {
-    width: '100%',
-    backgroundColor: '#EDF1F3',
-    marginVertical: 20,
-    marginBottom: 45,
-    paddingVertical: 5,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 6,
-    borderColor: 'gray',
-    borderWidth: 1
-  },
   buttonText: {
     textAlign: 'center',
     alignItems: 'center',
@@ -447,6 +440,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 
   },
+  slide3: {
+    marginTop: -30,
+  },
 
   title: {
     color: '#282424',
@@ -462,19 +458,19 @@ const styles = StyleSheet.create({
     color: '#282424',
     textAlign: 'center',
     fontSize: 17,
-    fontWeight: 'bold',
   }, 
   photoContainer: {
-    width: 200,
-    height: 200,
+    width: 125,
+    height: 125,
     borderWidth: 6,
     borderRadius: 200/2,
-    borderColor: "lightgray",
-    backgroundColor: "lightgray",
+    borderColor: "#EDF1F3",
+    backgroundColor: "#EDF1F3",
     alignSelf: 'center',
-    marginTop: '10%',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 30
   }, 
 })
 export default Signup
+
