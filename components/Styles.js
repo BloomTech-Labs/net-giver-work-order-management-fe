@@ -111,6 +111,9 @@ export const wOForm = StyleSheet.create({
     priorityContainer: {
        
     },
+    priorityDiv: {
+
+    },
     priorityBar: {
         // the priority & rows as a whole
         flexDirection: 'row',

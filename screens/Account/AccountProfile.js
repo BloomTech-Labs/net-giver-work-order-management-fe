@@ -2,14 +2,11 @@ import React, { Component } from 'react'
 
 import { StyleSheet, Text, View } from 'react-native'
 import { Avatar, Button, Card, Icon } from 'react-native-elements'
-// import { useSelector } from 'react-redux'
 
 const AccountProfile = props => {
     navigationOptions = {
         title: 'profile',
     }
-
-    const auth = useSelector(state => state.authReducer)
 
     const formatPhoneNumber = phoneNumberString => {
         var cleaned = ('' + phoneNumberString).replace(/\D/g, '')
@@ -22,49 +19,7 @@ const AccountProfile = props => {
 
     return (
         <View style={styles.profile}>
-            <Card style={styles.profileCard}>
-                <View style={styles.avatarContainer}>
-                    {/* If user has profile pic, use that as avatar
-          else use the first letter of their name as a
-          placeholder */}
-                    {auth.photo && (
-                        <Avatar size="xlarge" rounded source={auth.photo} />
-                    )}
-                    {!auth.photo && (
-                        <Avatar
-                            size="xlarge"
-                            rounded
-                            title={auth.username[0].toUpperCase()}
-                        />
-                    )}
-                </View>
-                <View>
-                    <Text style={styles.userName}>{auth.username}</Text>
-                    <Text style={styles.userDetails}>
-                        <Text>
-                            {auth.user.email} {'\n'}
-                        </Text>
-                        <Text>
-                            {formatPhoneNumber(auth.user.phone)} {'\n'}
-                        </Text>
-                    </Text>
-                    <Text style={{ marginBottom: 20 }}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. {'\n'}
-                    </Text>
-                    <Button
-                        icon={<Icon name="code" color="#ffffff" />}
-                        buttonStyle={{
-                            borderRadius: 0,
-                            marginLeft: 0,
-                            marginRight: 0,
-                            marginBottom: 0,
-                        }}
-                        title="Some Action"
-                    />
-                </View>
-            </Card>
+            
         </View>
     )
 }

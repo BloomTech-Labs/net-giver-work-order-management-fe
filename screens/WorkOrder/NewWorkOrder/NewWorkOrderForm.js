@@ -61,7 +61,7 @@ const NewWorkOrderForm = props => {
     //SET CLICKED TO STATE FOR ACTIONsHEET (CAMERA FUNCTIONS) 10/24/2019 SD
     const [clicked, setClicked] = useState()
     // SET PRIORITY 10/24/2019 SD
-    const [priority, setPriority] = useState('N/A')
+    const [priority, setPriority] = useState('Low')
     // SET STATUS 10/24/2019 SD
     const [status, setStatus] = useState('Not Started')
     //SET TITLE 10/24/2019 SD
@@ -76,6 +76,7 @@ const NewWorkOrderForm = props => {
     ]
     const CANCEL_INDEX = 2
 
+    /*
     const statusArray = [
         {
             type: '1 Open',
@@ -98,6 +99,7 @@ const NewWorkOrderForm = props => {
             iconName: 'lock',
         },
     ]
+    */
 
     const priorityArray = [
         {
@@ -238,11 +240,12 @@ const NewWorkOrderForm = props => {
                         onChangeText={setDetail}
                         value={detail}
                         style={wOForm.textInput1}
+                        editable={true}
+                        multiline={true}
                     />
                 </View>
-                <View style={{ backgroundColor: '#F4F3F3' }}>
-                    <Text>Tap to update status:</Text>
-                </View>
+
+                {/*
                 <View style={wOForm.statusDiv}>
                     {statusArray.map((item, index) => {
                         return (
@@ -283,10 +286,13 @@ const NewWorkOrderForm = props => {
                         )
                     })}
                 </View>
-                <View style={{ backgroundColor: 'white' }}>
-                    <Text>Tap to update priority:</Text>
-                </View>
+                */}
+                
                 <View style={wOForm.priorityDiv}>
+                    <View style={{ backgroundColor: 'white', fontSize: 15, paddingVertical: 4 }}>
+                        <Text>Tap to update priority:</Text>
+                    </View>
+                    <View style={wOForm.priorityButtonsDiv}>
                     {priorityArray.map((item, index) => {
                         return (
                             // THIS IS FOR STYLING UPDATE PRIORITY
@@ -318,6 +324,7 @@ const NewWorkOrderForm = props => {
                             </TouchableOpacity>
                         )
                     })}
+                    </View>
                 </View>
                 {/* SUBMIT BUTTON 10/24/2019 SD */}
                 <Button
@@ -381,12 +388,17 @@ const wOForm = StyleSheet.create({
         fontSize: 14,
     },
     priorityDiv: {
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'space-between',
         borderColor: '#C5C2C2',
-        padding: 5,
+        paddingHorizontal: 15,
+        paddingBottom: 12,
         backgroundColor: 'white',
         borderBottomWidth: 1,
+    },
+    priorityButtonsDiv: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     priorityButtons: {
         backgroundColor: '#f4f3f3',
@@ -454,6 +466,7 @@ const wOForm = StyleSheet.create({
         alignSelf: 'center',
         padding: 10,
         height: 90,
+        textAlignVertical: 'top'
     },
 })
 export default NewWorkOrderForm
