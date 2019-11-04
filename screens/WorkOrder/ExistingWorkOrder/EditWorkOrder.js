@@ -36,6 +36,7 @@ const EditWorkOrder = props => {
   const [status, setStatus] = useState(wo.status);
   const [title, setTitle] = useState(wo.title);
   const [detail, setDetail] = useState(wo.detail);
+  const [workorderphotos, setWorkorderphotos] = useState(wo.workorderphotos);
 
   const resetAction = StackActions.reset({
     index: 0,
@@ -162,32 +163,47 @@ const EditWorkOrder = props => {
             {/* TURN IMAGE INTO BUTTON WITH LONGPRESS THAT WILL DELETE THE PHOTO
                             DELETE NEEDS FUNCTIONALITY 12/24/2019 SD */}
             <TouchableOpacity onLongPress={() => handlePhotoDelete()}>
-              <Image
-                style={wOForm.placeholder}
-                source={{
-                  uri: img1
-                }}
-              />
+              {workorderphotos[0]
+                ? <Image
+                    style={wOForm.placeholder}
+                    source={{ uri: workorderphotos[0].path }}
+                  />
+                : <Image
+                    style={wOForm.placeholder}
+                    source={{
+                      uri: img1
+                    }}
+                  />}
             </TouchableOpacity>
           </View>
           <View style={wOForm.image}>
             <TouchableOpacity onLongPress={() => handlePhotoDelete()}>
-              <Image
-                style={wOForm.placeholder}
-                source={{
-                  uri: img2
-                }}
-              />
+              {workorderphotos[1]
+                ? <Image
+                    style={wOForm.placeholder}
+                    source={{ uri: workorderphotos[1].path }}
+                  />
+                : <Image
+                    style={wOForm.placeholder}
+                    source={{
+                      uri: img1
+                    }}
+                  />}
             </TouchableOpacity>
           </View>
           <View style={wOForm.image}>
             <TouchableOpacity onLongPress={() => handlePhotoDelete()}>
-              <Image
-                style={wOForm.placeholder}
-                source={{
-                  uri: img3
-                }}
-              />
+              {workorderphotos[2]
+                ? <Image
+                    style={wOForm.placeholder}
+                    source={{ uri: workorderphotos[2].path }}
+                  />
+                : <Image
+                    style={wOForm.placeholder}
+                    source={{
+                      uri: img1
+                    }}
+                  />}
             </TouchableOpacity>
           </View>
         </View>
