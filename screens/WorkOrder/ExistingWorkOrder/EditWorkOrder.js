@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {
     ScrollView,
     View,
@@ -27,14 +27,24 @@ import {
 } from 'native-base'
 import { token } from '../../../token'
 import axios from 'axios'
-import { wOForm } from '../../../components/Styles';
-
+import { wOForm } from '../../../components/Styles'
+import {StackActions, NavigationActions} from 'react-navigation'
+import { UserContext } from "../../../context/userState";
+// import {token} from '../../../token'
 const EditWorkOrder = props => {
-    // const token = props.navigation.state.params.token
-
-    const { qrcode } = 'n7739'
-    // } = props.navigation.state.params.workOrder.isWorkOrder.workorder
-    console.log('TCL: props', props)
+    const { user } = useContext(UserContext)
+    const token = user.token
+    const resetAction = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: 'WorkOrderList' })],
+      })
+      const resetAction1 = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: 'EditWorkOrder' })],
+      })
+ 
+    const {qrcode} = props.navigation.state.params.workOrder.isWorkOrder.workorder
+console.log("TCL: props", props)
     // SET PLACEHOLDER IMAGES TO STATE 10/24/2019 SD
     const [img1, setImg1] = useState(
         'http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image'
@@ -110,7 +120,9 @@ const EditWorkOrder = props => {
             },
         }).then(res => {
             console.log('response submit', res)
-            props.navigation.navigate('WorkOrderList')
+            props.navigation.navigate('WorkOrderList', {sentFrom:'EditWorkOrder', token:token})
+            props.navigation.dispatch(resetAction);
+            // props.navigation.dispatch(resetAction1);
         })
     }
 
@@ -242,7 +254,7 @@ const EditWorkOrder = props => {
                                         {borderTopRightRadius: 3.26, borderBottomRightRadius: 3.26, borderLeftWidth: 0}
                                 ]}
                                 onPress={() => {
-                                    setPriority('Emergency')
+                                    setPriority('Urgent')
                                     setActivePriority(4)
                                 }}
                             >
@@ -258,7 +270,7 @@ const EditWorkOrder = props => {
                                             
                                     ]}
                                 >
-                                    High
+                                    Urgent
                                 </Text>
                             </TouchableOpacity>
                         </View>

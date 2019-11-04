@@ -1,6 +1,6 @@
 //SD 10/16/19
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
 import {
     StyleSheet,
@@ -10,13 +10,17 @@ import {
     AsyncStorage,
 } from 'react-native'
 import { NavigationActions } from 'react-navigation'
-import { token } from "../../../token";
+// import { token } from "../../../token";
 import { styles } from '../../../components/Styles'
+import { UserContext } from '../../../context/userState'
 
 const CheckBarCode = props => {
     console.log('TCL: props', props)
     // const [token, setToken] = useState();
 
+    const { user } = useContext(UserContext)
+    // user = state
+    console.log(user)
     const isWorkOrder = {
         qrCode: '12345',
         detail: 'The Toilet is Leaking',
@@ -25,10 +29,12 @@ const CheckBarCode = props => {
         status: 'Not Yet Started',
         user: 'John Smith',
     }
-    // const qrCode = props.navigation.state.params.qrData;
-    const qrCode = 'n6800'
+    const qrCode = props.navigation.state.params.qrData
+
+    // BARCODE FOR TESTING HERE
+    // const qrCode = "n1706";
     console.log('QT Work Order Check', qrCode)
-    // const token = props.navigation.state.params.token
+    const token = user.token
 
     const getMutation = `query {
   workorder( qrcode: "${qrCode}"){

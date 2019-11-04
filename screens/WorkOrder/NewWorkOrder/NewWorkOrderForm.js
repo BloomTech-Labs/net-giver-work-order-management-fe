@@ -46,15 +46,18 @@ const NewWorkOrderForm = props => {
     })
     console.log('TCL: props', props)
     // SET PLACEHOLDER IMAGES TO STATE 10/24/2019 SD
-    const [img1, setImg1] = useState(
+    const [photoUri, setPhotoUri] = useState(
         'http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image'
     )
-    const [img2, setImg2] = useState(
-        'http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image'
-    )
-    const [img3, setImg3] = useState(
-        'http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image'
-    )
+    useEffect(() => {
+        setPhotoUri(
+            props.navigation.getParam(
+                'uri',
+                'http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image'
+            )
+        )
+    }, [])
+
     //SET CLICKED TO STATE FOR ACTIONsHEET (CAMERA FUNCTIONS) 10/24/2019 SD
     const [clicked, setClicked] = useState()
     // SET PRIORITY 10/24/2019 SD
@@ -72,11 +75,62 @@ const NewWorkOrderForm = props => {
         { text: 'Cancel' },
     ]
     const CANCEL_INDEX = 2
+
+    const statusArray = [
+        {
+            type: '1 Open',
+            name: 'Open',
+            iconName: 'unlock',
+        },
+        {
+            type: '2 OnHold',
+            name: 'On Hold',
+            iconName: 'pause',
+        },
+        {
+            type: '3 InProgress',
+            name: 'In Progress',
+            iconName: 'sync',
+        },
+        {
+            type: '4 Complete',
+            name: 'Complete',
+            iconName: 'lock',
+        },
+    ]
+
+    const priorityArray = [
+        {
+            type: '1 Low',
+            name: 'Low',
+            color: '#087FFF',
+            backgroundColor: '#E2F5FC',
+        },
+        {
+            type: '2 Medium',
+            name: 'Medium',
+            color: '#07BD51',
+            backgroundColor: '#CBFBCB',
+        },
+        {
+            type: '3 High',
+            name: 'High',
+            color: '#DBA004',
+            backgroundColor: '#FFED9B',
+        },
+        {
+            type: '4 Urgent',
+            name: 'Urgent',
+            color: '#FE273A',
+            backgroundColor: '#FFD3D3',
+        },
+    ]
     //SET QR CODE FROM PROPS 10/24/2019 SD
     const { qrCode } = 7
     // props.navigation.state.params.qrCode
     console.log('TCL: qrCode', qrCode)
     //SUBMIT HANDLER 10/24/2019 SD
+
     const handleSubmit = () => {
         const editMutation = `mutation {
             editWorkorder( qrcode: "${qrCode}", detail: "${detail}", priority: "${priority}", status: "${status}", title: "${title}"){
@@ -96,6 +150,7 @@ const NewWorkOrderForm = props => {
             data: {
                 query: editMutation,
             },
+<<<<<<< HEAD
         }).then(res => {
             console.log('response submit', res)
             props.navigation.dispatch(resetAction1)
@@ -104,9 +159,38 @@ const NewWorkOrderForm = props => {
                 token: token,
             })
             props.navigation.dispatch(resetAction)
+=======
+>>>>>>> 6e7bb8785e3b10422c8d51453bb9df10bc471667
         })
-    }
+            .then(res => {
+                console.log('response submit', res)
+                props.navigation.dispatch(resetAction1)
+                props.navigation.navigate('WorkOrderList', {
+                    sentFrom: 'NewWorkOrder',
+                    token: token,
+                })
+                props.navigation.dispatch(resetAction)
+            })
+            .then(res => {
+                const apiUrl = 'https://netgiver-stage.herokuapp.com/graphql'
+                const query = `mutation($photo: Upload!) { uploadWorkorderphoto(photo: ${photoUri}, workorderId: ${workOrderId}, primaryPhoto: true) { path, filename, workorderId, primaryPhoto, photocount, userId } }",
+                "variables": {
+                    "photo": null
+                }`
 
+                let fileName = photoUri.split('/').pop()
+                let match = /\.(\w+)$/.exec(fileName)
+                let mimeType = match ? `image/${match[1]}` : `image`
+
+                let data = {
+                    query,
+                    variables: { photo: null },
+                    operationName: null,
+                }
+                let fileMap = {}
+                fileMap[0] = ['variables.photo']
+
+<<<<<<< HEAD
     const status = [
         {
             type: '1 Open',
@@ -130,6 +214,40 @@ const NewWorkOrderForm = props => {
         }
     ]
 
+=======
+                let body = new FormData()
+
+                body.append('operations', JSON.stringify(data))
+                body.append('map', JSON.stringify(fileMap))
+                body.append(0, {
+                    uri: photoUri,
+                    name: fileName,
+                    type: mimeType,
+                })
+
+                axios
+                    .post(apiUrl, body, {
+                        headers: {
+                            'x-token': token,
+                            Accept: 'application/json',
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    })
+                    .then(res => {
+                        console.log('response submit', res)
+                        // props.navigation.dispatch(resetAction1)
+                        props.navigation.navigate('WorkOrderList', {
+                            sentFrom: 'NewWorkOrder',
+                            token: token,
+                        })
+                        // props.navigation.dispatch(resetAction)
+                    })
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+>>>>>>> 6e7bb8785e3b10422c8d51453bb9df10bc471667
     return (
         <ScrollView style={{ backgroundColor: '#f8f5f4' }}>
             <View>
@@ -151,6 +269,7 @@ const NewWorkOrderForm = props => {
                         style={wOForm.textInput1}
                     />
                 </View>
+<<<<<<< HEAD
                 <View style={{ backgroundColor: 'white' }}>
                     <Text>Tap to update status:</Text>
                 </View>
@@ -192,11 +311,56 @@ const NewWorkOrderForm = props => {
                         <Icon color="#009900" type="antdesign" name="lock" />
                         <Text style={wOForm.statusButtonsText}>Complete</Text>
                     </TouchableOpacity>
+=======
+                <View style={{ backgroundColor: '#F4F3F3' }}>
+                    <Text>Tap to update status:</Text>
+                </View>
+                <View style={wOForm.statusDiv}>
+                    {statusArray.map((item, index) => {
+                        return (
+                            // THIS IS FOR STYLING UPDATE STATUS
+                            <TouchableOpacity
+                                onPress={() => setStatus(item.type)}
+                                style={[
+                                    wOForm.statusButtons,
+                                    {
+                                        backgroundColor:
+                                            status === item.type
+                                                ? 'green'
+                                                : 'white',
+                                    },
+                                ]}
+                            >
+                                <Icon
+                                    color={
+                                        status === item.type ? 'white' : 'green'
+                                    }
+                                    type="antdesign"
+                                    name={item.iconName}
+                                />
+                                <Text
+                                    style={[
+                                        wOForm.statusButtonsText,
+                                        {
+                                            color:
+                                                status === item.type
+                                                    ? 'white'
+                                                    : 'green',
+                                        },
+                                    ]}
+                                >
+                                    {item.name}
+                                </Text>
+                            </TouchableOpacity>
+                        )
+                    })}
+>>>>>>> 6e7bb8785e3b10422c8d51453bb9df10bc471667
                 </View>
                 <View style={{ backgroundColor: 'white' }}>
                     <Text>Tap to update priority:</Text>
                 </View>
                 <View style={wOForm.priorityDiv}>
+<<<<<<< HEAD
                     <TouchableOpacity
                         onPress={() => setPriority('1 None')}
                         style={wOForm.priorityButtons}
@@ -221,6 +385,39 @@ const NewWorkOrderForm = props => {
                     >
                         <Text style={wOForm.priorityButtonsText}>High</Text>
                     </TouchableOpacity>
+=======
+                    {priorityArray.map((item, index) => {
+                        return (
+                            // THIS IS FOR STYLING UPDATE PRIORITY
+                            <TouchableOpacity
+                                onPress={() => setPriority(item.type)}
+                                style={[
+                                    wOForm.priorityButtons,
+                                    {
+                                        backgroundColor:
+                                            priority === item.type
+                                                ? item.backgroundColor
+                                                : '#F4F3F3',
+                                    },
+                                ]}
+                            >
+                                <Text
+                                    style={[
+                                        wOForm.priorityButtonsText,
+                                        {
+                                            color:
+                                                priority === item.type
+                                                    ? item.color
+                                                    : '#89898E',
+                                        },
+                                    ]}
+                                >
+                                    {item.name}
+                                </Text>
+                            </TouchableOpacity>
+                        )
+                    })}
+>>>>>>> 6e7bb8785e3b10422c8d51453bb9df10bc471667
                 </View>
                 {/* SUBMIT BUTTON 10/24/2019 SD */}
                 <Button
@@ -237,6 +434,25 @@ const NewWorkOrderForm = props => {
     )
 }
 const wOForm = StyleSheet.create({
+<<<<<<< HEAD
+=======
+    imgCard: {
+        borderWidth: 1,
+        marginTop: 5,
+        padding: 5,
+        marginBottom: 5,
+    },
+    imgCardTop: {},
+    imgCardBot: {},
+    imgCardBot: {},
+    touchImage: {},
+    imgUpload: {
+        width: 150,
+        height: 150,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+    },
+>>>>>>> 6e7bb8785e3b10422c8d51453bb9df10bc471667
     statusDiv: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -273,6 +489,10 @@ const wOForm = StyleSheet.create({
         borderColor: '#C5C2C2',
         padding: 5,
         backgroundColor: 'white',
+<<<<<<< HEAD
+=======
+        borderBottomWidth: 1,
+>>>>>>> 6e7bb8785e3b10422c8d51453bb9df10bc471667
     },
     priorityButtons: {
         backgroundColor: '#f4f3f3',
@@ -342,4 +562,8 @@ const wOForm = StyleSheet.create({
         height: 90,
     },
 })
+<<<<<<< HEAD
 export default NewWorkOrderForm
+=======
+export default NewWorkOrderForm
+>>>>>>> 6e7bb8785e3b10422c8d51453bb9df10bc471667

@@ -7,12 +7,16 @@ import {
   TextInput,
   KeyboardAvoidingView,
   TouchableOpacity,
-  Image
+  Image,
+  Alert, 
+  ActivityIndicator
 } from "react-native";
 import Swiper from 'react-native-swiper';
+import { Overlay } from 'react-native-elements';
 import * as Yup from 'yup';
 import { Ionicons } from '@expo/vector-icons';
 import { UserContext } from "../../context/userState";
+import { loginStyles } from '../../components/Styles';
 import { isUpdateExpression } from "@babel/types";
 //To-Do
 //  Input validation -- functions built out just need to implement
@@ -23,25 +27,35 @@ const Signup = (props) => {
   // Need to clean up a lot of this code - was plowing ahead towards a solution & mvp.
   // const [newUser, setNewUser] = useState({});
   const [disabled, setDisabled] = useState(false);
+  const [toggleOverlay, setToggleOverlay] = useState(false);
   const [err, setErr] = useState();
   const [photoUri, setPhotoUri] = useState();
   const [current, setCurrent] = useState(0);
   const { user, addUser } = useContext(UserContext)
   const swipeRef = useRef();
   var [formValues, setFormValues] = useState({
-    username:"",
+    fullname:"",
     email:"",
     phone:""
   })
+
   const phoneRegExp = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
 
   //TESTING -- auto fill form 
-  // let i = Math.random()
-  // const newUser = {username: `foo${i}`, email: `foo${i}@aol.com`, phone: '5126369874'}
+  let i = Math.random()
+  // const formValues = {username: `foo${i}`, email: `foo${i}@aol.com`, phone: '7186369874'}
 
   useEffect(() => {
+    // Need to add error handling
     if(user.reg_complete === true){
-    props.navigation.navigate('Main')
+      Alert.alert(
+        'User Added!',
+        `User id: ${user.id}`,
+        [
+          {text: 'OK', onPress: () => props.navigation.navigate('Main')},
+        ],
+        {cancelable: false},
+      );
     }
   }, [user.reg_complete]);
 
@@ -58,10 +72,21 @@ const Signup = (props) => {
   }
 
   const handleSubmit = () => {
+    setToggleOverlay(true);
     const photo = photoUri
     const { username, email, phone } = formValues
     const password = 123456 //temp password for testing
     const query = `mutation { signUp( username: "${username}", password: "${password}", email: "${email}", phone: "${phone}" ) { token user {id} } }`
+  //   const textInputForm = <TextInput
+  //   key={input.name + input.id}
+  //   name={input.name}
+  //   value={formValues[input.name]}
+  //   keyboardType={input.keyboard}
+  //   onChangeText={(text) => onInputChange(input.name, text)}
+  //   placeholder={input.placeholder}
+  //   style={styles.input}
+  // />
+
     const res = addUser(query, photo); 
     console.log("final values",formValues)
   };
@@ -74,6 +99,7 @@ const Signup = (props) => {
   }
 
   // components
+
   const PhotoInput = () => {
     return (
       <TouchableOpacity
@@ -104,6 +130,7 @@ const Signup = (props) => {
   const pages = [
 
     {
+      image: true,
       type: "text",
       name: "phone",
       slideTitle: "Sign Up",
@@ -112,7 +139,8 @@ const Signup = (props) => {
       // keyboard: "email-address",
       keyboard: "phone-pad",
       placeholder: "Enter your Phone Number",
-      button: "Next",
+      button: "Get Started",
+      text3: "Contact The Net Giver Team"
       // keyboard: "phone-pad",
       // schema: {
       //   phone: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required("Phone number is required."),
@@ -125,38 +153,44 @@ const Signup = (props) => {
       text: "We just sent a one-time code to",
       // text2: formValues['phone'],
       placeholder: "6-digit code",
-      button: "Next",
+      button: "Sign Up",
+      text3: "Contact The Net Giver Team"
       // schema: {
       //   username: Yup.string().min(2).max(50).required('Username is required.'),
       // }
     },
-    {
-      type: "text",
-      name: "email",
-      slideTitle: "Email",
-      text: "Email",
-      // text2: formValues['email'],
-      placeholder: "6-digit code",
-      button: "Next",
-      // schema: {
-      //   username: Yup.string().min(2).max(50).required('Username is required.'),
-      // }
-    },
-    {
-      name: "username",
-      slideTitle: "Welcome to Netgiver!",
-      text: "We just need to get some info before you get started",
-      text2: "Please enter your username:",
-      placeholder: "username",
-      button: "Next",
-      // schema: {
-      //   username: Yup.string().min(2).max(50).required('Username is required.'),
-      // }
-    },
+    // {
+    //   type: "text",
+    //   name: "email",
+    //   slideTitle: "Email",
+    //   text: "Email",
+    //   // text2: formValues['email'],
+    //   placeholder: "6-digit code",
+    //   button: "Next",
+    //   // schema: {
+    //   //   username: Yup.string().min(2).max(50).required('Username is required.'),
+    //   // }
+    // },
+    // {
+    //   name: "username",
+    //   slideTitle: "Welcome to Netgiver!",
+    //   text: "We just need to get some info before you get started",
+    //   text2: "Please enter your username:",
+    //   placeholder: "username",
+    //   button: "Next",
+    //   // schema: {
+    //   //   username: Yup.string().min(2).max(50).required('Username is required.'),
+    //   // }
+    // },
     {
       type: "photo",
+      slideTitle: "Create your Profile",
       text: "Tap to add",
+      name: 'fullname',
+      name2: 'email',
       topComponent: <PhotoInput />,
+      placeholder: "Full Name",
+      placeholder2: "Email",
       button: "Submit"
     }
   ]
@@ -240,6 +274,15 @@ const Signup = (props) => {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <Overlay
+        isVisible={toggleOverlay}
+        onBackdropPress={() => setToggleOverlay(false)}
+      >
+        <>
+          <Text>Some Random Message</Text>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </>
+      </Overlay>
       <Formik
         onSubmit={values => console.log(values)}
         validationSchema={SignupSchema}
@@ -256,16 +299,18 @@ const Signup = (props) => {
           {pages.map((input, index) =>  {
             return (
               <View style={styles['slide' + ++index]} key={'slide' + input.id}>
+                {input.image ? <Image  style={loginStyles.logo} source={require('../../components/Images/ng.png')}/> : null}
                 {input.topComponent}
                 {input.slideTitle &&
                   <Text style={styles.title}> {input.slideTitle} </Text>
                 }
                 <Text style={styles.text}> {input.text} </Text>
+                
                 <View style={styles.inputContainer}>
+                
                   <Text style={styles.text}> {input.text2} </Text>
-                  {input.type === 'photo'
-                    ? <></>
-                    : <TextInput
+
+                  <TextInput
                         key={input.name + input.id}
                         name={input.name}
                         value={formValues[input.name]}
@@ -274,6 +319,20 @@ const Signup = (props) => {
                         placeholder={input.placeholder}
                         style={styles.input}
                       />
+                  
+                  {input.name2 
+                    ? <TextInput
+                        key={input.name2 + input.id}
+                        name={input.name2}
+                        value={formValues[input.name2]}
+                        keyboardType={input.keyboard}
+                        onChangeText={(text) => onInputChange(input.name2, text)}
+                        placeholder={input.placeholder2}
+                        style={styles.input}
+                      /> 
+                      : 
+                      null
+
                   }
                   <TouchableOpacity
                     style={styles.buttonStyle}
@@ -325,23 +384,39 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     
-     
    },
 
    slideTitle: {
     fontWeight: 'bold',
    },
 
-   slide1: {
-    flexDirection: "column",
-    paddingTop: 70,
+   logo: {
+    borderWidth: 2,
+    position: 'absolute',
+    left: 'auto',
+    right: 'auto',
+    top: '9.15%',
+    bottom: '73.91%',
+    
    },
 
+   slide1: {
+    flexDirection: "column",
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingTop: 100,
+   },
+
+   slide2: {
+    flexDirection: "column",
+    marginTop: 100,
+   },
 
   input: {
     width: '100%',
     backgroundColor: '#EDF1F3',
     marginVertical: 20,
+    marginBottom: 45,
     paddingVertical: 5,
     paddingVertical: 5,
     paddingHorizontal: 10,
