@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 import { AsyncStorage, Text, TextInput, View, StyleSheet, Image, TouchableOpacity } from 'react-native'
 // import {connect} from 'react-redux' sd 10/23/2019
 // import {doLogin} from '../../store/actions/authActions' sd 10/23/2019
-import { styles } from '../../components/Styles'
+import { styles , loginStyles} from '../../components/Styles'
 import { Button } from 'native-base'
 import axios from 'axios'
 import { UserContext } from "../../context/userState";

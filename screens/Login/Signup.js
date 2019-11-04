@@ -37,7 +37,8 @@ const Signup = (props) => {
   var [formValues, setFormValues] = useState({
     fullname:"",
     email:"",
-    phone:""
+    phone:"",
+    
   })
 
   const phoneRegExp = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
@@ -75,9 +76,9 @@ const Signup = (props) => {
   const handleSubmit = () => {
     setToggleOverlay(true);
     const photo = photoUri
-    const { username, email, phone } = formValues
+    const { username, email, phone} = formValues
     const password = 123456 //temp password for testing
-    const query = `mutation { signUp( username: "${username}", password: "${password}", email: "${email}", phone: "${phone}" ) { token user {id} } }`
+    const query = `mutation { signUp( username: "${username}", password: "${password}", email: "${email}", phone: "${phone}") { token user {id} } }`
   //   const textInputForm = <TextInput
   //   key={input.name + input.id}
   //   name={input.name}
@@ -125,6 +126,17 @@ const Signup = (props) => {
           />
         }
       </TouchableOpacity>
+
+      
+    )
+  }
+  const TextTos = () => {
+    return (
+      
+     
+        <><Text style={styles.textToS}>By pressing submit you agree to our </Text><Text style={styles.textToS}  onPress={()=> props.navigation.navigate('TOS')} >Terms of Service</Text><Text style={styles.textToS}> and</Text> <Text style={styles.textToS} onPress={()=> props.navigation.navigate('PP')}> Privacy Policy.</Text></>
+      
+      
     )
   }
 
@@ -136,13 +148,13 @@ const Signup = (props) => {
       type: "text",
       name: "phone",
       slideTitle: "Sign Up",
-      text: "And leave your paperwork behind!",
+      text0: "And leave your paperwork behind!",
       // text2: "Please enter your email:",
       // keyboard: "email-address",
       keyboard: "phone-pad",
       placeholder: "Enter your Phone Number",
       button: "Get Started",
-      text3: "Contact The Net Giver Team"
+      text3: "Contact The Net Giver Team"       
       // keyboard: "phone-pad",
       // schema: {
       //   phone: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required("Phone number is required."),
@@ -162,6 +174,7 @@ const Signup = (props) => {
       //   username: Yup.string().min(2).max(50).required('Username is required.'),
       // }
     },
+    
     // {
     //   type: "text",
     //   name: "email",
@@ -195,10 +208,35 @@ const Signup = (props) => {
       topComponent: <PhotoInput />,
       placeholder: "Full Name",
       placeholder2: "Email",
-      button: "Submit"
-    }
+      button: "Submit",
+      textToS: <TextTos />,
+      text3: "Contact The Net Giver Team",
+    },
+    // {
+      
+    //   type: "createneworganization",
+    //   slideTitle2: "Name Your Organization",
+    //   SubTextTop: "You are almost done!",
+    //   name: 'fullname',
+    //   topComponent: <PhotoInput />,
+    //   button: "Create a New Organization",
+    //   button2: "Join an Existing Organization",
+    //   text3: "Contact The Net Giver Team",
+    // },
+    // {
+    //   type: "chooseoganization",
+    //   slideTitle2: "Name Your Organization",
+    //   SubTextTop: "You are almost done!",
+    //   name: 'orgname',
+    //   topComponent: <PhotoInput />,
+    //   placeholder: "Organization Name",
+    //   button: "Next",
+    //   text3: "Contact The Net Giver Team",
+    // }
+
   ]
   
+
   const SignupSchema = Yup.object().shape({
     firstName: Yup.string()
       .min(2, 'Too Short!')
@@ -319,6 +357,7 @@ const Signup = (props) => {
                   null
                 }
                 
+
                 <View style={styles.inputContainer}>
                 
                   <Text style={styles.text}> {input.text2} </Text>
@@ -356,11 +395,21 @@ const Signup = (props) => {
                 </View>
                 <Text style={[loginStyles.footerText, {width: '100%', textAlign: 'center'}]}>Contact Netgiver Team</Text>
               </View>
-            )})}
-        </Swiper>
-      </Formik>
-  </KeyboardAvoidingView>
-  );
+              
+                {input.textToS 
+                  ? 
+                  // <View style={styles.textToS}><Text> 
+                  <Text>{input.textToS} </Text>
+                  //{/* </Text></View> */}
+                   : null}
+
+              <Text style={styles.text3}> {input.text3} </Text>
+            </View>
+          )})}
+      </Swiper>
+    </Formik>
+</KeyboardAvoidingView>
+);
 
 
   /*this switch statement will determine the this value for each form function call
@@ -398,6 +447,7 @@ const styles = StyleSheet.create({
   },
    slide0: {
     //backgroundColor: '#008000',
+    
     justifyContent: 'flex-start',
     alignItems: 'center',
     
@@ -409,11 +459,14 @@ const styles = StyleSheet.create({
    slide1: {
     flexDirection: "column",
     justifyContent: 'flex-start',
-    alignItems: 'center',
     paddingTop: 100,
+    alignItems: 'center',
+
+    
    },
 
    slide2: {
+     
     flexDirection: "column",
     marginTop: 40,
    },
@@ -424,7 +477,7 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   buttonStyle: {
-    padding: 2,
+    padding: 4,
     marginVertical: -20,
     backgroundColor: '#009900',
     alignItems: 'center',
@@ -438,27 +491,58 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
+  },
 
+  slide3: {
+    paddingTop: 20,
   },
   slide3: {
     marginTop: -30,
   },
+
+  slide4: {
+    paddingTop: 47,
+  },
+
+  textToS: {
+    paddingTop: 20,
+    alignItems: 'center',
+  }, 
 
   title: {
     color: '#282424',
     marginTop: '10%',
     fontSize: 22,
     fontWeight: 'bold',
-    
     //marginVertical: 80,
     textAlign: 'center',
     //paddingBottom: 3,
   },
+  
   text: {
     color: '#282424',
     textAlign: 'center',
     fontSize: 17,
   }, 
+
+  text0: {
+    color: '#282424',
+    textAlign: 'center',
+    fontSize: 17,
+    marginTop: -25,
+    marginBottom: 10,
+  }, 
+
+    text3: {
+      textAlign: 'center',
+      marginTop: 35,
+    },
+
+    SubTextTop: {
+      textAlign: 'center',
+      marginTop: 10,
+    },
+
   photoContainer: {
     width: 125,
     height: 125,
