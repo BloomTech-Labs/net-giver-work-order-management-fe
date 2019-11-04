@@ -1,8 +1,8 @@
 {
-    "hostType": "lan",
-    "lanType": "ip",
-    "dev": true,
-    "minify": false,
-    "urlRandomness": "ny-nre",
-    "https": false
+  "hostType": "tunnel",
+  "lanType": "ip",
+  "dev": true,
+  "minify": false,
+  "urlRandomness": "g9-iam",
+  "https": false
 }

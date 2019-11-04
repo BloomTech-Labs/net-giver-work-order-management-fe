@@ -150,7 +150,6 @@ const NewWorkOrderForm = props => {
             data: {
                 query: editMutation,
             },
-<<<<<<< HEAD
         }).then(res => {
             console.log('response submit', res)
             props.navigation.dispatch(resetAction1)
@@ -159,8 +158,6 @@ const NewWorkOrderForm = props => {
                 token: token,
             })
             props.navigation.dispatch(resetAction)
-=======
->>>>>>> 6e7bb8785e3b10422c8d51453bb9df10bc471667
         })
             .then(res => {
                 console.log('response submit', res)
@@ -190,31 +187,6 @@ const NewWorkOrderForm = props => {
                 let fileMap = {}
                 fileMap[0] = ['variables.photo']
 
-<<<<<<< HEAD
-    const status = [
-        {
-            type: '1 Open',
-            name: 'Open',
-            iconName: 'unlock'
-        },
-        {
-            type: '2 OnHold',
-            name: 'On Hold',
-            iconName: 'unlock'
-        },
-        {
-            type: '3 InProgress',
-            name: 'In Progress',
-            iconName: 'unlock'
-        },
-        {
-            type:'4 Complete',
-            name: 'Complete',
-            iconName: 'unlock'
-        }
-    ]
-
-=======
                 let body = new FormData()
 
                 body.append('operations', JSON.stringify(data))
@@ -247,7 +219,6 @@ const NewWorkOrderForm = props => {
                 console.log(err)
             })
     }
->>>>>>> 6e7bb8785e3b10422c8d51453bb9df10bc471667
     return (
         <ScrollView style={{ backgroundColor: '#f8f5f4' }}>
             <View>
@@ -269,49 +240,6 @@ const NewWorkOrderForm = props => {
                         style={wOForm.textInput1}
                     />
                 </View>
-<<<<<<< HEAD
-                <View style={{ backgroundColor: 'white' }}>
-                    <Text>Tap to update status:</Text>
-                </View>
-                <View style={wOForm.statusDiv}>
-                    {
-                        status.map((item, index) => {
-                            return (
-                                <TouchableOpacity
-                                    onPress={() => setStatus(item.type)}
-                                    style={wOForm.statusButtons}
-                                >
-                                    <Icon color="#009900" type="antdesign" name={item.iconName} />
-                                    <Text style={wOForm.statusButtonsText}>[item.name}</Text>
-                                </TouchableOpacity>
-                            )
-                        })
-                    }
-                    
-                    <TouchableOpacity
-                        onPress={() => setStatus('2 OnHold')}
-                        style={wOForm.statusButtons}
-                    >
-                        <Icon color="#009900" type="antdesign" name="pause" />
-                        <Text style={wOForm.statusButtonsText}>On Hold</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => setStatus('3 InProgress')}
-                        style={wOForm.statusButtons}
-                    >
-                        <Icon color="#009900" type="antdesign" name="sync" />
-                        <Text style={wOForm.statusButtonsText}>
-                            In Progress
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => setStatus('4 Complete')}
-                        style={wOForm.statusButtons}
-                    >
-                        <Icon color="#009900" type="antdesign" name="lock" />
-                        <Text style={wOForm.statusButtonsText}>Complete</Text>
-                    </TouchableOpacity>
-=======
                 <View style={{ backgroundColor: '#F4F3F3' }}>
                     <Text>Tap to update status:</Text>
                 </View>
@@ -354,38 +282,11 @@ const NewWorkOrderForm = props => {
                             </TouchableOpacity>
                         )
                     })}
->>>>>>> 6e7bb8785e3b10422c8d51453bb9df10bc471667
                 </View>
                 <View style={{ backgroundColor: 'white' }}>
                     <Text>Tap to update priority:</Text>
                 </View>
                 <View style={wOForm.priorityDiv}>
-<<<<<<< HEAD
-                    <TouchableOpacity
-                        onPress={() => setPriority('1 None')}
-                        style={wOForm.priorityButtons}
-                    >
-                        <Text style={wOForm.priorityButtonsText}>None</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => setPriority('2 Low')}
-                        style={wOForm.priorityButtons}
-                    >
-                        <Text style={wOForm.priorityButtonsText}>Low</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => setPriority('3 Medium')}
-                        style={wOForm.priorityButtons}
-                    >
-                        <Text style={wOForm.priorityButtonsText}>Medium</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => setPriority('4 High')}
-                        style={wOForm.priorityButtons}
-                    >
-                        <Text style={wOForm.priorityButtonsText}>High</Text>
-                    </TouchableOpacity>
-=======
                     {priorityArray.map((item, index) => {
                         return (
                             // THIS IS FOR STYLING UPDATE PRIORITY
@@ -417,7 +318,6 @@ const NewWorkOrderForm = props => {
                             </TouchableOpacity>
                         )
                     })}
->>>>>>> 6e7bb8785e3b10422c8d51453bb9df10bc471667
                 </View>
                 {/* SUBMIT BUTTON 10/24/2019 SD */}
                 <Button
@@ -434,8 +334,6 @@ const NewWorkOrderForm = props => {
     )
 }
 const wOForm = StyleSheet.create({
-<<<<<<< HEAD
-=======
     imgCard: {
         borderWidth: 1,
         marginTop: 5,
@@ -452,7 +350,6 @@ const wOForm = StyleSheet.create({
         marginLeft: 'auto',
         marginRight: 'auto',
     },
->>>>>>> 6e7bb8785e3b10422c8d51453bb9df10bc471667
     statusDiv: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -489,10 +386,7 @@ const wOForm = StyleSheet.create({
         borderColor: '#C5C2C2',
         padding: 5,
         backgroundColor: 'white',
-<<<<<<< HEAD
-=======
         borderBottomWidth: 1,
->>>>>>> 6e7bb8785e3b10422c8d51453bb9df10bc471667
     },
     priorityButtons: {
         backgroundColor: '#f4f3f3',
@@ -562,8 +456,4 @@ const wOForm = StyleSheet.create({
         height: 90,
     },
 })
-<<<<<<< HEAD
 export default NewWorkOrderForm
-=======
-export default NewWorkOrderForm
->>>>>>> 6e7bb8785e3b10422c8d51453bb9df10bc471667
