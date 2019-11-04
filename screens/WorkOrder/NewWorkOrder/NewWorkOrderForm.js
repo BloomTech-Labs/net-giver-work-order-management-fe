@@ -26,7 +26,6 @@ import {
     Text,
 } from 'native-base'
 import { Icon } from 'react-native-elements'
-
 // import { token } from '../../../token'
 import axios from 'axios'
 // import { wOForm } from '../../../components/Styles'
@@ -34,7 +33,6 @@ import axios from 'axios'
 import { StackActions, NavigationActions } from 'react-navigation'
 import { UserContext } from '../../../context/userState'
 import { wOList } from '../../../components/Styles'
-
 const NewWorkOrderForm = props => {
     const { user } = useContext(UserContext)
     const token = user.token
@@ -63,7 +61,7 @@ const NewWorkOrderForm = props => {
     //SET CLICKED TO STATE FOR ACTIONsHEET (CAMERA FUNCTIONS) 10/24/2019 SD
     const [clicked, setClicked] = useState()
     // SET PRIORITY 10/24/2019 SD
-    const [priority, setPriority] = useState('N/A')
+    const [priority, setPriority] = useState('Low')
     // SET STATUS 10/24/2019 SD
     const [status, setStatus] = useState('Not Started')
     //SET TITLE 10/24/2019 SD
@@ -71,12 +69,67 @@ const NewWorkOrderForm = props => {
     //SET DETAIL 10/24/2019 SD`
     const [detail, setDetail] = useState()
     //SET BUTTONS AND CANCEL_INDEX FOR ACTIONSHEET 12/24/2019 SD
+    const BUTTONS = [
+        { text: 'Take Picture with Camera' },
+        { text: 'Use Existing Photo' },
+        { text: 'Cancel' },
+    ]
+    const CANCEL_INDEX = 2
 
+    /*
+    const statusArray = [
+        {
+            type: '1 Open',
+            name: 'Open',
+            iconName: 'unlock',
+        },
+        {
+            type: '2 OnHold',
+            name: 'On Hold',
+            iconName: 'pause',
+        },
+        {
+            type: '3 InProgress',
+            name: 'In Progress',
+            iconName: 'sync',
+        },
+        {
+            type: '4 Complete',
+            name: 'Complete',
+            iconName: 'lock',
+        },
+    ]
+    */
+
+    const priorityArray = [
+        {
+            type: '1 Low',
+            name: 'Low',
+            color: '#087FFF',
+            backgroundColor: '#E2F5FC',
+        },
+        {
+            type: '2 Medium',
+            name: 'Medium',
+            color: '#07BD51',
+            backgroundColor: '#CBFBCB',
+        },
+        {
+            type: '3 High',
+            name: 'High',
+            color: '#DBA004',
+            backgroundColor: '#FFED9B',
+        },
+        {
+            type: '4 Urgent',
+            name: 'Urgent',
+            color: '#FE273A',
+            backgroundColor: '#FFD3D3',
+        },
+    ]
     //SET QR CODE FROM PROPS 10/24/2019 SD
     const { qrCode } = 7
-
     // props.navigation.state.params.qrCode
-    const { workOrderId } = 1
     console.log('TCL: qrCode', qrCode)
     //SUBMIT HANDLER 10/24/2019 SD
 
@@ -90,7 +143,6 @@ const NewWorkOrderForm = props => {
               title
             }
           }`
-
         axios({
             method: 'post',
             url: 'https://netgiver-stage.herokuapp.com/graphql',
@@ -100,7 +152,24 @@ const NewWorkOrderForm = props => {
             data: {
                 query: editMutation,
             },
+        }).then(res => {
+            console.log('response submit', res)
+            props.navigation.dispatch(resetAction1)
+            props.navigation.navigate('WorkOrderList', {
+                sentFrom: 'NewWorkOrder',
+                token: token,
+            })
+            props.navigation.dispatch(resetAction)
         })
+            .then(res => {
+                console.log('response submit', res)
+                props.navigation.dispatch(resetAction1)
+                props.navigation.navigate('WorkOrderList', {
+                    sentFrom: 'NewWorkOrder',
+                    token: token,
+                })
+                props.navigation.dispatch(resetAction)
+            })
             .then(res => {
                 const apiUrl = 'https://netgiver-stage.herokuapp.com/graphql'
                 const query = `mutation($photo: Upload!) { uploadWorkorderphoto(photo: ${photoUri}, workorderId: ${workOrderId}, primaryPhoto: true) { path, filename, workorderId, primaryPhoto, photocount, userId } }",
@@ -152,7 +221,6 @@ const NewWorkOrderForm = props => {
                 console.log(err)
             })
     }
-
     return (
         <ScrollView style={{ backgroundColor: '#f8f5f4' }}>
             <View>
@@ -172,95 +240,92 @@ const NewWorkOrderForm = props => {
                         onChangeText={setDetail}
                         value={detail}
                         style={wOForm.textInput1}
+                        editable={true}
+                        multiline={true}
                     />
                 </View>
-                <View style={{ backgroundColor: 'white' }}>
-                    <Text>Tap to update status:</Text>
-                </View>
-                <View style={wOForm.statusDiv}>
-                    <TouchableOpacity
-                        onPress={() => setStatus('1 Open')}
-                        style={wOForm.statusButtons}
-                    >
-                        <Icon color="#009900" type="antdesign" name="unlock" />
-                        <Text style={wOForm.statusButtonsText}>Open</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => setStatus('2 OnHold')}
-                        style={wOForm.statusButtons}
-                    >
-                        <Icon color="#009900" type="antdesign" name="pause" />
-                        <Text style={wOForm.statusButtonsText}>On Hold</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => setStatus('3 InProgress')}
-                        style={wOForm.statusButtons}
-                    >
-                        <Icon color="#009900" type="antdesign" name="sync" />
-                        <Text style={wOForm.statusButtonsText}>
-                            In Progress
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => setStatus('4 Complete')}
-                        style={wOForm.statusButtons}
-                    >
-                        <Icon color="#009900" type="antdesign" name="lock" />
-                        <Text style={wOForm.statusButtonsText}>Complete</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={{ backgroundColor: 'white' }}>
-                    <Text>Tap to update priority:</Text>
-                </View>
-                <View style={wOForm.priorityDiv}>
-                    <TouchableOpacity
-                        onPress={() => setPriority('1 None')}
-                        style={wOForm.priorityButtons}
-                    >
-                        <Text style={wOForm.priorityButtonsText}>None</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => setPriority('2 Low')}
-                        style={wOForm.priorityButtons}
-                    >
-                        <Text style={wOForm.priorityButtonsText}>Low</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => setPriority('3 Medium')}
-                        style={wOForm.priorityButtons}
-                    >
-                        <Text style={wOForm.priorityButtonsText}>Medium</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => setPriority('4 High')}
-                        style={wOForm.priorityButtons}
-                    >
-                        <Text style={wOForm.priorityButtonsText}>High</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={wOForm.imgCard}>
-                    <View style={wOForm.imgCardTop}>
-                        <Text>Tap on image to upload.</Text>
-                    </View>
-                    <View style={wOForm.imgCardBot}>
-                        <TouchableOpacity
-                            style={wOForm.touchImage}
-                            onPress={() =>
-                                props.navigation.navigate('Camera', {
-                                    from: 'NewWorkOrder',
-                                })
-                            }
-                        >
-                            <Image
-                                style={wOForm.imgUpload}
-                                source={{
-                                    uri: photoUri,
-                                }}
-                            ></Image>
-                        </TouchableOpacity>
-                    </View>
-                </View>
 
+                {/*
+                <View style={wOForm.statusDiv}>
+                    {statusArray.map((item, index) => {
+                        return (
+                            // THIS IS FOR STYLING UPDATE STATUS
+                            <TouchableOpacity
+                                onPress={() => setStatus(item.type)}
+                                style={[
+                                    wOForm.statusButtons,
+                                    {
+                                        backgroundColor:
+                                            status === item.type
+                                                ? 'green'
+                                                : 'white',
+                                    },
+                                ]}
+                            >
+                                <Icon
+                                    color={
+                                        status === item.type ? 'white' : 'green'
+                                    }
+                                    type="antdesign"
+                                    name={item.iconName}
+                                />
+                                <Text
+                                    style={[
+                                        wOForm.statusButtonsText,
+                                        {
+                                            color:
+                                                status === item.type
+                                                    ? 'white'
+                                                    : 'green',
+                                        },
+                                    ]}
+                                >
+                                    {item.name}
+                                </Text>
+                            </TouchableOpacity>
+                        )
+                    })}
+                </View>
+                */}
+                
+                <View style={wOForm.priorityDiv}>
+                    <View style={{ backgroundColor: 'white', fontSize: 15, paddingVertical: 4 }}>
+                        <Text>Tap to update priority:</Text>
+                    </View>
+                    <View style={wOForm.priorityButtonsDiv}>
+                    {priorityArray.map((item, index) => {
+                        return (
+                            // THIS IS FOR STYLING UPDATE PRIORITY
+                            <TouchableOpacity
+                                onPress={() => setPriority(item.type)}
+                                style={[
+                                    wOForm.priorityButtons,
+                                    {
+                                        backgroundColor:
+                                            priority === item.type
+                                                ? item.backgroundColor
+                                                : '#F4F3F3',
+                                    },
+                                ]}
+                            >
+                                <Text
+                                    style={[
+                                        wOForm.priorityButtonsText,
+                                        {
+                                            color:
+                                                priority === item.type
+                                                    ? item.color
+                                                    : '#89898E',
+                                        },
+                                    ]}
+                                >
+                                    {item.name}
+                                </Text>
+                            </TouchableOpacity>
+                        )
+                    })}
+                    </View>
+                </View>
                 {/* SUBMIT BUTTON 10/24/2019 SD */}
                 <Button
                     type="primary"
@@ -323,12 +388,17 @@ const wOForm = StyleSheet.create({
         fontSize: 14,
     },
     priorityDiv: {
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'space-between',
         borderColor: '#C5C2C2',
-        padding: 5,
+        paddingHorizontal: 15,
+        paddingBottom: 12,
         backgroundColor: 'white',
         borderBottomWidth: 1,
+    },
+    priorityButtonsDiv: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     priorityButtons: {
         backgroundColor: '#f4f3f3',
@@ -346,7 +416,6 @@ const wOForm = StyleSheet.create({
         marginTop: 'auto',
         marginBottom: 'auto',
     },
-
     priorityButtonsActive: {
         backgroundColor: '#009900',
         width: '23%',
@@ -372,6 +441,7 @@ const wOForm = StyleSheet.create({
         width: '96%',
         alignSelf: 'center',
         justifyContent: 'center',
+        marginTop: 175,
     },
     textInput: {
         marginTop: -15,
@@ -396,6 +466,7 @@ const wOForm = StyleSheet.create({
         alignSelf: 'center',
         padding: 10,
         height: 90,
+        textAlignVertical: 'top'
     },
 })
 export default NewWorkOrderForm

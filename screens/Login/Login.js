@@ -6,7 +6,7 @@ import {
     View,
     TouchableOpacity,
     Alert,
-    Image
+    Image,
 } from 'react-native'
 import axios from 'axios'
 import { Button } from 'native-base'
@@ -16,7 +16,7 @@ import SafeAreaView from 'react-native-safe-area-view'
 const Login = props => {
     const [token, setToken] = useState()
     // SETS USERNAME FROM INPUT BOX 10/24/2019 SD
-    const [username, setUsername] = useState("Enter Your Username")
+    const [username, setUsername] = useState('Enter Your Username')
 
     // SENDS MUTATION TO GQL SERVER TO GET BACK USERNAME IF THERE IS A VERIFIED USER BY THAT NAME
     // NEEDS TO BE INTEGRATED SO THAT YOU ONLY HAVE TO ENTER USERNAME ONE TIME 10/24/2019 SD
@@ -44,7 +44,10 @@ const Login = props => {
         <SafeAreaView style={styles.container}>
             {/* LOGO CONTAINER 10/25/2019 */}
             {/* <View style={loginStyles.logo}> */}
-                <Image  style={loginStyles.logo} source={require('../../components/Images/ng.png')}/>
+            <Image
+                style={loginStyles.logo}
+                source={require('../../components/Images/ng.png')}
+            />
             {/* </View> */}
             <Text style={loginStyles.header}>Sign In</Text>
             <Text style={loginStyles.subHeader}>
@@ -65,8 +68,7 @@ const Login = props => {
             </Button>
 
             <Text style={loginStyles.buttonHeader}>Don't Have an Account?</Text>
-
-            <Button 
+            <Button
                 onPress={() => props.navigation.navigate('SignUp')}
                 style={loginStyles.signUp}
             >
@@ -77,10 +79,7 @@ const Login = props => {
         </SafeAreaView>
     )
 }
-
 // LEFT IN STYLESHEET SO THAT IT COULD BE LOOKED AT EASILY FOR REFERENCE 10/25/2019 SD
-
-
 // const loginStyles = StyleSheet.create({
 //     //LOGO CONTAINER -- GET STYLES FROM FIGMA 10/25/2019 SD
 //     logo: {
@@ -129,8 +128,8 @@ const Login = props => {
 //         borderWidth: 1,
 //         // box-sizing: border-box,
 //         borderRadius: 4,
-//         padding:10,
-//         fontFamily:'IBMPlexSans-Regular',
+//         padding: 10,
+//         fontFamily: 'IBMPlexSans-Regular',
 //     },
 //     signIn: {
 //         position: 'absolute',
@@ -163,7 +162,7 @@ const Login = props => {
 //         right: 'auto',
 //         top: '67.17%',
 //         bottom: '25.08%',
-//             },
+//     },
 //     buttonText: {
 //         fontFamily: 'IBMPlexSans-Regular',
 //         fontSize: 17,
@@ -172,7 +171,7 @@ const Login = props => {
 //         marginLeft: 'auto',
 //         color: '#FFFFFF',
 //     },
-//     footerText:{
+//     footerText: {
 //         position: 'absolute',
 //         left: 'auto',
 //         right: 'auto',
@@ -183,5 +182,4 @@ const Login = props => {
 //         // fontWeight: '500',
 //     },
 // })
-
 export default Login
