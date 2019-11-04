@@ -48,13 +48,12 @@ const GET_WORKORDERS = gql`
 
 const WorkOrderListView = props => {
   const [sentFrom, setSentFrom] = useState();
-  const { data, loading, error } = useQuery(GET_WORKORDERS, {
-    fetchPolicy: "no-cache"
-  });
-  // useEffect(() => {
-  //   setSentFrom(props.navigation.getParam("sentFrom", "nowhere"));
-  //   //    setToken(props.navigation.state.params.token)
-  // });
+  const { data, loading, error } = useQuery(
+    GET_WORKORDERS,
+    {
+      // fetchPolicy: "no-cache"
+    }
+  );
 
   if (loading)
     return (
@@ -74,24 +73,14 @@ const WorkOrderListView = props => {
         </Text>
       </SafeAreaView>
     );
-  // return (
-  //   <SafeAreaView style={styles.container}>
-  //     <Text style={wOList.title}>
-  //       {console.log(data)}
-  //     </Text>
-  //   </SafeAreaView>
-  // );
   return (
     <ScrollView>
-      {/* MAP WORK ORDER DATA AND PULL OUT THE VALUES 10/24/2019 SD */}
       {data.workorders.edges.map(res =>
-        // MAKE THE WHOLE BOX A BUTTON THAT CAN BE CLICKED TO OPEN THE w/o 10/24/2019 SD
         <TouchableOpacity
           key={res.id}
           onPress={() =>
-            props.navigation.navigate("CheckBarCode", {
-              qrData: res.qrcode,
-              token: token
+            props.navigation.navigate("EditWorkOrder", {
+              wo: res
             })}
         >
           {/* BUILD THE WORKORDER CARD 10/24/2019 SD */}

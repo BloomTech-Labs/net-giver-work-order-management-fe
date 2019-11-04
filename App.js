@@ -119,7 +119,7 @@ const client = new ApolloClient({
     }),
     new HttpLink({
       // uri: "http://localhost:3000/graphql"
-      uri: "https://netgiver-stage-pr-10.herokuapp.com/graphql"
+      uri: "https://netgiver-stage.herokuapp.com/graphql"
     })
   ]),
   cache
