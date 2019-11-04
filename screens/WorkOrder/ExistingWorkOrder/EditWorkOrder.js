@@ -27,7 +27,7 @@ import {
 } from 'native-base'
 import { token } from '../../../token'
 import axios from 'axios'
-import { wOForm } from '../../../components/Styles'
+import { wOForm } from '../../../components/Styles';
 
 const EditWorkOrder = props => {
     // const token = props.navigation.state.params.token
@@ -67,9 +67,13 @@ const EditWorkOrder = props => {
         'detail'
         // props.navigation.state.params.workOrder.isWorkOrder.workorder.detail
     )
-    const [activePriority, setActivePriority] = useState(0)
+    const [activePriority, setActivePriority] = useState(0);
 
-    const [activeStatus, setActiveStatus] = useState(0)
+    const [activeStatus, setActiveStatus] = useState(0);
+
+    // Input height modifiers
+
+    const [inputHeight, setInputHeight] = useState(0);
 
     //SET BUTTONS AND CANCEL_INDEX FOR ACTIONSHEET 12/24/2019 SD
     const BUTTONS = [
@@ -82,7 +86,7 @@ const EditWorkOrder = props => {
 
     // const ternbg = `? {backgroundColor: "black"} : {backgroundColor:white}`
 
-    console.log('TCL: qrcode', qrcode)
+    console.log()
     //SUBMIT HANDLER 10/24/2019 SD
     const handleSubmit = () => {
         const editMutation = `mutation {
@@ -113,13 +117,13 @@ const EditWorkOrder = props => {
     return (
         <ScrollView>
             <View>
-                <View style={{ marginTop: 15 }}>
+                <View>
                     {/* TITLE TEXT INPUT 12/24/2019 SD */}
                     <TextInput
                         placeholder="What is broken?"
                         onChangeText={setTitle}
                         value={title}
-                        style={wOForm.textInput}
+                        style={[wOForm.textInputGlobal, wOForm.textInputTitle]}
                     />
                 </View>
                 <View>
@@ -128,13 +132,16 @@ const EditWorkOrder = props => {
                         placeholder="What's it doing?"
                         onChangeText={setDetail}
                         value={detail}
-                        style={wOForm.textInput}
+                        multiline={true}
+                        editable={true}
+                        onContentSizeChange={(e) => setInputHeight(e.nativeEvent.contentSize.height)}
+                        style={[wOForm.textInputGlobal, wOForm.textInputDesc, {height: inputHeight}]}
                     />
                 </View>
-                <View>
+                <View style={wOForm.priorityContainer}>
                     <View style={wOForm.priorityBar}>
                         <View style={wOForm.pBarTextBox}>
-                            <Text style={wOForm.pBarText}>Priority:</Text>
+                            <Text style={wOForm.pBarText}>Priority</Text>
                         </View>
                         <View style={wOForm.pBarButtonBox}>
                             <TouchableOpacity
@@ -143,9 +150,10 @@ const EditWorkOrder = props => {
 
                                     activePriority === 1
                                         ? {
-                                              backgroundColor: '#237804',
+                                              backgroundColor: '#878C90',
                                           }
-                                        : { backgroundColor: 'white' },
+                                        : { backgroundColor: '#F4F3F3' },
+                                    {borderTopLeftRadius: 3.26, borderBottomLeftRadius: 3.26, borderRightWidth: 0}
                                 ]}
                                 onPress={() => {
                                     setPriority('Low')
@@ -154,11 +162,41 @@ const EditWorkOrder = props => {
                             >
                                 <Text
                                     style={[
+                                        wOForm.pBarButtonText,
                                         activePriority === 1
                                             ? {
                                                   color: 'white',
                                               }
-                                            : { color: '#237804' },
+                                            : { color: 'black' },
+                                    ]}
+                                >
+                                    None
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[
+                                    wOForm.pBarButton,
+
+                                    activePriority === 2
+                                        ? {
+                                              backgroundColor: '#E2F5FC',
+                                          }
+                                        : { backgroundColor: '#F4F3F3' },
+                                        {borderRightWidth: 0}
+                                ]}
+                                onPress={() => {
+                                    setPriority('Medium')
+                                    setActivePriority(2)
+                                }}
+                            >
+                                <Text
+                                    style={[
+                                        wOForm.pBarButtonText,
+                                        activePriority === 2
+                                            ? {
+                                                  color: '#087FFF',
+                                              }
+                                            : { color: 'black' },
                                     ]}
                                 >
                                     Low
@@ -168,24 +206,25 @@ const EditWorkOrder = props => {
                                 style={[
                                     wOForm.pBarButton,
 
-                                    activePriority === 2
+                                    activePriority === 3
                                         ? {
-                                              backgroundColor: '#237804',
+                                              backgroundColor: '#FBF2D7',
                                           }
-                                        : { backgroundColor: 'white' },
+                                        : { backgroundColor: '#F4F3F3' },
                                 ]}
                                 onPress={() => {
-                                    setPriority('Medium')
-                                    setActivePriority(2)
+                                    setPriority('High')
+                                    setActivePriority(3)
                                 }}
                             >
                                 <Text
                                     style={[
-                                        activePriority === 2
+                                        wOForm.pBarButtonText,
+                                        activePriority === 3
                                             ? {
-                                                  color: 'white',
+                                                  color: '#E1AA08',
                                               }
-                                            : { color: '#237804' },
+                                            : { color: 'black' },
                                     ]}
                                 >
                                     Medium
@@ -195,54 +234,31 @@ const EditWorkOrder = props => {
                                 style={[
                                     wOForm.pBarButton,
 
-                                    activePriority === 3
-                                        ? {
-                                              backgroundColor: '#237804',
-                                          }
-                                        : { backgroundColor: 'white' },
-                                ]}
-                                onPress={() => {
-                                    setPriority('High')
-                                    setActivePriority(3)
-                                }}
-                            >
-                                <Text
-                                    style={[
-                                        activePriority === 3
-                                            ? {
-                                                  color: 'white',
-                                              }
-                                            : { color: '#237804' },
-                                    ]}
-                                >
-                                    High
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={[
-                                    wOForm.pBarButton,
-
                                     activePriority === 4
                                         ? {
-                                              backgroundColor: '#237804',
+                                              backgroundColor: '#FFD3D3',
                                           }
-                                        : { backgroundColor: 'white' },
+                                        : { backgroundColor: '#F4F3F3' },
+                                        {borderTopRightRadius: 3.26, borderBottomRightRadius: 3.26, borderLeftWidth: 0}
                                 ]}
                                 onPress={() => {
                                     setPriority('Emergency')
                                     setActivePriority(4)
                                 }}
                             >
+                                
                                 <Text
                                     style={[
+                                        wOForm.pBarButtonText,
                                         activePriority === 4
                                             ? {
-                                                  color: 'white',
+                                                  color: '#FE273A',
                                               }
-                                            : { color: '#237804' },
+                                            : { color: 'black' },
+                                            
                                     ]}
                                 >
-                                    Emergency
+                                    High
                                 </Text>
                             </TouchableOpacity>
                         </View>
@@ -250,7 +266,7 @@ const EditWorkOrder = props => {
                 </View>
                 <View style={wOForm.priorityBar}>
                     <View style={wOForm.pBarTextBox}>
-                        <Text style={wOForm.pBarText}>Status: </Text>
+                        <Text style={wOForm.pBarText}>Status</Text>
                     </View>
                     <View style={wOForm.pBarButtonBox}>
                         <TouchableOpacity
@@ -261,20 +277,23 @@ const EditWorkOrder = props => {
                                     ? {
                                           backgroundColor: '#237804',
                                       }
-                                    : { backgroundColor: 'white' },
+                                    : { backgroundColor: '#F4F3F3' },
+                                    {borderTopLeftRadius: 3.26, borderBottomLeftRadius: 3.26, borderRightWidth: 0}
                             ]}
                             onPress={() => {
                                 setStatus('Not Started')
                                 setActiveStatus(1)
                             }}
                         >
+                            
                             <Text
                                 style={[
+                                    wOForm.pBarButtonText,
                                     activeStatus === 1
                                         ? {
                                               color: 'white',
                                           }
-                                        : { color: '#237804' },
+                                        : { color: 'black' },
                                 ]}
                             >
                                 Not Started
@@ -297,6 +316,7 @@ const EditWorkOrder = props => {
                         >
                             <Text
                                 style={[
+                                    wOForm.pBarButtonText,
                                     activeStatus === 2
                                         ? {
                                               color: 'white',
@@ -316,6 +336,7 @@ const EditWorkOrder = props => {
                                           backgroundColor: '#237804',
                                       }
                                     : { backgroundColor: 'white' },
+                                    {borderTopRightRadius: 3.26, borderBottomRightRadius: 3.26, borderLeftWidth: 0}
                             ]}
                             onPress={() => {
                                 setStatus('Complete')
@@ -324,6 +345,7 @@ const EditWorkOrder = props => {
                         >
                             <Text
                                 style={[
+                                    wOForm.pBarButtonText,
                                     activeStatus === 3
                                         ? {
                                               color: 'white',
@@ -336,7 +358,7 @@ const EditWorkOrder = props => {
                         </TouchableOpacity>
                     </View>
                 </View>
-
+                <View style={wOForm.extraSpace}></View>
                 <Text>Work Order Images (Long Press to Delete)</Text>
                 {/* WORK ORDER IMAGE BOX 12/24/2019 SD */}
                 <View style={wOForm.imageBox}>

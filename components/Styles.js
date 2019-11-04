@@ -94,40 +94,65 @@ export const wOForm = StyleSheet.create({
         width: '96%',
         alignSelf: 'center',
     },
-    textInput: {
-        marginBottom: 15,
-        backgroundColor: '#EDF1F3',
-        borderWidth: 2,
-        borderColor: '#C5C2C2',
-        // box-sizing: border-box;
-        borderRadius: 4,
-        // alignSelf: "stretch",
-        width: '95%',
-        alignSelf: 'center',
-        padding: 10,
+    textInputGlobal: {
+        width: '100%',
+        borderBottomWidth: 0.5,
+        borderColor: '#BFBCBC',
+        padding: 20,
+        fontSize: 15,
+    },
+    textInputTitle: {
+        
+    },
+    textInputDesc: {
+
+    },
+    priorityContainer: {
+       
     },
     priorityBar: {
+        borderColor: '#BFBCBC',
+        borderBottomWidth: 0.5,
+        paddingLeft: 17,
+        paddingRight: 17,
+        paddingTop: 12,
+        paddingBottom: 12,
+        flex: 1,
         flexDirection: 'row',
-        marginBottom: 25,
+        justifyContent: 'space-between',
+        alignItems: 'center'
     },
     pBarText: {
-        marginLeft: 10,
+       fontSize: 15
     },
     pBarButtonBox: {
         flexDirection: 'row',
-        marginRight: 'auto',
-        marginLeft: 'auto',
-        borderWidth: 1,
-        borderRightWidth: 0.5,
-        borderRadius: 4,
+        width: 255,
     },
     pBarButton: {
         // borderWidth: 0.5,
         // borderRadius:4,
-        borderRightWidth: 0.5,
-        padding: 2,
+        borderWidth: 0.82,
+        borderColor: 'green',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingTop: 6.16,
+        paddingBottom: 5.5
+
+
+        
+        
         // borderTopRightRadius:4,
         // borderBottomRightRadius:4,
+    },
+    pBarButtonText: {
+        fontSize: 12.24,
+        
+    },
+    extraSpace: {
+        height: 16,
+        backgroundColor: '#F8F5F4'
     },
     placeholder:{
         width:75,
