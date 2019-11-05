@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {StyleSheet} from 'react-native'
+import { StyleSheet } from 'react-native'
 const plex = "fontFamily: 'IBMPlexSans-Regular'"
 export const styles = StyleSheet.create({
     button:{
@@ -32,29 +32,29 @@ export const styles = StyleSheet.create({
       
     },
     welcome: {
-      fontSize: 20,
-      textAlign: 'center',
-      margin: 10
+        fontSize: 20,
+        textAlign: 'center',
+        margin: 10,
     },
     link: {
-      fontSize: 16,
-      textAlign: 'center',
-      margin: 10
+        fontSize: 16,
+        textAlign: 'center',
+        margin: 10,
     },
     textBox: {
-      borderWidth: 1,
-      borderColor: '#000',
-      margin: 5,
-      // fontSize: 30,
-      height: 40
-    }
-  });
-  export const wOList = StyleSheet.create({
+        borderWidth: 1,
+        borderColor: '#000',
+        margin: 5,
+        // fontSize: 30,
+        height: 40,
+    },
+})
+export const wOList = StyleSheet.create({
     card: {
         borderWidth: 1,
-        width:'95%',
+        width: '95%',
         alignSelf: 'center',
-        borderColor:'grey',
+        borderColor: 'grey',
         flexDirection: 'row',
         marginBottom: 4,
     },
@@ -74,7 +74,7 @@ export const styles = StyleSheet.create({
     image: {
         width: 100,
         height: 100,
-        },
+    },
     title: {
         fontSize: 20,
         fontWeight: '700',
@@ -87,31 +87,44 @@ export const wOForm = StyleSheet.create({
         display: 'none',
     },
     button: {
+        //this is the submit button at the bottom
         backgroundColor: '#006E13',
         borderWidth: 2,
         borderColor: '#EDF1F3',
         width: '96%',
         alignSelf: 'center',
     },
-    textInput: {
-        marginBottom: 15,
-        backgroundColor: '#EDF1F3',
-        borderWidth: 2,
-        borderColor: '#C5C2C2',
-        // box-sizing: border-box;
-        borderRadius: 4,
-        // alignSelf: "stretch",
-        width: '95%',
-        alignSelf: 'center',
-        padding: 10,
+    textInputGlobal: {
+        width: '100%',
+        borderBottomWidth: 0.5,
+        borderColor: '#BFBCBC',
+        padding: 20,
+        fontSize: 15,
+    },
+    textInputTitle: {
+        
+    },
+    textInputDesc: {
+
+    },
+    priorityContainer: {
+       
+    },
+    priorityDiv: {
+
     },
     priorityBar: {
+        // the priority & rows as a whole
         flexDirection: 'row',
         marginBottom: 25,
+        // borderColor: 'green',
+        // width: '100%',
+        justifyContent: 'space-between',
+        marginRight: 25,
     },
-    pBarText: {
-        marginLeft: 10,
-    },
+    // pBarText: {
+    //     marginLeft: 100,
+    // },
     pBarButtonBox: {
         flexDirection: 'row',
         marginRight: 'auto',
@@ -119,32 +132,38 @@ export const wOForm = StyleSheet.create({
         borderWidth: 1,
         borderRightWidth: 0.5,
         borderRadius: 4,
+        borderColor: 'red',
+        width: '75%',
+        justifyContent: 'space-around',
     },
     pBarButton: {
         // borderWidth: 0.5,
-        // borderRadius:4,
+        borderRadius: 4,
         borderRightWidth: 0.5,
         padding: 2,
+        borderColor: 'green',
+        borderStyle: 'solid',
+        backgroundColor: 'blue',
+
         // borderTopRightRadius:4,
         // borderBottomRightRadius:4,
     },
-    placeholder:{
-        width:75,
-        height:75,
+    placeholder: {
+        width: 75,
+        height: 75,
         // alignSelf:'center',
         // marginBottom:25,
         // borderRadius:100,
     },
-    imageBox:{
+    imageBox: {
         width: '95%',
         flexDirection: 'row',
-        justifyContent:'space-around',
+        justifyContent: 'space-around',
         marginRight: 'auto',
-        marginLeft:'auto',
+        marginLeft: 'auto',
         borderWidth: 1,
         padding: 10,
-        
-    }
+    },
 })
 
 export const loginStyles = StyleSheet.create({

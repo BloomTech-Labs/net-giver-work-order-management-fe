@@ -44,7 +44,6 @@ console.log("TCL: props", props)
    }, )
    
     useEffect(() => {
-
         axios({
             method: 'post',
             url: 'https://netgiver-stage.herokuapp.com/graphql',
