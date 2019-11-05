@@ -94,7 +94,7 @@ const Login = props => {
       <Text style={loginStyles.buttonHeader}>Don't Have an Account?</Text>
 
       <Button
-        onPress={() => props.navigation.navigate("SignUp")}
+        onPress={() => props.navigation.navigate("P1")}
         style={loginStyles.signUp}
       >
         <Text style={loginStyles.buttonText}>Sign Up</Text>

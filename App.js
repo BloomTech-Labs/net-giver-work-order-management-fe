@@ -122,8 +122,8 @@ const client = new ApolloClient({
     //   // uri: "http://localhost:3000/graphql"
     //   uri: "https://netgiver-stage.herokuapp.com/graphql"
     // })
-    createUploadLink({ uri: "http://localhost:3000/graphql" })
-    // createUploadLink({ uri: "https://netgiver-stage.herokuapp.com/graphql" })
+    // createUploadLink({ uri: "http://localhost:3000/graphql" })
+    createUploadLink({ uri: "https://netgiver-stage.herokuapp.com/graphql" })
   ]),
   cache
 });
