@@ -8,6 +8,7 @@ import Signup from "../screens/Login/Signup";
 import Camera from '../components/camera/Camera';
 import Pp from '../screens/Policy/Pp'
 import {Platform} from 'react-native'
+import Details from '../screens/WorkOrder/Details'
 import ToS from "../screens/Policy/ToS";
 const config = Platform.select({
   web: { headerMode: "screen" },
@@ -70,6 +71,14 @@ const AuthStackNavigator = createStackNavigator(
     },
     Camera: {
       screen: Camera
+    },
+
+    //DETAILS PAGE 11/4/2019 KS
+    Details: {
+      screen: WorkOrderDetails,
+      navigationOptions: {
+        title: 'Work Order Details'
+      }
     }
   },
   config

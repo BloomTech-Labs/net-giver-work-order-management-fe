@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 1146,
+  "expoServerNgrokUrl": "https://cg-p5k.anonymous.net-giver-work-order-management-fe.exp.direct",
+  "packagerNgrokUrl": "https://packager.cg-p5k.anonymous.net-giver-work-order-management-fe.exp.direct",
+  "ngrokPid": 1175,
   "webpackServerPort": null
 }
