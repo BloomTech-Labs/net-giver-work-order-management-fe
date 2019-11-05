@@ -4,6 +4,13 @@ import {SafeAreaView, Text, TouchableOpacity, TextInput, Image, StyleSheet} from
 const VerCode = (props) => {
     const phone = props.navigation.state.params.phone
     const [ver , setVer] = useState()
+    handleSubmit = () => {
+        if(ver != 6){
+            alert('Please check your verification code')
+        } else {
+            props.navigation.navigate('P2', {phone: phone, verCode:ver})
+        }
+    }
     return (
         <SafeAreaView>
             <Text style={su2.header}>We need to verify your phone number</Text>
@@ -17,7 +24,7 @@ const VerCode = (props) => {
             onChangeText={setVer}
             value={ver}
              />
-            <TouchableOpacity style={su2.button} onPress={handleSubmit}><Text style={su2.buttonText}>Get Started</Text></TouchableOpacity>
+            <TouchableOpacity style={su2.button} onPress={handleSubmit}><Text style={su2.buttonText}>Sign Up</Text></TouchableOpacity>
             <Text style={su2.footer}>Contact the Net Giver Team</Text>
 
         </SafeAreaView>

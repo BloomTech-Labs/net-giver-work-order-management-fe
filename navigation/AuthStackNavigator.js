@@ -52,18 +52,18 @@ const AuthStackNavigator = createStackNavigator(
     //   }
     // },
     //SIGNUP PAGE 10/24/2019 SD
-    P1: {
-      screen: Phone,
-      navigationOptions: {
-        title: 'Sign Up'
-      }
-    },
-    P2: {
-      screen: VerCode,
-      navigationOptions: {
-        title: 'Sign Up'
-      }
-    },
+    // P1: {
+    //   screen: Phone,
+    //   navigationOptions: {
+    //     title: 'Sign Up'
+    //   }
+    // },
+    // P2: {
+    //   screen: VerCode,
+    //   navigationOptions: {
+    //     title: 'Sign Up'
+    //   }
+    // },
     P3: {
       screen: Email,
       navigationOptions: {
