@@ -132,11 +132,24 @@ const Signup = (props) => {
   }
   const TextTos = () => {
     return (
-      
-     
-        <><Text style={styles.textToS}>By pressing submit you agree to our </Text><Text style={styles.textToS}  onPress={()=> props.navigation.navigate('TOS')} >Terms of Service</Text><Text style={styles.textToS}> and</Text> <Text style={styles.textToS} onPress={()=> props.navigation.navigate('PP')}> Privacy Policy.</Text></>
-      
-      
+      <>
+        <Text style = {styles.textToS}>
+            By pressing submit you agree to our 
+        </Text>
+        <Text
+          style={styles.textToS}
+          onPress={()=> props.navigation.navigate('TOS')}>
+          Terms of Service
+        </Text> 
+        <Text style = {styles.textToS}>
+          and
+        </Text>
+        <Text
+          style={styles.textToS}
+          onPress={()=> props.navigation.navigate('PP')}> 
+        Privacy Policy.
+        </Text> 
+      </>
     )
   }
 
@@ -156,9 +169,6 @@ const Signup = (props) => {
       button: "Get Started",
       text3: "Contact The Net Giver Team"       
       // keyboard: "phone-pad",
-      // schema: {
-      //   phone: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required("Phone number is required."),
-      // }
     },
     {
       val: 2,
@@ -170,34 +180,7 @@ const Signup = (props) => {
       placeholder: "6-digit code",
       button: "Sign Up",
       text3: "Contact The Net Giver Team"
-      // schema: {
-      //   username: Yup.string().min(2).max(50).required('Username is required.'),
-      // }
     },
-    
-    // {
-    //   type: "text",
-    //   name: "email",
-    //   slideTitle: "Email",
-    //   text: "Email",
-    //   // text2: formValues['email'],
-    //   placeholder: "6-digit code",
-    //   button: "Next",
-    //   // schema: {
-    //   //   username: Yup.string().min(2).max(50).required('Username is required.'),
-    //   // }
-    // },
-    // {
-    //   name: "username",
-    //   slideTitle: "Welcome to Netgiver!",
-    //   text: "We just need to get some info before you get started",
-    //   text2: "Please enter your username:",
-    //   placeholder: "username",
-    //   button: "Next",
-    //   // schema: {
-    //   //   username: Yup.string().min(2).max(50).required('Username is required.'),
-    //   // }
-    // },
     {
       val: 3,
       type: "photo",
@@ -212,46 +195,8 @@ const Signup = (props) => {
       textToS: <TextTos />,
       text3: "Contact The Net Giver Team",
     },
-    // {
-      
-    //   type: "createneworganization",
-    //   slideTitle2: "Name Your Organization",
-    //   SubTextTop: "You are almost done!",
-    //   name: 'fullname',
-    //   topComponent: <PhotoInput />,
-    //   button: "Create a New Organization",
-    //   button2: "Join an Existing Organization",
-    //   text3: "Contact The Net Giver Team",
-    // },
-    // {
-    //   type: "chooseoganization",
-    //   slideTitle2: "Name Your Organization",
-    //   SubTextTop: "You are almost done!",
-    //   name: 'orgname',
-    //   topComponent: <PhotoInput />,
-    //   placeholder: "Organization Name",
-    //   button: "Next",
-    //   text3: "Contact The Net Giver Team",
-    // }
-
   ]
   
-
-  const SignupSchema = Yup.object().shape({
-    firstName: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required'),
-    lastName: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required'),
-    email: Yup.string()
-      .email('Invalid email')
-      .required('Required'),
-  });
-
-
   function Form(slide) {
     var schema = Yup.object().shape(this.schema);
     return <Formik
@@ -268,51 +213,6 @@ const Signup = (props) => {
       }}
     />
   }
-  // function Slide(props) {
-
-  //   return (
-  //   <KeyboardAvoidingView style={styles.container} behavior="padding">
-  //     <Swiper
-  //       ref={swipeRef}
-  //       style={styles.wrapper}
-  //       showsButtons={false}
-  //       disableNextButton={disabled}
-  //       loop={false}
-  //       buttonWrapperStyle={{ position: "relative", marginVertical: 80, paddingHorizontal: 0 }}
-  //     >{
-  //         (this.type === 'photo') ? <LastSlide {...props} />
-  //           :
-  //           <View style={styles['slide' + current]}>
-  //             <Text style={styles.title}> {this.slideTitle} </Text>
-  //             <Text style={styles.text}> {this.text2} </Text>
-  //             <Text style={styles.text}> {this.text} </Text>
-  //             <View style={styles.inputContainer}>
-  //               <TextInput
-  //                 key={this.name + this.id}
-  //                 name={this.name}
-  //                 value={props.values[this.name]}
-  //                 keyboardType={this.keyboard}
-  //                 onChangeText={props.handleChange(this.name)}
-  //                 placeholder={this.placeholder}
-  //                 style={styles.input}
-  //               />
-  //               <Text >{
-  //                 props.touched[this.name] &&  props.errors[this.name]
-  //                 ? props.errors[this.name] : null
-  //               }</Text>
-  //               <TouchableOpacity style={styles.buttonStyle} onPress={() => {
-  //                 props.handleSubmit(props.values);
-  //               }}>
-  //                 <Text style={styles.buttonText}>Get Started</Text>
-  //               </TouchableOpacity>
-  //             </View>
-  //           </View>}
-
-  //     </Swiper>
-  //   </KeyboardAvoidingView>
-  // )
-  // }
-
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -327,7 +227,6 @@ const Signup = (props) => {
       </Overlay>
       <Formik
         onSubmit={values => console.log(values)}
-        validationSchema={SignupSchema}
         initialValues={{ email: '', username: '', phone: '' }}
         >
         <Swiper 
@@ -343,25 +242,23 @@ const Signup = (props) => {
               <View style={[styles['slide' + ++index], styles['signUpWrapper']]} key={'slide' + input.id}>
                 {input.image ? <Image  style={loginStyles.logo} source={require('../../components/Images/ng.png')}/> : null}
                 
-                <Text style={[styles.title, input.val === 2 ? {textAlign: 'left'} : null]}> {input.slideTitle} </Text>
-                <Text style={[styles.text, input.val === 2 ? {textAlign: 'left', marginTop: 20, fontWeight: "bold"} : null]}>{input.text} </Text>
+                <Text style={[styles.title, input.val === 2 ? {textAlign: 'left'} : null]}>
+                  {input.slideTitle}
+                </Text>
+                <Text style={[styles.text, input.val === 2 ? {textAlign: 'left', marginTop: 20, fontWeight: "bold"} : null]}>
+                  {input.text}
+                </Text>
                 {input.topComponent}
-                {input.topComponent ? 
-                  <Text style={[styles.text, {fontSize: 15}]}>Tap to add</Text>
-                  :
-                  null
+                {input.topComponent
+                  ? <Text style={[styles.text, {fontSize: 15}]}>Tap to add</Text>
+                  : null
                 }
-                {input.val === 2 ? 
-                  <Text style={{fontSize: 17}}>+1{formValues.phone}</Text>
-                  :
-                  null
+                {input.val === 2
+                  ? <Text style={{fontSize: 17}}>+1{formValues.phone}</Text>
+                  : null
                 }
-                
-
                 <View style={styles.inputContainer}>
-                
                   <Text style={styles.text}> {input.text2} </Text>
-
                   <TextInput
                         key={input.name + input.id}
                         name={input.name}
@@ -371,7 +268,6 @@ const Signup = (props) => {
                         placeholder={input.placeholder}
                         style={loginStyles.loginTextInput}
                       />
-                  
                   {input.name2 
                     ? <TextInput
                         key={input.name2 + input.id}
@@ -382,9 +278,7 @@ const Signup = (props) => {
                         placeholder={input.placeholder2}
                         style={[loginStyles.loginTextInput, {marginTop: 15}]}
                       /> 
-                      : 
-                      null
-
+                    : null
                   }
                   <Button
                     style={[loginStyles.buttons, {marginTop: 30}]}
@@ -394,17 +288,14 @@ const Signup = (props) => {
                   </Button>
                 </View>
                 <Text style={[loginStyles.footerText, {width: '100%', textAlign: 'center'}]}>Contact Netgiver Team</Text>
-              </View>
-              
-                {input.textToS 
-                  ? 
+                {input.textToS ? 
                   // <View style={styles.textToS}><Text> 
                   <Text>{input.textToS} </Text>
                   //{/* </Text></View> */}
-                   : null}
-
+                  : null}
               <Text style={styles.text3}> {input.text3} </Text>
-            </View>
+              </View>
+
           )})}
       </Swiper>
     </Formik>
