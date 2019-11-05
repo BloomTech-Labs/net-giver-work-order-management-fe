@@ -53,12 +53,15 @@ const AuthStackNavigator = createStackNavigator(
         header:null
       }
     },
+    //PRIVACY POLICY PAGE 11/1/2019 KS/SD
     PP: {
       screen: Pp,
       navigationOptions: {
       title:'Privacy Policy'
       }
     },
+
+     //PRIVACY POLICY PAGE 11/1/2019 KS/SD
     TOS: {
       screen: ToS,
       navigationOptions: {

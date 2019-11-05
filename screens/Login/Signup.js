@@ -11,6 +11,7 @@ import {
   Alert, 
   ActivityIndicator
 } from "react-native";
+import { Button } from 'native-base'
 import Swiper from 'react-native-swiper';
 import { Overlay } from 'react-native-elements';
 import * as Yup from 'yup';
@@ -36,14 +37,15 @@ const Signup = (props) => {
   var [formValues, setFormValues] = useState({
     fullname:"",
     email:"",
-    phone:""
+    phone:"",
+    
   })
 
   const phoneRegExp = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
 
   //TESTING -- auto fill form 
-  let i = Math.random()
-  // const formValues = {username: `foo${i}`, email: `foo${i}@aol.com`, phone: '7186369874'}
+  //let i = Math.random()
+  //const formValues = {username: `foo${i}`, email: `foo${i}@aol.com`, phone: '7186369874'}
 
   useEffect(() => {
     // Need to add error handling
@@ -74,9 +76,9 @@ const Signup = (props) => {
   const handleSubmit = () => {
     setToggleOverlay(true);
     const photo = photoUri
-    const { username, email, phone } = formValues
+    const { username, email, phone} = formValues
     const password = 123456 //temp password for testing
-    const query = `mutation { signUp( username: "${username}", password: "${password}", email: "${email}", phone: "${phone}" ) { token user {id} } }`
+    const query = `mutation { signUp( username: "${username}", password: "${password}", email: "${email}", phone: "${phone}") { token user {id} } }`
   //   const textInputForm = <TextInput
   //   key={input.name + input.id}
   //   name={input.name}
@@ -132,7 +134,7 @@ const Signup = (props) => {
     return (
       
      
-        <><Text>By pressing submit you agree to our </Text><Text onPress={()=> props.navigation.navigate('TOS')}>Terms of Service</Text><Text> and</Text> <Text onPress={()=> props.navigation.navigate('PP')}> Privacy Policy.</Text></>
+        <><Text style={styles.textToS}>By pressing submit you agree to our </Text><Text style={styles.textToS}  onPress={()=> props.navigation.navigate('TOS')} >Terms of Service</Text><Text style={styles.textToS}> and</Text> <Text style={styles.textToS} onPress={()=> props.navigation.navigate('PP')}> Privacy Policy.</Text></>
       
       
     )
@@ -141,6 +143,7 @@ const Signup = (props) => {
   const pages = [
 
     {
+      val: 1,
       image: true,
       type: "text",
       name: "phone",
@@ -158,6 +161,7 @@ const Signup = (props) => {
       // }
     },
     {
+      val: 2,
       type: "text",
       name: "Number Verification",
       slideTitle: "We need to verify your phone number",
@@ -195,29 +199,40 @@ const Signup = (props) => {
     //   // }
     // },
     {
+      val: 3,
       type: "photo",
-      slideTitle2: "Create your Profile",
-      SubTextTop: "So your colleagues can recognize you!",
+      slideTitle: "Create your Profile",
+      text: "So your colleagues can recognize you!",
       name: 'fullname',
       name2: 'email',
       topComponent: <PhotoInput />,
       placeholder: "Full Name",
       placeholder2: "Email",
       button: "Submit",
-    textToS: <TextTos />,
-      text3: "Contact The Net Giver Team",
-    },
-    {
-      type: "Create your Profile",
-      slideTitle2: "Name Your Organization",
-      SubTextTop: "Tap to add",
-      name: 'fullname',
-      name2: 'email',
-      topComponent: <PhotoInput />,
-      button: "Submit",
       textToS: <TextTos />,
       text3: "Contact The Net Giver Team",
-    }
+    },
+    // {
+      
+    //   type: "createneworganization",
+    //   slideTitle2: "Name Your Organization",
+    //   SubTextTop: "You are almost done!",
+    //   name: 'fullname',
+    //   topComponent: <PhotoInput />,
+    //   button: "Create a New Organization",
+    //   button2: "Join an Existing Organization",
+    //   text3: "Contact The Net Giver Team",
+    // },
+    // {
+    //   type: "chooseoganization",
+    //   slideTitle2: "Name Your Organization",
+    //   SubTextTop: "You are almost done!",
+    //   name: 'orgname',
+    //   topComponent: <PhotoInput />,
+    //   placeholder: "Organization Name",
+    //   button: "Next",
+    //   text3: "Contact The Net Giver Team",
+    // }
 
   ]
   
@@ -325,18 +340,23 @@ const Signup = (props) => {
         >
           {pages.map((input, index) =>  {
             return (
-              <View style={styles['slide' + ++index]} key={'slide' + input.id}>
-
-                {input.slideTitle2 ? <Text style={styles.title}> {input.slideTitle2} </Text> : null}
-                {input.SubTextTop ? <Text style={styles.SubTextTop}> {input.SubTextTop} </Text> : null}  
+              <View style={[styles['slide' + ++index], styles['signUpWrapper']]} key={'slide' + input.id}>
+                {input.image ? <Image  style={loginStyles.logo} source={require('../../components/Images/ng.png')}/> : null}
                 
-                {input.image ? <Image  style={loginStyles.logo1} source={require('../../components/Images/ng.png')}/> : null}
+                <Text style={[styles.title, input.val === 2 ? {textAlign: 'left'} : null]}> {input.slideTitle} </Text>
+                <Text style={[styles.text, input.val === 2 ? {textAlign: 'left', marginTop: 20, fontWeight: "bold"} : null]}>{input.text} </Text>
                 {input.topComponent}
-
-
-                {input.slideTitle && <Text style={styles.title}> {input.slideTitle} </Text>}
-                <Text style={styles.text}> {input.text} </Text>
-                <Text style={styles.text0}> {input.text0} </Text>
+                {input.topComponent ? 
+                  <Text style={[styles.text, {fontSize: 15}]}>Tap to add</Text>
+                  :
+                  null
+                }
+                {input.val === 2 ? 
+                  <Text style={{fontSize: 17}}>+1{formValues.phone}</Text>
+                  :
+                  null
+                }
+                
 
                 <View style={styles.inputContainer}>
                 
@@ -349,7 +369,7 @@ const Signup = (props) => {
                         keyboardType={input.keyboard}
                         onChangeText={(text) => onInputChange(input.name, text)}
                         placeholder={input.placeholder}
-                        style={styles.input}
+                        style={loginStyles.loginTextInput}
                       />
                   
                   {input.name2 
@@ -360,35 +380,36 @@ const Signup = (props) => {
                         keyboardType={input.keyboard}
                         onChangeText={(text) => onInputChange(input.name2, text)}
                         placeholder={input.placeholder2}
-                        style={styles.input}
+                        style={[loginStyles.loginTextInput, {marginTop: 15}]}
                       /> 
                       : 
                       null
 
                   }
-                  <TouchableOpacity
-                    style={styles.buttonStyle}
+                  <Button
+                    style={[loginStyles.buttons, {marginTop: 30}]}
                     onPress={() => input.button === "Submit" ? handleSubmit() : handleNext()}
                   >
-                    <Text style={styles.buttonText}>{input.button}</Text>
-                  </TouchableOpacity>
-                  
+                    <Text style={loginStyles.buttonText}>{input.button}</Text>
+                  </Button>
                 </View>
-                
-                  {input.textToS 
-                    ? 
-                    // <View style={styles.textToS}><Text> 
-                    <Text>{input.textToS} </Text>
-                    //{/* </Text></View> */}
-                     : null}
-
-                <Text style={styles.text3}> {input.text3} </Text>
+                <Text style={[loginStyles.footerText, {width: '100%', textAlign: 'center'}]}>Contact Netgiver Team</Text>
               </View>
-            )})}
-        </Swiper>
-      </Formik>
-  </KeyboardAvoidingView>
-  );
+              
+                {input.textToS 
+                  ? 
+                  // <View style={styles.textToS}><Text> 
+                  <Text>{input.textToS} </Text>
+                  //{/* </Text></View> */}
+                   : null}
+
+              <Text style={styles.text3}> {input.text3} </Text>
+            </View>
+          )})}
+      </Swiper>
+    </Formik>
+</KeyboardAvoidingView>
+);
 
 
   /*this switch statement will determine the this value for each form function call
@@ -412,15 +433,18 @@ const Signup = (props) => {
 const styles = StyleSheet.create({
   wrapper: {
   },
-  container: { flex: 1 },
+  container: { 
+    flex: 1, 
+    paddingHorizontal: 16
+  },
   inputContainer: {
-    padding: -20,
-    marginVertical: 20,
+    marginTop: -5,
     width: '100%',
-    paddingHorizontal: 10,
+  },
+  signUpWrapper: {
+    paddingTop: 44,
     justifyContent: 'center'
   },
-
    slide0: {
     //backgroundColor: '#008000',
     
@@ -432,11 +456,6 @@ const styles = StyleSheet.create({
    slideTitle: {
     fontWeight: 'bold',
    },
-
-   logo1: {
-
-   },
-
    slide1: {
     flexDirection: "column",
     justifyContent: 'flex-start',
@@ -449,22 +468,8 @@ const styles = StyleSheet.create({
    slide2: {
      
     flexDirection: "column",
-    paddingTop: 200,
+    marginTop: 40,
    },
-
-  input: {
-    width: '100%',
-    backgroundColor: '#EDF1F3',
-    //marginVertical: 20,
-    marginBottom: 45,
-    paddingVertical: 15,
-    marginTop: -33,
-    // paddingVertical: 5,
-    paddingHorizontal: 15,
-    borderRadius: 6,
-    borderColor: 'gray',
-    borderWidth: 1
-  },
   buttonText: {
     textAlign: 'center',
     alignItems: 'center',
@@ -488,6 +493,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
+  slide3: {
+    paddingTop: 20,
+  },
+  slide3: {
+    marginTop: -30,
+  },
+
+  slide4: {
+    paddingTop: 47,
+  },
+
+  textToS: {
+    paddingTop: 20,
+    alignItems: 'center',
+  }, 
+
   title: {
     color: '#282424',
     marginTop: '10%',
@@ -497,12 +518,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     //paddingBottom: 3,
   },
+  
   text: {
     color: '#282424',
     textAlign: 'center',
     fontSize: 17,
-    fontWeight: 'bold',
-    marginBottom: 10,
   }, 
 
   text0: {
@@ -518,17 +538,23 @@ const styles = StyleSheet.create({
       marginTop: 35,
     },
 
+    SubTextTop: {
+      textAlign: 'center',
+      marginTop: 10,
+    },
+
   photoContainer: {
-    width: 200,
-    height: 200,
+    width: 125,
+    height: 125,
     borderWidth: 6,
     borderRadius: 200/2,
-    borderColor: "lightgray",
-    backgroundColor: "lightgray",
+    borderColor: "#EDF1F3",
+    backgroundColor: "#EDF1F3",
     alignSelf: 'center',
-    marginTop: '10%',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 30
   }, 
 })
 export default Signup
+
