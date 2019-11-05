@@ -7,27 +7,27 @@ import {
     SafeAreaView,
     TouchableOpacity,
 } from 'react-native'
-// import {
+import {
     
-//     ActionSheet,
-//     Content,
-//     Text,
-// } from 'native-base'
+    ActionSheet,
+    Content,
+    Text,
+} from 'native-base'
 // import { token } from '../../../token'
 import axios from 'axios'
 import {StackActions, NavigationActions} from 'react-navigation'
-import { UserContext } from "../../../context/userState";
+import { UserContext } from "../../context/userState";
 // import {token} from '../../../token'
-const WorkOrderDetails = props => {
+const Details = props => {
     const { user } = useContext(UserContext)
     const token = user.token
     const resetAction = StackActions.reset({
         index: 0,
-        actions: [NavigationActions.navigate({ routeName: 'WorkOrderList' })],
+        actions: [NavigationActions.navigate({ routeName: 'Details' })],
       })
       const resetAction1 = StackActions.reset({
         index: 0,
-        actions: [NavigationActions.navigate({ routeName: 'WorkOrderDetails' })],
+        actions: [NavigationActions.navigate({ routeName: 'Details' })],
       })
  
     const {qrcode} = props.navigation.state.params.workOrder.isWorkOrder.workorder
@@ -65,7 +65,7 @@ console.log("TCL: props", props)
     //SUBMIT HANDLER 10/24/2019 SD
     const handleSubmit = () => {
         const editMutation = `mutation {
-            WorkOrderDetails( qrcode: "${qrcode}", detail: "${detail}", priority: "${priority}", status: "${status}", title: "${title}"){
+            Details( qrcode: "${qrcode}", detail: "${detail}", priority: "${priority}", status: "${status}", title: "${title}"){
               qrcode
               detail
               priority
@@ -85,7 +85,7 @@ console.log("TCL: props", props)
             },
         }).then(res => {
             console.log('response submit', res)
-            props.navigation.navigate('WorkOrderList', {sentFrom:'WorkOrderDetails', token:token})
+            props.navigation.navigate('Details', {token:token})
             props.navigation.dispatch(resetAction);
             // props.navigation.dispatch(resetAction1);
         })
@@ -93,7 +93,7 @@ console.log("TCL: props", props)
 
     return (
         <ScrollView>
-           
+           <View><Text>I'M WORKING!!</Text></View>
         </ScrollView>
     )
 }

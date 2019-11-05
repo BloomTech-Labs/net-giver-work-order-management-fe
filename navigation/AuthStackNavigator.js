@@ -75,9 +75,9 @@ const AuthStackNavigator = createStackNavigator(
 
     //DETAILS PAGE 11/4/2019 KS
     Details: {
-      screen: WorkOrderDetails,
+      screen: Details,
       navigationOptions: {
-        title: 'Work Order Details'
+        title: 'Details'
       }
     }
   },
