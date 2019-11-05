@@ -19,9 +19,9 @@ import EditWorkOrder from "../screens/WorkOrder/ExistingWorkOrder/EditWorkOrder"
 import CameraModule from "../components/camera/Camera";
 
 const config = Platform.select({
-    web: { headerMode: 'screen' },
-    default: {},
-})
+  web: { headerMode: "screen" },
+  default: {}
+});
 
 const WorkOrderStack = createStackNavigator(
   {
@@ -52,7 +52,11 @@ const WorkOrderStack = createStackNavigator(
         headerRight: (
           <View style={{ marginRight: 15 }}>
             <TouchableOpacity
-              onPress={() => props.navigation.navigate("Logout")}
+              onPress={() => {
+                AsyncStorage.removeItem("userToken").then(() => {
+                  props.navigation.navigate("Auth");
+                });
+              }}
             >
               <Text>Logout</Text>
             </TouchableOpacity>
@@ -91,7 +95,11 @@ const QRStack = createStackNavigator(
         headerRight: (
           <View style={{ marginRight: 15 }}>
             <TouchableOpacity
-              onPress={() => props.navigation.navigate("Logout")}
+              onPress={() => {
+                AsyncStorage.removeItem("userToken").then(() => {
+                  props.navigation.navigate("Auth");
+                });
+              }}
             >
               <Text>Logout</Text>
             </TouchableOpacity>
@@ -106,7 +114,11 @@ const QRStack = createStackNavigator(
         headerRight: (
           <View style={{ marginRight: 15 }}>
             <TouchableOpacity
-              onPress={() => props.navigation.navigate("Logout")}
+              onPress={() => {
+                AsyncStorage.removeItem("userToken").then(() => {
+                  props.navigation.navigate("Auth");
+                });
+              }}
             >
               <Text>Logout</Text>
             </TouchableOpacity>
@@ -121,7 +133,11 @@ const QRStack = createStackNavigator(
         headerRight: (
           <View style={{ marginRight: 15 }}>
             <TouchableOpacity
-              onPress={() => props.navigation.navigate("Logout")}
+              onPress={() => {
+                AsyncStorage.removeItem("userToken").then(() => {
+                  props.navigation.navigate("Auth");
+                });
+              }}
             >
               <Text>Logout</Text>
             </TouchableOpacity>
@@ -138,7 +154,11 @@ const QRStack = createStackNavigator(
         headerRight: (
           <View style={{ marginRight: 15 }}>
             <TouchableOpacity
-              onPress={() => props.navigation.navigate("Logout")}
+              onPress={() => {
+                AsyncStorage.removeItem("userToken").then(() => {
+                  props.navigation.navigate("Auth");
+                });
+              }}
             >
               <Text>Logout</Text>
             </TouchableOpacity>
@@ -159,12 +179,10 @@ QRStack.navigationOptions = {
     />
 };
 
-
-QRStack.path = ''
+QRStack.path = "";
 
 const AccountStack = createStackNavigator(
-
-{
+  {
     AccountSettings: {
       screen: AccountSettings,
       navigationOptions: props => ({
@@ -172,7 +190,11 @@ const AccountStack = createStackNavigator(
         headerRight: (
           <View style={{ marginRight: 15 }}>
             <TouchableOpacity
-              onPress={() => props.navigation.navigate("Logout")}
+              onPress={() => {
+                AsyncStorage.removeItem("userToken").then(() => {
+                  props.navigation.navigate("Auth");
+                });
+              }}
             >
               <Text>Logout</Text>
             </TouchableOpacity>
@@ -192,9 +214,8 @@ AccountStack.navigationOptions = {
       name={Platform.OS === "ios" ? "ios-options" : "md-options"}
     />
 };
-    
 
-AccountStack.path = ''
+AccountStack.path = "";
 
 const tabNavigator = createBottomTabNavigator({
   WorkOrderStack,
@@ -202,7 +223,6 @@ const tabNavigator = createBottomTabNavigator({
   AccountStack
 });
 
+tabNavigator.path = "";
 
-tabNavigator.path = ''
-
-export default tabNavigator
+export default tabNavigator;

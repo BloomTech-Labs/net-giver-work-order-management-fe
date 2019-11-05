@@ -23,6 +23,7 @@ import { withClientState } from "apollo-link-state";
 import { ApolloLink, Observable } from "apollo-link";
 import { typeDefs, resolvers } from "./resolvers";
 import { setContext } from "apollo-link-context";
+import { createUploadLink } from "apollo-upload-client";
 
 /*Cache: persists across sessions. stable images, logos, username */
 const cache = new InMemoryCache();
@@ -117,10 +118,12 @@ const client = new ApolloClient({
       },
       cache
     }),
-    new HttpLink({
-      // uri: "http://localhost:3000/graphql"
-      uri: "https://netgiver-stage.herokuapp.com/graphql"
-    })
+    // new HttpLink({
+    //   // uri: "http://localhost:3000/graphql"
+    //   uri: "https://netgiver-stage.herokuapp.com/graphql"
+    // })
+    createUploadLink({ uri: "http://localhost:3000/graphql" })
+    // createUploadLink({ uri: "https://netgiver-stage.herokuapp.com/graphql" })
   ]),
   cache
 });

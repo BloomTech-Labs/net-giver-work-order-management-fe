@@ -157,7 +157,6 @@ const EditWorkOrder = props => {
         </View>
 
         <Text>Work Order Images (Long Press to Delete)</Text>
-        {/* WORK ORDER IMAGE BOX 12/24/2019 SD */}
         <View style={wOForm.imageBox}>
           <View style={wOForm.image}>
             {/* TURN IMAGE INTO BUTTON WITH LONGPRESS THAT WILL DELETE THE PHOTO

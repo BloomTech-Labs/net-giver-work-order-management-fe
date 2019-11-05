@@ -61,7 +61,7 @@ const AppCamera = props => {
     const [flashMode, setFlashMode] = useState(CameraFlashModes.off)
 
     //Base64 of captured photo
-    const [uri, setUri] = useState(null)
+    const [uri, setUri] = useState("http://placehold.jp/006e13/ffffff/200x250.png?text=Placeholder%20Image")
 
     // May not need anymore - was work around for async issues
     const [photoConfirm, setPhotoConfirm] = useState(false)
