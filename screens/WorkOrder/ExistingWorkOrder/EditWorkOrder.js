@@ -162,7 +162,7 @@ const EditWorkOrder = props => {
             {/* TURN IMAGE INTO BUTTON WITH LONGPRESS THAT WILL DELETE THE PHOTO
                             DELETE NEEDS FUNCTIONALITY 12/24/2019 SD */}
             <TouchableOpacity onLongPress={() => handlePhotoDelete()}>
-              {workorderphotos[0]
+              {workorderphotos && workorderphotos[0]
                 ? <Image
                     style={wOForm.placeholder}
                     source={{ uri: workorderphotos[0].path }}

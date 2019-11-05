@@ -52,7 +52,7 @@ const BarcodeScanner = props => {
         });
       } else {
         props.navigation.navigate("EditWorkOrder", {
-          workorder: workorder
+          wo: workorder
         });
       }
     }

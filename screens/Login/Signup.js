@@ -1,5 +1,5 @@
 import React, { useState, useRef, useContext, useEffect } from "react";
-import { withFormik, FormikErrors, FormikProps, Field } from "formik";
+import { withFormik, Formik, Form, FormikErrors, FormikProps, Field } from "formik";
 import {
   StyleSheet,
   Text,
@@ -37,7 +37,6 @@ const SIGN_UP = gql`
       username
       authyId
     }
-    
     }
   }
 `;
@@ -52,21 +51,7 @@ mutation uploadUserPhoto($photo: Upload!) {
 }
 `;
 
-const SignupForm = ({
-  errors,
-  touched,
-  values,
-  handleChange,
-  handleBlur,
-  status,
-  setFieldValue,
-  setFieldTouched,
-  name,
-  loginStatus,
-  message,
-  navigation,
-  handleField
-}) => {
+const Signup = props => {
   const [disabled, setDisabled] = useState(false);
   const [toggleOverlay, setToggleOverlay] = useState(false);
   const [err, setErr] = useState();
@@ -162,6 +147,30 @@ const SignupForm = ({
           <ActivityIndicator size="large" color="#0000ff" />
         </>
       </Overlay>
+      <Formik 
+      initialValues={{
+          phone: phone || "4153163549",
+          password: password || "password",
+          username: username || "user3214",
+          email: email || "user3214@gmail.com",
+          displayName: displayName || "wilbert"
+      }}
+        onSubmit={async (values, { resetForm }) =>
+          handleSubsribe({
+            values,
+            subscribeMutation,
+            resetForm
+          })
+        }
+        validationSchema={Yup.object().shape({
+          email: Yup.string()
+            .email()
+            .required('Before submitting you need to provide your email')
+        })}
+
+        render={() => (
+          <Form>
+      
         <Swiper
           ref={swipeRef}
           style={signupstyles.wrapper}
@@ -170,6 +179,7 @@ const SignupForm = ({
           loop={false}
           buttonWrapperStyle={{ position: "relative", marginVertical: 80, paddingHorizontal: 0 }}
         >
+          
           {pages.map((input, index) => {
             return (
               <View style={signupstyles['slide' + ++index]} key={'slide' + input.id}>
@@ -197,6 +207,7 @@ const SignupForm = ({
                         name="photo"
                         title="pick a picture"
                         component={PictureField}
+                        style={signupstyles.input}
                       />
                       : 
                       <Field
@@ -208,10 +219,15 @@ const SignupForm = ({
                         inputStyle={signupstyles.input}
                         keyboardType={input.keyboard}
                         schema={input.schema}
-                      // errors={errors}
+                        errors={errors}
                       // touched={touched}
                       />
                   }
+                  {errors.name && touched.name && (
+                    <div style={{ color: "red", marginTop: ".5rem" }}>
+                      {errors.name}
+                    </div>
+                  )}
 
 
                   <TouchableOpacity
@@ -236,6 +252,9 @@ const SignupForm = ({
             )
           })}
         </Swiper>
+          </Form>
+        )}
+        />
     </KeyboardAvoidingView>
   );
 
@@ -268,17 +287,17 @@ const SignupSchema = Yup.object().shape({
 });
 
 
-export const Signup = withFormik({
-  validationSchema: SignupSchema,
-  mapPropsToValues({ phone, password, username, email, displayName }) {
-    return {
-      phone: phone || "4153163549",
-      password: password || "password",
-      username: username || "user3214",
-      email: email || "user3214@gmail.com",
-      displayName: displayName || "wilbert"
-    };
-  },
+// export const Signup = withFormik({
+//   validationSchema: SignupSchema,
+//   mapPropsToValues({ phone, password, username, email, displayName }) {
+//     return {
+//       phone: phone || "4153163549",
+//       password: password || "password",
+//       username: username || "user3214",
+//       email: email || "user3214@gmail.com",
+//       displayName: displayName || "wilbert"
+//     };
+//   },
 
 
   // handleSubmit: async (values, { props, setErrors, setSubmitting }) => {
@@ -295,6 +314,6 @@ export const Signup = withFormik({
   //     setErrors(errors);
   //   }
   // }
-})(SignupForm);
+// })(SignupForm);
 
 export default Signup

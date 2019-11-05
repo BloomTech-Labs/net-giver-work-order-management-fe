@@ -62,7 +62,7 @@ const AppCamera = props => {
 
     //Base64 of captured photo
     const [uri, setUri] = useState("http://placehold.jp/006e13/ffffff/200x250.png?text=Placeholder%20Image")
-
+    const [photo, setPhoto] = useState({})
     // May not need anymore - was work around for async issues
     const [photoConfirm, setPhotoConfirm] = useState(false)
 
@@ -98,7 +98,15 @@ const AppCamera = props => {
         if (cameraRef) {
             const options = { quality: 0.7 }
             const data = await cameraRef.current.takePictureAsync(options)
+            const imageResult = data.uri
+            const fileName = imageResult.uri.split("/").pop();
+            const match = /\.(\w+)$/.exec(fileName);
+            const mimeType = match ? `image/${match[1]}` : `image`;
             setUri(data.uri)
+            setPhoto({
+                uri: imageResult.uri,
+                type: imageResult.type,
+                name: mimeType})
         }
     }
     const handleSubmit = () => {
@@ -107,7 +115,7 @@ const AppCamera = props => {
             props.navigation.state.params.callback(uri)
             props.navigation.goBack(null)
         } else if (props.navigation.state.params.from === 'NewWorkOrder') {
-            props.navigation.navigate('NewWorkOrder', { uri: uri })
+            props.navigation.navigate('NewWorkOrder', { photo: photo })
         }
     }
 
