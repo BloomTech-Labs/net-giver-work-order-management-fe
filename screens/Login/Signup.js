@@ -11,6 +11,7 @@ import {
   Alert, 
   ActivityIndicator
 } from "react-native";
+import { Button } from 'native-base'
 import Swiper from 'react-native-swiper';
 import { Overlay } from 'react-native-elements';
 import * as Yup from 'yup';
@@ -43,8 +44,8 @@ const Signup = (props) => {
   const phoneRegExp = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
 
   //TESTING -- auto fill form 
-  let i = Math.random()
-  // const formValues = {username: `foo${i}`, email: `foo${i}@aol.com`, phone: '7186369874'}
+  //let i = Math.random()
+  //const formValues = {username: `foo${i}`, email: `foo${i}@aol.com`, phone: '7186369874'}
 
   useEffect(() => {
     // Need to add error handling
@@ -131,17 +132,31 @@ const Signup = (props) => {
   }
   const TextTos = () => {
     return (
-      
-     
-        <><Text style={styles.textToS}>By pressing submit you agree to our </Text><Text style={styles.textToS}  onPress={()=> props.navigation.navigate('TOS')} >Terms of Service</Text><Text style={styles.textToS}> and</Text> <Text style={styles.textToS} onPress={()=> props.navigation.navigate('PP')}> Privacy Policy.</Text></>
-      
-      
+      <>
+        <Text style = {styles.textToS}>
+            By pressing submit you agree to our 
+        </Text>
+        <Text
+          style={styles.textToS}
+          onPress={()=> props.navigation.navigate('TOS')}>
+          Terms of Service
+        </Text> 
+        <Text style = {styles.textToS}>
+          and
+        </Text>
+        <Text
+          style={styles.textToS}
+          onPress={()=> props.navigation.navigate('PP')}> 
+        Privacy Policy.
+        </Text> 
+      </>
     )
   }
 
   const pages = [
 
     {
+      val: 1,
       image: true,
       type: "text",
       name: "phone",
@@ -154,11 +169,9 @@ const Signup = (props) => {
       button: "Get Started",
       text3: "Contact The Net Giver Team"       
       // keyboard: "phone-pad",
-      // schema: {
-      //   phone: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required("Phone number is required."),
-      // }
     },
     {
+      val: 2,
       type: "text",
       name: "Number Verification",
       slideTitle: "We need to verify your phone number",
@@ -167,39 +180,12 @@ const Signup = (props) => {
       placeholder: "6-digit code",
       button: "Sign Up",
       text3: "Contact The Net Giver Team"
-      // schema: {
-      //   username: Yup.string().min(2).max(50).required('Username is required.'),
-      // }
     },
-    
-    // {
-    //   type: "text",
-    //   name: "email",
-    //   slideTitle: "Email",
-    //   text: "Email",
-    //   // text2: formValues['email'],
-    //   placeholder: "6-digit code",
-    //   button: "Next",
-    //   // schema: {
-    //   //   username: Yup.string().min(2).max(50).required('Username is required.'),
-    //   // }
-    // },
-    // {
-    //   name: "username",
-    //   slideTitle: "Welcome to Netgiver!",
-    //   text: "We just need to get some info before you get started",
-    //   text2: "Please enter your username:",
-    //   placeholder: "username",
-    //   button: "Next",
-    //   // schema: {
-    //   //   username: Yup.string().min(2).max(50).required('Username is required.'),
-    //   // }
-    // },
     {
+      val: 3,
       type: "photo",
-      slideTitle2: "Create your Profile",
-      SubTextTop: "So your colleagues can recognize you!",
-      text: "Tap to add",
+      slideTitle: "Create your Profile",
+      text: "So your colleagues can recognize you!",
       name: 'fullname',
       name2: 'email',
       topComponent: <PhotoInput />,
@@ -209,46 +195,8 @@ const Signup = (props) => {
       textToS: <TextTos />,
       text3: "Contact The Net Giver Team",
     },
-    // {
-      
-    //   type: "createneworganization",
-    //   slideTitle2: "Name Your Organization",
-    //   SubTextTop: "You are almost done!",
-    //   name: 'fullname',
-    //   topComponent: <PhotoInput />,
-    //   button: "Create a New Organization",
-    //   button2: "Join an Existing Organization",
-    //   text3: "Contact The Net Giver Team",
-    // },
-    // {
-    //   type: "chooseoganization",
-    //   slideTitle2: "Name Your Organization",
-    //   SubTextTop: "You are almost done!",
-    //   name: 'orgname',
-    //   topComponent: <PhotoInput />,
-    //   placeholder: "Organization Name",
-    //   button: "Next",
-    //   text3: "Contact The Net Giver Team",
-    // }
-
   ]
   
-
-  const SignupSchema = Yup.object().shape({
-    firstName: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required'),
-    lastName: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required'),
-    email: Yup.string()
-      .email('Invalid email')
-      .required('Required'),
-  });
-
-
   function Form(slide) {
     var schema = Yup.object().shape(this.schema);
     return <Formik
@@ -265,51 +213,6 @@ const Signup = (props) => {
       }}
     />
   }
-  // function Slide(props) {
-
-  //   return (
-  //   <KeyboardAvoidingView style={styles.container} behavior="padding">
-  //     <Swiper
-  //       ref={swipeRef}
-  //       style={styles.wrapper}
-  //       showsButtons={false}
-  //       disableNextButton={disabled}
-  //       loop={false}
-  //       buttonWrapperStyle={{ position: "relative", marginVertical: 80, paddingHorizontal: 0 }}
-  //     >{
-  //         (this.type === 'photo') ? <LastSlide {...props} />
-  //           :
-  //           <View style={styles['slide' + current]}>
-  //             <Text style={styles.title}> {this.slideTitle} </Text>
-  //             <Text style={styles.text}> {this.text2} </Text>
-  //             <Text style={styles.text}> {this.text} </Text>
-  //             <View style={styles.inputContainer}>
-  //               <TextInput
-  //                 key={this.name + this.id}
-  //                 name={this.name}
-  //                 value={props.values[this.name]}
-  //                 keyboardType={this.keyboard}
-  //                 onChangeText={props.handleChange(this.name)}
-  //                 placeholder={this.placeholder}
-  //                 style={styles.input}
-  //               />
-  //               <Text >{
-  //                 props.touched[this.name] &&  props.errors[this.name]
-  //                 ? props.errors[this.name] : null
-  //               }</Text>
-  //               <TouchableOpacity style={styles.buttonStyle} onPress={() => {
-  //                 props.handleSubmit(props.values);
-  //               }}>
-  //                 <Text style={styles.buttonText}>Get Started</Text>
-  //               </TouchableOpacity>
-  //             </View>
-  //           </View>}
-
-  //     </Swiper>
-  //   </KeyboardAvoidingView>
-  // )
-  // }
-
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -324,7 +227,6 @@ const Signup = (props) => {
       </Overlay>
       <Formik
         onSubmit={values => console.log(values)}
-        validationSchema={SignupSchema}
         initialValues={{ email: '', username: '', phone: '' }}
         >
         <Swiper 
@@ -337,66 +239,63 @@ const Signup = (props) => {
         >
           {pages.map((input, index) =>  {
             return (
-              <View style={styles['slide' + ++index]} key={'slide' + input.id}>
-
-                {input.slideTitle2 ? <Text style={styles.title}> {input.slideTitle2} </Text> : null}
-                {input.SubTextTop ? <Text style={styles.SubTextTop}> {input.SubTextTop} </Text> : null}  
+              <View style={[styles['slide' + ++index], styles['signUpWrapper']]} key={'slide' + input.id}>
+                {input.image ? <Image  style={loginStyles.logo} source={require('../../components/Images/ng.png')}/> : null}
                 
-                {input.image ? <Image  style={loginStyles.logo1} source={require('../../components/Images/ng.png')}/> : null}
+                <Text style={[styles.title, input.val === 2 ? {textAlign: 'left'} : null]}>
+                  {input.slideTitle}
+                </Text>
+                <Text style={[styles.text, input.val === 2 ? {textAlign: 'left', marginTop: 20, fontWeight: "bold"} : null]}>
+                  {input.text}
+                </Text>
                 {input.topComponent}
-
-                {input.slideTitle && <Text style={styles.title}> {input.slideTitle} </Text>}
-                <Text style={styles.text}> {input.text} </Text>
-                <Text style={styles.text0}> {input.text0} </Text>
-
-                
-
-                <View style={styles.inputContainer}>
-                
-                <Text style={styles.text}> {input.text2} </Text>
-
-                <TextInput
-                      key={input.name + input.id}
-                      name={input.name}
-                      value={formValues[input.name]}
-                      keyboardType={input.keyboard}
-                      onChangeText={(text) => onInputChange(input.name, text)}
-                      placeholder={input.placeholder}
-                      style={styles.input}
-                    />
-                
-                {input.name2 
-                  ? <TextInput
-                      key={input.name2 + input.id}
-                      name={input.name2}
-                      value={formValues[input.name2]}
-                      keyboardType={input.keyboard}
-                      onChangeText={(text) => onInputChange(input.name2, text)}
-                      placeholder={input.placeholder2}
-                      style={styles.input}
-                    /> 
-                    : 
-                    null
-
+                {input.topComponent
+                  ? <Text style={[styles.text, {fontSize: 15}]}>Tap to add</Text>
+                  : null
                 }
-                <TouchableOpacity
-                  style={styles.buttonStyle}
-                  onPress={() => input.button === "Submit" ? handleSubmit() : handleNext()}
-                >
-                  <Text style={styles.buttonText}>{input.button}</Text>
-                </TouchableOpacity>
-                
-              </View>
-              
-                {input.textToS 
-                  ? 
+                {input.val === 2
+                  ? <Text style={{fontSize: 17}}>+1{formValues.phone}</Text>
+                  : null
+                }
+                <View style={styles.inputContainer}>
+                  <Text style={styles.text}> {input.text2} </Text>
+                  <TextInput
+                        key={input.name + input.id}
+                        name={input.name}
+                        value={formValues[input.name]}
+                        keyboardType={input.keyboard}
+                        onChangeText={(text) => onInputChange(input.name, text)}
+                        placeholder={input.placeholder}
+                        style={loginStyles.loginTextInput}
+                      />
+                  {input.name2 
+                    ? <TextInput
+                        key={input.name2 + input.id}
+                        name={input.name2}
+                        value={formValues[input.name2]}
+                        keyboardType={input.keyboard}
+                        onChangeText={(text) => onInputChange(input.name2, text)}
+                        placeholder={input.placeholder2}
+                        style={[loginStyles.loginTextInput, {marginTop: 15}]}
+                      /> 
+                    : null
+                  }
+                  <Button
+                    style={[loginStyles.buttons, {marginTop: 30}]}
+                    onPress={() => input.button === "Submit" ? handleSubmit() : handleNext()}
+                  >
+                    <Text style={loginStyles.buttonText}>{input.button}</Text>
+                  </Button>
+                </View>
+                <Text style={[loginStyles.footerText, {width: '100%', textAlign: 'center'}]}>Contact Netgiver Team</Text>
+                {input.textToS ? 
                   // <View style={styles.textToS}><Text> 
                   <Text>{input.textToS} </Text>
                   //{/* </Text></View> */}
-                   : null}
-
+                  : null}
               <Text style={styles.text3}> {input.text3} </Text>
-            </View>
+              </View>
+
           )})}
       </Swiper>
     </Formik>
@@ -425,15 +324,18 @@ const Signup = (props) => {
 const styles = StyleSheet.create({
   wrapper: {
   },
-  container: { flex: 1 },
+  container: { 
+    flex: 1, 
+    paddingHorizontal: 16
+  },
   inputContainer: {
-    padding: -20,
-    marginVertical: 20,
+    marginTop: -5,
     width: '100%',
-    paddingHorizontal: 10,
+  },
+  signUpWrapper: {
+    paddingTop: 44,
     justifyContent: 'center'
   },
-
    slide0: {
     //backgroundColor: '#008000',
     
@@ -445,9 +347,6 @@ const styles = StyleSheet.create({
    slideTitle: {
     fontWeight: 'bold',
    },
-
-   
-
    slide1: {
     flexDirection: "column",
     justifyContent: 'flex-start',
@@ -460,22 +359,8 @@ const styles = StyleSheet.create({
    slide2: {
      
     flexDirection: "column",
-    paddingTop: 200,
+    marginTop: 40,
    },
-
-  input: {
-    width: '100%',
-    backgroundColor: '#EDF1F3',
-    //marginVertical: 20,
-    marginBottom: 45,
-    paddingVertical: 15,
-    marginTop: -33,
-    // paddingVertical: 5,
-    paddingHorizontal: 15,
-    borderRadius: 6,
-    borderColor: '#C5C2C2',
-    borderWidth: 1
-  },
   buttonText: {
     textAlign: 'center',
     alignItems: 'center',
@@ -502,6 +387,9 @@ const styles = StyleSheet.create({
   slide3: {
     paddingTop: 20,
   },
+  slide3: {
+    marginTop: -30,
+  },
 
   slide4: {
     paddingTop: 47,
@@ -526,9 +414,6 @@ const styles = StyleSheet.create({
     color: '#282424',
     textAlign: 'center',
     fontSize: 17,
-    fontWeight: 'bold',
-    marginTop: 10,
-    marginBottom: 10,
   }, 
 
   text0: {
@@ -550,16 +435,17 @@ const styles = StyleSheet.create({
     },
 
   photoContainer: {
-    width: 200,
-    height: 200,
+    width: 125,
+    height: 125,
     borderWidth: 6,
     borderRadius: 200/2,
-    borderColor: "lightgray",
-    backgroundColor: "lightgray",
+    borderColor: "#EDF1F3",
+    backgroundColor: "#EDF1F3",
     alignSelf: 'center',
-    marginTop: '10%',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 30
   }, 
 })
 export default Signup
+

@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { createStackNavigator } from 'react-navigation-stack'
 import TabBarIcon from '../components/TabBarIcon'
 import WorkOrderListView from '../screens/WorkOrder/WorkOrderListView'
-import AccountSettings from '../screens/Account/AccountSetting'
+import AccountProfile from '../screens/Account/AccountProfile'
 import BarcodeScanner from '../screens/WorkOrder/BarCodeScanner/BarCodeScanner'
 import CheckBarCode from '../screens/WorkOrder/BarCodeScanner/CheckBarCode'
 import NewWorkOrderForm from '../screens/WorkOrder/NewWorkOrder/NewWorkOrderForm'
@@ -91,36 +91,36 @@ WorkOrderStack.path = ''
 
 const QRStack = createStackNavigator(
     {
-        BarCodeScanner: {
-            screen: BarcodeScanner,
-            navigationOptions: props => ({
-                title: 'QR Scanner',
-                headerRight: (
-                    <View style={{ marginRight: 15 }}>
-                        <TouchableOpacity
-                            onPress={() => props.navigation.navigate('Logout')}
-                        >
-                            <Text>Logout</Text>
-                        </TouchableOpacity>
-                    </View>
-                ),
-            }),
-        },
-        CheckBarCode: {
-            screen: CheckBarCode,
-            navigationOptions: props => ({
-                title: 'Verify QR Code',
-                headerRight: (
-                    <View style={{ marginRight: 15 }}>
-                        <TouchableOpacity
-                            onPress={() => props.navigation.navigate('Logout')}
-                        >
-                            <Text>Logout</Text>
-                        </TouchableOpacity>
-                    </View>
-                ),
-            }),
-        },
+        // BarCodeScanner: {
+        //     screen: BarcodeScanner,
+        //     navigationOptions: props => ({
+        //         title: 'QR Scanner',
+        //         headerRight: (
+        //             <View style={{ marginRight: 15 }}>
+        //                 <TouchableOpacity
+        //                     onPress={() => props.navigation.navigate('Logout')}
+        //                 >
+        //                     <Text>Logout</Text>
+        //                 </TouchableOpacity>
+        //             </View>
+        //         ),
+        //     }),
+        // },
+        // CheckBarCode: {
+        //     screen: CheckBarCode,
+        //     navigationOptions: props => ({
+        //         title: 'Verify QR Code',
+        //         headerRight: (
+        //             <View style={{ marginRight: 15 }}>
+        //                 <TouchableOpacity
+        //                     onPress={() => props.navigation.navigate('Logout')}
+        //                 >
+        //                     <Text>Logout</Text>
+        //                 </TouchableOpacity>
+        //             </View>
+        //         ),
+        //     }),
+        // },
         NewWorkOrder: {
             screen: NewWorkOrderForm,
             navigationOptions: props => ({
@@ -171,10 +171,10 @@ QRStack.path = ''
 
 const AccountStack = createStackNavigator(
     {
-        AccountSettings: {
-            screen: AccountSettings,
+        AccountProfile: {
+            screen: AccountProfile,
             navigationOptions: props => ({
-                title: 'Account Settings',
+                title: 'Account Profile',
                 headerRight: (
                     <View style={{ marginRight: 15 }}>
                         <TouchableOpacity

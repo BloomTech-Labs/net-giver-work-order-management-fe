@@ -25,7 +25,7 @@ import {
     Content,
     Text,
 } from 'native-base'
-// import { token } from '../../../token'
+import { token } from '../../../token'
 import axios from 'axios'
 import { wOForm } from '../../../components/Styles'
 import {StackActions, NavigationActions} from 'react-navigation'
@@ -58,13 +58,33 @@ console.log("TCL: props", props)
     //SET CLICKED TO STATE FOR ACTIONsHEET (CAMERA FUNCTIONS) 10/24/2019 SD
     const [clicked, setClicked] = useState()
     // SET PRIORITY 10/24/2019 SD
-    const [priority, setPriority] = useState(props.navigation.state.params.workOrder.isWorkOrder.workorder.priority)
+    const [priority, setPriority] = useState(
+        'priority'
+        // props.navigation.state.params.workOrder.isWorkOrder.workorder.priority
+    )
     // SET STATUS 10/24/2019 SD
-    const [status, setStatus] = useState(props.navigation.state.params.workOrder.isWorkOrder.workorder.status)
+    const [status, setStatus] = useState(
+        'status'
+        // props.navigation.state.params.workOrder.isWorkOrder.workorder.status
+    )
     //SET TITLE 10/24/2019 SD
-    const [title, setTitle] = useState(props.navigation.state.params.workOrder.isWorkOrder.workorder.title)
+    const [title, setTitle] = useState(
+        'title'
+        // props.navigation.state.params.workOrder.isWorkOrder.workorder.title
+    )
     //SET DETAIL 10/24/2019 SD`
-    const [detail, setDetail] = useState(props.navigation.state.params.workOrder.isWorkOrder.workorder.detail)
+    const [detail, setDetail] = useState(
+        'detail'
+        // props.navigation.state.params.workOrder.isWorkOrder.workorder.detail
+    )
+    const [activePriority, setActivePriority] = useState(0);
+
+    const [activeStatus, setActiveStatus] = useState(0);
+
+    // Input height modifiers
+
+    const [inputHeight, setInputHeight] = useState(0);
+
     //SET BUTTONS AND CANCEL_INDEX FOR ACTIONSHEET 12/24/2019 SD
     const BUTTONS = [
         { text: 'Take Picture with Camera' },
@@ -73,8 +93,10 @@ console.log("TCL: props", props)
     ]
     const CANCEL_INDEX = 2
     //SET QR CODE FROM PROPS 10/24/2019 SD
-    
-    console.log("TCL: qrcode", qrcode)
+
+    // const ternbg = `? {backgroundColor: "black"} : {backgroundColor:white}`
+
+    console.log()
     //SUBMIT HANDLER 10/24/2019 SD
     const handleSubmit = () => {
         const editMutation = `mutation {
@@ -107,13 +129,13 @@ console.log("TCL: props", props)
     return (
         <ScrollView>
             <View>
-                <View style={{ marginTop: 15 }}>
+                <View>
                     {/* TITLE TEXT INPUT 12/24/2019 SD */}
                     <TextInput
                         placeholder="What is broken?"
                         onChangeText={setTitle}
                         value={title}
-                        style={wOForm.textInput}
+                        style={[wOForm.textInputGlobal, wOForm.textInputTitle]}
                     />
                 </View>
                 <View>
@@ -122,74 +144,233 @@ console.log("TCL: props", props)
                         placeholder="What's it doing?"
                         onChangeText={setDetail}
                         value={detail}
-                        style={wOForm.textInput}
+                        multiline={true}
+                        editable={true}
+                        onContentSizeChange={(e) => setInputHeight(e.nativeEvent.contentSize.height)}
+                        style={[wOForm.textInputGlobal, wOForm.textInputDesc, {height: inputHeight}]}
                     />
                 </View>
-                <View>
+                <View style={wOForm.priorityContainer}>
                     <View style={wOForm.priorityBar}>
                         <View style={wOForm.pBarTextBox}>
-                            <Text style={wOForm.pBarText}>Priority:</Text>
+                            <Text style={wOForm.pBarText}>Priority</Text>
                         </View>
                         <View style={wOForm.pBarButtonBox}>
                             <TouchableOpacity
-                                style={wOForm.pBarButton}
-                                onPress={()=>setPriority('N/A')}
+                                style={[
+                                    wOForm.pBarButton,
+
+                                    activePriority === 1
+                                        ? {
+                                              backgroundColor: '#878C90',
+                                          }
+                                        : { backgroundColor: '#F4F3F3' },
+                                    {borderTopLeftRadius: 3.26, borderBottomLeftRadius: 3.26, borderRightWidth: 0}
+                                ]}
+                                onPress={() => {
+                                    setPriority('Low')
+                                    setActivePriority(1)
+                                }}
                             >
-                                <Text>N/A</Text>
+                                <Text
+                                    style={[
+                                        wOForm.pBarButtonText,
+                                        activePriority === 1
+                                            ? {
+                                                  color: 'white',
+                                              }
+                                            : { color: 'black' },
+                                    ]}
+                                >
+                                    None
+                                </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={wOForm.pBarButton}
-                                onPress={()=>setPriority('Low')}
+                                style={[
+                                    wOForm.pBarButton,
+
+                                    activePriority === 2
+                                        ? {
+                                              backgroundColor: '#E2F5FC',
+                                          }
+                                        : { backgroundColor: '#F4F3F3' },
+                                        {borderRightWidth: 0}
+                                ]}
+                                onPress={() => {
+                                    setPriority('Medium')
+                                    setActivePriority(2)
+                                }}
                             >
-                                <Text>Low</Text>
+                                <Text
+                                    style={[
+                                        wOForm.pBarButtonText,
+                                        activePriority === 2
+                                            ? {
+                                                  color: '#087FFF',
+                                              }
+                                            : { color: 'black' },
+                                    ]}
+                                >
+                                    Low
+                                </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={wOForm.pBarButton}
-                                onPress={()=>setPriority('Medium')}
+                                style={[
+                                    wOForm.pBarButton,
+
+                                    activePriority === 3
+                                        ? {
+                                              backgroundColor: '#FBF2D7',
+                                          }
+                                        : { backgroundColor: '#F4F3F3' },
+                                ]}
+                                onPress={() => {
+                                    setPriority('High')
+                                    setActivePriority(3)
+                                }}
                             >
-                                <Text>Medium</Text>
+                                <Text
+                                    style={[
+                                        wOForm.pBarButtonText,
+                                        activePriority === 3
+                                            ? {
+                                                  color: '#E1AA08',
+                                              }
+                                            : { color: 'black' },
+                                    ]}
+                                >
+                                    Medium
+                                </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={wOForm.pBarButton}
-                                onPress={()=>setPriority('High')}
+                                style={[
+                                    wOForm.pBarButton,
+
+                                    activePriority === 4
+                                        ? {
+                                              backgroundColor: '#FFD3D3',
+                                          }
+                                        : { backgroundColor: '#F4F3F3' },
+                                        {borderTopRightRadius: 3.26, borderBottomRightRadius: 3.26, borderLeftWidth: 0}
+                                ]}
+                                onPress={() => {
+                                    setPriority('Urgent')
+                                    setActivePriority(4)
+                                }}
                             >
-                                <Text>High</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={wOForm.pBarButton}
-                                onPress={()=>setPriority('Emergency')}
-                            >
-                                <Text>Emergency</Text>
+                                
+                                <Text
+                                    style={[
+                                        wOForm.pBarButtonText,
+                                        activePriority === 4
+                                            ? {
+                                                  color: '#FE273A',
+                                              }
+                                            : { color: 'black' },
+                                            
+                                    ]}
+                                >
+                                    Urgent
+                                </Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                 </View>
                 <View style={wOForm.priorityBar}>
                     <View style={wOForm.pBarTextBox}>
-                        <Text style={wOForm.pBarText}>Status: </Text>
+                        <Text style={wOForm.pBarText}>Status</Text>
                     </View>
                     <View style={wOForm.pBarButtonBox}>
                         <TouchableOpacity
-                            style={wOForm.pBarButton}
-                            onPress={()=>setStatus('Not Started')}
+                            style={[
+                                wOForm.pBarButton,
+
+                                activeStatus === 1
+                                    ? {
+                                          backgroundColor: '#237804',
+                                      }
+                                    : { backgroundColor: '#F4F3F3' },
+                                    {borderTopLeftRadius: 3.26, borderBottomLeftRadius: 3.26, borderRightWidth: 0}
+                            ]}
+                            onPress={() => {
+                                setStatus('Not Started')
+                                setActiveStatus(1)
+                            }}
                         >
-                            <Text>Not Started</Text>
+                            
+                            <Text
+                                style={[
+                                    wOForm.pBarButtonText,
+                                    activeStatus === 1
+                                        ? {
+                                              color: 'white',
+                                          }
+                                        : { color: 'black' },
+                                ]}
+                            >
+                                Not Started
+                            </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={wOForm.pBarButton}
-                            onPress={()=>setStatus('In Progress')}
+                            style={[
+                                wOForm.pBarButton,
+
+                                activeStatus === 2
+                                    ? {
+                                          backgroundColor: '#237804',
+                                      }
+                                    : { backgroundColor: 'white' },
+                            ]}
+                            onPress={() => {
+                                setStatus('In Progress')
+                                setActiveStatus(2)
+                            }}
                         >
-                            <Text>In Progress</Text>
+                            <Text
+                                style={[
+                                    wOForm.pBarButtonText,
+                                    activeStatus === 2
+                                        ? {
+                                              color: 'white',
+                                          }
+                                        : { color: '#237804' },
+                                ]}
+                            >
+                                In Progress
+                            </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={wOForm.pBarButton}
-                            onPress={()=>setStatus('Complete')}
+                            style={[
+                                wOForm.pBarButton,
+
+                                activeStatus === 3
+                                    ? {
+                                          backgroundColor: '#237804',
+                                      }
+                                    : { backgroundColor: 'white' },
+                                    {borderTopRightRadius: 3.26, borderBottomRightRadius: 3.26, borderLeftWidth: 0}
+                            ]}
+                            onPress={() => {
+                                setStatus('Complete')
+                                setActiveStatus(3)
+                            }}
                         >
-                            <Text>Complete</Text>
+                            <Text
+                                style={[
+                                    wOForm.pBarButtonText,
+                                    activeStatus === 3
+                                        ? {
+                                              color: 'white',
+                                          }
+                                        : { color: '#237804' },
+                                ]}
+                            >
+                                Complete
+                            </Text>
                         </TouchableOpacity>
                     </View>
                 </View>
-
+                <View style={wOForm.extraSpace}></View>
                 <Text>Work Order Images (Long Press to Delete)</Text>
                 {/* WORK ORDER IMAGE BOX 12/24/2019 SD */}
                 <View style={wOForm.imageBox}>
