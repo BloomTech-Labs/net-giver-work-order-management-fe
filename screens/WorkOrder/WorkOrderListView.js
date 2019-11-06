@@ -17,12 +17,11 @@ import { wOList, styles } from "../../components/Styles";
 
 import { token } from "../../token";
 import { StackActions, NavigationActions } from "react-navigation";
-import { UserContext } from "../../context/userState";
 import { conditionalExpression } from "@babel/types";
 
 const GET_WORKORDERS = gql`
-  query {
-    workorders {
+  query workorders($limit: Int) {
+    workorders(limit: $limit) {
       edges {
         id
         detail
@@ -34,7 +33,7 @@ const GET_WORKORDERS = gql`
         user {
           username
         }
-        workorderphotos {
+        workorderphoto {
           path
         }
       }
@@ -48,21 +47,18 @@ const GET_WORKORDERS = gql`
 
 const WorkOrderListView = props => {
   const [sentFrom, setSentFrom] = useState();
-  const { data, loading, error } = useQuery(
-    GET_WORKORDERS,
-    {
-      // fetchPolicy: "no-cache"
-    }
-  );
+  const { data, loading, error } = useQuery(GET_WORKORDERS, {
+    variables: { limit: 5 }
+  });
 
   if (loading)
     return (
       <SafeAreaView style={styles.container}>
         <ActivityIndicator size="large" color="black" />
-        {/* <Text style={wOList.title}>
+        <Text style={wOList.title}>
           Loading
           {console.log(loading)}
-        </Text> */}
+        </Text>
       </SafeAreaView>
     );
   if (error)
@@ -79,8 +75,9 @@ const WorkOrderListView = props => {
         <TouchableOpacity
           key={res.id}
           onPress={() =>
-            props.navigation.navigate("EditWorkOrder", {
-              wo: res
+            props.navigation.push("EditWorkOrder", {
+              wo: res,
+              id: 186
             })}
         >
           {/* BUILD THE WORKORDER CARD 10/24/2019 SD */}
@@ -88,7 +85,7 @@ const WorkOrderListView = props => {
           <View style={wOList.card}>
             {/* FLEX COLUMN 1 LEFT HOLDS THE IMAGE FLEX SET TO 2 10/24/2019 SD */}
             <View style={wOList.cardLeft}>
-              {res.workorderphotos[0]
+              {res.workorderphoto
                 ? <Image
                     style={wOList.image}
                     source={{ uri: res.workorderphotos[0].path }}

@@ -52,6 +52,7 @@ const AuthStackNavigator = createStackNavigator(
     //   }
     // },
     //SIGNUP PAGE 10/24/2019 SD
+
     // P1: {
     //   screen: Phone,
     //   navigationOptions: {
@@ -67,23 +68,39 @@ const AuthStackNavigator = createStackNavigator(
     P3: {
       screen: Email,
       navigationOptions: {
-        title: 'Sign Up'
+        title: "Sign Up"
       }
     },
     P4: {
       screen: UserName,
       navigationOptions: {
-        title: 'Sign Up'
+        title: "Sign Up"
       }
     },
     P5: {
       screen: Photo,
       navigationOptions: {
-        title: 'Sign Up'
+        title: "Sign Up"
       }
     },
     Camera: {
-      screen: Camera
+      screen: Camera,
+      navigationOptions: props => ({
+        title: "Take a Photo",
+        headerRight: (
+          <View style={{ marginRight: 15 }}>
+            <TouchableOpacity
+              onPress={() => {
+                AsyncStorage.removeItem("userToken").then(() => {
+                  props.navigation.navigate("Auth");
+                });
+              }}
+            >
+              <Text>Logout</Text>
+            </TouchableOpacity>
+          </View>
+        )
+      })
     }
   },
   config
