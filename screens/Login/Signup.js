@@ -260,6 +260,13 @@ const Signup = props => {
                     <Text style={signupstyles.buttonText}>{input.button}</Text>
                   </TouchableOpacity>
                 </View>
+                <Text style={[loginStyles.footerText, {width: '100%', textAlign: 'center'}]}>Contact Netgiver Team</Text>
+                {input.textToS ? 
+                  // <View style={styles.textToS}><Text> 
+                  <Text>{input.textToS} </Text>
+                  //{/* </Text></View> */}
+                  : null}
+              <Text style={styles.text3}> {input.text3} </Text>
               </View>
             )
           })}
@@ -329,3 +336,4 @@ const SignupSchema = Yup.object().shape({
 // })(SignupForm);
 
 export default Signup
+

@@ -102,6 +102,32 @@ const NewWorkOrderForm = props => {
         actions: [NavigationActions.navigate({ routeName: "BarCodeScanner" })]
       });
 
+    const priorityArray = [
+        {
+            type: '1 Low',
+            name: 'Low',
+            color: '#087FFF',
+            backgroundColor: '#E2F5FC',
+        },
+        {
+            type: '2 Medium',
+            name: 'Medium',
+            color: '#07BD51',
+            backgroundColor: '#CBFBCB',
+        },
+        {
+            type: '3 High',
+            name: 'High',
+            color: '#DBA004',
+            backgroundColor: '#FFED9B',
+        },
+        {
+            type: '4 Urgent',
+            name: 'Urgent',
+            color: '#FE273A',
+            backgroundColor: '#FFD3D3',
+        },
+    ]
     //SET QR CODE FROM PROPS 10/24/2019 SD
     const { qrcode } = props.navigation.state.params.qrcode //12345555
 

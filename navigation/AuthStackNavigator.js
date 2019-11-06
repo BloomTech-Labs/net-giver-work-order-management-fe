@@ -99,6 +99,21 @@ const AuthStackNavigator = createStackNavigator(
         title:'Terms of Service'
       }
     },
+    //PRIVACY POLICY PAGE 11/1/2019 KS/SD
+    PP: {
+      screen: Pp,
+      navigationOptions: {
+      title:'Privacy Policy'
+      }
+    },
+
+     //PRIVACY POLICY PAGE 11/1/2019 KS/SD
+    TOS: {
+      screen: ToS,
+      navigationOptions: {
+        title:'Terms of Service'
+      }
+    },
     Camera: {
       screen: Camera
     }
