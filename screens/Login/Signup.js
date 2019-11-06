@@ -16,7 +16,7 @@ import Swiper from 'react-native-swiper';
 import { Overlay, Card, Button } from "react-native-elements";
 import * as Yup from 'yup';
 import { Ionicons } from '@expo/vector-icons';
-import { UserContext } from "../../context/userState";
+
 import { loginStyles } from '../../components/Styles';
 import { isUpdateExpression } from "@babel/types";
 import { gql } from "apollo-boost";
