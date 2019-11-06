@@ -95,10 +95,12 @@ const NewWorkOrderForm = props => {
     
     const resetAction = StackActions.reset({
         index: 0,
+        key: null,
         actions: [NavigationActions.navigate({ routeName: "WorkOrderList" })]
       });
       const resetAction1 = StackActions.reset({
         index: 0,
+        
         actions: [NavigationActions.navigate({ routeName: "BarCodeScanner" })]
       });
 
@@ -177,6 +179,8 @@ const NewWorkOrderForm = props => {
             priority: priority
           }
         });
+
+    
       };
 
       console.log("WORK ORDER NEW")
