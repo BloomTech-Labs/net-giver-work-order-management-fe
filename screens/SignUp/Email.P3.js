@@ -20,10 +20,23 @@ const Email = props => {
     const [photouri, setPhotouri] = useState(photo.uri)
     const placeholderImg =
         'http://placehold.jp/006e13/ffffff/200x200.png?text=Click%20to%20Add%20an%20Image'
+    const isEmail = RegExp(
+        "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+    )
     handleSubmit = () => {
-console.log(props)    }
+        if (isEmail.test(email) == true)
+        {alert('It Works')}
+        else {
+        {alert('Please Enter a Valid Email Address')}
+
+        }
+    }
     toCamera = () => {
-        props.navigation.navigate('CameraModule', { from: 'P3', phone:phone, verCode: ver })
+        props.navigation.navigate('CameraModule', {
+            from: 'P3',
+            phone: phone,
+            verCode: ver,
+        })
     }
     return (
         <SafeAreaView>
@@ -33,19 +46,21 @@ console.log(props)    }
             </Text>
 
             <TouchableOpacity style={su3.avatar} onPress={toCamera}>
-            {photouri
-                ? <Image
-                    style={su3.image}
-                    source={{
-                      uri: photouri
-                    }}
-                  />
-                : <Image
-                    style={su3.image}
-                    source={{
-                      uri: placeholderImg
-                    }}
-                  />}
+                {photouri ? (
+                    <Image
+                        style={su3.image}
+                        source={{
+                            uri: photouri,
+                        }}
+                    />
+                ) : (
+                    <Image
+                        style={su3.image}
+                        source={{
+                            uri: placeholderImg,
+                        }}
+                    />
+                )}
                 {/* <Image style={su3.image} source={{ uri: photouri }} /> */}
                 <Text style={su3.avatarText}>Tap to add</Text>
             </TouchableOpacity>
@@ -65,9 +80,29 @@ console.log(props)    }
                 <Text style={su3.buttonText}>Get Started</Text>
             </TouchableOpacity>
             <View style={su3.tosBox}>
-                <Text style={su3.tosFont}>By pressing "Next" above, you agree to our <Text onPress={() => navigation.navigate('TOS')} style={su3.underline}>terms of service </Text>and <Text style={su3.underline} onPress={() => navigation.navigate('PP')}>privacy policy.</Text></Text>
+                <Text style={su3.tosFont}>
+                    By pressing "Next" above, you agree to our{' '}
+                    <Text
+                        onPress={() => navigation.navigate('TOS')}
+                        style={su3.underline}
+                    >
+                        terms of service{' '}
+                    </Text>
+                    and{' '}
+                    <Text
+                        style={su3.underline}
+                        onPress={() => navigation.navigate('PP')}
+                    >
+                        privacy policy.
+                    </Text>
+                </Text>
             </View>
-            <Text onPress={() => navigation.navigate('Contact')} style={su3.subHead}>Contact the Net Giver Team</Text>
+            <Text
+                onPress={() => navigation.navigate('Contact')}
+                style={su3.subHead}
+            >
+                Contact the Net Giver Team
+            </Text>
         </SafeAreaView>
     )
 }
@@ -77,29 +112,29 @@ const su3 = StyleSheet.create({
     header: {
         fontSize: 24,
         alignSelf: 'center',
-        fontFamily: "IBMPlexSans-Regular",
+        fontFamily: 'IBMPlexSans-Regular',
         marginTop: 15,
-        marginBottom:20,
-        fontWeight:'bold',
+        marginBottom: 20,
+        fontWeight: 'bold',
     },
     subHead: {
         fontSize: 17,
         alignSelf: 'center',
-        fontFamily: "IBMPlexSans-Regular",
-        marginBottom:50,
+        fontFamily: 'IBMPlexSans-Regular',
+        marginBottom: 50,
     },
     avatar: {
         alignSelf: 'center',
     },
     avatarText: {
         alignSelf: 'center',
-        fontFamily: "IBMPlexSans-Regular",
+        fontFamily: 'IBMPlexSans-Regular',
     },
 
     image: {
         width: 200,
         height: 200,
-        borderRadius:100,
+        borderRadius: 100,
     },
     input: {
         backgroundColor: '#edf1f3',
@@ -109,7 +144,7 @@ const su3 = StyleSheet.create({
         width: '90%',
         alignSelf: 'center',
         padding: 10,
-        fontFamily: "IBMPlexSans-Regular",
+        fontFamily: 'IBMPlexSans-Regular',
     },
     button: {
         alignSelf: 'center',
@@ -123,16 +158,16 @@ const su3 = StyleSheet.create({
     buttonText: {
         alignSelf: 'center',
         color: 'white',
-        fontFamily: "IBMPlexSans-Regular",
+        fontFamily: 'IBMPlexSans-Regular',
     },
-    tosBox:{
+    tosBox: {
         marginBottom: 40,
     },
-    tosFont:{
+    tosFont: {
         fontSize: 15,
-        fontFamily: "IBMPlexSans-Regular",
+        fontFamily: 'IBMPlexSans-Regular',
     },
-    underline:{
-        textDecorationLine:'underline',
+    underline: {
+        textDecorationLine: 'underline',
     },
 })
