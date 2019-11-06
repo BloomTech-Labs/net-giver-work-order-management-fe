@@ -20,7 +20,7 @@ import { HttpLink } from "apollo-link-http";
 import { onError } from "apollo-link-error";
 import { withClientState } from "apollo-link-state";
 import { ApolloLink, Observable } from "apollo-link";
-import { typeDefs, resolvers } from "./resolvers";
+//import { typeDefs, resolvers } from "./resolvers";
 import { setContext } from "apollo-link-context";
 import { createUploadLink } from "apollo-upload-client";
 

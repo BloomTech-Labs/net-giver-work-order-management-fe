@@ -16,7 +16,7 @@ import { Button, Text } from "native-base";
 import { Icon } from "react-native-elements";
 import { wOForm, wOList, styles } from "../../../components/Styles";
 import { StackActions, NavigationActions } from "react-navigation";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
 const GET_WORKORDER = gql`
@@ -39,16 +39,25 @@ const GET_WORKORDER = gql`
   }
 `;
 
+//id, qrcode, detail, priority, status, title;
+
 const EditWorkOrder = props => {
-  const { data, loading, error } = useQuery(GET_WORKORDER, {
-    // variables: { id: props.navigation.getParam("id", "no id") }
-    variables: { id: props.navigation.state.params.id }
-  });
+  const [id, setId] = useState(props.navigation.state.params.id);
   const { navigation } = props;
-  const [wo, setWo] = useState(navigation.getParam("wo", "no wo"));
+  //const [wo, setWo] = useState(navigation.getParam("wo", "no wo"));
+  const getWorkorder = () => {
+    const { loading, error, data } = useQuery(GET_WORKORDER, {
+      // variables: { id: props.navigation.getParam("id", "no id") }
+      variables: { id: id },
+      onCompleted({ workorder }) {
+        setWo(workorder);
+      }
+    });
+  };
+  const [wo, setWo] = useState({});
   const [photo, setPhoto] = useState(navigation.getParam("photo", "no wo"));
   const [photouri, setPhotouri] = useState(photo.uri);
-  const [id, setId] = useState(props.navigation.state.params.id);
+
   const [clicked, setClicked] = useState();
   const [priority, setPriority] = useState(wo.priority);
   const [status, setStatus] = useState(wo.status);
@@ -56,14 +65,10 @@ const EditWorkOrder = props => {
   const [detail, setDetail] = useState(wo.detail);
   const [workorderphoto, setWorkorderphotos] = useState(wo.workorderphoto);
 
-  const resetAction = StackActions.reset({
-    index: 0,
-    actions: [NavigationActions.navigate({ routeName: "WorkOrderList" })]
-  });
-  const resetAction1 = StackActions.reset({
-    index: 0,
-    actions: [NavigationActions.navigate({ routeName: "EditWorkOrder" })]
-  });
+  // useEffect(() => {
+  //   getWorkorder();
+  // }, []);
+
   const handleSubmit = () => {
     return null;
   };
