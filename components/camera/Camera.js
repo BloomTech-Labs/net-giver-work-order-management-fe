@@ -13,15 +13,20 @@ import { Camera } from 'expo-camera'
 import { Ionicons } from '@expo/vector-icons'
 
 const AppCamera = props => {
+    const { navigation } = props
     const { FlashMode: CameraFlashModes, Type: CameraTypes } = Camera.Constants
     const [hasCameraPermission, setHasCameraPermission] = useState(null)
     const [cameraType, setCameraType] = useState(CameraTypes.back)
     const [flashMode, setFlashMode] = useState(CameraFlashModes.off)
     const [uri, setUri] = useState()
     const [photo, setPhoto] = useState({})
-    const [id, setId] = useState(props.navigation.state.params.id);
+    const [id, setId] = useState(navigation.state.params.id);
     const [photoConfirm, setPhotoConfirm] = useState(false)
     const cameraRef = useRef(null)
+
+    //PROPS FOR SIGNUP 11/6/2019 SD
+    const [phone, setPhone] = useState(navigation.getParam('phone', 'NO PHONE'))
+    const [ver, setVer] = useState(navigation.getParam('verCode', 'NO VER'))
 
     useEffect(() => {
         requestCameraPermission()
@@ -71,7 +76,7 @@ const AppCamera = props => {
         } else if (props.navigation.state.params.from === 'EditWorkOrder') {
             props.navigation.push('EditWorkOrder', { photo: photo, id:id })
         }else if (props.navigation.state.params.from === 'P3') {
-            props.navigation.push('P3', { photo: photo})
+            props.navigation.push('P3', { photo: photo, phone:phone, verCode:ver})
         }
     }
 

@@ -11,6 +11,9 @@ import {
 
 const Email = props => {
     const { navigation } = props
+    const [phone, setPhone] = useState(navigation.getParam('phone', 'NO PHONE'))
+    const [ver, setVer] = useState(navigation.getParam('verCode', 'NO VER'))
+
     const [userName, setUserName] = useState()
     const [email, setEmail] = useState()
     const [photo, setPhoto] = useState(navigation.getParam('photo', 'nophoto'))
@@ -20,7 +23,7 @@ const Email = props => {
     handleSubmit = () => {
 console.log(props)    }
     toCamera = () => {
-        props.navigation.navigate('CameraModule', { from: 'P3' })
+        props.navigation.navigate('CameraModule', { from: 'P3', phone:phone, verCode: ver })
     }
     return (
         <SafeAreaView>

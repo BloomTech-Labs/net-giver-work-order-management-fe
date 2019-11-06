@@ -3,9 +3,13 @@ import {SafeAreaView, Text, TouchableOpacity, TextInput, Image, StyleSheet} from
 const Phone = (props) => {
     const [phone, setPhone] = useState();
     handleSubmit = () => {
-        if(phone.length != 10){
+        if(phone === undefined){
             alert('Please Enter a Valid Phone Number')
-        } else {
+        } else if (phone.length != 10) {
+            alert('Please Enter a Valid Phone Number')
+
+        } 
+        else {
             props.navigation.navigate('P2', {phone: phone})
         }
     }
