@@ -70,6 +70,8 @@ const AppCamera = props => {
             props.navigation.goBack()
         } else if (props.navigation.state.params.from === 'EditWorkOrder') {
             props.navigation.push('EditWorkOrder', { photo: photo, id:id })
+        }else if (props.navigation.state.params.from === 'P3') {
+            props.navigation.push('P3', { photo: photo})
         }
     }
 
