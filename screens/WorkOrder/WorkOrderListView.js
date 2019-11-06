@@ -104,12 +104,16 @@ const WorkOrderListView = props => {
                         </View>
                         {/* FLEX COLUMN 2 MIDDLE HOLDS THE WORK ORDER INFORMATION FLEX SET TO 4 10/24/2019 SD */}
                         <View style={wOList.cardMiddle}>
-                            <Text style={wOList.title}>
-                                {res.title}
-                            </Text>
+                            <View style={{flexDirection:'row'}}>
+                              <Text style={wOList.title} numberOfLines = { 1 }>
+                                  {res.title}
+                              </Text>
+                            </View>
                             <View style={wOList.cardSubContent}> 
-                                <Text style={wOList.text}>Requested by {res.user.username}</Text>
-                                <Text style={wOList.text}>10/22/19, 2:52PM</Text>
+                                <View style={{flexDirection:'row'}}>
+                                <Text style={wOList.text} numberOfLines = { 1 }>{res.user.username}</Text>
+                                </View>
+                                <Text style={wOList.text} numberOfLines = { 1 }>10/22/19, 2:52PM</Text>
                             </View>
                         </View>
                         <View style={wOList.cardRight}>

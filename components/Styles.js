@@ -90,19 +90,21 @@ export const wOList = StyleSheet.create({
     text: {
         fontSize: 14,
         lineHeight: 22,
+        flex: 1,
+        flexWrap: 'wrap'
     },
     cardSubContent: {
         flexDirection: "column"
     },
     cardLeft: {
-        
+        width: 'auto'
     },
     cardMiddle: {
-        
+        width: 'auto',
     },
     cardRight: {
         alignItems: 'flex-end',
-        marginLeft: 'auto'
+        marginLeft: 'auto',
     },
     image: {
         width: 64,
@@ -114,6 +116,8 @@ export const wOList = StyleSheet.create({
         fontSize: 17,
         fontWeight: 'bold',
         marginBottom: 1,
+        flex: 1,
+        flexWrap: 'wrap'
     },
 })
 
