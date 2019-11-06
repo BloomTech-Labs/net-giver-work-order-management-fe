@@ -14,7 +14,6 @@ import * as Permissions from "expo-permissions";
 import { BarCodeScanner } from "expo-barcode-scanner";
 
 const BarcodeScanner = props => {
-console.log("TCL: props", props)
   //Set initial state of camera permission and if barcode has been scanned
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [scanned, setscanned] = useState(false);
@@ -24,7 +23,7 @@ console.log("TCL: props", props)
   useEffect(() => {
     getPermissionsAsync();
 
-
+console.log("BARCODE")
    
   }, [hasCameraPermission]);
   (AsyncStorage.getItem('TOKEN', (err, result) => {
@@ -41,6 +40,7 @@ console.log("TCL: props", props)
   const handleBarCodeScanned = ({ data }) => {
     setscanned(true);
     //   send genQr as qrData to Login
+    console.log("CHECKED")
     props.navigation.navigate("CheckBarCode", {
       qrData: data,
       token: token
@@ -55,6 +55,7 @@ console.log("TCL: props", props)
   }
   //add a workorder without a qr code
   const addWithoutQr = () => {
+    console.log("WITHOUT")
     //generate a random 5 digit string starting with n
     var genQr ="n" + Date.now().toString().slice(7,11);
     // or generate a static 5 digit number for testing 

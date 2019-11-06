@@ -54,8 +54,8 @@ const Login = props => {
                 And leave your paperwork behind!
             </Text>
             <TextInput
-                style={loginStyles.loginTextInput}
-                placeholder="UserName"
+                style={[loginStyles.loginTextInput, {marginBottom: 30}]}
+                placeholder="Username"
                 name="username"
                 // value={username}
                 autoCapitalize="none"
@@ -63,19 +63,19 @@ const Login = props => {
                 onFocus={() => setUsername('')}
             />
             {/* <View style={loginStyles.signIn}> */}
-            <Button style={loginStyles.signIn} onPress={submit}>
+            <Button style={loginStyles.buttons} onPress={submit}>
                 <Text style={loginStyles.buttonText}>Sign In</Text>
             </Button>
 
             <Text style={loginStyles.buttonHeader}>Don't Have an Account?</Text>
             <Button
                 onPress={() => props.navigation.navigate('SignUp')}
-                style={loginStyles.signUp}
+                style={[loginStyles.buttons, {marginTop: 20}]}
             >
                 <Text style={loginStyles.buttonText}>Sign Up</Text>
             </Button>
             {/* NEEDS TO LINK TO CONTACT */}
-            <Text style={loginStyles.footerText}>Contact Netgiver Team</Text>
+            <Text style={loginStyles.footerText}>Contact The Netgiver Team</Text>
         </SafeAreaView>
     )
 }

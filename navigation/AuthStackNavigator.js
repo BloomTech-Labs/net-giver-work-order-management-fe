@@ -6,8 +6,9 @@ import LoginVerify from "../screens/Login/LoginVerify";
 import LoginChecker from "../screens/Login/LoginChecker";
 import Signup from "../screens/Login/Signup";
 import Camera from '../components/camera/Camera';
-
+import Pp from '../screens/Policy/Pp'
 import {Platform} from 'react-native'
+import ToS from "../screens/Policy/ToS";
 const config = Platform.select({
   web: { headerMode: "screen" },
   default: {}
@@ -50,6 +51,21 @@ const AuthStackNavigator = createStackNavigator(
       screen: Signup,
       navigationOptions: {
         header:null
+      }
+    },
+    //PRIVACY POLICY PAGE 11/1/2019 KS/SD
+    PP: {
+      screen: Pp,
+      navigationOptions: {
+      title:'Privacy Policy'
+      }
+    },
+
+     //PRIVACY POLICY PAGE 11/1/2019 KS/SD
+    TOS: {
+      screen: ToS,
+      navigationOptions: {
+        title:'Terms of Service'
       }
     },
     Camera: {

@@ -26,13 +26,11 @@ const WorkOrderListView = props => {
     // const { user } = useContext(UserContext)
     const { user } = useContext(UserContext)
 // user = state
-console.log(user)
 
     // const [token, setToken] = useState(props.navigation.state.params.token);
 //    (AsyncStorage.getItem('TOKEN', (err, result) => {
 //     setToken();
 //       }))
-console.log("TCL: props", props)
 // console.log("sync", token)
     // GQL QUERY TO RETURN USER OBJECTS WITH WORKORDERS 10/24/2019 SD
     const queryDb = `query {users{id username displayName picture photo{path} phone email workorders{id qrcode title detail status priority createdAt}}}`
@@ -42,7 +40,7 @@ console.log("TCL: props", props)
     //    setToken(props.navigation.state.params.token)
 
    }, )
-   
+   console.log("LIST NOW")
     useEffect(() => {
         axios({
             method: 'post',
@@ -75,12 +73,12 @@ console.log("TCL: props", props)
         }).then(res => {
             // console.log('response recd from wol', res. data)
             // setUserMap(res.data.data.users)
-            // console.log("TCL: userMap", userMap)
+            
             setWorkOrderMap(res.data.data.workorders.edges)
-            console.log("workOrderMap", workOrderMap)
+            
             // props.navigation.navigate('WorkOrderListView')
         })}, [sentFrom])
-        console.log("workOrderMap1", workOrderMap)
+        
 
 
         
@@ -91,17 +89,19 @@ console.log("TCL: props", props)
     //   })
     let r = Math.random()
 
+    console.log(workOrderMap);
+
     return (
         <ScrollView>
             {/* MAP WORK ORDER DATA AND PULL OUT THE VALUES 10/24/2019 SD */}
             {!workOrderMap ?<ActivityIndicator size="large" color="black" />: workOrderMap.map(res => (
-            
             // MAKE THE WHOLE BOX A BUTTON THAT CAN BE CLICKED TO OPEN THE w/o 10/24/2019 SD
                 <TouchableOpacity
                 key={res.id} 
-                onPress={() =>
+                onPress={() => {
+                    console.log("WORK ORDER LIST VIEW 1")
                         props.navigation.navigate('CheckBarCode', {qrData: res.qrcode, token: user.token})
-                    }
+                }}
                 >
                     {/* BUILD THE WORKORDER CARD 10/24/2019 SD */}
                     {/* 3 FLEX COLUMNS */}
@@ -118,29 +118,50 @@ console.log("TCL: props", props)
                             <Text style={wOList.title}>
                                 {res.title}
                             </Text>
-                            <Text>Requested by:</Text>
-                            <Text>{res.id}</Text>
+                            <View style={wOList.cardSubContent}> 
+                                <Text style={wOList.text}>Requested by</Text>
+                                <Text style={wOList.text}>10/22/19, 2:52PM</Text>
+                            </View>
                         </View>
                         {/* FLEX COLUMN 3 RIGHT HOLDS THE PRIORITY/STATUS BADGES FLEX SET TO 2 10/24/2019 SD */}
                         <View style={wOList.cardRight}>
-                            <Text>Priority:</Text>
-                            { res.priority === 'N/A' ?(
-                        <View style={{backgroundColor:'green', borderRadius:10, width:"95%"}}><Text style={{ textAlign:'center'}}>{res.priority}</Text></View>):(<View ></View>)}
-                        { res.priority === 'Low' ?(
-                        <View style={{backgroundColor:'black', borderRadius:10, width:"95%"}}><Text style={{color:'white', textAlign:'center'}}>{res.priority}</Text></View>):(<View ></View>)}
-                        { res.priority === 'Medium' ?(
-                        <View style={{backgroundColor:'orange', borderRadius:10, width:"95%"}}><Text style={{ textAlign:'center'}}>{res.priority}</Text></View>):(<View ></View>)}
-                                                      { res.priority === 'High' ?(
-                        <View style={{backgroundColor:'purple', borderRadius:10, width:"95%"}}><Text style={{ textAlign:'center'}}>{res.priority}</Text></View>):(<View ></View>)}
-                        { res.priority === 'Emergency' ?(
-                        <View style={{backgroundColor:'red', borderRadius:10, width:"95%"}}><Text style={{ textAlign:'center'}}>{res.priority}</Text></View>):(<View ></View>)}                  
-                            <Text>Status:</Text>
-                            { res.status === 'Not Started' ?(
-                            <View style={{backgroundColor:'red', borderRadius:10, width:"95%"}}><Text style={{ textAlign:'center'}}>{res.status}</Text></View>):(<View ></View>)}
-                            { res.status === 'In Progress' ?(
-                            <View style={{backgroundColor:'orange', borderRadius:10, width:"95%"}}><Text style={{ textAlign:'center'}}>{res.status}</Text></View>):(<View ></View>)}
-                            { res.status === 'Complete' ?(
-                            <View style={{backgroundColor:'green', borderRadius:10, width:"95%"}}><Text style={{ textAlign:'center'}}>{res.status}</Text></View>):(<View ></View>)}
+                            <View style={[{backgroundColor: 
+                                (res.status === 'Open' ? 'white' : 
+                                res.status === 'In Progress' ? '#07BD51' :
+                                res.status === 'On Hold' ? '#FFD3D3' :
+                                '#878C90'
+                                ), width: '100%' 
+                                }, wOList.info, wOList.status]}>
+                                <Text style={[{color: 
+                                    (res.status === 'Open' ? '#087FFF' : 
+                                    res.status === 'In Progress' ? 'white' :
+                                    res.status === 'On Hold' ? '#FE273A' :
+                                    'white'
+                                    ),
+                                    borderColor : (res.status === 'Open' ? '#878C90' : '')
+                                    }, wOList.infoText]}>
+                                    {res.status}
+                                </Text>
+                            </View>
+                            <View style={wOList.qrPriority}>
+                                <Text style={[wOList.info, wOList.qr , wOList.infoText]}>#{res.id}</Text>
+                                <View style={[{backgroundColor: 
+                                (res.priority === 'Low' ? '#E2F5FC' : 
+                                res.priority === 'Medium' ? '#CBFBCB' :
+                                res.priority === 'High' ? '#FFED9B' :
+                                '#FFD3D3'
+                                ), 
+                                }, wOList.info, wOList.priority]}>
+                                    <Text style={[{color: 
+                                        (res.priority === 'Low' ? '#087FFF' : 
+                                        res.priority === 'Medium' ? '#07BD51' :
+                                        res.priority === 'High' ? '#DBA004' :
+                                        '#FE273A'
+                                        ), textAlign:'center', width: '100%'}, wOList.infoText]}>
+                                        {res.priority}
+                                    </Text>
+                                </View>
+                            </View>
                         </View>
                     </View>
                 </TouchableOpacity>

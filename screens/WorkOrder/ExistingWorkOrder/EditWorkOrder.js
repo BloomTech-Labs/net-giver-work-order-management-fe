@@ -32,27 +32,15 @@ import {StackActions, NavigationActions} from 'react-navigation'
 import { UserContext } from "../../../context/userState";
 // import {token} from '../../../token'
 const EditWorkOrder = props => {
-<<<<<<< HEAD
     const { user } = useContext(UserContext)
     const token = user.token
-    const resetAction = StackActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({ routeName: 'WorkOrderList' })],
-      })
-      const resetAction1 = StackActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({ routeName: 'EditWorkOrder' })],
-      })
- 
-    const {qrcode} = props.navigation.state.params.workOrder.isWorkOrder.workorder
-console.log("TCL: props", props)
-=======
-    // const token = props.navigation.state.params.token
 
-    const { qrcode } = 'n7739'
-    // } = props.navigation.state.params.workOrder.isWorkOrder.workorder
-    console.log('TCL: props', props)
->>>>>>> 6d88a32c30a5edfb8e511e7357312892cfd7b5ca
+    
+      console.log(props.navigation.state.params);
+ 
+    const {qrcode} = props.navigation.state.params
+    
+
     // SET PLACEHOLDER IMAGES TO STATE 10/24/2019 SD
     const [img1, setImg1] = useState(
         'http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image'
@@ -62,32 +50,35 @@ console.log("TCL: props", props)
     )
     const [img3, setImg3] = useState(
         'http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image'
+
     )
+
+    console.log("I MADE IT TO EDIT");
     //SET CLICKED TO STATE FOR ACTIONsHEET (CAMERA FUNCTIONS) 10/24/2019 SD
     const [clicked, setClicked] = useState()
     // SET PRIORITY 10/24/2019 SD
     const [priority, setPriority] = useState(
-        'priority'
-        // props.navigation.state.params.workOrder.isWorkOrder.workorder.priority
+        props.navigation.state.params.workOrder.priority
     )
     // SET STATUS 10/24/2019 SD
     const [status, setStatus] = useState(
-        'status'
-        // props.navigation.state.params.workOrder.isWorkOrder.workorder.status
+        props.navigation.state.params.workOrder.status
     )
     //SET TITLE 10/24/2019 SD
     const [title, setTitle] = useState(
-        'title'
-        // props.navigation.state.params.workOrder.isWorkOrder.workorder.title
+        props.navigation.state.params.workOrder.title
     )
     //SET DETAIL 10/24/2019 SD`
     const [detail, setDetail] = useState(
-        'detail'
-        // props.navigation.state.params.workOrder.isWorkOrder.workorder.detail
+        props.navigation.state.params.workOrder.detail
     )
-    const [activePriority, setActivePriority] = useState(0)
+    const [activePriority, setActivePriority] = useState(0);
 
-    const [activeStatus, setActiveStatus] = useState(0)
+    const [activeStatus, setActiveStatus] = useState(0);
+
+    // Input height modifiers
+
+    const [inputHeight, setInputHeight] = useState(0);
 
     //SET BUTTONS AND CANCEL_INDEX FOR ACTIONSHEET 12/24/2019 SD
     const BUTTONS = [
@@ -100,7 +91,7 @@ console.log("TCL: props", props)
 
     // const ternbg = `? {backgroundColor: "black"} : {backgroundColor:white}`
 
-    console.log('TCL: qrcode', qrcode)
+    
     //SUBMIT HANDLER 10/24/2019 SD
     const handleSubmit = () => {
         const editMutation = `mutation {
@@ -125,21 +116,19 @@ console.log("TCL: props", props)
         }).then(res => {
             console.log('response submit', res)
             props.navigation.navigate('WorkOrderList', {sentFrom:'EditWorkOrder', token:token})
-            props.navigation.dispatch(resetAction);
-            // props.navigation.dispatch(resetAction1);
         })
     }
 
     return (
         <ScrollView>
             <View>
-                <View style={{ marginTop: 15 }}>
+                <View>
                     {/* TITLE TEXT INPUT 12/24/2019 SD */}
                     <TextInput
                         placeholder="What is broken?"
                         onChangeText={setTitle}
                         value={title}
-                        style={wOForm.textInput}
+                        style={[wOForm.textInputGlobal, wOForm.textInputTitle]}
                     />
                 </View>
                 <View>
@@ -148,13 +137,16 @@ console.log("TCL: props", props)
                         placeholder="What's it doing?"
                         onChangeText={setDetail}
                         value={detail}
-                        style={wOForm.textInput}
+                        multiline={true}
+                        editable={true}
+                        onContentSizeChange={(e) => setInputHeight(e.nativeEvent.contentSize.height)}
+                        style={[wOForm.textInputGlobal, wOForm.textInputDesc, {height: inputHeight}]}
                     />
                 </View>
-                <View>
+                <View style={wOForm.priorityContainer}>
                     <View style={wOForm.priorityBar}>
                         <View style={wOForm.pBarTextBox}>
-                            <Text style={wOForm.pBarText}>Priority:</Text>
+                            <Text style={wOForm.pBarText}>Priority</Text>
                         </View>
                         <View style={wOForm.pBarButtonBox}>
                             <TouchableOpacity
@@ -163,9 +155,10 @@ console.log("TCL: props", props)
 
                                     activePriority === 1
                                         ? {
-                                              backgroundColor: '#237804',
+                                              backgroundColor: '#878C90',
                                           }
-                                        : { backgroundColor: 'white' },
+                                        : { backgroundColor: '#F4F3F3' },
+                                    {borderTopLeftRadius: 3.26, borderBottomLeftRadius: 3.26, borderRightWidth: 0}
                                 ]}
                                 onPress={() => {
                                     setPriority('Low')
@@ -174,11 +167,41 @@ console.log("TCL: props", props)
                             >
                                 <Text
                                     style={[
+                                        wOForm.pBarButtonText,
                                         activePriority === 1
                                             ? {
                                                   color: 'white',
                                               }
-                                            : { color: '#237804' },
+                                            : { color: 'black' },
+                                    ]}
+                                >
+                                    None
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[
+                                    wOForm.pBarButton,
+
+                                    activePriority === 2
+                                        ? {
+                                              backgroundColor: '#E2F5FC',
+                                          }
+                                        : { backgroundColor: '#F4F3F3' },
+                                        {borderRightWidth: 0}
+                                ]}
+                                onPress={() => {
+                                    setPriority('Medium')
+                                    setActivePriority(2)
+                                }}
+                            >
+                                <Text
+                                    style={[
+                                        wOForm.pBarButtonText,
+                                        activePriority === 2
+                                            ? {
+                                                  color: '#087FFF',
+                                              }
+                                            : { color: 'black' },
                                     ]}
                                 >
                                     Low
@@ -188,24 +211,25 @@ console.log("TCL: props", props)
                                 style={[
                                     wOForm.pBarButton,
 
-                                    activePriority === 2
+                                    activePriority === 3
                                         ? {
-                                              backgroundColor: '#237804',
+                                              backgroundColor: '#FBF2D7',
                                           }
-                                        : { backgroundColor: 'white' },
+                                        : { backgroundColor: '#F4F3F3' },
                                 ]}
                                 onPress={() => {
-                                    setPriority('Medium')
-                                    setActivePriority(2)
+                                    setPriority('High')
+                                    setActivePriority(3)
                                 }}
                             >
                                 <Text
                                     style={[
-                                        activePriority === 2
+                                        wOForm.pBarButtonText,
+                                        activePriority === 3
                                             ? {
-                                                  color: 'white',
+                                                  color: '#E1AA08',
                                               }
-                                            : { color: '#237804' },
+                                            : { color: 'black' },
                                     ]}
                                 >
                                     Medium
@@ -215,54 +239,31 @@ console.log("TCL: props", props)
                                 style={[
                                     wOForm.pBarButton,
 
-                                    activePriority === 3
-                                        ? {
-                                              backgroundColor: '#237804',
-                                          }
-                                        : { backgroundColor: 'white' },
-                                ]}
-                                onPress={() => {
-                                    setPriority('High')
-                                    setActivePriority(3)
-                                }}
-                            >
-                                <Text
-                                    style={[
-                                        activePriority === 3
-                                            ? {
-                                                  color: 'white',
-                                              }
-                                            : { color: '#237804' },
-                                    ]}
-                                >
-                                    High
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={[
-                                    wOForm.pBarButton,
-
                                     activePriority === 4
                                         ? {
-                                              backgroundColor: '#237804',
+                                              backgroundColor: '#FFD3D3',
                                           }
-                                        : { backgroundColor: 'white' },
+                                        : { backgroundColor: '#F4F3F3' },
+                                        {borderTopRightRadius: 3.26, borderBottomRightRadius: 3.26, borderLeftWidth: 0}
                                 ]}
                                 onPress={() => {
-                                    setPriority('Emergency')
+                                    setPriority('Urgent')
                                     setActivePriority(4)
                                 }}
                             >
+                                
                                 <Text
                                     style={[
+                                        wOForm.pBarButtonText,
                                         activePriority === 4
                                             ? {
-                                                  color: 'white',
+                                                  color: '#FE273A',
                                               }
-                                            : { color: '#237804' },
+                                            : { color: 'black' },
+                                            
                                     ]}
                                 >
-                                    Emergency
+                                    Urgent
                                 </Text>
                             </TouchableOpacity>
                         </View>
@@ -270,7 +271,7 @@ console.log("TCL: props", props)
                 </View>
                 <View style={wOForm.priorityBar}>
                     <View style={wOForm.pBarTextBox}>
-                        <Text style={wOForm.pBarText}>Status: </Text>
+                        <Text style={wOForm.pBarText}>Status</Text>
                     </View>
                     <View style={wOForm.pBarButtonBox}>
                         <TouchableOpacity
@@ -281,20 +282,23 @@ console.log("TCL: props", props)
                                     ? {
                                           backgroundColor: '#237804',
                                       }
-                                    : { backgroundColor: 'white' },
+                                    : { backgroundColor: '#F4F3F3' },
+                                    {borderTopLeftRadius: 3.26, borderBottomLeftRadius: 3.26, borderRightWidth: 0}
                             ]}
                             onPress={() => {
                                 setStatus('Not Started')
                                 setActiveStatus(1)
                             }}
                         >
+                            
                             <Text
                                 style={[
+                                    wOForm.pBarButtonText,
                                     activeStatus === 1
                                         ? {
                                               color: 'white',
                                           }
-                                        : { color: '#237804' },
+                                        : { color: 'black' },
                                 ]}
                             >
                                 Not Started
@@ -317,6 +321,7 @@ console.log("TCL: props", props)
                         >
                             <Text
                                 style={[
+                                    wOForm.pBarButtonText,
                                     activeStatus === 2
                                         ? {
                                               color: 'white',
@@ -336,6 +341,7 @@ console.log("TCL: props", props)
                                           backgroundColor: '#237804',
                                       }
                                     : { backgroundColor: 'white' },
+                                    {borderTopRightRadius: 3.26, borderBottomRightRadius: 3.26, borderLeftWidth: 0}
                             ]}
                             onPress={() => {
                                 setStatus('Complete')
@@ -344,6 +350,7 @@ console.log("TCL: props", props)
                         >
                             <Text
                                 style={[
+                                    wOForm.pBarButtonText,
                                     activeStatus === 3
                                         ? {
                                               color: 'white',
@@ -356,7 +363,7 @@ console.log("TCL: props", props)
                         </TouchableOpacity>
                     </View>
                 </View>
-
+                <View style={wOForm.extraSpace}></View>
                 <Text>Work Order Images (Long Press to Delete)</Text>
                 {/* WORK ORDER IMAGE BOX 12/24/2019 SD */}
                 <View style={wOForm.imageBox}>
@@ -388,7 +395,7 @@ console.log("TCL: props", props)
                     </View>
                     <View style={wOForm.image}>
                         <TouchableOpacity
-                            onLongPress={() => handlePhotoDelete()}
+                            onLongPress={() => {handlePhotoDelete()}}
                         >
                             <Image
                                 style={wOForm.placeholder}
@@ -425,7 +432,7 @@ console.log("TCL: props", props)
                     <Button
                         type="primary"
                         style={wOForm.button}
-                        onPress={handleSubmit}
+                        onPress={() => {handleSubmit()}}
                         color="white"
                     >
                         <Text>Submit</Text>
