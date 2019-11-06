@@ -5,10 +5,10 @@ const VerCode = (props) => {
     const phone = props.navigation.state.params.phone
     const [ver , setVer] = useState()
     handleSubmit = () => {
-        if(ver != 6){
+        if(ver.length != 6){
             alert('Please check your verification code')
         } else {
-            props.navigation.navigate('P2', {phone: phone, verCode:ver})
+            props.navigation.navigate('P3', {phone: phone, verCode:ver})
         }
     }
     return (
@@ -25,7 +25,7 @@ const VerCode = (props) => {
             value={ver}
              />
             <TouchableOpacity style={su2.button} onPress={handleSubmit}><Text style={su2.buttonText}>Sign Up</Text></TouchableOpacity>
-            <Text style={su2.footer}>Contact the Net Giver Team</Text>
+            <Text onPress={() => props.navigation.navigate('Contact')} style={su2.footer}>Contact the Net Giver Team</Text>
 
         </SafeAreaView>
     )
@@ -38,10 +38,12 @@ const su2 = StyleSheet.create({
         fontSize: 22,
         fontWeight: '600',
         marginBottom: 15,
+        fontFamily: "IBMPlexSans-Regular",
     },
     subHead:{
         fontSize: 17,
         fontWeight: '600',
+        fontFamily: "IBMPlexSans-Regular",
     },
     input:{
         backgroundColor: "#edf1f3",
@@ -50,6 +52,7 @@ const su2 = StyleSheet.create({
         marginTop:30,
         marginBottom:35,
         width:"90%",
+        fontFamily: "IBMPlexSans-Regular",
         alignSelf:'center',
         padding: 10,
     },
@@ -64,10 +67,12 @@ const su2 = StyleSheet.create({
     },
     buttonText:{
         alignSelf:'center',
-        color:'white'
+        color:'white',
+        fontFamily: "IBMPlexSans-Regular",
     },
     footer:{
         fontSize: 17,
+        fontFamily: "IBMPlexSans-Regular",
         alignSelf: 'center'
     },
 

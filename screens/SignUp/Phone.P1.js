@@ -3,8 +3,8 @@ import {SafeAreaView, Text, TouchableOpacity, TextInput, Image, StyleSheet} from
 const Phone = (props) => {
     const [phone, setPhone] = useState();
     handleSubmit = () => {
-        if(phone < 10){
-            alert('Please Enter a Phone Number')
+        if(phone.length != 10){
+            alert('Please Enter a Valid Phone Number')
         } else {
             props.navigation.navigate('P2', {phone: phone})
         }
@@ -26,7 +26,7 @@ const Phone = (props) => {
             value={phone}
              />
             <TouchableOpacity style={su1.button} onPress={handleSubmit}><Text style={su1.buttonText}>Get Started</Text></TouchableOpacity>
-            <Text style={su1.subHead}>Contact the Net Giver Team</Text>
+            <Text onPress={() => props.navigation.navigate('Contact')} style={su1.subHead}>Contact the Net Giver Team</Text>
 
         </SafeAreaView>
     )
@@ -44,10 +44,12 @@ const su1 = StyleSheet.create({
         fontSize: 24,
         alignSelf: 'center',
         marginBottom: 15,
+        fontFamily: "IBMPlexSans-Regular",
     },
     subHead:{
         fontSize: 17,
         alignSelf: 'center',
+        fontFamily: "IBMPlexSans-Regular",
     },
     input:{
         backgroundColor: "#edf1f3",
@@ -58,6 +60,7 @@ const su1 = StyleSheet.create({
         width:"90%",
         alignSelf:'center',
         padding: 10,
+        fontFamily: "IBMPlexSans-Regular",
     },
     button:{
         alignSelf:'center',
@@ -70,7 +73,8 @@ const su1 = StyleSheet.create({
     },
     buttonText:{
         alignSelf:'center',
-        color:'white'
+        color:'white',
+        fontFamily: "IBMPlexSans-Regular",
     },
 
 
