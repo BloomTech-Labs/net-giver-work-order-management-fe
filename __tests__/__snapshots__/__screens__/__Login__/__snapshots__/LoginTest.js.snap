@@ -1,0 +1,229 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  onLayout={[Function]}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#F5FCFF",
+      "flex": 1,
+      "justifyContent": "center",
+      "paddingBottom": 0,
+      "paddingLeft": 0,
+      "paddingRight": 0,
+      "paddingTop": 20,
+    }
+  }
+>
+  <Image
+    source={1}
+    style={
+      Object {
+        "borderWidth": 2,
+        "bottom": "73.91%",
+        "left": "auto",
+        "position": "absolute",
+        "right": "auto",
+        "top": "9.15%",
+      }
+    }
+  />
+  <Text
+    style={
+      Object {
+        "bottom": "60.62%",
+        "color": "black",
+        "fontFamily": "IBMPlexSans-Medium",
+        "fontSize": 24,
+        "left": "38.93%",
+        "letterSpacing": -0.165,
+        "position": "absolute",
+        "right": "39.2%",
+        "textAlign": "center",
+        "top": "30.28%",
+      }
+    }
+  >
+    Sign In
+  </Text>
+  <Text
+    style={
+      Object {
+        "bottom": "57.97%",
+        "color": "black",
+        "fontFamily": "IBMPlexSans-Regular",
+        "fontSize": 17,
+        "left": "14.67%",
+        "lineHeight": 16,
+        "position": "absolute",
+        "right": "14.67%",
+        "textAlign": "center",
+        "top": "37.93%",
+      }
+    }
+  >
+    And leave your paperwork behind!
+  </Text>
+  <TextInput
+    allowFontScaling={true}
+    autoCapitalize="none"
+    name="username"
+    onChangeText={[Function]}
+    onFocus={[Function]}
+    placeholder="UserName"
+    rejectResponderTermination={true}
+    style={
+      Object {
+        "backgroundColor": "#EDF1F3",
+        "borderRadius": 4,
+        "borderWidth": 1,
+        "bottom": "46.48%",
+        "color": "black",
+        "fontFamily": "IBMPlexSans-Regular",
+        "left": "4.27%",
+        "padding": 10,
+        "position": "absolute",
+        "right": "4.27%",
+        "top": "45.28%",
+      }
+    }
+    underlineColorAndroid="transparent"
+  />
+  <View
+    accessible={true}
+    isTVSelectable={true}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#00830B",
+        "borderBottomWidth": null,
+        "borderColor": "black",
+        "borderLeftWidth": null,
+        "borderRadius": 4,
+        "borderRightWidth": null,
+        "borderTopWidth": null,
+        "borderWidth": 1,
+        "bottom": "35.08%",
+        "elevation": 2,
+        "flexDirection": "row",
+        "height": 45,
+        "justifyContent": "space-between",
+        "left": "4.27%",
+        "opacity": 1,
+        "paddingBottom": 6,
+        "paddingTop": 6,
+        "position": "absolute",
+        "right": "4.27%",
+        "shadowColor": undefined,
+        "shadowOffset": undefined,
+        "shadowOpacity": undefined,
+        "shadowRadius": undefined,
+        "top": "58.17%",
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#FFFFFF",
+          "fontFamily": "IBMPlexSans-Regular",
+          "fontSize": 17,
+          "marginLeft": "auto",
+          "marginRight": "auto",
+        }
+      }
+    >
+      Sign In
+    </Text>
+  </View>
+  <Text
+    style={
+      Object {
+        "bottom": "25.08%",
+        "left": "auto",
+        "position": "absolute",
+        "right": "auto",
+        "top": "67.17%",
+      }
+    }
+  >
+    Don't Have an Account?
+  </Text>
+  <View
+    accessible={true}
+    isTVSelectable={true}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#00830B",
+        "borderBottomWidth": null,
+        "borderColor": "#EDF1F3",
+        "borderLeftWidth": null,
+        "borderRadius": 4,
+        "borderRightWidth": null,
+        "borderTopWidth": null,
+        "borderWidth": 1,
+        "bottom": "25.08%",
+        "elevation": 2,
+        "flexDirection": "row",
+        "height": 45,
+        "justifyContent": "space-between",
+        "left": "4.27%",
+        "opacity": 1,
+        "paddingBottom": 6,
+        "paddingTop": 6,
+        "position": "absolute",
+        "right": "4.27%",
+        "shadowColor": undefined,
+        "shadowOffset": undefined,
+        "shadowOpacity": undefined,
+        "shadowRadius": undefined,
+        "top": "72.17%",
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#FFFFFF",
+          "fontFamily": "IBMPlexSans-Regular",
+          "fontSize": 17,
+          "marginLeft": "auto",
+          "marginRight": "auto",
+        }
+      }
+    >
+      Sign Up
+    </Text>
+  </View>
+  <Text
+    style={
+      Object {
+        "bottom": "10.49%",
+        "fontFamily": "IBMPlexSans-Regular",
+        "fontSize": 17,
+        "left": "auto",
+        "position": "absolute",
+        "right": "auto",
+        "top": "85.41%",
+      }
+    }
+  >
+    Contact The Netgiver Team
+  </Text>
+</View>
+`;

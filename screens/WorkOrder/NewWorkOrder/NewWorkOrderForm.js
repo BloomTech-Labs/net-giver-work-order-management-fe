@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from "react";
 import {
     ScrollView,
     View,
@@ -25,56 +25,96 @@ import {
     Content,
     Text,
 } from 'native-base'
-import { Icon } from 'react-native-elements'
-// import { token } from '../../../token'
-import axios from 'axios'
-// import { wOForm } from '../../../components/Styles'
-// import {token} from '../../../token'
-import { StackActions, NavigationActions } from 'react-navigation'
-import { UserContext } from '../../../context/userState'
-import { wOList } from '../../../components/Styles'
+import { Icon } from "react-native-elements";
+import axios from "axios";
+import { wOList } from "../../../components/Styles";
+import { StackActions, NavigationActions } from "react-navigation";
+import { gql } from "apollo-boost";
+import { useApolloClient, useMutation } from "@apollo/react-hooks";
+
+
+export const EDIT_WORK_ORDER = gql`
+  mutation editWorkOrder(
+    $qrcode: String!
+    $detail: String!
+    $priority: String
+    $status: String
+    $title: String!
+  ) {
+    editWorkorder(
+      qrcode: $qrcode
+      detail: $detail
+      priority: $priority
+      status: $status
+      title: $title
+    ) {
+      qrcode
+      detail
+      priority
+      status
+      title
+    }
+  }
+`;
+export const UPLOAD_ORDER_PHOTO = gql`
+  mutation uploadPhoto(
+    $photo: String!
+    $workorderId: ID!
+    $primaryPhoto: Boolean!
+    $commentId: ID
+  ) {
+    uploadPhoto(
+      photo: $photo
+      workorderId: $workorderId
+      primaryPhoto: $primaryPhoto
+      commentId: $commentId
+    ) {
+      path
+    }
+  }
+`;
+
+const placeholderUri =
+  "http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image";
+
 const NewWorkOrderForm = props => {
-    const { user } = useContext(UserContext)
-    const token = user.token
+    const [photo, setPhoto] = useState(
+        {
+          uri: placeholderUri,
+          type: null,
+          name: null
+        }
+    );
+
+    const [workorderphoto, setWorkorderphoto] = useState(photo.uri);
+    const [priority, setPriority] = useState('Low');
+    const [status, setStatus] = useState('In Progress');
+    const [title, setTitle] = useState('');
+    const [detail, setDetail] = useState('');
+    //const [workorderphotos, setWorkorderphotos] = useState(wo.workorderphotos);
+    
     const resetAction = StackActions.reset({
         index: 0,
-        actions: [NavigationActions.navigate({ routeName: 'WorkOrderList' })],
-    })
-    const resetAction1 = StackActions.reset({
+        key: null,
+        actions: [NavigationActions.navigate({ routeName: "WorkOrderList" })]
+      });
+      const resetAction1 = StackActions.reset({
         index: 0,
-        actions: [NavigationActions.navigate({ routeName: 'BarCodeScanner' })],
-    })
-    console.log('TCL: props', props)
-    // SET PLACEHOLDER IMAGES TO STATE 10/24/2019 SD
-    const [photoUri, setPhotoUri] = useState(
-        'http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image'
-    )
-    useEffect(() => {
-        setPhotoUri(
-            props.navigation.getParam(
-                'uri',
-                'http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image'
-            )
-        )
-    }, [])
+        
+        actions: [NavigationActions.navigate({ routeName: "BarCodeScanner" })]
+      });
 
-    //SET CLICKED TO STATE FOR ACTIONsHEET (CAMERA FUNCTIONS) 10/24/2019 SD
-    const [clicked, setClicked] = useState()
-    // SET PRIORITY 10/24/2019 SD
-    const [priority, setPriority] = useState('Low')
-    // SET STATUS 10/24/2019 SD
-    const [status, setStatus] = useState('Not Started')
-    //SET TITLE 10/24/2019 SD
-    const [title, setTitle] = useState()
-    //SET DETAIL 10/24/2019 SD`
-    const [detail, setDetail] = useState()
-    //SET BUTTONS AND CANCEL_INDEX FOR ACTIONSHEET 12/24/2019 SD
-    const BUTTONS = [
-        { text: 'Take Picture with Camera' },
-        { text: 'Use Existing Photo' },
-        { text: 'Cancel' },
-    ]
-    const CANCEL_INDEX = 2
+    //SET QR CODE FROM PROPS 10/24/2019 SD
+    const { qrcode } = props.navigation.state.params.qrcode //12345555
+
+    console.log(qrcode);
+    const { workOrderId } = props.navigation.state.params.qrcode //1
+  
+    //console.log("TCL: qrcode", qrcode);
+    //SUBMIT HANDLER 10/24/2019 SD
+    const [editWorkOrder, { data, loading, error }] = useMutation(
+        EDIT_WORK_ORDER
+    );
 
     /*
     const statusArray = [
@@ -127,100 +167,27 @@ const NewWorkOrderForm = props => {
             backgroundColor: '#FFD3D3',
         },
     ]
-    //SET QR CODE FROM PROPS 10/24/2019 SD
-    const { qrCode } = 7
-    // props.navigation.state.params.qrCode
-    console.log('TCL: qrCode', qrCode)
-    //SUBMIT HANDLER 10/24/2019 SD
 
     const handleSubmit = () => {
-        const editMutation = `mutation {
-            editWorkorder( qrcode: "${qrCode}", detail: "${detail}", priority: "${priority}", status: "${status}", title: "${title}"){
-              qrcode
-              detail
-              priority
-              status
-              title
-            }
-          }`
-        axios({
-            method: 'post',
-            url: 'https://netgiver-stage.herokuapp.com/graphql',
-            headers: {
-                'x-token': token,
-            },
-            data: {
-                query: editMutation,
-            },
-        }).then(res => {
-            console.log('response submit', res)
-            props.navigation.dispatch(resetAction1)
-            props.navigation.navigate('WorkOrderList', {
-                sentFrom: 'NewWorkOrder',
-                token: token,
-            })
-            props.navigation.dispatch(resetAction)
-        })
-            .then(res => {
-                console.log('response submit', res)
-                props.navigation.dispatch(resetAction1)
-                props.navigation.navigate('WorkOrderList', {
-                    sentFrom: 'NewWorkOrder',
-                    token: token,
-                })
-                props.navigation.dispatch(resetAction)
-            })
-            .then(res => {
-                const apiUrl = 'https://netgiver-stage.herokuapp.com/graphql'
-                const query = `mutation($photo: Upload!) { uploadWorkorderphoto(photo: ${photoUri}, workorderId: ${workOrderId}, primaryPhoto: true) { path, filename, workorderId, primaryPhoto, photocount, userId } }",
-                "variables": {
-                    "photo": null
-                }`
 
-                let fileName = photoUri.split('/').pop()
-                let match = /\.(\w+)$/.exec(fileName)
-                let mimeType = match ? `image/${match[1]}` : `image`
+        editWorkOrder({
+          variables: {
+            qrcode: qrcode,
+            title: title,
+            detail: detail,
+            status: status,
+            priority: priority
+          }
+        });
 
-                let data = {
-                    query,
-                    variables: { photo: null },
-                    operationName: null,
-                }
-                let fileMap = {}
-                fileMap[0] = ['variables.photo']
+    
+      };
 
-                let body = new FormData()
+      console.log("WORK ORDER NEW")
+    
 
-                body.append('operations', JSON.stringify(data))
-                body.append('map', JSON.stringify(fileMap))
-                body.append(0, {
-                    uri: photoUri,
-                    name: fileName,
-                    type: mimeType,
-                })
 
-                axios
-                    .post(apiUrl, body, {
-                        headers: {
-                            'x-token': token,
-                            Accept: 'application/json',
-                            'Content-Type': 'multipart/form-data',
-                        },
-                    })
-                    .then(res => {
-                        console.log('response submit', res)
-                        // props.navigation.dispatch(resetAction1)
-                        props.navigation.navigate('WorkOrderList', {
-                            sentFrom: 'NewWorkOrder',
-                            token: token,
-                        })
-                        // props.navigation.dispatch(resetAction)
-                    })
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }
+    
     return (
         <ScrollView style={{ backgroundColor: '#f8f5f4' }}>
             <View>
@@ -297,12 +264,12 @@ const NewWorkOrderForm = props => {
                         return (
                             // THIS IS FOR STYLING UPDATE PRIORITY
                             <TouchableOpacity
-                                onPress={() => setPriority(item.type)}
+                                onPress={() => setPriority(item.name)}
                                 style={[
                                     wOForm.priorityButtons,
                                     {
                                         backgroundColor:
-                                            priority === item.type
+                                            priority === item.name
                                                 ? item.backgroundColor
                                                 : '#F4F3F3',
                                     },
@@ -313,7 +280,7 @@ const NewWorkOrderForm = props => {
                                         wOForm.priorityButtonsText,
                                         {
                                             color:
-                                                priority === item.type
+                                                priority === item.name
                                                     ? item.color
                                                     : '#89898E',
                                         },
@@ -330,7 +297,7 @@ const NewWorkOrderForm = props => {
                 <Button
                     type="primary"
                     style={wOForm.button}
-                    onPress={handleSubmit}
+                    onPress={() => {handleSubmit()}}
                     color="white"
                 >
                     <Text>Submit</Text>

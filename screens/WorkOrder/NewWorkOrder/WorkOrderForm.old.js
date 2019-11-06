@@ -69,7 +69,7 @@ function Form(props) {
         { text: 'Cancel' },
     ]
     const CANCEL_INDEX = 2
-    // const qrcode = props.navigation.state.params.qrCode
+    // const qrcode = props.navigation.state.params.qrcode
     return (
         <ScrollView>
             <View>
@@ -227,8 +227,8 @@ function Form(props) {
 }
 
 function WorkOrderForm(props) {
-    // const {qrCode} = props.navigation.state.params.qrCode
-    // const { qrCode } = 7
+    // const {qrcode} = props.navigation.state.params.qrcode
+    // const { qrcode } = 7
 
     // console.log('TCL: WorkOrderForm -> props', props)
     var schema = Yup.object().shape({
@@ -250,7 +250,7 @@ function WorkOrderForm(props) {
                         detail: '',
                         priority: '',
                         status: '',
-                        qrcode: qrCode,
+                        qrcode: qrcode,
                     }}
                     onSubmit={(values, formikBag, props) => {
                         // console.log("on submit props", props)
