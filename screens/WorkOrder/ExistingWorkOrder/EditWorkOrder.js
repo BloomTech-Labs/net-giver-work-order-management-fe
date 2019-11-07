@@ -9,236 +9,352 @@ import {
   SafeAreaView,
   Picker,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  ActivityIndicator
 } from "react-native";
-import {
-  Container,
-  Header,
-  Left,
-  Body,
-  Right,
-  Button,
-  ActionSheet,
-  Icon,
-  Title,
-  Segment,
-  Content,
-  Text
-} from "native-base";
-import { wOForm } from "../../../components/Styles";
+import { Field, Formik } from "formik";
+import { Text } from "native-base";
+import { Icon, Button, ButtonGroup } from "react-native-elements";
+import { wOForm, wOList, styles } from "../../../components/Styles";
 import { StackActions, NavigationActions } from "react-navigation";
-// import {token} from '../../../token'
-const EditWorkOrder = props => {
-  const { navigation } = props;
-  const [wo, setWo] = useState(navigation.getParam("wo", "no wo"));
-  const [clicked, setClicked] = useState();
-  const [priority, setPriority] = useState(wo.priority);
-  const [status, setStatus] = useState(wo.status);
-  const [title, setTitle] = useState(wo.title);
-  const [detail, setDetail] = useState(wo.detail);
-  const [workorderphotos, setWorkorderphotos] = useState(wo.workorderphotos);
+import { useMutation } from "@apollo/react-hooks";
+import gql from "graphql-tag";
+import { PictureField } from "../../../components/shared/PictureField";
+import { CameraField } from "../../../components/shared/CameraField";
 
-  const resetAction = StackActions.reset({
-    index: 0,
-    actions: [NavigationActions.navigate({ routeName: "WorkOrderList" })]
-  });
-  const resetAction1 = StackActions.reset({
-    index: 0,
-    actions: [NavigationActions.navigate({ routeName: "EditWorkOrder" })]
-  });
-  const handleSubmit = () => {
-    return null;
-  };
+const EDIT_WO = gql`
+  mutation editWorkorder(
+    $qrcode: String!
+    $id: ID!
+    $detail: String
+    $priority: String
+    $status: String
+    $title: String
+  ) {
+    editWorkorder(
+      qrcode: $qrcode
+      id: $id
+      detail: $detail
+      priority: $priority
+      status: $status
+      title: $title
+    ) {
+      id
+      detail
+      createdAt
+      qrcode
+      priority
+      status
+      title
+      user {
+        username
+      }
+      workorderphoto {
+        path
+      }
+    }
+  }
+`;
 
-  // SET PLACEHOLDER IMAGES TO STATE 10/24/2019 SD
+const WO_PIC = gql`
+  mutation uploadWorkorderphoto($photo: Upload!, $workorderId: ID!) {
+    uploadWorkorderphoto(photo: $photo, workorderId: $workorderId) {
+      userId
+      filename
+      path
+    }
+  }
+`;
+
+const updateWo = async ({
+  values,
+  editWorkorder,
+  uploadWorkorderphoto,
+  navigation
+}) => {
+  if (values.photo.uri) {
+    console.log(values.photo);
+    const picresult = await uploadWorkorderphoto({
+      variables: {
+        photo: values.photo,
+        workorderId: values.id
+      }
+    });
+    const editresult = await editWorkorder({
+      variables: {
+        id: values.id,
+        qrcode: values.qrcode,
+        detail: values.detail,
+        priority: values.priority,
+        status: values.status,
+        title: values.title
+      }
+    });
+    navigation.goBack();
+  }
+  const editresult = await editWorkorder({
+    variables: {
+      id: values.id,
+      qrcode: values.qrcode,
+      detail: values.detail,
+      priority: values.priority,
+      status: values.status,
+      title: values.title
+    }
+  });
+
+  // if (get(editresult, "data.workorder")) {
+  //   // navigation.goBack();
+  //   null;
+  // }
+
+  navigation.goBack();
+};
+
+const EditWorkOrder = ({ navigation }) => {
+  const {
+    id,
+    qrcode,
+    detail,
+    priority,
+    status,
+    title,
+    user,
+    user: { username },
+    workorderphoto
+  } = navigation.state.params;
+
+  const [wo, setWo] = useState({
+    id: id,
+    detail: detail
+  });
+  const [editWorkorder, { loading, error }] = useMutation(EDIT_WO, {});
+
+  const [uploadWorkorderphoto, { picloading, picerror }] = useMutation(
+    WO_PIC,
+    {}
+  );
   const img1 =
     "http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image";
 
-  const img2 =
-    "http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image";
-  const img3 =
-    "http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image";
-
-  //SET CLICKED TO STATE FOR ACTIONsHEET (CAMERA FUNCTIONS) 10/24/2019 SD
-
-  //SET BUTTONS AND CANCEL_INDEX FOR ACTIONSHEET 12/24/2019 SD
-  const BUTTONS = [
-    { text: "Take Picture with Camera" },
-    { text: "Use Existing Photo" },
-    { text: "Cancel" }
-  ];
-  const CANCEL_INDEX = 2;
-  //SET QR CODE FROM PROPS 10/24/2019 SD
-
   return (
-    <ScrollView>
-      <View>
-        <View style={{ marginTop: 15 }}>
-          <TextInput
-            placeholder="What is broken?"
-            name="title"
-            value={title}
-            onChangeText={setTitle}
-            style={wOForm.textInput}
-          />
-        </View>
-        <View>
-          <TextInput
-            // DETAIL TEXT INPUT 12/24/2019 SD
-            placeholder="What's it doing?"
-            onChangeText={setDetail}
-            value={detail}
-            style={wOForm.textInput}
-          />
-        </View>
-        <View>
-          <View style={wOForm.priorityBar}>
-            <View style={wOForm.pBarTextBox}>
-              <Text style={wOForm.pBarText}>Priority:</Text>
+    <Formik
+      initialValues={{
+        id: id,
+        qrcode: qrcode,
+        detail: detail,
+        priority: priority,
+        status: status,
+        title: title,
+        workorderphoto: workorderphoto,
+        photo: {}
+      }}
+      onSubmit={async values =>
+        updateWo({
+          values,
+          editWorkorder,
+          uploadWorkorderphoto,
+          navigation
+        })}
+      render={({
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        values,
+        setFieldValue
+      }) =>
+        <ScrollView style={{ backgroundColor: "#f8f5f4" }}>
+          <View>
+            <View style={{ marginTop: 15 }}>
+              <TextInput
+                onChangeText={handleChange("title")}
+                onBlur={handleBlur("title")}
+                value={values.title}
+                placeholder="Work Order Title*"
+                style={wOForm.textInput}
+              />
             </View>
-            <View style={wOForm.pBarButtonBox}>
-              <TouchableOpacity
-                style={wOForm.pBarButton}
-                onPress={() => setPriority("N/A")}
-              >
-                <Text>N/A</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={wOForm.pBarButton}
-                onPress={() => setPriority("Low")}
-              >
-                <Text>Low</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={wOForm.pBarButton}
-                onPress={() => setPriority("Medium")}
-              >
-                <Text>Medium</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={wOForm.pBarButton}
-                onPress={() => setPriority("High")}
-              >
-                <Text>High</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={wOForm.pBarButton}
-                onPress={() => setPriority("Emergency")}
-              >
-                <Text>Emergency</Text>
-              </TouchableOpacity>
+            <View>
+              <TextInput
+                onChangeText={handleChange("detail")}
+                onBlur={handleBlur("detail")}
+                value={values.detail}
+                value={wo.detail}
+                style={wOForm.textInput1}
+              />
             </View>
-          </View>
-        </View>
-        <View style={wOForm.priorityBar}>
-          <View style={wOForm.pBarTextBox}>
-            <Text style={wOForm.pBarText}>Status: </Text>
-          </View>
-          <View style={wOForm.pBarButtonBox}>
-            <TouchableOpacity
-              style={wOForm.pBarButton}
-              onPress={() => setStatus("Not Started")}
-            >
-              <Text>Not Started</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={wOForm.pBarButton}
-              onPress={() => setStatus("In Progress")}
-            >
-              <Text>In Progress</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={wOForm.pBarButton}
-              onPress={() => setStatus("Complete")}
-            >
-              <Text>Complete</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+            <View style={{ backgroundColor: "white", padding: 3 }}>
+              <Text sytle={wOForm.statusText}>Tap to update status:</Text>
+            </View>
+            <View style={wOForm.statusView}>
+              <View style={wOForm.statusDiv}>
+                <Button
+                  onPress={() => setFieldValue("status", "Not Started")}
+                  buttonStyle={wOForm.statusButtons}
+                  titleStyle={wOForm.statusButtonsText}
+                  disabled={values.status === "Not Started"}
+                  disabledStyle={wOForm.statusButtonsActive}
+                  disabledTitleStyle={wOForm.statusButtonsTextActive}
+                  icon={
+                    <Icon
+                      color="black"
+                      type="antdesign"
+                      name="unlock"
+                      size={35}
+                    />
+                  }
+                  title="Not Started"
+                />
+                <Button
+                  onPress={() => setFieldValue("status", "In Progress")}
+                  buttonStyle={wOForm.statusButtons}
+                  titleStyle={wOForm.statusButtonsText}
+                  disabled={values.status === "In Progress"}
+                  disabledStyle={wOForm.statusButtonsActive}
+                  disabledTitleStyle={wOForm.statusButtonsTextActive}
+                  icon={
+                    <Icon
+                      color="black"
+                      type="antdesign"
+                      name="sync"
+                      size={35}
+                    />
+                  }
+                  title="In Progress"
+                />
+                <Button
+                  onPress={() => setFieldValue("status", "Complete")}
+                  buttonStyle={wOForm.statusButtons}
+                  titleStyle={wOForm.statusButtonsText}
+                  disabled={values.status === "Complete"}
+                  disabledStyle={wOForm.statusButtonsActive}
+                  disabledTitleStyle={wOForm.statusButtonsTextActive}
+                  icon={
+                    <Icon
+                      color="black"
+                      type="antdesign"
+                      name="lock"
+                      size={35}
+                    />
+                  }
+                  title="Complete"
+                />
+              </View>
+            </View>
+            <View style={{ backgroundColor: "white" }}>
+              <Text>Tap to update priority:</Text>
+            </View>
+            <View style={wOForm.statusView}>
+              <View style={wOForm.priorityDiv}>
+                <Button
+                  onPress={() => setFieldValue("priority", "Low")}
+                  buttonStyle={wOForm.priorityButtons}
+                  title="Low"
+                  titleStyle={wOForm.priorityButtonsText}
+                  disabled={values.priority === "Low"}
+                  disabledStyle={wOForm.statusButtonsActive}
+                  disabledTitleStyle={wOForm.statusButtonsTextActive}
+                />
+                <Button
+                  onPress={() => setFieldValue("priority", "Medium")}
+                  buttonStyle={wOForm.priorityButtons}
+                  title="Medium"
+                  titleStyle={wOForm.priorityButtonsText}
+                  disabled={values.priority === "Medium"}
+                  disabledStyle={wOForm.statusButtonsActive}
+                  disabledTitleStyle={wOForm.statusButtonsTextActive}
+                />
+                <Button
+                  onPress={() => setFieldValue("priority", "High")}
+                  buttonStyle={wOForm.priorityButtons}
+                  title="High"
+                  titleStyle={wOForm.priorityButtonsText}
+                  disabled={values.priority === "High"}
+                  disabledStyle={wOForm.statusButtonsActive}
+                  disabledTitleStyle={wOForm.statusButtonsTextActive}
+                />
+              </View>
+            </View>
+            <View style={wOForm.imgCard}>
+              <View style={wOForm.imgCardTop}>
+                <Text>Tap on image to upload.</Text>
+              </View>
+              <View style={wOForm.imgCardBot}>
+                <TouchableOpacity style={wOForm.touchImage}>
+                  {values.photo.uri
+                    ? <Image
+                        style={wOForm.imgUpload}
+                        source={{
+                          uri: values.photo.uri
+                        }}
+                      />
+                    : values.workorderphoto
+                      ? <Image
+                          style={wOForm.imgUpload}
+                          source={{
+                            uri: values.workorderphoto.path
+                          }}
+                        />
+                      : <Image
+                          style={wOForm.imgUpload}
+                          source={{
+                            uri: img1
+                          }}
+                        />}
+                  <Field
+                    name="photo"
+                    title="pick a picture"
+                    component={PictureField}
+                    style={wOForm.imgUpload}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={wOForm.imgCardBot}>
+                <TouchableOpacity style={wOForm.touchImage}>
+                  {values.photo.uri
+                    ? <Image
+                        style={wOForm.imgUpload}
+                        source={{
+                          uri: values.photo.uri
+                        }}
+                      />
+                    : values.workorderphoto
+                      ? <Image
+                          style={wOForm.imgUpload}
+                          source={{
+                            uri: values.workorderphoto.path
+                          }}
+                        />
+                      : <Image
+                          style={wOForm.imgUpload}
+                          source={{
+                            uri: img1
+                          }}
+                        />}
+                  <Field
+                    name="photo"
+                    title="take a picture"
+                    component={CameraField}
+                    style={wOForm.imgUpload}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
 
-        <Text>Work Order Images (Long Press to Delete)</Text>
-        <View style={wOForm.imageBox}>
-          <View style={wOForm.image}>
-            {/* TURN IMAGE INTO BUTTON WITH LONGPRESS THAT WILL DELETE THE PHOTO
-                            DELETE NEEDS FUNCTIONALITY 12/24/2019 SD */}
-            <TouchableOpacity onLongPress={() => handlePhotoDelete()}>
-              {workorderphotos && workorderphotos[0]
-                ? <Image
-                    style={wOForm.placeholder}
-                    source={{ uri: workorderphotos[0].path }}
-                  />
-                : <Image
-                    style={wOForm.placeholder}
-                    source={{
-                      uri: img1
-                    }}
-                  />}
-            </TouchableOpacity>
+            <View>
+              <Button
+                type="outline"
+                onPress={handleSubmit}
+                color="white"
+                title="Submit"
+                raised={true}
+              >
+                <Text>Submit</Text>
+              </Button>
+            </View>
           </View>
-          <View style={wOForm.image}>
-            <TouchableOpacity onLongPress={() => handlePhotoDelete()}>
-              {workorderphotos[1]
-                ? <Image
-                    style={wOForm.placeholder}
-                    source={{ uri: workorderphotos[1].path }}
-                  />
-                : <Image
-                    style={wOForm.placeholder}
-                    source={{
-                      uri: img1
-                    }}
-                  />}
-            </TouchableOpacity>
-          </View>
-          <View style={wOForm.image}>
-            <TouchableOpacity onLongPress={() => handlePhotoDelete()}>
-              {workorderphotos[2]
-                ? <Image
-                    style={wOForm.placeholder}
-                    source={{ uri: workorderphotos[2].path }}
-                  />
-                : <Image
-                    style={wOForm.placeholder}
-                    source={{
-                      uri: img1
-                    }}
-                  />}
-            </TouchableOpacity>
-          </View>
-        </View>
-        <Content padder>
-          {/* ACTIONSHEET HAS CAMERA BUTTONS IN IT TO REDIRECT TO CAMERA 10/24/2019 SD */}
-          <Button
-            bordered
-            danger
-            onPress={() =>
-              ActionSheet.show(
-                {
-                  options: BUTTONS,
-                  cancelButtonIndex: CANCEL_INDEX,
-                  title: "Choose a Photo"
-                },
-                buttonIndex => {
-                  setClicked(BUTTONS[buttonIndex]);
-                }
-              )}
-          >
-            <Text>Choose a Photo</Text>
-          </Button>
-        </Content>
-        <View>
-          {/* SUBMIT BUTTON 10/24/2019 SD */}
-          <Button
-            type="primary"
-            style={wOForm.button}
-            onPress={handleSubmit}
-            color="white"
-          >
-            <Text>Submit</Text>
-          </Button>
-        </View>
-      </View>
-    </ScrollView>
+        </ScrollView>}
+    />
   );
 };
 

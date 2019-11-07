@@ -26,7 +26,7 @@ const CREATE_WORK_ORDER = gql`
       user {
         username
       }
-      workorderphotos {
+      workorderphoto {
         path
       }
     }
@@ -38,9 +38,7 @@ const CheckBarCode = props => {
   const [createWorkorder, { loading, error }] = useMutation(CREATE_WORK_ORDER, {
     onCompleted({ createWorkorder }) {
       const qrcode = createWorkorder.qrcode;
-      props.navigation.navigate("NewWorkOrder", {
-        qrcode: createWorkorder
-      });
+      props.navigation.navigate("EditWorkOrder", { ...createWorkorder });
     }
   });
 
