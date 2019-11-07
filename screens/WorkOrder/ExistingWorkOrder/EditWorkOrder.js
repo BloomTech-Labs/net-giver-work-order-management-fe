@@ -39,6 +39,7 @@ const EDIT_WO = gql`
       status: $status
       title: $title
     ) {
+      id
       detail
       createdAt
       qrcode
@@ -71,6 +72,26 @@ const updateWo = async ({
   uploadWorkorderphoto,
   navigation
 }) => {
+  if (values.photo.uri) {
+    console.log(values.photo);
+    const picresult = await uploadWorkorderphoto({
+      variables: {
+        photo: values.photo,
+        workorderId: values.id
+      }
+    });
+    const editresult = await editWorkorder({
+      variables: {
+        id: values.id,
+        qrcode: values.qrcode,
+        detail: values.detail,
+        priority: values.priority,
+        status: values.status,
+        title: values.title
+      }
+    });
+    navigation.goBack();
+  }
   const editresult = await editWorkorder({
     variables: {
       id: values.id,
@@ -86,15 +107,7 @@ const updateWo = async ({
   //   // navigation.goBack();
   //   null;
   // }
-  if (values.photo.uri) {
-    console.log(values.photo);
-    const picresult = await uploadWorkorderphoto({
-      variables: {
-        photo: values.photo,
-        workorderId: values.id
-      }
-    });
-  }
+
   navigation.goBack();
 };
 
