@@ -15,7 +15,8 @@ import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { wOList, styles } from "../../components/Styles";
 
-import { token } from "../../token";
+import EditWorkOrder from "./ExistingWorkOrder/EditWorkOrder";
+
 import { StackActions, NavigationActions } from "react-navigation";
 import { conditionalExpression } from "@babel/types";
 
@@ -50,6 +51,10 @@ const WorkOrderListView = props => {
   const { data, loading, error } = useQuery(GET_WORKORDERS, {
     variables: { limit: 5 }
   });
+  const [selectedWo, setSelectedWo] = useState(null);
+
+  const goToWo = workorder =>
+    props.navigation.push("EditWorkOrder", { ...workorder });
 
   if (loading)
     return (
@@ -71,24 +76,15 @@ const WorkOrderListView = props => {
     );
   return (
     <ScrollView>
-      {data.workorders.edges.map(res =>
-        <TouchableOpacity
-          key={res.id}
-          onPress={() =>
-            props.navigation.push("EditWorkOrder", {
-              wo: res,
-              id: 186
-            })}
-        >
-          {/* BUILD THE WORKORDER CARD 10/24/2019 SD */}
-          {/* 3 FLEX COLUMNS */}
+      {selectedWo && <EditWorkOrder data={selectedWo} />}
+      {data.workorders.edges.map(workorder =>
+        <TouchableOpacity key={workorder.id} onPress={() => goToWo(workorder)}>
           <View style={wOList.card}>
-            {/* FLEX COLUMN 1 LEFT HOLDS THE IMAGE FLEX SET TO 2 10/24/2019 SD */}
             <View style={wOList.cardLeft}>
-              {res.workorderphoto
+              {workorder.workorderphoto
                 ? <Image
                     style={wOList.image}
-                    source={{ uri: res.workorderphotos[0].path }}
+                    source={{ uri: workorder.workorderphotos[0].path }}
                   />
                 : <Image
                     style={wOList.image}
@@ -98,20 +94,19 @@ const WorkOrderListView = props => {
                     }}
                   />}
             </View>
-            {/* FLEX COLUMN 2 MIDDLE HOLDS THE WORK ORDER INFORMATION FLEX SET TO 4 10/24/2019 SD */}
             <View style={wOList.cardMiddle}>
               <Text style={wOList.title}>
-                {res.title}
+                {workorder.title}
               </Text>
               <Text>Requested by:</Text>
               <Text>
-                {res.user.username}
+                {workorder.user.username}
               </Text>
             </View>
             {/* FLEX COLUMN 3 RIGHT HOLDS THE PRIORITY/STATUS BADGES FLEX SET TO 2 10/24/2019 SD */}
             <View style={wOList.cardRight}>
               <Text>Priority:</Text>
-              {res.priority === "N/A"
+              {workorder.priority === "N/A"
                 ? <View
                     style={{
                       backgroundColor: "green",
@@ -120,11 +115,11 @@ const WorkOrderListView = props => {
                     }}
                   >
                     <Text style={{ textAlign: "center" }}>
-                      {res.priority}
+                      {workorder.priority}
                     </Text>
                   </View>
                 : <View />}
-              {res.priority === "Low"
+              {workorder.priority === "Low"
                 ? <View
                     style={{
                       backgroundColor: "black",
@@ -133,11 +128,11 @@ const WorkOrderListView = props => {
                     }}
                   >
                     <Text style={{ color: "white", textAlign: "center" }}>
-                      {res.priority}
+                      {workorder.priority}
                     </Text>
                   </View>
                 : <View />}
-              {res.priority === "Medium"
+              {workorder.priority === "Medium"
                 ? <View
                     style={{
                       backgroundColor: "orange",
@@ -146,11 +141,11 @@ const WorkOrderListView = props => {
                     }}
                   >
                     <Text style={{ textAlign: "center" }}>
-                      {res.priority}
+                      {workorder.priority}
                     </Text>
                   </View>
                 : <View />}
-              {res.priority === "High"
+              {workorder.priority === "High"
                 ? <View
                     style={{
                       backgroundColor: "purple",
@@ -159,11 +154,11 @@ const WorkOrderListView = props => {
                     }}
                   >
                     <Text style={{ textAlign: "center" }}>
-                      {res.priority}
+                      {workorder.priority}
                     </Text>
                   </View>
                 : <View />}
-              {res.priority === "Emergency"
+              {workorder.priority === "Emergency"
                 ? <View
                     style={{
                       backgroundColor: "red",
@@ -172,12 +167,12 @@ const WorkOrderListView = props => {
                     }}
                   >
                     <Text style={{ textAlign: "center" }}>
-                      {res.priority}
+                      {workorder.priority}
                     </Text>
                   </View>
                 : <View />}
               <Text>Status:</Text>
-              {res.status === "Not Started"
+              {workorder.status === "Not Started"
                 ? <View
                     style={{
                       backgroundColor: "red",
@@ -186,11 +181,11 @@ const WorkOrderListView = props => {
                     }}
                   >
                     <Text style={{ textAlign: "center" }}>
-                      {res.status}
+                      {workorder.status}
                     </Text>
                   </View>
                 : <View />}
-              {res.status === "In Progress"
+              {workorder.status === "In Progress"
                 ? <View
                     style={{
                       backgroundColor: "orange",
@@ -199,11 +194,11 @@ const WorkOrderListView = props => {
                     }}
                   >
                     <Text style={{ textAlign: "center" }}>
-                      {res.status}
+                      {workorder.status}
                     </Text>
                   </View>
                 : <View />}
-              {res.status === "Complete"
+              {workorder.status === "Complete"
                 ? <View
                     style={{
                       backgroundColor: "green",
@@ -212,7 +207,7 @@ const WorkOrderListView = props => {
                     }}
                   >
                     <Text style={{ textAlign: "center" }}>
-                      {res.status}
+                      {workorder.status}
                     </Text>
                   </View>
                 : <View />}
