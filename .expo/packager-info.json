@@ -1,6 +1,9 @@
 {
-  "expoServerPort": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "expoServerPort": 19000,
+  "expoServerNgrokUrl": "https://df-3ra.anonymous.net-giver-work-order-management-fe.exp.direct",
+  "packagerNgrokUrl": "https://packager.df-3ra.anonymous.net-giver-work-order-management-fe.exp.direct",
+  "ngrokPid": 15302,
+  "devToolsPort": 19002,
+  "packagerPort": 19004,
+  "packagerPid": 15289
 }
