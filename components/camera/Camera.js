@@ -12,61 +12,15 @@ import * as Permissions from 'expo-permissions'
 import { Camera } from 'expo-camera'
 import { Ionicons } from '@expo/vector-icons'
 
-// How this component works:
-// (1) Check camera permissions -- if granted move on, if not request them.
-// (2) Sub-component layout
-// +-----------------------------------+
-// |  TopButtons                       |
-// |                                   |
-// |  +---------+    +--------------+  |
-// |  FlashButton    CameraTypeButton  |
-// |  +---------+    +--------------+  |
-// |                                   |
-// +-----------------------------------+
-// |  CameraView                       |
-// |                                   |
-// |       +----+      +-------+       |
-// |       Camera--OR--ViewImage       |
-// |       +----+      +-------+       |
-// |                                   |
-// |                                   |
-// +-----------------------------------+
-// |  BottomButtons                    |
-// |                                   |
-// | +-----------+      +------------+ |
-// | CaptureButton--OR--ContentButtons |
-// | +-----------+      +------------+ |
-// |                                   |
-// +-----------------------------------+
-// (3) Check to see if 'uri' is set in state:
-//      (a) 'uri' = null => render Camera
-//      (b) !'uri' = null => render ViewImage
-// (4) Camera buttons
-//      (a) TopButtons: FlashButton & CameraType (front or back)
-//      (b) BottomButtons: CaptureButton
-// (4) CaptureButton calls async function to take photo
-// (5) Base64 code of photo is returned & set to 'uri' state
-// (6) This triggers the conditional at step 3 above - ViewImage is rendered
-// (7) ViewImage buttons
-//      (a) TopButtons: None
-//      (b) BottomButtons: Done (accept photo) & Cancel (setUri(null) -> return to Camera)
-// (8) User returned to component they were at previously
-// (9) TODO -- need to return photo to prior component or send off to server
-// (10) TODO -- return ios user to previous component
-
 const AppCamera = props => {
     const { FlashMode: CameraFlashModes, Type: CameraTypes } = Camera.Constants
     const [hasCameraPermission, setHasCameraPermission] = useState(null)
     const [cameraType, setCameraType] = useState(CameraTypes.back)
     const [flashMode, setFlashMode] = useState(CameraFlashModes.off)
-
-    //Base64 of captured photo
-    const [uri, setUri] = useState("http://placehold.jp/006e13/ffffff/200x250.png?text=Placeholder%20Image")
+    const [uri, setUri] = useState()
     const [photo, setPhoto] = useState({})
-    // May not need anymore - was work around for async issues
+    const [id, setId] = useState(props.navigation.state.params.id);
     const [photoConfirm, setPhotoConfirm] = useState(false)
-
-    //Reference to camera component
     const cameraRef = useRef(null)
 
     useEffect(() => {
@@ -99,28 +53,28 @@ const AppCamera = props => {
             const options = { quality: 0.7 }
             const data = await cameraRef.current.takePictureAsync(options)
             const imageResult = data.uri
-            const fileName = imageResult.uri.split("/").pop();
+            const fileName = imageResult.split("/").pop();
             const match = /\.(\w+)$/.exec(fileName);
             const mimeType = match ? `image/${match[1]}` : `image`;
             setUri(data.uri)
             setPhoto({
-                uri: imageResult.uri,
-                type: imageResult.type,
-                name: mimeType})
+                uri: imageResult,
+                type: mimeType,
+                name: fileName})
         }
     }
     const handleSubmit = () => {
         if (props.navigation.state.params.from === 'Signup') {
             console.log(props.navigation.state.params.callback)
             props.navigation.state.params.callback(uri)
-            props.navigation.goBack(null)
-        } else if (props.navigation.state.params.from === 'NewWorkOrder') {
-            props.navigation.navigate('NewWorkOrder', { photo: photo })
+            props.navigation.goBack()
+        } else if (props.navigation.state.params.from === 'EditWorkOrder') {
+            props.navigation.push('EditWorkOrder', { photo: photo, id:id })
         }
     }
 
     const handleBackButton = () => {
-        props.navigation.goBack(null)
+        props.navigation.goBack()
     }
 
     // Sub-components

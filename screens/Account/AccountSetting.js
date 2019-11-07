@@ -3,6 +3,7 @@ import { SafeAreaView, Image, StyleSheet, Text, View } from "react-native";
 import { useQuery } from "@apollo/react-hooks";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
+import { styles } from "../../components/Styles";
 
 const ME = gql`
   query currentUser {
@@ -15,23 +16,6 @@ const ME = gql`
       displayName
       photo {
         path
-      }
-      workorders {
-        id
-        detail
-        createdAt
-        qrcode
-        priority
-        status
-        title
-        userId
-        workorderphotos {
-          path
-          filename
-          primaryPhoto
-          photocount
-          userId
-        }
       }
     }
   }

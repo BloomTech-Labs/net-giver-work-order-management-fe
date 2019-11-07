@@ -93,8 +93,9 @@ const BarcodeScanner = props => {
   //add a workorder without a qr code
   const addWithoutQr = () => {
     console.log(`addWithoutQr`);
-    // var genQr = "n" + Date.now().toString().slice(7, 11);
-    var genQr = "000006";
+    var genQr = "n" + Date.now().toString().slice(7, 11);
+    // var genQr = "000006";
+    setQrcode(genQr);
     getQrcode({ variables: { qrcode: genQr } });
   };
 

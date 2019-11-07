@@ -57,65 +57,81 @@ const AuthStackNavigator = createStackNavigator(
     P1: {
       screen: Phone,
       navigationOptions: {
-        title: 'Sign Up'
+        title: "Sign Up"
       }
     },
     P2: {
       screen: VerCode,
       navigationOptions: {
-        title: 'Sign Up'
+        title: "Sign Up"
       }
     },
     P3: {
       screen: Email,
       navigationOptions: {
-        title: 'Sign Up'
+        title: "Sign Up"
       }
     },
     P4: {
       screen: UserName,
       navigationOptions: {
-        title: 'Sign Up'
+        title: "Sign Up"
       }
     },
     P5: {
       screen: Photo,
       navigationOptions: {
-        title: 'Sign Up'
+        title: "Sign Up"
       }
     },
     //PRIVACY POLICY PAGE 11/1/2019 KS/SD
     PP: {
       screen: Pp,
       navigationOptions: {
-      title:'Privacy Policy'
+        title: "Privacy Policy"
       }
     },
 
-     //PRIVACY POLICY PAGE 11/1/2019 KS/SD
+    //PRIVACY POLICY PAGE 11/1/2019 KS/SD
     TOS: {
       screen: ToS,
       navigationOptions: {
-        title:'Terms of Service'
+        title: "Terms of Service"
       }
     },
     //PRIVACY POLICY PAGE 11/1/2019 KS/SD
     PP: {
       screen: Pp,
       navigationOptions: {
-      title:'Privacy Policy'
+        title: "Privacy Policy"
       }
     },
 
-     //PRIVACY POLICY PAGE 11/1/2019 KS/SD
+    //PRIVACY POLICY PAGE 11/1/2019 KS/SD
     TOS: {
       screen: ToS,
       navigationOptions: {
-        title:'Terms of Service'
+        title: "Terms of Service"
       }
     },
     Camera: {
-      screen: Camera
+      screen: Camera,
+      navigationOptions: props => ({
+        title: "Take a Photo",
+        headerRight: (
+          <View style={{ marginRight: 15 }}>
+            <TouchableOpacity
+              onPress={() => {
+                AsyncStorage.removeItem("userToken").then(() => {
+                  props.navigation.navigate("Auth");
+                });
+              }}
+            >
+              <Text>Logout</Text>
+            </TouchableOpacity>
+          </View>
+        )
+      })
     }
   },
   config
