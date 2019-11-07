@@ -12,12 +12,11 @@ import {
   ActivityIndicator,
   AsyncStorage
 } from "react-native";
-import { Button } from 'native-base'
 import Swiper from 'react-native-swiper';
-import { Overlay, Card } from "react-native-elements";
+import { Overlay, Card, Button } from "react-native-elements";
 import * as Yup from 'yup';
 import { Ionicons } from '@expo/vector-icons';
-
+import { UserContext } from "../../context/userState";
 import { loginStyles } from '../../components/Styles';
 import { isUpdateExpression } from "@babel/types";
 import { gql } from "apollo-boost";
@@ -134,17 +133,6 @@ const Signup = props => {
           />
         }
       </TouchableOpacity>
-
-      
-    )
-  }
-  const TextTos = () => {
-    return (
-      
-     
-        <><Text style={styles.textToS}>By pressing submit you agree to our </Text><Text style={styles.textToS}  onPress={()=> props.navigation.navigate('TOS')} >Terms of Service</Text><Text style={styles.textToS}> and</Text> <Text style={styles.textToS} onPress={()=> props.navigation.navigate('PP')}> Privacy Policy.</Text></>
-      
-      
     )
   }
 
@@ -260,13 +248,6 @@ const Signup = props => {
                     <Text style={signupstyles.buttonText}>{input.button}</Text>
                   </TouchableOpacity>
                 </View>
-                <Text style={[loginStyles.footerText, {width: '100%', textAlign: 'center'}]}>Contact Netgiver Team</Text>
-                {input.textToS ? 
-                  // <View style={styles.textToS}><Text> 
-                  <Text>{input.textToS} </Text>
-                  //{/* </Text></View> */}
-                  : null}
-              <Text style={styles.text3}> {input.text3} </Text>
               </View>
             )
           })}
@@ -336,4 +317,3 @@ const SignupSchema = Yup.object().shape({
 // })(SignupForm);
 
 export default Signup
-

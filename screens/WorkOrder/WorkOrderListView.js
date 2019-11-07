@@ -14,10 +14,7 @@ import {
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { wOList, styles } from "../../components/Styles";
-
-import { token } from "../../token";
-import { StackActions, NavigationActions } from "react-navigation";
-import { conditionalExpression } from "@babel/types";
+import EditWorkOrder from "./ExistingWorkOrder/EditWorkOrder";
 
 const GET_WORKORDERS = gql`
   query workorders($limit: Int) {
@@ -50,6 +47,10 @@ const WorkOrderListView = props => {
   const { data, loading, error } = useQuery(GET_WORKORDERS, {
     variables: { limit: 5 }
   });
+  const [selectedWo, setSelectedWo] = useState(null);
+
+  const goToWo = workorder =>
+    props.navigation.push("EditWorkOrder", { ...workorder });
 
   if (loading)
     return (
@@ -71,24 +72,15 @@ const WorkOrderListView = props => {
     );
   return (
     <ScrollView>
-      {data.workorders.edges.map(res =>
-        <TouchableOpacity
-          key={res.id}
-          onPress={() =>
-            props.navigation.push("EditWorkOrder", {
-              wo: res,
-              id: 186
-            })}
-        >
-          {/* BUILD THE WORKORDER CARD 10/24/2019 SD */}
-          {/* 3 FLEX COLUMNS */}
+      {selectedWo && <EditWorkOrder data={selectedWo} />}
+      {data.workorders.edges.map(workorder =>
+        <TouchableOpacity key={workorder.id} onPress={() => goToWo(workorder)}>
           <View style={wOList.card}>
-            {/* FLEX COLUMN 1 LEFT HOLDS THE IMAGE FLEX SET TO 2 10/24/2019 SD */}
             <View style={wOList.cardLeft}>
-              {res.workorderphoto
+              {workorder.workorderphoto
                 ? <Image
                     style={wOList.image}
-                    source={{ uri: res.workorderphotos[0].path }}
+                    source={{ uri: workorder.workorderphoto.path }}
                   />
                 : <Image
                     style={wOList.image}
@@ -98,124 +90,95 @@ const WorkOrderListView = props => {
                     }}
                   />}
             </View>
-            {/* FLEX COLUMN 2 MIDDLE HOLDS THE WORK ORDER INFORMATION FLEX SET TO 4 10/24/2019 SD */}
             <View style={wOList.cardMiddle}>
-              <Text style={wOList.title}>
-                {res.title}
-              </Text>
-              <Text>Requested by:</Text>
-              <Text>
-                {res.user.username}
-              </Text>
+              <View style={{ flexDirection: "row" }}>
+                <Text style={wOList.title} numberOfLines={1}>
+                  {workorder.title}
+                </Text>
+              </View>
+
+              <View style={wOList.cardSubContent}>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={wOList.text} numberOfLines={1}>
+                    {workorder.user.username}
+                  </Text>
+                </View>
+                <Text style={wOList.text} numberOfLines={1}>
+                  10/22/19, 2:52PM
+                  {/* {workorder.dateCreated} */}
+                </Text>
+              </View>
             </View>
-            {/* FLEX COLUMN 3 RIGHT HOLDS THE PRIORITY/STATUS BADGES FLEX SET TO 2 10/24/2019 SD */}
             <View style={wOList.cardRight}>
-              <Text>Priority:</Text>
-              {res.priority === "N/A"
-                ? <View
-                    style={{
-                      backgroundColor: "green",
-                      borderRadius: 10,
-                      width: "95%"
-                    }}
+              <View
+                style={[
+                  {
+                    backgroundColor:
+                      workorder.status === "Open"
+                        ? "white"
+                        : workorder.status === "In Progress"
+                          ? "#07BD51"
+                          : workorder.status === "On Hold" ? "#FFD3D3" : "#878C90",
+                    width: "100%"
+                  },
+                  wOList.info,
+                  wOList.status
+                ]}
+              >
+                <Text
+                  style={[
+                    {
+                      color:
+                        workorder.status === "Open"
+                          ? "#087FFF"
+                          : workorder.status === "In Progress"
+                            ? "white"
+                            : workorder.status === "On Hold" ? "#FE273A" : "white",
+                      borderColor: workorder.status === "Open" ? "#878C90" : ""
+                    },
+                    wOList.infoText
+                  ]}
+                >
+                  {workorder.status}
+                </Text>
+              </View>
+              <View style={wOList.qrPriority}>
+                <Text style={[wOList.info, wOList.qr, wOList.infoText]}>
+                  #{workorder.id}
+                </Text>
+                <View
+                  style={[
+                    {
+                      backgroundColor:
+                        workorder.priority === "Low"
+                          ? "#E2F5FC"
+                          : workorder.priority === "Medium"
+                            ? "#CBFBCB"
+                            : workorder.priority === "High" ? "#FFED9B" : "#FFD3D3"
+                    },
+                    wOList.info,
+                    wOList.priority
+                  ]}
+                >
+                  <Text
+                    style={[
+                      {
+                        color:
+                          workorder.priority === "Low"
+                            ? "#087FFF"
+                            : workorder.priority === "Medium"
+                              ? "#07BD51"
+                              : workorder.priority === "High" ? "#DBA004" : "#FE273A",
+                        textAlign: "center",
+                        width: "100%"
+                      },
+                      wOList.infoText
+                    ]}
                   >
-                    <Text style={{ textAlign: "center" }}>
-                      {res.priority}
-                    </Text>
-                  </View>
-                : <View />}
-              {res.priority === "Low"
-                ? <View
-                    style={{
-                      backgroundColor: "black",
-                      borderRadius: 10,
-                      width: "95%"
-                    }}
-                  >
-                    <Text style={{ color: "white", textAlign: "center" }}>
-                      {res.priority}
-                    </Text>
-                  </View>
-                : <View />}
-              {res.priority === "Medium"
-                ? <View
-                    style={{
-                      backgroundColor: "orange",
-                      borderRadius: 10,
-                      width: "95%"
-                    }}
-                  >
-                    <Text style={{ textAlign: "center" }}>
-                      {res.priority}
-                    </Text>
-                  </View>
-                : <View />}
-              {res.priority === "High"
-                ? <View
-                    style={{
-                      backgroundColor: "purple",
-                      borderRadius: 10,
-                      width: "95%"
-                    }}
-                  >
-                    <Text style={{ textAlign: "center" }}>
-                      {res.priority}
-                    </Text>
-                  </View>
-                : <View />}
-              {res.priority === "Emergency"
-                ? <View
-                    style={{
-                      backgroundColor: "red",
-                      borderRadius: 10,
-                      width: "95%"
-                    }}
-                  >
-                    <Text style={{ textAlign: "center" }}>
-                      {res.priority}
-                    </Text>
-                  </View>
-                : <View />}
-              <Text>Status:</Text>
-              {res.status === "Not Started"
-                ? <View
-                    style={{
-                      backgroundColor: "red",
-                      borderRadius: 10,
-                      width: "95%"
-                    }}
-                  >
-                    <Text style={{ textAlign: "center" }}>
-                      {res.status}
-                    </Text>
-                  </View>
-                : <View />}
-              {res.status === "In Progress"
-                ? <View
-                    style={{
-                      backgroundColor: "orange",
-                      borderRadius: 10,
-                      width: "95%"
-                    }}
-                  >
-                    <Text style={{ textAlign: "center" }}>
-                      {res.status}
-                    </Text>
-                  </View>
-                : <View />}
-              {res.status === "Complete"
-                ? <View
-                    style={{
-                      backgroundColor: "green",
-                      borderRadius: 10,
-                      width: "95%"
-                    }}
-                  >
-                    <Text style={{ textAlign: "center" }}>
-                      {res.status}
-                    </Text>
-                  </View>
-                : <View />}
+                    {workorder.priority}
+                  </Text>
+                </View>
+              </View>
             </View>
           </View>
         </TouchableOpacity>

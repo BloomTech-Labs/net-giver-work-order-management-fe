@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { AsyncStorage, Text, TextInput, View, StyleSheet } from 'react-native'
+import { AsyncStorage, Text, TextInput, View, StyleSheet, Image } from 'react-native'
 // import {connect} from 'react-redux' sd 10/23/2019
 // import {doLogin} from '../../store/actions/authActions' sd 10/23/2019
-import { styles } from '../../components/Styles'
+import { styles , loginStyles} from '../../components/Styles'
 import { Button } from 'native-base'
 import { gql } from 'apollo-boost'
 import { useApolloClient, useMutation } from '@apollo/react-hooks'
@@ -39,7 +39,7 @@ const LoginVerify = props => {
     }
     return (
         <View style={styles.container}>
-            <Text style={styles.welcome}>ADD LOGO</Text>
+             <Image style={loginStyles.logo} source={require('../../components/Images/ng.png')}/>
             <Text>Please Verify Your Code</Text>
             <TextInput
                 style={styles.loginTextInput}
@@ -52,6 +52,7 @@ const LoginVerify = props => {
                 onFocus={() => onChangeText('')}
             />
             <Button
+                style={loginStyles.buttons}
                 onPress={() =>
                     authyVerifyDev({
                         variables: {
@@ -60,15 +61,18 @@ const LoginVerify = props => {
                         },
                     })
                 }
-                style={styles.button}
             >
-                <Text>Verify Access</Text>
+                <Text style={loginStyles.buttonText}>Verify Access</Text>
             </Button>
-            <Text style={styles.marginTop}>
+            <Text style={{marginTop: 5}}>
                 Didn't get the code? Try Again!
             </Text>
-            <Button onPress={goBack} style={styles.button}>
-                <Text>Get Another Code!</Text>
+
+            <Button
+                    style={[loginStyles.buttons, {marginTop: 20}]}
+                    onPress={goBack}
+                  >
+                    <Text style={loginStyles.buttonText}>Get Another Code!</Text>
             </Button>
         </View>
     )

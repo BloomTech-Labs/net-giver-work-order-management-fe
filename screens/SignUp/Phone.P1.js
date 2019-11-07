@@ -26,7 +26,7 @@ const Phone = (props) => {
         else {
             setUser(user => ({...user, phone:phone}))
             console.log(phone)
-            props.navigation.navigate('P2', {user: user})
+            props.navigation.navigate('P2', {user: user, phone: phone})
             
         }
     }
@@ -43,7 +43,7 @@ const Phone = (props) => {
             keyboardType='phone-pad'
             autoCompleteType='tel'
             maxLength={10}
-            onChangeText={setUser({ phone:phone})}
+            onChangeText={setPhone}
             value={phone}
              />
             <TouchableOpacity style={su1.button} onPress={handleSubmit}><Text style={su1.buttonText}>Get Started</Text></TouchableOpacity>
