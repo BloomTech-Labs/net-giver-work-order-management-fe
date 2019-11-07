@@ -51,34 +51,73 @@ export const styles = StyleSheet.create({
 })
 export const wOList = StyleSheet.create({
     card: {
-        borderWidth: 1,
-        width: '95%',
+        width: '100%',
         alignSelf: 'center',
-        borderColor: 'grey',
         flexDirection: 'row',
-        marginBottom: 4,
+        borderTopColor: '#E5E5E5',
+        borderTopWidth: 4,
+        paddingLeft: 9,
+        paddingRight: 14,
+        paddingTop: 13,
+        paddingBottom: 31,
+    },
+    info: {
+        borderRadius: 4,
+        height: 20
+    },
+    infoText: {
+        fontSize: 14,
+        textAlign: 'center'
+    },
+    status: {
+        width: 84,
+    },
+    priority: {
+        width: 40,
+        marginLeft: 5
+    },
+    qr: {
+        width: 65,
+        color: '#8B9195',
+        backgroundColor: '#F2F5F7'
+    },
+    qrPriority: {
+        flexDirection: 'row',
+        marginTop: 12,
+        marginLeft: 'auto',
+        alignSelf: 'flex-end'
+    },
+    text: {
+        fontSize: 14,
+        lineHeight: 22,
+        flex: 1,
+        flexWrap: 'wrap'
+    },
+    cardSubContent: {
+        flexDirection: "column"
     },
     cardLeft: {
-        flex: 2,
-        textAlign: 'right',
-        padding: 10,
+        width: 'auto'
     },
     cardMiddle: {
-        flex: 4,
-        padding: 5,
+        width: 'auto',
     },
     cardRight: {
-        flex: 2,
-        justifyContent: 'center',
+        alignItems: 'flex-end',
+        marginLeft: 'auto',
     },
     image: {
-        width: 100,
-        height: 100,
+        width: 64,
+        height: 64,
+        borderRadius: 4,
+        marginRight: 22,
     },
     title: {
-        fontSize: 20,
-        fontWeight: '700',
-        marginBottom: 10,
+        fontSize: 17,
+        fontWeight: 'bold',
+        marginBottom: 1,
+        flex: 1,
+        flexWrap: 'wrap'
     },
 })
 

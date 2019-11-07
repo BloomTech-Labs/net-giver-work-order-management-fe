@@ -93,8 +93,127 @@ console.log("TCL: props", props)
 
     return (
         <ScrollView>
-           <View><Text>I'M WORKING!!</Text></View>
-        </ScrollView>
+
+            {/* IMAGE */}
+            <View style={wOList.cardLeft}>
+                <Image
+                    style={}
+                    source={{ uri: 'http://placehold.jp/006e13/ffffff/200x250.png?text=Placeholder%20Image' }}
+                />
+            </View>
+
+            {/* BUTTONS */}
+            <View style={wOForm.priorityBar}>
+                    <View style={wOForm.pBarTextBox}>
+                        <Text style={wOForm.pBarText}>Status</Text>
+                    </View>
+                    <View style={wOForm.pBarButtonBox}>
+                        <TouchableOpacity
+                            style={[
+                                wOForm.pBarButton,
+
+                                activeStatus === 1
+                                    ? {
+                                          backgroundColor: '#237804',
+                                      }
+                                    : { backgroundColor: '#F4F3F3' },
+                                    {borderTopLeftRadius: 3.26, borderBottomLeftRadius: 3.26, borderRightWidth: 0}
+                            ]}
+                            onPress={() => {
+                                setStatus('Not Started')
+                                setActiveStatus(1)
+                            }}
+                        >
+                            
+                            <Text
+                                style={[
+                                    wOForm.pBarButtonText,
+                                    activeStatus === 1
+                                        ? {
+                                              color: 'white',
+                                          }
+                                        : { color: 'black' },
+                                ]}
+                            >
+                                Not Started
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[
+                                wOForm.pBarButton,
+
+                                activeStatus === 2
+                                    ? {
+                                          backgroundColor: '#237804',
+                                      }
+                                    : { backgroundColor: 'white' },
+                            ]}
+                            onPress={() => {
+                                setStatus('In Progress')
+                                setActiveStatus(2)
+                            }}
+                        >
+                            <Text
+                                style={[
+                                    wOForm.pBarButtonText,
+                                    activeStatus === 2
+                                        ? {
+                                              color: 'white',
+                                          }
+                                        : { color: '#237804' },
+                                ]}
+                            >
+                                In Progress
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[
+                                wOForm.pBarButton,
+
+                                activeStatus === 3
+                                    ? {
+                                          backgroundColor: '#237804',
+                                      }
+                                    : { backgroundColor: 'white' },
+                                    {borderTopRightRadius: 3.26, borderBottomRightRadius: 3.26, borderLeftWidth: 0}
+                            ]}
+                            onPress={() => {
+                                setStatus('Complete')
+                                setActiveStatus(3)
+                            }}
+                        >
+                            <Text>
+                                Complete
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
+                <View>
+                    {/* OTHER DETAILS*/}
+                  <View>
+                      <Text>Ticket #</Text>
+                      <Text>{qrcode}</Text>
+                  </View> 
+
+                  <View>
+                      <Text>Created On</Text>
+                      <Text>{}</Text>
+                  </View>  
+
+                  <View>
+                      <Text>Assigned To</Text>
+                      <Text>{}</Text>
+                  </View> 
+
+                  <View>
+                      <Text>Created By some</Text>
+                      <Text>{}</Text>
+                  </View> 
+
+                </View>
+
+        </ScrollView>                 
     )
 }
 

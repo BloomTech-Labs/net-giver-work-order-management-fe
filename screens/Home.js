@@ -12,7 +12,7 @@ const Home = props => {
         <TouchableOpacity onPress={() => navigate('Login')}>
           <Text style={styles.link}>Login</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigate('Signup')}>
+        <TouchableOpacity onPress={() => navigate('P1')}>
           <Text style={styles.link}>Signup</Text>
         </TouchableOpacity>
       </View>
