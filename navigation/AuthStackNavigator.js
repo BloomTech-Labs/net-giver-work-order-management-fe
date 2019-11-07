@@ -4,17 +4,16 @@ import Login from "../screens/Login/Login";
 import UserChecker from "../screens/Login/UserChecker";
 import LoginVerify from "../screens/Login/LoginVerify";
 import LoginChecker from "../screens/Login/LoginChecker";
-import Signup from "../screens/Login/Signup";
+//import Signup from "../screens/Login/Signup";
 import Camera from "../components/camera/Camera";
 import { Platform } from "react-native";
-import CameraExample from "../components/camera/CameraExample";
+//import CameraExample from "../components/camera/CameraExample";
 import Email from "../screens/SignUp/Email.P3";
 import Phone from "../screens/SignUp/Phone.P1";
 import Photo from "../screens/SignUp/Photo.P5";
 import UserName from "../screens/SignUp/UserName.P4";
 import VerCode from "../screens/SignUp/VerCode.P2";
 import Pp from "../screens/Policy/Pp";
-import Details from '../screens/WorkOrder/Details'
 import ToS from "../screens/Policy/ToS";
 
 const config = Platform.select({
@@ -58,73 +57,81 @@ const AuthStackNavigator = createStackNavigator(
     P1: {
       screen: Phone,
       navigationOptions: {
-        title: 'Sign Up'
+        title: "Sign Up"
       }
     },
     P2: {
       screen: VerCode,
       navigationOptions: {
-        title: 'Sign Up'
+        title: "Sign Up"
       }
     },
     P3: {
       screen: Email,
       navigationOptions: {
-        title: 'Sign Up'
+        title: "Sign Up"
       }
     },
     P4: {
       screen: UserName,
       navigationOptions: {
-        title: 'Sign Up'
+        title: "Sign Up"
       }
     },
     P5: {
       screen: Photo,
       navigationOptions: {
-        title: 'Sign Up'
+        title: "Sign Up"
       }
     },
     //PRIVACY POLICY PAGE 11/1/2019 KS/SD
     PP: {
       screen: Pp,
       navigationOptions: {
-      title:'Privacy Policy'
+        title: "Privacy Policy"
       }
     },
 
-     //PRIVACY POLICY PAGE 11/1/2019 KS/SD
+    //PRIVACY POLICY PAGE 11/1/2019 KS/SD
     TOS: {
       screen: ToS,
       navigationOptions: {
-        title:'Terms of Service'
+        title: "Terms of Service"
       }
     },
     //PRIVACY POLICY PAGE 11/1/2019 KS/SD
     PP: {
       screen: Pp,
       navigationOptions: {
-      title:'Privacy Policy'
+        title: "Privacy Policy"
       }
     },
 
-     //PRIVACY POLICY PAGE 11/1/2019 KS/SD
+    //PRIVACY POLICY PAGE 11/1/2019 KS/SD
     TOS: {
       screen: ToS,
       navigationOptions: {
-        title:'Terms of Service'
+        title: "Terms of Service"
       }
     },
     Camera: {
-      screen: Camera
-    },
-
-    //DETAILS PAGE 11/4/2019 KS
-    Details: {
-      screen: Details,
-      navigationOptions: {
-        title: 'Details'
-      }
+      screen: Camera,
+      navigationOptions: props => ({
+        title: "Take a Photo",
+        headerRight: (
+          <View style={{ marginRight: 15 }}>
+            <TouchableOpacity
+              onPress={() => {
+                AsyncStorage.removeItem("userToken").then(() => {
+                  props.navigation.navigate("Auth");
+                });
+              }}
+            >
+              <Text>Logout</Text>
+            </TouchableOpacity>
+          </View>
+        )
+      })
     }
   },
   config

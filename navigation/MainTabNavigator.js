@@ -80,6 +80,25 @@ const WorkOrderStack = createStackNavigator(
           </View>
         )
       })
+    },
+    CameraModule: {
+      screen: CameraModule,
+      navigationOptions: props => ({
+        title: "Take a Photo",
+        headerRight: (
+          <View style={{ marginRight: 15 }}>
+            <TouchableOpacity
+              onPress={() => {
+                AsyncStorage.removeItem("userToken").then(() => {
+                  props.navigation.navigate("Auth");
+                });
+              }}
+            >
+              <Text>Logout</Text>
+            </TouchableOpacity>
+          </View>
+        )
+      })
     }
   },
   config
