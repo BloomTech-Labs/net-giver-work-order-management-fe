@@ -84,7 +84,7 @@ const WorkOrderListView = props => {
               {workorder.workorderphoto
                 ? <Image
                     style={wOList.image}
-                    source={{ uri: workorder.workorderphotos[0].path }}
+                    source={{ uri: workorder.workorderphoto.path }}
                   />
                 : <Image
                     style={wOList.image}

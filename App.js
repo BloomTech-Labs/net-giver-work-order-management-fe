@@ -25,16 +25,14 @@ import { setContext } from "apollo-link-context";
 import { createUploadLink } from "apollo-upload-client";
 
 /*Cache: persists across sessions. stable images, logos, username */
-const cache = new InMemoryCache(
-  {
-    // cacheRedirects: {
-    //   Query: {
-    //     workorder: (_, args, { getCacheKey }) =>
-    //       getCacheKey({ __typename: "Workorder", id: args.id })
-    //   }
-    // }
+const cache = new InMemoryCache({
+  cacheRedirects: {
+    Query: {
+      workorder: (_, args, { getCacheKey }) =>
+        getCacheKey({ __typename: "Workorder", id: args.id })
+    }
   }
-);
+});
 
 ///////////////reset token functionality//////////
 const resetToken = onError(({ networkError }) => {
@@ -131,8 +129,8 @@ const client = new ApolloClient({
     //   // uri: "http://localhost:3000/graphql"
     //   uri: "https://netgiver-stage.herokuapp.com/graphql"
     // })
-    // createUploadLink({ uri: "http://localhost:3000/graphql" })
-    createUploadLink({ uri: "https://netgiver-stage.herokuapp.com/graphql" })
+    createUploadLink({ uri: "http://localhost:3000/graphql" })
+    // createUploadLink({ uri: "https://netgiver-stage.herokuapp.com/graphql" })
   ]),
   cache
 });

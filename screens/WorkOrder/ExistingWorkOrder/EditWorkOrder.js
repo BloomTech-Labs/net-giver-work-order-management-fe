@@ -17,12 +17,91 @@ import { Text } from "native-base";
 import { Icon, Button, ButtonGroup } from "react-native-elements";
 import { wOForm, wOList, styles } from "../../../components/Styles";
 import { StackActions, NavigationActions } from "react-navigation";
-import { useQuery, useLazyQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
+import { PictureField } from "../../../components/shared/PictureField";
+import { CameraField } from "../../../components/shared/CameraField";
+
+const EDIT_WO = gql`
+  mutation editWorkorder(
+    $qrcode: String!
+    $id: ID!
+    $detail: String
+    $priority: String
+    $status: String
+    $title: String
+  ) {
+    editWorkorder(
+      qrcode: $qrcode
+      id: $id
+      detail: $detail
+      priority: $priority
+      status: $status
+      title: $title
+    ) {
+      detail
+      createdAt
+      qrcode
+      priority
+      status
+      title
+      user {
+        username
+      }
+      workorderphoto {
+        path
+      }
+    }
+  }
+`;
+
+const WO_PIC = gql`
+  mutation uploadWorkorderphoto($photo: Upload!, $workorderId: ID!) {
+    uploadWorkorderphoto(photo: $photo, workorderId: $workorderId) {
+      userId
+      filename
+      path
+    }
+  }
+`;
+
+const updateWo = async ({
+  values,
+  editWorkorder,
+  uploadWorkorderphoto,
+  navigation
+}) => {
+  const editresult = await editWorkorder({
+    variables: {
+      id: values.id,
+      qrcode: values.qrcode,
+      detail: values.detail,
+      priority: values.priority,
+      status: values.status,
+      title: values.title
+    }
+  });
+
+  // if (get(editresult, "data.workorder")) {
+  //   // navigation.goBack();
+  //   null;
+  // }
+  if (values.photo.uri) {
+    console.log(values.photo);
+    const picresult = await uploadWorkorderphoto({
+      variables: {
+        photo: values.photo,
+        workorderId: values.id
+      }
+    });
+  }
+  navigation.goBack();
+};
 
 const EditWorkOrder = ({ navigation }) => {
   const {
     id,
+    qrcode,
     detail,
     priority,
     status,
@@ -36,23 +115,34 @@ const EditWorkOrder = ({ navigation }) => {
     id: id,
     detail: detail
   });
+  const [editWorkorder, { loading, error }] = useMutation(EDIT_WO, {});
 
-  //const [photo, setPhoto] = useState(navigation.getParam("photo", "no wo"));
-  //const [photouri, setPhotouri] = useState(photo.uri);
-
+  const [uploadWorkorderphoto, { picloading, picerror }] = useMutation(
+    WO_PIC,
+    {}
+  );
   const img1 =
     "http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image";
 
   return (
     <Formik
       initialValues={{
+        id: id,
+        qrcode: qrcode,
         detail: detail,
         priority: priority,
         status: status,
         title: title,
-        workorderphoto: workorderphoto
+        workorderphoto: workorderphoto,
+        photo: {}
       }}
-      onSubmit={values => console.log(values)}
+      onSubmit={async values =>
+        updateWo({
+          values,
+          editWorkorder,
+          uploadWorkorderphoto,
+          navigation
+        })}
       render={({
         handleChange,
         handleBlur,
@@ -177,38 +267,74 @@ const EditWorkOrder = ({ navigation }) => {
                 <Text>Tap on image to upload.</Text>
               </View>
               <View style={wOForm.imgCardBot}>
-                <TouchableOpacity
-                  style={wOForm.touchImage}
-                  // onPress={() =>
-                  //   navigation.navigate("CameraModule", {
-                  //     from: "EditWorkOrder",
-                  //     id: id
-                  //   })}
-                >
-                  {workorderphoto && workorderphoto.path
+                <TouchableOpacity style={wOForm.touchImage}>
+                  {values.photo.uri
                     ? <Image
                         style={wOForm.imgUpload}
                         source={{
-                          uri: values.workorderphoto.path
+                          uri: values.photo.uri
                         }}
                       />
-                    : <Image
+                    : values.workorderphoto
+                      ? <Image
+                          style={wOForm.imgUpload}
+                          source={{
+                            uri: values.workorderphoto.path
+                          }}
+                        />
+                      : <Image
+                          style={wOForm.imgUpload}
+                          source={{
+                            uri: img1
+                          }}
+                        />}
+                  <Field
+                    name="photo"
+                    title="pick a picture"
+                    component={PictureField}
+                    style={wOForm.imgUpload}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={wOForm.imgCardBot}>
+                <TouchableOpacity style={wOForm.touchImage}>
+                  {values.photo.uri
+                    ? <Image
                         style={wOForm.imgUpload}
                         source={{
-                          uri: img1
+                          uri: values.photo.uri
                         }}
-                      />}
+                      />
+                    : values.workorderphoto
+                      ? <Image
+                          style={wOForm.imgUpload}
+                          source={{
+                            uri: values.workorderphoto.path
+                          }}
+                        />
+                      : <Image
+                          style={wOForm.imgUpload}
+                          source={{
+                            uri: img1
+                          }}
+                        />}
+                  <Field
+                    name="photo"
+                    title="take a picture"
+                    component={CameraField}
+                    style={wOForm.imgUpload}
+                  />
                 </TouchableOpacity>
               </View>
             </View>
 
             <View>
-              {/* SUBMIT BUTTON 10/24/2019 SD */}
               <Button
-                type="primary"
-                style={wOForm.button}
+                type="outline"
                 onPress={handleSubmit}
                 color="white"
+                title="Submit"
+                raised={true}
               >
                 <Text>Submit</Text>
               </Button>
