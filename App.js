@@ -20,21 +20,19 @@ import { HttpLink } from "apollo-link-http";
 import { onError } from "apollo-link-error";
 import { withClientState } from "apollo-link-state";
 import { ApolloLink, Observable } from "apollo-link";
-import { typeDefs, resolvers } from "./resolvers";
+//import { typeDefs, resolvers } from "./resolvers";
 import { setContext } from "apollo-link-context";
 import { createUploadLink } from "apollo-upload-client";
 
 /*Cache: persists across sessions. stable images, logos, username */
-const cache = new InMemoryCache(
-  {
-    // cacheRedirects: {
-    //   Query: {
-    //     workorder: (_, args, { getCacheKey }) =>
-    //       getCacheKey({ __typename: "Workorder", id: args.id })
-    //   }
-    // }
+const cache = new InMemoryCache({
+  cacheRedirects: {
+    Query: {
+      workorder: (_, args, { getCacheKey }) =>
+        getCacheKey({ __typename: "Workorder", id: args.id })
+    }
   }
-);
+});
 
 ///////////////reset token functionality//////////
 const resetToken = onError(({ networkError }) => {

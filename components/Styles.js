@@ -100,52 +100,65 @@ export const wOForm = StyleSheet.create({
     marginLeft: "auto",
     marginRight: "auto"
   },
+  statusView: {
+    flex: 1,
+    backgroundColor: "white",
+    // justifyContent: "flex-start",
+    justifyContent: "space-between",
+    padding: 0,
+    borderWidth: 0,
+    borderBottomWidth: 1,
+    alignItems: "center",
+    padding: 5
+  },
+  statusText: {
+    textAlign: "left",
+    width: "100%"
+  },
   statusDiv: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    borderColor: "#C5C2C2",
-    padding: 5,
+    margin: "auto",
+    alignItems: "center",
+    borderWidth: 0,
     backgroundColor: "white",
-    borderBottomWidth: 1
+    height: 100,
+    width: "100%",
+    marginTop: 0,
+    borderRadius: 0
   },
   statusButtons: {
     backgroundColor: "#f4f3f3",
-    width: "23%",
     borderWidth: 1,
     borderRadius: 5,
     borderColor: "#C5C2C2",
-    padding: 5
+    margin: 3
   },
   statusButtonsText: { color: "#009900", textAlign: "center", fontSize: 14 },
   statusButtonsActive: {
-    backgroundColor: "#009900",
-    width: "23%",
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: "#C5C2C2",
-    padding: 5
+    backgroundColor: "#009900"
   },
   statusButtonsTextActive: {
-    color: "white",
-    textAlign: "center",
-    fontSize: 14
+    color: "white"
   },
   priorityDiv: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    borderColor: "#C5C2C2",
-    padding: 5,
+    margin: "auto",
+    alignItems: "center",
+    borderWidth: 0,
     backgroundColor: "white",
-    borderBottomWidth: 1
+    height: 100,
+    width: "100%",
+    marginTop: 0,
+    borderRadius: 0
   },
   priorityButtons: {
     backgroundColor: "#f4f3f3",
-    width: "23%",
     borderWidth: 1,
     borderRadius: 5,
     borderColor: "#C5C2C2",
-    padding: 5,
-    height: 55
+    margin: 3,
+    height: 55,
+    width: 80
   },
   priorityButtonsText: {
     color: "black",
