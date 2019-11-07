@@ -13,7 +13,6 @@ import { Ionicons } from "@expo/vector-icons";
 import AppNavigator from "./navigation/AppNavigator";
 import { Root } from "native-base";
 
-import { UserProvider } from "./context/userState";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
@@ -21,9 +20,20 @@ import { HttpLink } from "apollo-link-http";
 import { onError } from "apollo-link-error";
 import { withClientState } from "apollo-link-state";
 import { ApolloLink, Observable } from "apollo-link";
+//import { typeDefs, resolvers } from "./resolvers";
 import { setContext } from "apollo-link-context";
+import { createUploadLink } from "apollo-upload-client";
 
-const cache = new InMemoryCache();
+/*Cache: persists across sessions. stable images, logos, username */
+const cache = new InMemoryCache({
+  cacheRedirects: {
+    Query: {
+      workorder: (_, args, { getCacheKey }) =>
+        getCacheKey({ __typename: "Workorder", id: args.id })
+    }
+  }
+});
+
 ///////////////reset token functionality//////////
 const resetToken = onError(({ networkError }) => {
   if (
@@ -99,8 +109,12 @@ const client = new ApolloClient({
     authMiddleware,
     withClientState({
       defaults: {
-        isConnected: true
+        isConnected: true,
+        hasCameraPermission: false,
+        isLoggedIn: false,
+        hastoken: false
       },
+      // resolvers,
       resolvers: {
         Mutation: {
           updateNetworkStatus: (_, { isConnected }, { cache }) => {
@@ -111,17 +125,18 @@ const client = new ApolloClient({
       },
       cache
     }),
-    new HttpLink({
-      // uri: "http://localhost:3000/graphql"
-      uri: "https://netgiver-stage-pr-10.herokuapp.com/graphql"
-    })
+    // new HttpLink({
+    //   // uri: "http://localhost:3000/graphql"
+    //   uri: "https://netgiver-stage.herokuapp.com/graphql"
+    // })
+    // createUploadLink({ uri: "http://localhost:3000/graphql" })
+    createUploadLink({ uri: "https://netgiver-stage.herokuapp.com/graphql" })
   ]),
   cache
 });
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
-  console.log(UserProvider);
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return (
       <AppLoading

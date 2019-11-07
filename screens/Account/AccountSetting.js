@@ -3,6 +3,7 @@ import { SafeAreaView, Image, StyleSheet, Text, View } from "react-native";
 import { useQuery } from "@apollo/react-hooks";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
+import { styles } from "../../components/Styles";
 
 const ME = gql`
   query currentUser {
@@ -16,26 +17,31 @@ const ME = gql`
       photo {
         path
       }
-      workorders {
-        id
-        detail
-        createdAt
-        qrcode
-        priority
-        status
-        title
-        userId
-        workorderphotos {
-          path
-          filename
-          primaryPhoto
-          photocount
-          userId
-        }
-      }
     }
   }
 `;
+
+export const UPLOAD_FILE = gql`
+  mutation uploadFile($file: Upload!) {
+    uploadFile(file: $file) {
+      filename
+    }
+  }
+`;
+
+const UploadOneFile = () => {
+  return (
+    <Mutation mutation={UPLOAD_FILE}>
+      {uploadFile =>
+        <input
+          type="file"
+          required
+          onChange={({ target: { validity, files: [file] } }) =>
+            validity.valid && uploadFile({ variables: { file } })}
+        />}
+    </Mutation>
+  );
+};
 
 const AccountSettings = props => {
   const { data, loading, error } = useQuery(
@@ -48,91 +54,24 @@ const AccountSettings = props => {
   if (loading)
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={styles.nameText}>
-          Loading
-          {console.log(loading)}
+        <Text style={styles.nameText}>Loading</Text>
+      </SafeAreaView>
+    );
+  if (error)
+    return (
+      <SafeAreaView style={styles.container}>
+        <Text style={wOList.title}>
+          Error :( {console.log(error)}
         </Text>
       </SafeAreaView>
     );
-  //   if (error)
-  //     return (
-  //       <SafeAreaView style={styles.container}>
-  //         <Text style={wOList.title}>
-  //           Error :( {console.log(error)}
-  //         </Text>
-  //       </SafeAreaView>
-  //     );
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.nameText}>
-        {console.log(data)}
+        {data.currentUser.username}
+        {/* <UploadOneFile /> */}
       </Text>
     </SafeAreaView>
   );
 };
 export default AccountSettings;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff"
-  },
-  titleContainer: {
-    paddingHorizontal: 15,
-    paddingTop: 15,
-    paddingBottom: 15,
-    flexDirection: "row"
-  },
-  titleIconContainer: {
-    marginRight: 15,
-    paddingTop: 2
-  },
-  sectionHeaderContainer: {
-    backgroundColor: "#fbfbfb",
-    paddingVertical: 8,
-    paddingHorizontal: 15,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "#ededed"
-  },
-  sectionHeaderText: {
-    fontSize: 14
-  },
-  sectionContentContainer: {
-    paddingTop: 8,
-    paddingBottom: 12,
-    paddingHorizontal: 15
-  },
-  sectionContentText: {
-    color: "#808080",
-    fontSize: 14
-  },
-  nameText: {
-    fontWeight: "600",
-    fontSize: 18
-  },
-  slugText: {
-    color: "#a39f9f",
-    fontSize: 14,
-    backgroundColor: "transparent"
-  },
-  descriptionText: {
-    fontSize: 14,
-    marginTop: 6,
-    color: "#4d4d4d"
-  },
-  colorContainer: {
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  colorPreview: {
-    width: 17,
-    height: 17,
-    borderRadius: 2,
-    marginRight: 6,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "#ccc"
-  },
-  colorTextContainer: {
-    flex: 1
-  }
-});

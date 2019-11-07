@@ -25,7 +25,6 @@ export const SIGN_IN_DEV = gql`
 `;
 
 const Login = props => {
-  // SETS USERNAME FROM INPUT BOX 10/24/2019 SD
   const [username, onChangeText] = useState("");
   const client = useApolloClient();
   const { navigation } = props;
@@ -61,8 +60,6 @@ const Login = props => {
     );
   return (
     <SafeAreaView style={styles.container}>
-      {/* LOGO CONTAINER 10/25/2019 */}
-      {/* <View style={loginStyles.logo}> */}
       <Image
         style={loginStyles.logo}
         source={require("../../components/Images/ng.png")}
@@ -97,7 +94,7 @@ const Login = props => {
       <Text style={loginStyles.buttonHeader}>Don't Have an Account?</Text>
 
       <Button
-        onPress={() => props.navigation.navigate("SignUp")}
+        onPress={() => props.navigation.navigate("P1")}
         style={loginStyles.signUp}
       >
         <Text style={loginStyles.buttonText}>Sign Up</Text>

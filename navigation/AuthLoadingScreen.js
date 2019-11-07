@@ -6,29 +6,41 @@ import {
   StyleSheet,
   View
 } from "react-native";
-// import { ApolloProvider, useQuery } from "@apollo/react-hooks";
-// import gql from "graphql-tag";
+import { useApolloClient, useQuery } from "@apollo/react-hooks";
+import gql from "graphql-tag";
 
-// const IS_LOGGED_IN = gql`
+// const IS_LOGGED_IN2 = gql`
 //   query IsUserLoggedIn {
-//     isLoggedIn @client
+//     isUserLoggedIn @client
 //   }
 // `;
 
+// const IS_LOGGED_IN = gql`
+//   query {
+//     getToken @client {
+//       hastoken
+//     }
+//   }
+// `;
 // const AuthLoadingScreen = props => {
-//   const { data } = useQuery(IS_LOGGED_IN);
-//   // return data.isLoggedIn ? <Pages /> : <Login />;
+//   const client = useApolloClient();
+
+//    const userToken = await AsyncStorage.getItem("userToken");
+
+//   const { hastoken } = useQuery(IS_LOGGED_IN);
+
+//   hastoken
+//     ? props.navigation.navigate("Main", { token: token }) ||
+//       console.log(hastoken)
+//     : props.navigation.navigate("Auth", { sentBack: true });
+
 //   return (
 //     <View>
-//       <ActivityIndicator />
-//       <StatusBar barStyle="default" />
-//       {data.isLoggedIn
-//         ? props.navigation.navigate("Main")
-//         : props.navigation.navigate("Auth")}
+//       <ActivityIndicator size="large" color="black" />
 //     </View>
 //   );
 // };
-
+// export default AuthLoadingScreen;
 export default class AuthLoadingScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -54,4 +66,3 @@ export default class AuthLoadingScreen extends React.Component {
     );
   }
 }
-// export default AuthLoadingScreen;

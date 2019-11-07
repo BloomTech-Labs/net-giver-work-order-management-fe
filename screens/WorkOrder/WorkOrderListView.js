@@ -15,14 +15,14 @@ import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { wOList, styles } from "../../components/Styles";
 
-import { token } from "../../token";
+import EditWorkOrder from "./ExistingWorkOrder/EditWorkOrder";
+
 import { StackActions, NavigationActions } from "react-navigation";
-import { UserContext } from "../../context/userState";
 import { conditionalExpression } from "@babel/types";
 
 const GET_WORKORDERS = gql`
-  query {
-    workorders {
+  query workorders($limit: Int) {
+    workorders(limit: $limit) {
       edges {
         id
         detail
@@ -34,7 +34,7 @@ const GET_WORKORDERS = gql`
         user {
           username
         }
-        workorderphotos {
+        workorderphoto {
           path
         }
       }
@@ -49,21 +49,21 @@ const GET_WORKORDERS = gql`
 const WorkOrderListView = props => {
   const [sentFrom, setSentFrom] = useState();
   const { data, loading, error } = useQuery(GET_WORKORDERS, {
-    fetchPolicy: "no-cache"
+    variables: { limit: 5 }
   });
-  // useEffect(() => {
-  //   setSentFrom(props.navigation.getParam("sentFrom", "nowhere"));
-  //   //    setToken(props.navigation.state.params.token)
-  // });
+  const [selectedWo, setSelectedWo] = useState(null);
+
+  const goToWo = workorder =>
+    props.navigation.push("EditWorkOrder", { ...workorder });
 
   if (loading)
     return (
       <SafeAreaView style={styles.container}>
         <ActivityIndicator size="large" color="black" />
-        {/* <Text style={wOList.title}>
+        <Text style={wOList.title}>
           Loading
           {console.log(loading)}
-        </Text> */}
+        </Text>
       </SafeAreaView>
     );
   if (error)
@@ -74,35 +74,17 @@ const WorkOrderListView = props => {
         </Text>
       </SafeAreaView>
     );
-  // return (
-  //   <SafeAreaView style={styles.container}>
-  //     <Text style={wOList.title}>
-  //       {console.log(data)}
-  //     </Text>
-  //   </SafeAreaView>
-  // );
   return (
     <ScrollView>
-      {/* MAP WORK ORDER DATA AND PULL OUT THE VALUES 10/24/2019 SD */}
-      {data.workorders.edges.map(res =>
-        // MAKE THE WHOLE BOX A BUTTON THAT CAN BE CLICKED TO OPEN THE w/o 10/24/2019 SD
-        <TouchableOpacity
-          key={res.id}
-          onPress={() =>
-            props.navigation.navigate("CheckBarCode", {
-              qrData: res.qrcode,
-              token: token
-            })}
-        >
-          {/* BUILD THE WORKORDER CARD 10/24/2019 SD */}
-          {/* 3 FLEX COLUMNS */}
+      {selectedWo && <EditWorkOrder data={selectedWo} />}
+      {data.workorders.edges.map(workorder =>
+        <TouchableOpacity key={workorder.id} onPress={() => goToWo(workorder)}>
           <View style={wOList.card}>
-            {/* FLEX COLUMN 1 LEFT HOLDS THE IMAGE FLEX SET TO 2 10/24/2019 SD */}
             <View style={wOList.cardLeft}>
-              {res.workorderphotos[0]
+              {workorder.workorderphoto
                 ? <Image
                     style={wOList.image}
-                    source={{ uri: res.workorderphotos[0].path }}
+                    source={{ uri: workorder.workorderphoto.path }}
                   />
                 : <Image
                     style={wOList.image}
@@ -112,20 +94,19 @@ const WorkOrderListView = props => {
                     }}
                   />}
             </View>
-            {/* FLEX COLUMN 2 MIDDLE HOLDS THE WORK ORDER INFORMATION FLEX SET TO 4 10/24/2019 SD */}
             <View style={wOList.cardMiddle}>
               <Text style={wOList.title}>
-                {res.title}
+                {workorder.title}
               </Text>
               <Text>Requested by:</Text>
               <Text>
-                {res.user.username}
+                {workorder.user.username}
               </Text>
             </View>
             {/* FLEX COLUMN 3 RIGHT HOLDS THE PRIORITY/STATUS BADGES FLEX SET TO 2 10/24/2019 SD */}
             <View style={wOList.cardRight}>
               <Text>Priority:</Text>
-              {res.priority === "N/A"
+              {workorder.priority === "N/A"
                 ? <View
                     style={{
                       backgroundColor: "green",
@@ -134,11 +115,11 @@ const WorkOrderListView = props => {
                     }}
                   >
                     <Text style={{ textAlign: "center" }}>
-                      {res.priority}
+                      {workorder.priority}
                     </Text>
                   </View>
                 : <View />}
-              {res.priority === "Low"
+              {workorder.priority === "Low"
                 ? <View
                     style={{
                       backgroundColor: "black",
@@ -147,11 +128,11 @@ const WorkOrderListView = props => {
                     }}
                   >
                     <Text style={{ color: "white", textAlign: "center" }}>
-                      {res.priority}
+                      {workorder.priority}
                     </Text>
                   </View>
                 : <View />}
-              {res.priority === "Medium"
+              {workorder.priority === "Medium"
                 ? <View
                     style={{
                       backgroundColor: "orange",
@@ -160,11 +141,11 @@ const WorkOrderListView = props => {
                     }}
                   >
                     <Text style={{ textAlign: "center" }}>
-                      {res.priority}
+                      {workorder.priority}
                     </Text>
                   </View>
                 : <View />}
-              {res.priority === "High"
+              {workorder.priority === "High"
                 ? <View
                     style={{
                       backgroundColor: "purple",
@@ -173,11 +154,11 @@ const WorkOrderListView = props => {
                     }}
                   >
                     <Text style={{ textAlign: "center" }}>
-                      {res.priority}
+                      {workorder.priority}
                     </Text>
                   </View>
                 : <View />}
-              {res.priority === "Emergency"
+              {workorder.priority === "Emergency"
                 ? <View
                     style={{
                       backgroundColor: "red",
@@ -186,12 +167,12 @@ const WorkOrderListView = props => {
                     }}
                   >
                     <Text style={{ textAlign: "center" }}>
-                      {res.priority}
+                      {workorder.priority}
                     </Text>
                   </View>
                 : <View />}
               <Text>Status:</Text>
-              {res.status === "Not Started"
+              {workorder.status === "Not Started"
                 ? <View
                     style={{
                       backgroundColor: "red",
@@ -200,11 +181,11 @@ const WorkOrderListView = props => {
                     }}
                   >
                     <Text style={{ textAlign: "center" }}>
-                      {res.status}
+                      {workorder.status}
                     </Text>
                   </View>
                 : <View />}
-              {res.status === "In Progress"
+              {workorder.status === "In Progress"
                 ? <View
                     style={{
                       backgroundColor: "orange",
@@ -213,11 +194,11 @@ const WorkOrderListView = props => {
                     }}
                   >
                     <Text style={{ textAlign: "center" }}>
-                      {res.status}
+                      {workorder.status}
                     </Text>
                   </View>
                 : <View />}
-              {res.status === "Complete"
+              {workorder.status === "Complete"
                 ? <View
                     style={{
                       backgroundColor: "green",
@@ -226,7 +207,7 @@ const WorkOrderListView = props => {
                     }}
                   >
                     <Text style={{ textAlign: "center" }}>
-                      {res.status}
+                      {workorder.status}
                     </Text>
                   </View>
                 : <View />}
