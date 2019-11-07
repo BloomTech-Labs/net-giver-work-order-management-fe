@@ -11,7 +11,6 @@ import {
 import * as Permissions from 'expo-permissions'
 import { Camera } from 'expo-camera'
 import { Ionicons } from '@expo/vector-icons'
-
 const AppCamera = props => {
     const { navigation } = props
     const { FlashMode: CameraFlashModes, Type: CameraTypes } = Camera.Constants
@@ -82,6 +81,10 @@ const AppCamera = props => {
 
     const handleBackButton = () => {
         props.navigation.goBack()
+    }
+
+    const galNav = () => {
+        props.navigation.navigate('GalleryScreen', {props: props.navigation.state.params})
     }
 
     // Sub-components
@@ -167,6 +170,14 @@ const AppCamera = props => {
         )
     }
 
+    const GalleryButton = () => {
+        return(
+            <TouchableOpacity style={styles.galleryButtonContainer} onPress={galNav}>
+                <Text>Open Gallery</Text>
+            </TouchableOpacity>
+        )
+    }
+
     const ContentButtons = () => {
         return (
             <>
@@ -180,10 +191,12 @@ const AppCamera = props => {
         )
     }
 
+
+
     const BottomButtons = () => {
         return (
             <View style={styles.bottomButtons}>
-                {uri ? <ContentButtons /> : <CaptureButton />}
+                {uri ? <ContentButtons /> : <><CaptureButton /> <GalleryButton /></>}
             </View>
         )
     }

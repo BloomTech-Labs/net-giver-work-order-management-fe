@@ -9,7 +9,10 @@ import {
 } from 'react-native'
 
 const VerCode = props => {
-    const phone = props.navigation.state.params.phone
+console.log("TCL: props", props)
+    // const phone = props.navigation.state.params.phone
+    const [user, setUser] = useState(props.navigation.getParam("user", "NO USER"))
+    console.log('user', user)
     const [ver, setVer] = useState()
     handleSubmit = () => {
         if (ver === undefined) {
@@ -17,14 +20,14 @@ const VerCode = props => {
         } else if (ver.length != 6) {
             alert('Please check your verification code')
         } else {
-            props.navigation.navigate('P3', { phone: phone, verCode: ver })
+            props.navigation.navigate('P3', { user: user, verCode: ver })
         }
     }
     return (
         <SafeAreaView>
             <Text style={su2.header}>We need to verify your phone number</Text>
             <Text style={su2.subHead}>We just sent a one-time code to</Text>
-            <Text>{'+1' + phone}</Text>
+            <Text>{'+1' + user.phone}</Text>
             <TextInput
                 style={su2.input}
                 placeholder="6-digit-code"

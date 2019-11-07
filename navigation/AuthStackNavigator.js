@@ -30,33 +30,33 @@ const config = Platform.select({
 const AuthStackNavigator = createStackNavigator(
     {
         //LOGIN SCREEN 10/24/2019 SD
-        // Login: {
-        //   screen: Login,
-        //   navigationOptions: {
-        //     header: null
-        //   }
-        // },
-        // //CHECK USER SCREEN CHECKS TO SEE IF A USER IS IN THE SYSTEM 10/24/2019 SD
-        // CheckUser: {
-        //   screen: UserChecker,
-        //   navigationOptions: {
-        //     header: null
-        //   }
-        // },
-        // //AFTER CHECK USER YOU ARE SENT A TEXT WITH A VERIFICATION CODE AND THAT IS ENTERED ON VERIFYLOGIN 10/24/2019 SD
-        // VerifyLogin: {
-        //   screen: LoginVerify,
-        //   navigationOptions: {
-        //     header: null
-        //   }
-        // },
-        // //CHECKS TO MAKE SURE THAT YOU ARE A LOGGED IN USER 10/24/2019 SD
-        // CheckLogin: {
-        //   screen: LoginChecker,
-        //   navigationOptions: {
-        //     header: null
-        //   }
-        // },
+        Login: {
+          screen: Login,
+          navigationOptions: {
+            header: null
+          }
+        },
+        //CHECK USER SCREEN CHECKS TO SEE IF A USER IS IN THE SYSTEM 10/24/2019 SD
+        CheckUser: {
+          screen: UserChecker,
+          navigationOptions: {
+            header: null
+          }
+        },
+        //AFTER CHECK USER YOU ARE SENT A TEXT WITH A VERIFICATION CODE AND THAT IS ENTERED ON VERIFYLOGIN 10/24/2019 SD
+        VerifyLogin: {
+          screen: LoginVerify,
+          navigationOptions: {
+            header: null
+          }
+        },
+        //CHECKS TO MAKE SURE THAT YOU ARE A LOGGED IN USER 10/24/2019 SD
+        CheckLogin: {
+          screen: LoginChecker,
+          navigationOptions: {
+            header: null
+          }
+        },
         //SIGNUP PAGE 10/24/2019 SD
 
         P1: {

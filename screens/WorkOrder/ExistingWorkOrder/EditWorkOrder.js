@@ -40,6 +40,7 @@ const GET_WORKORDER = gql`
 `;
 
 const EditWorkOrder = props => {
+  console.log(props)
   const { data, loading, error } = useQuery(GET_WORKORDER, {
     // variables: { id: props.navigation.getParam("id", "no id") }
     variables: { id: props.navigation.state.params.id }

@@ -2,15 +2,32 @@ import React, {useState} from 'react'
 import {SafeAreaView, Text, TouchableOpacity, TextInput, Image, StyleSheet} from 'react-native'
 const Phone = (props) => {
     const [phone, setPhone] = useState();
+    initialState = {
+        phone: "",
+        username: "",
+        email:"",
+        password: "password",
+        displayName:"",
+        photo: null
+        }
+        
+        const [user, setUser] = useState(initialState)
     handleSubmit = () => {
         if(phone === undefined){
-            alert('Please Enter a Valid Phone Number')
+            alert('Here Please Enter a Valid Phone Number')
+            console.log(user)
+            
         } else if (phone.length != 10) {
-            alert('Please Enter a Valid Phone Number')
+            alert('There Please Enter a Valid Phone Number')
+            console.log(user)
+
 
         } 
         else {
-            props.navigation.navigate('P2', {phone: phone})
+            setUser(user => ({...user, phone:phone}))
+            console.log(phone)
+            props.navigation.navigate('P2', {user: user})
+            
         }
     }
     return (
@@ -26,7 +43,7 @@ const Phone = (props) => {
             keyboardType='phone-pad'
             autoCompleteType='tel'
             maxLength={10}
-            onChangeText={setPhone}
+            onChangeText={setUser({ phone:phone})}
             value={phone}
              />
             <TouchableOpacity style={su1.button} onPress={handleSubmit}><Text style={su1.buttonText}>Get Started</Text></TouchableOpacity>

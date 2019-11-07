@@ -17,7 +17,7 @@ import CheckBarCode from "../screens/WorkOrder/BarCodeScanner/CheckBarCode";
 import NewWorkOrderForm from "../screens/WorkOrder/NewWorkOrder/NewWorkOrderForm";
 import EditWorkOrder from "../screens/WorkOrder/ExistingWorkOrder/EditWorkOrder";
 import CameraModule from "../components/camera/Camera";
-
+import GalleryScreen from '../components/camera/GalleryScreen'
 const config = Platform.select({
   web: { headerMode: "screen" },
   default: {}
@@ -66,23 +66,10 @@ const WorkOrderStack = createStackNavigator(
     },
     CameraModule: {
       screen: CameraModule,
-      navigationOptions: props => ({
-        title: "Take a Photo",
-        headerRight: (
-          <View style={{ marginRight: 15 }}>
-            <TouchableOpacity
-              onPress={() => {
-                AsyncStorage.removeItem("userToken").then(() => {
-                  props.navigation.navigate("Auth");
-                });
-              }}
-            >
-              <Text>Logout</Text>
-            </TouchableOpacity>
-          </View>
-        )
-      })
-    }
+    },
+    GalleryScreen: {
+      screen: GalleryScreen,
+    },
   },
   config
 );
