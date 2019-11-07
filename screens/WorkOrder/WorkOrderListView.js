@@ -114,11 +114,11 @@ const WorkOrderListView = props => {
                 style={[
                   {
                     backgroundColor:
-                      res.status === "Open"
+                      workorder.status === "Open"
                         ? "white"
-                        : res.status === "In Progress"
+                        : workorder.status === "In Progress"
                           ? "#07BD51"
-                          : res.status === "On Hold" ? "#FFD3D3" : "#878C90",
+                          : workorder.status === "On Hold" ? "#FFD3D3" : "#878C90",
                     width: "100%"
                   },
                   wOList.info,
@@ -129,32 +129,32 @@ const WorkOrderListView = props => {
                   style={[
                     {
                       color:
-                        res.status === "Open"
+                        workorder.status === "Open"
                           ? "#087FFF"
-                          : res.status === "In Progress"
+                          : workorder.status === "In Progress"
                             ? "white"
-                            : res.status === "On Hold" ? "#FE273A" : "white",
-                      borderColor: res.status === "Open" ? "#878C90" : ""
+                            : workorder.status === "On Hold" ? "#FE273A" : "white",
+                      borderColor: workorder.status === "Open" ? "#878C90" : ""
                     },
                     wOList.infoText
                   ]}
                 >
-                  {res.status}
+                  {workorder.status}
                 </Text>
               </View>
               <View style={wOList.qrPriority}>
                 <Text style={[wOList.info, wOList.qr, wOList.infoText]}>
-                  #{res.id}
+                  #{workorder.id}
                 </Text>
                 <View
                   style={[
                     {
                       backgroundColor:
-                        res.priority === "Low"
+                        workorder.priority === "Low"
                           ? "#E2F5FC"
-                          : res.priority === "Medium"
+                          : workorder.priority === "Medium"
                             ? "#CBFBCB"
-                            : res.priority === "High" ? "#FFED9B" : "#FFD3D3"
+                            : workorder.priority === "High" ? "#FFED9B" : "#FFD3D3"
                     },
                     wOList.info,
                     wOList.priority
@@ -164,18 +164,18 @@ const WorkOrderListView = props => {
                     style={[
                       {
                         color:
-                          res.priority === "Low"
+                          workorder.priority === "Low"
                             ? "#087FFF"
-                            : res.priority === "Medium"
+                            : workorder.priority === "Medium"
                               ? "#07BD51"
-                              : res.priority === "High" ? "#DBA004" : "#FE273A",
+                              : workorder.priority === "High" ? "#DBA004" : "#FE273A",
                         textAlign: "center",
                         width: "100%"
                       },
                       wOList.infoText
                     ]}
                   >
-                    {res.priority}
+                    {workorder.priority}
                   </Text>
                 </View>
               </View>
