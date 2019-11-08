@@ -25,6 +25,10 @@
         "react-hooks/exhaustive-deps": "warn",
         "no-unused-vars": [
             "never"
+        ],
+        "quotes": [
+            "error",
+            "double"
         ]
     }
 }
