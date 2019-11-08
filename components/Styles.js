@@ -132,40 +132,6 @@ export const wOList = StyleSheet.create({
     },
 });
 
-
-// export const wOList = StyleSheet.create({
-//   card: {
-//     borderWidth: 1,
-//     width: "95%",
-//     alignSelf: "center",
-//     borderColor: "grey",
-//     flexDirection: "row",
-//     marginBottom: 4
-//   },
-//   cardLeft: {
-//     flex: 2,
-//     textAlign: "right",
-//     padding: 10
-//   },
-//   cardMiddle: {
-//     flex: 4,
-//     padding: 5
-//   },
-//   cardRight: {
-//     flex: 2,
-//     justifyContent: "center"
-//   },
-//   image: {
-//     width: 100,
-//     height: 100
-//   },
-//   title: {
-//     fontSize: 20,
-//     fontWeight: "700",
-//     marginBottom: 10
-//   }
-// });
-
 export const wOForm = StyleSheet.create({
   imgCard: {
     borderWidth: 1,
@@ -304,7 +270,6 @@ export const wOForm = StyleSheet.create({
 });
 
 export const loginStyles = StyleSheet.create({
-  //LOGO CONTAINER -- GET STYLES FROM FIGMA 10/25/2019 SD
   logo: {
     borderWidth: 2,
     position: "absolute",
