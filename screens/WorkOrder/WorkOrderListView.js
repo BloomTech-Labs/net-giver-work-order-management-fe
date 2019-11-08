@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import {
-  AsyncStorage,
   SafeAreaView,
   ScrollView,
   View,
   Text,
   Image,
-  TextInput,
   TouchableOpacity,
-  StyleSheet,
-  ActivityIndicator
+  ActivityIndicator,
+  FlatList
 } from "react-native";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
@@ -50,24 +48,25 @@ const WorkOrderListView = props => {
   const [selectedWo, setSelectedWo] = useState(null);
 
   const goToWo = workorder =>
-    props.navigation.push("EditWorkOrder", { ...workorder });
+    props.navigation.push("EditWorkOrder", {
+      ...workorder,
+      pagetitle: "Edit Workorder"
+    });
+
+  const goToDetails = workorder =>
+    props.navigation.push("Details", { ...workorder });
 
   if (loading)
     return (
       <SafeAreaView style={styles.container}>
         <ActivityIndicator size="large" color="black" />
-        <Text style={wOList.title}>
-          Loading
-          {console.log(loading)}
-        </Text>
+        <Text style={wOList.title}>Loading</Text>
       </SafeAreaView>
     );
   if (error)
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={wOList.title}>
-          Error :( {console.log(error)}
-        </Text>
+        <Text style={wOList.title}>Error :(</Text>
       </SafeAreaView>
     );
   return (
@@ -114,11 +113,13 @@ const WorkOrderListView = props => {
                 style={[
                   {
                     backgroundColor:
-                      workorder.status === "Open"
+                      workorder.status === "Not Started"
                         ? "white"
                         : workorder.status === "In Progress"
                           ? "#07BD51"
-                          : workorder.status === "On Hold" ? "#FFD3D3" : "#878C90",
+                          : workorder.status === "Complete"
+                            ? "#FFD3D3"
+                            : "#878C90",
                     width: "100%"
                   },
                   wOList.info,
@@ -129,12 +130,15 @@ const WorkOrderListView = props => {
                   style={[
                     {
                       color:
-                        workorder.status === "Open"
+                        workorder.status === "Not Started"
                           ? "#087FFF"
                           : workorder.status === "In Progress"
                             ? "white"
-                            : workorder.status === "On Hold" ? "#FE273A" : "white",
-                      borderColor: workorder.status === "Open" ? "#878C90" : ""
+                            : workorder.status === "Complete"
+                              ? "#FE273A"
+                              : "white",
+                      borderColor:
+                        workorder.status === "Not Started" ? "#878C90" : ""
                     },
                     wOList.infoText
                   ]}
@@ -154,7 +158,9 @@ const WorkOrderListView = props => {
                           ? "#E2F5FC"
                           : workorder.priority === "Medium"
                             ? "#CBFBCB"
-                            : workorder.priority === "High" ? "#FFED9B" : "#FFD3D3"
+                            : workorder.priority === "High"
+                              ? "#FFED9B"
+                              : "#FFD3D3"
                     },
                     wOList.info,
                     wOList.priority
@@ -168,7 +174,9 @@ const WorkOrderListView = props => {
                             ? "#087FFF"
                             : workorder.priority === "Medium"
                               ? "#07BD51"
-                              : workorder.priority === "High" ? "#DBA004" : "#FE273A",
+                              : workorder.priority === "High"
+                                ? "#DBA004"
+                                : "#FE273A",
                         textAlign: "center",
                         width: "100%"
                       },

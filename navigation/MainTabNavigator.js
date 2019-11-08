@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
+import Details from "../screens/WorkOrder/Details";
 import TabBarIcon from "../components/TabBarIcon";
 import WorkOrderListView from "../screens/WorkOrder/WorkOrderListView";
 import AccountSettings from "../screens/Account/AccountSetting";
@@ -17,18 +18,19 @@ import CheckBarCode from "../screens/WorkOrder/BarCodeScanner/CheckBarCode";
 import NewWorkOrderForm from "../screens/WorkOrder/NewWorkOrder/NewWorkOrderForm";
 import EditWorkOrder from "../screens/WorkOrder/ExistingWorkOrder/EditWorkOrder";
 import CameraModule from "../components/camera/Camera";
+import GalleryScreen from "../components/camera/GalleryScreen";
 
 const config = Platform.select({
-    web: { headerMode: 'screen' },
-    default: {},
-})
+  web: { headerMode: "screen" },
+  default: {}
+});
 
 const WorkOrderStack = createStackNavigator(
   {
     WorkOrderList: {
       screen: WorkOrderListView,
       navigationOptions: props => ({
-        title: "Work Order List View",
+        // title: "Work Order List View",
         headerRight: (
           <View style={{ marginRight: 15 }}>
             <TouchableOpacity
@@ -65,23 +67,10 @@ const WorkOrderStack = createStackNavigator(
       })
     },
     CameraModule: {
-      screen: CameraModule,
-      navigationOptions: props => ({
-        title: "Take a Photo",
-        headerRight: (
-          <View style={{ marginRight: 15 }}>
-            <TouchableOpacity
-              onPress={() => {
-                AsyncStorage.removeItem("userToken").then(() => {
-                  props.navigation.navigate("Auth");
-                });
-              }}
-            >
-              <Text>Logout</Text>
-            </TouchableOpacity>
-          </View>
-        )
-      })
+      screen: CameraModule
+    },
+    GalleryScreen: {
+      screen: GalleryScreen
     }
   },
   config
@@ -198,7 +187,7 @@ QRStack.navigationOptions = {
     />
 };
 
-QRStack.path = ''
+QRStack.path = "";
 
 const AccountStack = createStackNavigator(
   {
@@ -234,7 +223,7 @@ AccountStack.navigationOptions = {
     />
 };
 
-AccountStack.path = ''
+AccountStack.path = "";
 
 const tabNavigator = createBottomTabNavigator({
   WorkOrderStack,
@@ -242,6 +231,6 @@ const tabNavigator = createBottomTabNavigator({
   AccountStack
 });
 
-tabNavigator.path = ''
+tabNavigator.path = "";
 
-export default tabNavigator
+export default tabNavigator;

@@ -60,9 +60,7 @@ const AccountSettings = props => {
   if (error)
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={wOList.title}>
-          Error :( {console.log(error)}
-        </Text>
+        <Text style={wOList.title}>Error :(</Text>
       </SafeAreaView>
     );
   return (
