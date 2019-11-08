@@ -13,7 +13,6 @@ import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { wOList, styles } from "../../components/Styles";
 import EditWorkOrder from "./ExistingWorkOrder/EditWorkOrder";
-
 const GET_WORKORDERS = gql`
   query workorders($limit: Int) {
     workorders(limit: $limit) {
@@ -39,13 +38,14 @@ const GET_WORKORDERS = gql`
     }
   }
 `;
-
 const WorkOrderListView = props => {
   const [sentFrom, setSentFrom] = useState();
   const { data, loading, error } = useQuery(GET_WORKORDERS, {
     variables: { limit: 5 }
   });
   const [selectedWo, setSelectedWo] = useState(null);
+  //  const goToWo = workorder =>
+  //   props.navigation.push("EditWorkOrder", { ...workorder });
 
   const goToWo = workorder =>
     props.navigation.push("EditWorkOrder", {
@@ -95,7 +95,6 @@ const WorkOrderListView = props => {
                   {workorder.title}
                 </Text>
               </View>
-
               <View style={wOList.cardSubContent}>
                 <View style={{ flexDirection: "row" }}>
                   <Text style={wOList.text} numberOfLines={1}>

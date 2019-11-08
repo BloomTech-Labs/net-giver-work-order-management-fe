@@ -268,7 +268,6 @@ export const wOForm = StyleSheet.create({
 });
 
 export const loginStyles = StyleSheet.create({
-  //LOGO CONTAINER -- GET STYLES FROM FIGMA 10/25/2019 SD
   logo: {
     borderWidth: 2,
     position: "absolute",

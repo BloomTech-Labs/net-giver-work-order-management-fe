@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
-import Details from "../screens/WorkOrder/Details";
 import TabBarIcon from "../components/TabBarIcon";
 import WorkOrderListView from "../screens/WorkOrder/WorkOrderListView";
 import AccountSettings from "../screens/Account/AccountSetting";
@@ -18,6 +17,7 @@ import CheckBarCode from "../screens/WorkOrder/BarCodeScanner/CheckBarCode";
 import NewWorkOrderForm from "../screens/WorkOrder/NewWorkOrder/NewWorkOrderForm";
 import EditWorkOrder from "../screens/WorkOrder/ExistingWorkOrder/EditWorkOrder";
 import CameraModule from "../components/camera/Camera";
+import Details from "../screens/WorkOrder/Details";
 import GalleryScreen from "../components/camera/GalleryScreen";
 
 const config = Platform.select({
@@ -47,6 +47,28 @@ const WorkOrderStack = createStackNavigator(
         )
       })
     },
+
+    //DETAILS PAGE 11/05/2019 KS
+    Details: {
+      screen: Details,
+      navigationOptions: props => ({
+        title: "Details",
+        headerRight: (
+          <View style={{ marginRight: 15 }}>
+            <TouchableOpacity
+              onPress={() => {
+                AsyncStorage.removeItem("userToken").then(() => {
+                  props.navigation.navigate("Auth");
+                });
+              }}
+            >
+              <Text>Logout</Text>
+            </TouchableOpacity>
+          </View>
+        )
+      })
+    },
+
     EditWorkOrder: {
       screen: EditWorkOrder,
       navigationOptions: props => ({
@@ -153,8 +175,6 @@ const QRStack = createStackNavigator(
         )
       })
     },
-    // ADDS CAMERA SCREEN TO NAVIGATION STACK 10/24/2019 SD
-    // NEED TO TRY TO FIND A WAY TO HIDE THE BOTTOM TAB NAV WHEN THE CAMERA IS OPEN
     CameraModule: {
       screen: CameraModule,
       navigationOptions: props => ({
