@@ -65,7 +65,6 @@ const AppCamera = props => {
     }
     const handleSubmit = () => {
         if (props.navigation.state.params.from === 'Signup') {
-            console.log(props.navigation.state.params.callback)
             props.navigation.state.params.callback(uri)
             props.navigation.goBack()
         } else if (props.navigation.state.params.from === 'EditWorkOrder') {

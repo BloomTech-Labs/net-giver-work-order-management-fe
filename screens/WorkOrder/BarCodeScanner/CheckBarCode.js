@@ -38,7 +38,10 @@ const CheckBarCode = props => {
   const [createWorkorder, { loading, error }] = useMutation(CREATE_WORK_ORDER, {
     onCompleted({ createWorkorder }) {
       const qrcode = createWorkorder.qrcode;
-      props.navigation.navigate("EditWorkOrder", { ...createWorkorder });
+      props.navigation.navigate("EditWorkOrder", {
+        ...createWorkorder,
+        pagetitle: "Create New Workorder"
+      });
     }
   });
 

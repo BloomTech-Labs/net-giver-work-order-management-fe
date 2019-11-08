@@ -19,16 +19,16 @@ import EditWorkOrder from "../screens/WorkOrder/ExistingWorkOrder/EditWorkOrder"
 import CameraModule from "../components/camera/Camera";
 
 const config = Platform.select({
-    web: { headerMode: 'screen' },
-    default: {},
-})
+  web: { headerMode: "screen" },
+  default: {}
+});
 
 const WorkOrderStack = createStackNavigator(
   {
     WorkOrderList: {
       screen: WorkOrderListView,
       navigationOptions: props => ({
-        title: "Work Order List View",
+        // title: "Work Order List View",
         headerRight: (
           <View style={{ marginRight: 15 }}>
             <TouchableOpacity
@@ -198,7 +198,7 @@ QRStack.navigationOptions = {
     />
 };
 
-QRStack.path = ''
+QRStack.path = "";
 
 const AccountStack = createStackNavigator(
   {
@@ -234,7 +234,7 @@ AccountStack.navigationOptions = {
     />
 };
 
-AccountStack.path = ''
+AccountStack.path = "";
 
 const tabNavigator = createBottomTabNavigator({
   WorkOrderStack,
@@ -242,6 +242,6 @@ const tabNavigator = createBottomTabNavigator({
   AccountStack
 });
 
-tabNavigator.path = ''
+tabNavigator.path = "";
 
-export default tabNavigator
+export default tabNavigator;
