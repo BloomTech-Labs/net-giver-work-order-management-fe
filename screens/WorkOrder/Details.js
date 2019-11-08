@@ -61,6 +61,10 @@ const Details = ({ navigation }) => {
                         />}
             </View>
 
+            <View>
+              <Text></Text> 
+            </View>
+
             {/* BUTTONS */}
             <View >
                     <View >
@@ -71,17 +75,17 @@ const Details = ({ navigation }) => {
                             >
                             
                             <Text>
-                                Not Started
+                                Open
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity>
                             <Text>
-                                In Progress
+                                Hold
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity>
                             <Text>
-                                Complete
+                                Working
                             </Text>
                         </TouchableOpacity>
                     </View>
