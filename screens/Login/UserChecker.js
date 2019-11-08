@@ -4,7 +4,6 @@ import { styles } from "../../components/Styles";
 // import {connect} from 'react-redux'
 
 const UserChecker = props => {
-  console.log("TCL: UserChecker -> props", props);
   // PULLS USERNAME FROM PROPS 10/24/2019 SD
   const username = props.navigation.state.params.username;
   if (username) {

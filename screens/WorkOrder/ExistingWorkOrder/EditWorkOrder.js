@@ -3,12 +3,7 @@ import {
   ScrollView,
   View,
   TextInput,
-  // Text,
-  Alert,
   Image,
-  SafeAreaView,
-  Picker,
-  StyleSheet,
   TouchableOpacity,
   ActivityIndicator
 } from "react-native";
@@ -16,7 +11,6 @@ import { Field, Formik } from "formik";
 import { Text } from "native-base";
 import { Icon, Button, ButtonGroup } from "react-native-elements";
 import { wOForm, wOList, styles } from "../../../components/Styles";
-import { StackActions, NavigationActions } from "react-navigation";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { PictureField } from "../../../components/shared/PictureField";

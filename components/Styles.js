@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 const plex = "fontFamily: 'IBMPlexSans-Regular'";
+
 export const styles = StyleSheet.create({
   button: {
     backgroundColor: "#006E13",
@@ -52,84 +53,81 @@ export const styles = StyleSheet.create({
 
 export const wOList = StyleSheet.create({
   card: {
-        width: "100%",
-        borderTopColor: '#E5E5E5',
-        borderTopWidth: 4,
-        paddingLeft: 9,
-        paddingRight: 14,
-        paddingTop: 13,
-        paddingBottom: 31,
-        alignSelf: 'center',
-        flexDirection: 'row',
+    width: "100%",
+    borderTopColor: "#E5E5E5",
+    borderTopWidth: 4,
+    paddingLeft: 9,
+    paddingRight: 14,
+    paddingTop: 13,
+    paddingBottom: 31,
+    alignSelf: "center",
+    flexDirection: "row"
+  },
+  info: {
+    borderRadius: 4,
+    height: 20
+  },
+  infoText: {
+    fontSize: 14,
+    textAlign: "center"
+  },
+  status: {
+    width: 84
+  },
+  priority: {
+    width: 40,
+    marginLeft: 5
+  },
+  qr: {
+    width: 65,
+    color: "#8B9195",
+    backgroundColor: "#F2F5F7"
+  },
 
-    },
-    info: {
-        borderRadius: 4,
-        height: 20
-    },
-    infoText: {
-        fontSize: 14,
-        textAlign: 'center'
-    },
-    status: {
-        width: 84,
-    },
-    priority: {
-        width: 40,
-        marginLeft: 5
-    },
-    qr: {
-        width: 65,
-        color: '#8B9195',
-        backgroundColor: '#F2F5F7'
-    },
+  cardMiddle: {
+    //width: 160,
+    flex: 1
+    //paddingRight: 5,
+  },
 
-    cardMiddle: {
-      //width: 160,
-      flex: 1,
-      //paddingRight: 5,
-
-    },
-
-    qrPriority: {
-        flexDirection: 'row',
-        marginTop: 12,
-        marginLeft: 'auto',
-        alignSelf: 'flex-end'
-    },
-    text: {
-        flex: 1,
-        flexWrap: 'wrap',
-        fontSize: 14,
-        lineHeight: 22,
-    },
-    cardSubContent: {
-        flexDirection: "column"
-    },
-    cardLeft: {
-      width: 'auto',
-    },
-    cardRight: {
-        
-        alignItems: 'flex-end',
-        marginLeft: 'auto'
-    },
-    image: {
-        flex: 1,
-        flexWrap: 'wrap',
-        width: 64,
-        height: 64,
-        borderRadius: 4,
-        marginRight: 22,
-    },
-    title: {
-        flex: 1,
-        width: '100%',
-        flexWrap: 'wrap',
-        fontSize: 17,
-        fontWeight: 'bold',
-        marginBottom: 1,
-    },
+  qrPriority: {
+    flexDirection: "row",
+    marginTop: 12,
+    marginLeft: "auto",
+    alignSelf: "flex-end"
+  },
+  text: {
+    flex: 1,
+    flexWrap: "wrap",
+    fontSize: 14,
+    lineHeight: 22
+  },
+  cardSubContent: {
+    flexDirection: "column"
+  },
+  cardLeft: {
+    width: "auto"
+  },
+  cardRight: {
+    alignItems: "flex-end",
+    marginLeft: "auto"
+  },
+  image: {
+    flex: 1,
+    flexWrap: "wrap",
+    width: 64,
+    height: 64,
+    borderRadius: 4,
+    marginRight: 22
+  },
+  title: {
+    flex: 1,
+    width: "100%",
+    flexWrap: "wrap",
+    fontSize: 17,
+    fontWeight: "bold",
+    marginBottom: 1
+  }
 });
 
 export const wOForm = StyleSheet.create({
