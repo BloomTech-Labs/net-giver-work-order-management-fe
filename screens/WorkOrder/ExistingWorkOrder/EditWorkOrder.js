@@ -3,12 +3,7 @@ import {
   ScrollView,
   View,
   TextInput,
-  // Text,
-  Alert,
   Image,
-  SafeAreaView,
-  Picker,
-  StyleSheet,
   TouchableOpacity,
   ActivityIndicator
 } from "react-native";
@@ -16,7 +11,6 @@ import { Field, Formik } from "formik";
 import { Text } from "native-base";
 import { Icon, Button, ButtonGroup } from "react-native-elements";
 import { wOForm, wOList, styles } from "../../../components/Styles";
-import { StackActions, NavigationActions } from "react-navigation";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { PictureField } from "../../../components/shared/PictureField";
@@ -54,25 +48,8 @@ const EDIT_WO = gql`
       }
     }
   }
-`
+`;
 
-const EditWorkOrder = props => {
-  console.log(props)
-  const { data, loading, error } = useQuery(GET_WORKORDER, {
-    // variables: { id: props.navigation.getParam("id", "no id") }
-    variables: { id: props.navigation.state.params.id }
-  });
-  const { navigation } = props;
-  const [wo, setWo] = useState(navigation.getParam("wo", "no wo"));
-  const [photo, setPhoto] = useState(navigation.getParam("photo", "no wo"));
-  const [photouri, setPhotouri] = useState(photo.uri);
-  const [id, setId] = useState(props.navigation.state.params.id);
-  const [clicked, setClicked] = useState();
-  const [priority, setPriority] = useState(wo.priority);
-  const [status, setStatus] = useState(wo.status);
-  const [title, setTitle] = useState(wo.title);
-  const [detail, setDetail] = useState(wo.detail);
-  const [workorderphoto, setWorkorderphotos] = useState(wo.workorderphoto);
 const WO_PIC = gql`
   mutation uploadWorkorderphoto($photo: Upload!, $workorderId: ID!) {
     uploadWorkorderphoto(photo: $photo, workorderId: $workorderId) {
@@ -81,7 +58,7 @@ const WO_PIC = gql`
       path
     }
   }
-`
+`;
 
 const updateWo = async ({
   values,
@@ -374,5 +351,5 @@ const EditWorkOrder = ({ navigation }) => {
     />
   );
 };
-}
-export default EditWorkOrder
+
+export default EditWorkOrder;

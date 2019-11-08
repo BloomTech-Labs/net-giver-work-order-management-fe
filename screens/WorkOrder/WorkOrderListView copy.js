@@ -48,10 +48,7 @@ const WorkOrderListView = props => {
   const [selectedWo, setSelectedWo] = useState(null);
 
   const goToWo = workorder =>
-    props.navigation.push("EditWorkOrder", {
-      ...workorder,
-      pagetitle: "Edit Workorder"
-    });
+    props.navigation.push("EditWorkOrder", { ...workorder });
 
   if (loading)
     return (
