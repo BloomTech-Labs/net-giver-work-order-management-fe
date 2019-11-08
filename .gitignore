@@ -1,5 +1,5 @@
 .expo/
-yarn.lock
+
 node_modules/
 notes.txt
 packager-info.json
