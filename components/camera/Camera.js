@@ -170,13 +170,7 @@ const AppCamera = props => {
         )
     }
 
-    const GalleryButton = () => {
-        return(
-            <TouchableOpacity style={styles.galleryButtonContainer} onPress={galNav}>
-                <Text>Open Gallery</Text>
-            </TouchableOpacity>
-        )
-    }
+
 
     const ContentButtons = () => {
         return (
@@ -196,7 +190,7 @@ const AppCamera = props => {
     const BottomButtons = () => {
         return (
             <View style={styles.bottomButtons}>
-                {uri ? <ContentButtons /> : <><CaptureButton /> <GalleryButton /></>}
+                {uri ? <ContentButtons /> :<CaptureButton /> }
             </View>
         )
     }

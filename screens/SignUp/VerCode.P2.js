@@ -10,7 +10,7 @@ import {
 
 const VerCode = props => {
 console.log("TCL: props", props)
-    // const phone = props.navigation.state.params.phone
+    const phone = props.navigation.getParam("phone", "NO PHONE")
     const [user, setUser] = useState(props.navigation.getParam("user", "NO USER"))
     console.log('user', user)
     const [ver, setVer] = useState()
@@ -20,14 +20,14 @@ console.log("TCL: props", props)
         } else if (ver.length != 6) {
             alert('Please check your verification code')
         } else {
-            props.navigation.navigate('P3', { user: user, verCode: ver })
+            props.navigation.navigate('P3', { user: user, verCode: ver, phone:phone })
         }
     }
     return (
         <SafeAreaView>
             <Text style={su2.header}>We need to verify your phone number</Text>
             <Text style={su2.subHead}>We just sent a one-time code to</Text>
-            <Text>{'+1' + user.phone}</Text>
+            <Text>{'+1' + phone}</Text>
             <TextInput
                 style={su2.input}
                 placeholder="6-digit-code"
