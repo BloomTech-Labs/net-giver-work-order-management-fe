@@ -15,7 +15,7 @@ import {
 import { Field, Formik } from "formik";
 import { Text } from "native-base";
 import { Icon, Button, ButtonGroup } from "react-native-elements";
-import { wOForm, wOList, styles } from "../../../components/Styles";
+import {  wOList, styles } from "../../../components/Styles";
 import { StackActions, NavigationActions } from "react-navigation";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
@@ -181,6 +181,8 @@ const EditWorkOrder = ({ navigation }) => {
                 value={values.detail}
                 value={wo.detail}
                 style={wOForm.textInput1}
+                multiline={true}
+                placeholder='Detailed Description'
               />
             </View>
             <View style={{ backgroundColor: "white", padding: 3 }}>
@@ -188,28 +190,49 @@ const EditWorkOrder = ({ navigation }) => {
             </View>
             <View style={wOForm.statusView}>
               <View style={wOForm.statusDiv}>
+                <View style={wOForm.statusButton}>
                 <Button
-                  onPress={() => setFieldValue("status", "Not Started")}
+                  onPress={() => setFieldValue("status", "Open")}
                   buttonStyle={wOForm.statusButtons}
                   titleStyle={wOForm.statusButtonsText}
-                  disabled={values.status === "Not Started"}
+                  disabled={values.status === "Open"}
+                  disabledStyle={wOForm.statusButtonsActive}
+                  disabledTitleStyle={wOForm.statusButtonsTextActive}
+                  
+                  icon={
+                    <Icon
+
+                      color="black"
+                      type="antdesign"
+                      name="unlock"
+                      size={20}
+                    />
+                  }
+                  title="Open"
+                />
+                </View>
+                                <Button
+                  onPress={() => setFieldValue("status", "Hold")}
+                  buttonStyle={wOForm.statusButtons}
+                  titleStyle={wOForm.statusButtonsText}
+                  disabled={values.status === "Hold"}
                   disabledStyle={wOForm.statusButtonsActive}
                   disabledTitleStyle={wOForm.statusButtonsTextActive}
                   icon={
                     <Icon
                       color="black"
                       type="antdesign"
-                      name="unlock"
-                      size={35}
+                      name="pause"
+                      size={20}
                     />
                   }
-                  title="Not Started"
+                  title="Hold"
                 />
                 <Button
-                  onPress={() => setFieldValue("status", "In Progress")}
+                  onPress={() => setFieldValue("status", "Working")}
                   buttonStyle={wOForm.statusButtons}
                   titleStyle={wOForm.statusButtonsText}
-                  disabled={values.status === "In Progress"}
+                  disabled={values.status === "Working"}
                   disabledStyle={wOForm.statusButtonsActive}
                   disabledTitleStyle={wOForm.statusButtonsTextActive}
                   icon={
@@ -217,16 +240,16 @@ const EditWorkOrder = ({ navigation }) => {
                       color="black"
                       type="antdesign"
                       name="sync"
-                      size={35}
+                      size={20}
                     />
                   }
-                  title="In Progress"
+                  title="Working"
                 />
                 <Button
-                  onPress={() => setFieldValue("status", "Complete")}
+                  onPress={() => setFieldValue("status", "Done")}
                   buttonStyle={wOForm.statusButtons}
                   titleStyle={wOForm.statusButtonsText}
-                  disabled={values.status === "Complete"}
+                  disabled={values.status === "Done"}
                   disabledStyle={wOForm.statusButtonsActive}
                   disabledTitleStyle={wOForm.statusButtonsTextActive}
                   icon={
@@ -234,10 +257,10 @@ const EditWorkOrder = ({ navigation }) => {
                       color="black"
                       type="antdesign"
                       name="lock"
-                      size={35}
+                      size={20}
                     />
                   }
-                  title="Complete"
+                  title="Done"
                 />
               </View>
             </View>
@@ -270,6 +293,15 @@ const EditWorkOrder = ({ navigation }) => {
                   title="High"
                   titleStyle={wOForm.priorityButtonsText}
                   disabled={values.priority === "High"}
+                  disabledStyle={wOForm.statusButtonsActive}
+                  disabledTitleStyle={wOForm.statusButtonsTextActive}
+                />
+                                <Button
+                  onPress={() => setFieldValue("priority", "Urgent")}
+                  buttonStyle={wOForm.priorityButtons}
+                  title="Urgent"
+                  titleStyle={wOForm.priorityButtonsText}
+                  disabled={values.priority === "Urgent"}
                   disabledStyle={wOForm.statusButtonsActive}
                   disabledTitleStyle={wOForm.statusButtonsTextActive}
                 />
@@ -359,3 +391,145 @@ const EditWorkOrder = ({ navigation }) => {
 };
 
 export default EditWorkOrder;
+const wOForm = StyleSheet.create({
+  imgCard: {
+    borderWidth: 1,
+    marginTop: 5,
+    padding: 5,
+    marginBottom: 5
+  },
+  imgCardTop: {},
+  imgCardBot: {},
+  imgCardBot: {},
+  touchImage: {},
+  imgUpload: {
+    width: 150,
+    height: 150,
+    marginLeft: "auto",
+    marginRight: "auto"
+  },
+  statusView: {
+    flex: 1,
+    backgroundColor: "white",
+    // justifyContent: "flex-start",
+    justifyContent: "space-between",
+    padding: 0,
+    borderWidth: 0,
+    borderBottomWidth: 1,
+    alignItems: "center",
+    padding: 5
+  },
+  statusText: {
+    textAlign: "left",
+    width: "100%"
+  },
+  statusDiv: {
+    flexDirection: "row",
+    margin: "auto",
+    alignItems: "center",
+    justifyContent:"space-between",
+    borderWidth: 0,
+    backgroundColor: "white",
+    height: 100,
+    width: "100%",
+    marginTop: 0,
+    borderRadius: 0
+  },
+  statusButton: {flexDirection:'column'},
+  statusButtons: {
+    backgroundColor: "#f4f3f3",
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#C5C2C2",
+    margin: 3,
+    flexDirection:'column',
+    width: 80,
+  },
+  statusButtonsText: { color: "#89898E", textAlign: "center", fontSize: 14 },
+  statusButtonsActive: {
+    backgroundColor: "#009900"
+  },
+  statusButtonsTextActive: {
+    color: "white"
+  },
+  priorityDiv: {
+    flexDirection: "row",
+    margin: "auto",
+    alignItems: "center",
+    borderWidth: 0,
+    backgroundColor: "white",
+    height: 100,
+    width: "100%",
+    marginTop: 0,
+    borderRadius: 0,
+    justifyContent:'space-between'
+  },
+  priorityButtons: {
+    backgroundColor: "#f4f3f3",
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#C5C2C2",
+    margin: 3,
+    height: 55,
+    width: 80
+  },
+  priorityButtonsText: {
+    color: "#89898E",
+    textAlign: "center",
+    fontSize: 14,
+    marginTop: "auto",
+    marginBottom: "auto"
+  },
+
+  priorityButtonsActive: {
+    backgroundColor: "#009900",
+    width: "23%",
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#C5C2C2",
+    padding: 5,
+    height: 53
+  },
+  priorityButtonsTextActive: {
+    color: "white",
+    textAlign: "center",
+    fontSize: 14
+  },
+  hidden: {
+    display: "none",
+    alignSelf: "center"
+  },
+  button: {
+    backgroundColor: "#006E13",
+    borderWidth: 2,
+    borderColor: "#EDF1F3",
+    width: "96%",
+    alignSelf: "center",
+    justifyContent: "center"
+  },
+  textInput: {
+    marginTop: -15,
+    borderTopWidth: 1,
+    borderBottomWidth: 0,
+    borderRightWidth: 0,
+    borderLeftWidth: 0,
+    backgroundColor: "#ffffff",
+    borderColor: "#C5C2C2",
+    width: "102%",
+    alignSelf: "center",
+    padding: 10
+  },
+  textInput1: {
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderRightWidth: 0,
+    borderLeftWidth: 0,
+    backgroundColor: "#ffffff",
+    borderColor: "#C5C2C2",
+    width: "102%",
+    alignSelf: "center",
+    padding: 10,
+    height: 90,
+    textAlignVertical: "top",
+  }
+});
