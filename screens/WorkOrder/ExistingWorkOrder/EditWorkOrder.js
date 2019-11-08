@@ -4,17 +4,17 @@ import {
   View,
   TextInput,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  ActivityIndicator
 } from "react-native";
 import { Field, Formik } from "formik";
 import { Text } from "native-base";
-import { Icon, Button } from "react-native-elements";
-import { wOForm } from "../../../components/Styles";
+import { Icon, Button, ButtonGroup } from "react-native-elements";
+import { wOForm, wOList, styles } from "../../../components/Styles";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { PictureField } from "../../../components/shared/PictureField";
 import { CameraField } from "../../../components/shared/CameraField";
-import { Form } from "native-base";
 
 const EDIT_WO = gql`
   mutation editWorkorder(
@@ -60,29 +60,6 @@ const WO_PIC = gql`
   }
 `;
 
-const refetch = () => {
-  refetchQueries: [
-    {
-      query: gql`
-        query UpdateCache($repoName: String!) {
-          entry(repoFullName: $repoName) {
-            id
-            comments {
-              postedBy {
-                login
-                html_url
-              }
-              createdAt
-              content
-            }
-          }
-        }
-      `,
-      variables: { repoName: "apollographql/apollo-client" }
-    }
-  ];
-};
-
 const updateWo = async ({
   values,
   editWorkorder,
@@ -90,6 +67,7 @@ const updateWo = async ({
   navigation
 }) => {
   if (values.photo.uri) {
+    console.log(values.photo);
     const picresult = await uploadWorkorderphoto({
       variables: {
         photo: values.photo,
@@ -137,13 +115,8 @@ const EditWorkOrder = ({ navigation }) => {
     title,
     user,
     user: { username },
-    workorderphoto,
-    pagetitle
+    workorderphoto
   } = navigation.state.params;
-
-  const navigationOptions = {
-    title: "Home"
-  };
 
   const [wo, setWo] = useState({
     id: id,
@@ -185,14 +158,13 @@ const EditWorkOrder = ({ navigation }) => {
         setFieldValue
       }) =>
         <ScrollView style={{ backgroundColor: "#f8f5f4" }}>
-          <View title={title}>
+          <View>
             <View style={{ marginTop: 15 }}>
               <TextInput
                 onChangeText={handleChange("title")}
                 onBlur={handleBlur("title")}
                 value={values.title}
                 placeholder="Work Order Title*"
-                placeholder={pagetitle}
                 style={wOForm.textInput}
               />
             </View>

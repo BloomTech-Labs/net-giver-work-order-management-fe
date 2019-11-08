@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import {
   SafeAreaView,
   View,
@@ -38,10 +37,7 @@ const CheckBarCode = props => {
   const [createWorkorder, { loading, error }] = useMutation(CREATE_WORK_ORDER, {
     onCompleted({ createWorkorder }) {
       const qrcode = createWorkorder.qrcode;
-      props.navigation.navigate("EditWorkOrder", {
-        ...createWorkorder,
-        pagetitle: "Create New Workorder"
-      });
+      props.navigation.navigate("EditWorkOrder", { ...createWorkorder });
     }
   });
 
