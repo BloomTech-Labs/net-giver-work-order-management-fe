@@ -3,14 +3,9 @@ import {
   ScrollView,
   View,
   TextInput,
-  // Text,
-  Alert,
   Image,
-  SafeAreaView,
-  Picker,
   StyleSheet,
   TouchableOpacity,
-  ActivityIndicator
 } from "react-native";
 import { Field, Formik } from "formik";
 import { Text } from "native-base";
@@ -312,7 +307,7 @@ const EditWorkOrder = ({ navigation }) => {
                 <Text>Tap on image to upload.</Text>
               </View>
               <View style={wOForm.imgCardBot}>
-                <TouchableOpacity style={wOForm.touchImage}>
+                <TouchableOpacity style={wOForm.touchImage} onPress={()=> PictureField}>
                   {values.photo.uri
                     ? <Image
                         style={wOForm.imgUpload}
@@ -415,7 +410,7 @@ const wOForm = StyleSheet.create({
     justifyContent: "space-between",
     padding: 0,
     borderWidth: 0,
-    borderBottomWidth: 1,
+    // borderBottomWidth: 1,
     alignItems: "center",
     padding: 5
   },
@@ -521,7 +516,7 @@ const wOForm = StyleSheet.create({
   },
   textInput1: {
     borderTopWidth: 1,
-    borderBottomWidth: 1,
+    borderBottomWidth: 0,
     borderRightWidth: 0,
     borderLeftWidth: 0,
     backgroundColor: "#ffffff",
