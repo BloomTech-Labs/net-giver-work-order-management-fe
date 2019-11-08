@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
+import Details from "../screens/WorkOrder/Details";
 import TabBarIcon from "../components/TabBarIcon";
 import WorkOrderListView from "../screens/WorkOrder/WorkOrderListView";
 import AccountSettings from "../screens/Account/AccountSetting";
@@ -17,7 +18,8 @@ import CheckBarCode from "../screens/WorkOrder/BarCodeScanner/CheckBarCode";
 import NewWorkOrderForm from "../screens/WorkOrder/NewWorkOrder/NewWorkOrderForm";
 import EditWorkOrder from "../screens/WorkOrder/ExistingWorkOrder/EditWorkOrder";
 import CameraModule from "../components/camera/Camera";
-import GalleryScreen from '../components/camera/GalleryScreen'
+import GalleryScreen from "../components/camera/GalleryScreen";
+
 const config = Platform.select({
   web: { headerMode: "screen" },
   default: {}
@@ -65,11 +67,11 @@ const WorkOrderStack = createStackNavigator(
       })
     },
     CameraModule: {
-      screen: CameraModule,
+      screen: CameraModule
     },
     GalleryScreen: {
-      screen: GalleryScreen,
-    },
+      screen: GalleryScreen
+    }
   },
   config
 );

@@ -53,6 +53,9 @@ const WorkOrderListView = props => {
       pagetitle: "Edit Workorder"
     });
 
+  const goToDetails = workorder =>
+    props.navigation.push("Details", { ...workorder });
+
   if (loading)
     return (
       <SafeAreaView style={styles.container}>
@@ -110,11 +113,11 @@ const WorkOrderListView = props => {
                 style={[
                   {
                     backgroundColor:
-                      workorder.status === "Open"
+                      workorder.status === "Not Started"
                         ? "white"
                         : workorder.status === "In Progress"
                           ? "#07BD51"
-                          : workorder.status === "On Hold"
+                          : workorder.status === "Complete"
                             ? "#FFD3D3"
                             : "#878C90",
                     width: "100%"
@@ -127,14 +130,15 @@ const WorkOrderListView = props => {
                   style={[
                     {
                       color:
-                        workorder.status === "Open"
+                        workorder.status === "Not Started"
                           ? "#087FFF"
                           : workorder.status === "In Progress"
                             ? "white"
-                            : workorder.status === "On Hold"
+                            : workorder.status === "Complete"
                               ? "#FE273A"
                               : "white",
-                      borderColor: workorder.status === "Open" ? "#878C90" : ""
+                      borderColor:
+                        workorder.status === "Not Started" ? "#878C90" : ""
                     },
                     wOList.infoText
                   ]}
