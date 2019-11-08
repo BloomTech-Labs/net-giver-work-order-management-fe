@@ -138,7 +138,7 @@ const WorkOrderListView = props => {
                               ? "#FE273A"
                               : "white",
                       borderColor:
-                        workorder.status === "Not Started" ? "#878C90" : ""
+                        workorder.status === "Not Started" ? "#878C90" : "white"
                     },
                     wOList.infoText
                   ]}
