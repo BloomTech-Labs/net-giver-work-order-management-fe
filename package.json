@@ -12,7 +12,7 @@
     "jest": {
         "preset": "jest-expo",
         "setupFiles": [
-            "./tests/setup.js"
+            "./__tests__/setup.js"
         ]
     },
     "dependencies": {
@@ -70,6 +70,7 @@
     "devDependencies": {
         "@jonny/react-native-mock": "^0.4.2",
         "babel-preset-expo": "^7.0.0",
+        "detox": "^14.7.0",
         "enzyme": "^3.10.0",
         "enzyme-adapter-react-16": "^1.15.1",
         "eslint": "^6.6.0",
