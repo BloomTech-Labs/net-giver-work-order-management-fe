@@ -46,8 +46,13 @@ const WorkOrderListView = props => {
     variables: { limit: 5 }
   });
   const [selectedWo, setSelectedWo] = useState(null);
-  const goToWo = workorder =>
-    props.navigation.push("EditWorkOrder", { ...workorder });
+//  const goToWo = workorder =>
+ //   props.navigation.push("EditWorkOrder", { ...workorder });
+
+    const goToWo = workorder =>
+    props.navigation.push("Details", { ...workorder });
+    
+    
   if (loading)
     return (
       <SafeAreaView style={styles.container}>
@@ -113,10 +118,8 @@ const WorkOrderListView = props => {
                         ? "white"
                         : workorder.status === "In Progress"
                           ? "#07BD51"
-                          : workorder.status === "On Hold"
-                            ? "#FFD3D3"
-                            : "#878C90",
-                    width: "100%"
+                          : workorder.status === "On Hold" ? "#FFD3D3" : "#878C90"
+                    
                   },
                   wOList.info,
                   wOList.status
@@ -130,9 +133,7 @@ const WorkOrderListView = props => {
                           ? "#087FFF"
                           : workorder.status === "In Progress"
                             ? "white"
-                            : workorder.status === "On Hold"
-                              ? "#FE273A"
-                              : "white",
+                            : workorder.status === "On Hold" ? "#FE273A" : "white",
                       borderColor: workorder.status === "Open" ? "#878C90" : ""
                     },
                     wOList.infoText
@@ -153,9 +154,7 @@ const WorkOrderListView = props => {
                           ? "#E2F5FC"
                           : workorder.priority === "Medium"
                             ? "#CBFBCB"
-                            : workorder.priority === "High"
-                              ? "#FFED9B"
-                              : "#FFD3D3"
+                            : workorder.priority === "High" ? "#FFED9B" : "#FFD3D3"
                     },
                     wOList.info,
                     wOList.priority
@@ -169,9 +168,7 @@ const WorkOrderListView = props => {
                             ? "#087FFF"
                             : workorder.priority === "Medium"
                               ? "#07BD51"
-                              : workorder.priority === "High"
-                                ? "#DBA004"
-                                : "#FE273A",
+                              : workorder.priority === "High" ? "#DBA004" : "#FE273A",
                         textAlign: "center",
                         width: "100%"
                       },

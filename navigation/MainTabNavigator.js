@@ -17,7 +17,7 @@ import CheckBarCode from "../screens/WorkOrder/BarCodeScanner/CheckBarCode";
 import NewWorkOrderForm from "../screens/WorkOrder/NewWorkOrder/NewWorkOrderForm";
 import EditWorkOrder from "../screens/WorkOrder/ExistingWorkOrder/EditWorkOrder";
 import CameraModule from "../components/camera/Camera";
-//import Details from '../screens/WorkOrder/Details'
+import Details from '../screens/WorkOrder/Details'
 const config = Platform.select({
     web: { headerMode: 'screen' },
     default: {},
@@ -47,21 +47,27 @@ const WorkOrderStack = createStackNavigator(
     },
 
     //DETAILS PAGE 11/05/2019 KS
-    // Details: {
-    //     screen: Details,
-    //     navigationOptions: props => ({
-    //         title: 'Details',
-    //         headerRight: (
-    //             <View style={{ marginRight: 15 }}>
-    //                 <TouchableOpacity
-    //                     onPress={() => props.navigation.navigate('Logout')}
-    //                 >
-    //                     <Text>Logout</Text>
-    //                 </TouchableOpacity>
-    //             </View>
-    //         ),
-    //     }),
-    // },
+    Details: {
+      screen: Details,
+      navigationOptions: props => ({
+        title: "Details",
+        headerRight: (
+          <View style={{ marginRight: 15 }}>
+            <TouchableOpacity
+              onPress={() => {
+                AsyncStorage.removeItem("userToken").then(() => {
+                  props.navigation.navigate("Auth");
+                });
+              }}
+            >
+              <Text>Logout</Text>
+            </TouchableOpacity>
+          </View>
+        )
+      })
+    },
+
+    
     EditWorkOrder: {
       screen: EditWorkOrder,
       navigationOptions: props => ({
