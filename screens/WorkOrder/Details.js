@@ -45,7 +45,7 @@ const Details = ({ navigation }) => {
         <ScrollView>
 
             {/* IMAGE */}
-            <View>
+            <View >
             {workorderphoto
                       ? <Image
                           style={wOForm.imgUpload}
@@ -61,62 +61,151 @@ const Details = ({ navigation }) => {
                         />}
             </View>
 
-            <View>
-              <Text></Text> 
+        <View style={{ backgroundColor: "#F8F5F4" }}>
+          <View style={details.topDetailsDiv}>
+            {/* TITLE */}
+            <View style={details.titlePriorityDiv}>
+                 <Text style={details.wOTitle}>{title}</Text>
+
+                 <Text style={[
+                    {
+                      backgroundColor:
+                      status === "Low"
+                          ? "#E2F5FC"
+                          : status === "Medium"
+                            ? "#CBFBCB"
+                            : status === "High" ? "#FFED9B" : "#FFD3D3"
+                    },
+                    wOList.info,
+                    wOList.status
+                  ]}>{priority}</Text>
             </View>
 
-            {/* BUTTONS */}
-            <View >
+            {/* DETAILS */}
+            <View>
+                 <Text>{detail}</Text> 
+            </View>
+
+            {/* STATUS */}
+              <View>
                     <View >
-                        <Text>Status</Text>
+                        <Text style={[
+                      {
+                        color:
+                            status === "Low"
+                            ? "#087FFF"
+                            : status === "Medium"
+                              ? "#07BD51"
+                              : status === "High" ? "#DBA004" : "#FE273A",
+                        textAlign: "center",
+                        width: "100%"
+                      },
+                      wOList.infoText
+                    ]}
+                  >
+                    {status}
+                  </Text>
                     </View>
-                    <View>
-                        <TouchableOpacity
-                            >
-                            
-                            <Text>
-                                Open
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <Text>
-                                Hold
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <Text>
-                                Working
-                            </Text>
-                        </TouchableOpacity>
+
+
+                    <View> 
+                        <Text>
+                            Open
+                        </Text>
+                    
+                        <Text>
+                            Hold
+                        </Text>
+                    
+                        <Text>
+                            Working
+                        </Text>
                     </View>
                 </View>
+            </View>
 
-                <View>
-                    {/* OTHER DETAILS*/}
-                  <View>
-                      <Text>Ticket #</Text>
-                      <Text>{qrcode}</Text>
+                {/* OTHER DETAILS*/}
+                <View style={details.bottomDetailsDiv}>
+                    
+                  <View style={details.iAmALine}>
+                      <Text style={details.bottomTitle}>Ticket #</Text>
+                      <Text style={details.bottomText}>{qrcode}</Text>
                   </View> 
 
-                  <View>
-                      <Text>Created On</Text>
-                      <Text>{}</Text>
+                  <View style={details.iAmALine}>
+                      <Text style={details.bottomTitle}>Created On</Text>
+                      <Text style={details.bottomText}>Some Date</Text>
                   </View>  
 
-                  <View>
-                      <Text>Assigned To</Text>
-                      <Text>{}</Text>
+                  <View style={details.iAmALine}>
+                      <Text style={details.bottomTitle}>Assigned To</Text>
+                      <Text style={[details.bottomText, details.userRedText]}>{user.username}</Text>
                   </View> 
 
-                  <View>
-                      <Text>Created By some</Text>
-                      <Text>{}</Text>
+                  <View style={details.iAmALine}>
+                      <Text style={details.bottomTitle}>Created By</Text>
+                      <Text style={[details.bottomText, details.userRedText]}>{user.username}</Text>
                   </View> 
 
                 </View>
+           </View>
 
         </ScrollView>                 
     )
 }
+
+
+const details = StyleSheet.create({
+
+  iAmALine: {
+    flex: 1,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    borderBottomWidth: 1, 
+    borderBottomColor: '#F8F5F4',
+    margin: 5,
+
+    
+  },
+
+  bottomDetailsDiv: { 
+    backgroundColor: "white",
+    borderBottomWidth: 1,
+    borderBottomColor: "#F8F5F4", 
+    margin: 10,
+  },
+
+  bottomTitle: {
+    fontWeight: '600',
+    paddingTop: 15,
+    paddingBottom: 15,
+
+  },
+
+  bottomText: {
+    paddingTop: 15,
+    paddingBottom: 15,
+  },
+
+  userRedText: {
+    color: 'red'
+  },
+
+  wOTitle: {
+    fontWeight: '600',
+  },
+
+  topDetailsDiv: {
+    margin: 25,
+  }
+  
+  })
+
+
+
+
+
+
+
 
 export default Details
