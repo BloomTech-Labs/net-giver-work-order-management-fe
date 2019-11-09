@@ -45,7 +45,7 @@ const Details = ({ navigation }) => {
         <ScrollView>
 
             {/* IMAGE */}
-            <View >
+            <View style={details.imgDiv}>
             {workorderphoto
                       ? <Image
                           style={wOForm.imgUpload}
@@ -54,31 +54,43 @@ const Details = ({ navigation }) => {
                           }}
                         />
                       : <Image
-                          style={wOForm.imgUpload}
+                          style={details.imgUpload}
                           source={{
                             uri: img1
                           }}
                         />}
             </View>
 
-        <View style={{ backgroundColor: "#F8F5F4" }}>
+        <View style={ [details.theDetsContainer, {backgroundColor: "#F8F5F4"}] }>
           <View style={details.topDetailsDiv}>
             {/* TITLE */}
             <View style={details.titlePriorityDiv}>
                  <Text style={details.wOTitle}>{title}</Text>
 
+              <View style={[
+                      {
+                        backgroundColor:
+                          priority === "Low"
+                            ? "#E2F5FC"
+                            : priority === "Medium"
+                              ? "#FBF2D7"
+                              : priority === "High" ? "#FFD3D3" : "#F2F5F7",
+                      },
+                      details.infoBackground
+                    ]}>
                  <Text style={[
-                    {
-                      backgroundColor:
-                      status === "Low"
-                          ? "#E2F5FC"
-                          : status === "Medium"
-                            ? "#CBFBCB"
-                            : status === "High" ? "#FFED9B" : "#FFD3D3"
-                    },
-                    wOList.info,
-                    wOList.status
-                  ]}>{priority}</Text>
+                      {
+                        color:
+                          priority === "Low"
+                            ? "#087FFF"
+                            : priority === "Medium"
+                              ? "#E1AA08"
+                              : priority === "High" ? "#FE273A" : "#8B9195",
+                      },
+                      details.infoText
+                    ]}
+                  >{priority}</Text>
+              </View>
             </View>
 
             {/* DETAILS */}
@@ -87,41 +99,25 @@ const Details = ({ navigation }) => {
             </View>
 
             {/* STATUS */}
-              <View>
-                    <View >
-                        <Text style={[
-                      {
-                        color:
-                            status === "Low"
-                            ? "#087FFF"
-                            : status === "Medium"
-                              ? "#07BD51"
-                              : status === "High" ? "#DBA004" : "#FE273A",
-                        textAlign: "center",
-                        width: "100%"
-                      },
-                      wOList.infoText
-                    ]}
-                  >
-                    {status}
-                  </Text>
-                    </View>
+              <View style={details.statusDiv1} >
+                <View style={details.statusDiv2}> 
+                    <Text>
+                        Open
+                    </Text>
+                
+                    <Text>
+                        Hold
+                    </Text>
+                
+                    <Text>
+                        Working
+                    </Text>
 
-
-                    <View> 
-                        <Text>
-                            Open
-                        </Text>
-                    
-                        <Text>
-                            Hold
-                        </Text>
-                    
-                        <Text>
-                            Working
-                        </Text>
-                    </View>
+                    <Text>
+                        Done
+                    </Text>
                 </View>
+              </View>
             </View>
 
                 {/* OTHER DETAILS*/}
@@ -173,6 +169,7 @@ const details = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#F8F5F4", 
     margin: 10,
+    borderRadius: 7,
   },
 
   bottomTitle: {
@@ -197,6 +194,37 @@ const details = StyleSheet.create({
 
   topDetailsDiv: {
     margin: 25,
+  },
+
+  titlePriorityDiv: {
+    flex: 1,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    marginBottom: 13,
+  },
+
+  statusDiv2: {
+    flex: 1,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    marginTop: 20,
+
+    
+  },
+
+  infoBackground: {
+    borderRadius: 7,
+    padding: 5,
+  },
+
+  imgDiv: {
+    width: 375,
+    height: 200,
+  },
+
+  theDetsContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
   }
   
   })

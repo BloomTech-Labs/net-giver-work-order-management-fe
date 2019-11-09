@@ -178,10 +178,10 @@ export const wOForm = StyleSheet.create({
   imgCardBot: {},
   touchImage: {},
   imgUpload: {
-    width: 150,
-    height: 150,
-    marginLeft: "auto",
-    marginRight: "auto"
+    width: 375,
+    height: 250,
+    // marginLeft: "auto",
+    // marginRight: "auto"
   },
   statusView: {
     flex: 1,
