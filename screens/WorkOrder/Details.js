@@ -10,7 +10,9 @@ import {
   Picker,
   StyleSheet,
   TouchableOpacity,
-  ActivityIndicator
+  TouchableHighlight,
+  ActivityIndicator,
+  BackHandler
 } from "react-native";
 import { Field, Formik } from "formik";
 import { Text } from "native-base";
@@ -38,11 +40,44 @@ const Details = ({ navigation }) => {
     user: { username },
     workorderphoto } = navigation.state.params;
 
+    const [onPressDetails, setOnPressDetails] = useState();
+    const [onPressUpdates, setOnPressUpdats] = useState();
+
   const img1 =
     "http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image";
 
     return (
         <ScrollView>
+
+          {/* NAV */}
+        <TouchableHighlight 
+        underlayColor='#00830B'
+        >
+
+          <View style={details.navContainer}>
+
+            {/* NAV DETAILS BUTTON DIV */}
+            <View style={[details.navDetailsButton, details.sameNavButtonStyles]}>
+              <Text style={[details.navDText, {color: '#00830B'},{fontWeight: "600"}, {fontSize:16}]}>
+                Details
+              </Text>
+            </View>
+
+            <View style={details.navUnderLine1}></View>
+
+            {/* NAV UPDATE BUTTON DIV */}
+            <View style={[details.navUpdatesButton, details.sameNavButtonStyles]}>
+              <Text style={[{color: '#89898E'}, {fontWeight: "600"}, {fontSize:16}]}>
+                Updates
+              </Text>
+            </View>
+        
+            <View style={details.navUnderLine2}></View>
+
+          </View>
+
+        </TouchableHighlight>
+
 
             {/* IMAGE */}
             <View style={details.imgDiv}>
@@ -63,10 +98,12 @@ const Details = ({ navigation }) => {
 
         <View style={ [details.theDetsContainer, {backgroundColor: "#F8F5F4"}] }>
           <View style={details.topDetailsDiv}>
+
             {/* TITLE */}
             <View style={details.titlePriorityDiv}>
                  <Text style={details.wOTitle}>{title}</Text>
 
+              {/* PRIORITY BOXES */}
               <View style={[
                       {
                         backgroundColor:
@@ -78,7 +115,7 @@ const Details = ({ navigation }) => {
                       },
                       details.infoBackground
                     ]}>
-                 <Text style={[
+                 <Text style={[ {fontWeight: '500'},
                       {
                         color:
                           priority === "Low"
@@ -94,33 +131,69 @@ const Details = ({ navigation }) => {
             </View>
 
             {/* DETAILS */}
-            <View>
+            <View style={{paddingBottom: 15}}>
                  <Text>{detail}</Text> 
             </View>
 
             {/* STATUS */}
               <View style={details.statusDiv1} >
                 <View style={details.statusDiv2}> 
-                    <Text>
+                    <Text style={[
+                    {
+                      color:
+                        status === 'Open' 
+                          ? "#00830B"
+                          : '#89898E' 
+                            
+                    },
+                    details.infoText
+                  ]}>
                         Open
                     </Text>
                 
-                    <Text>
+                    <Text style={[
+                    {
+                      color:
+                        status === 'Hold' 
+                          ? "#00830B"
+                          : '#89898E' 
+                            
+                    },
+                    details.infoText
+                  ]}>
                         Hold
                     </Text>
                 
-                    <Text>
+                    <Text style={[
+                    {
+                      color:
+                        status === 'Working' 
+                          ? "#00830B"
+                          : '#89898E' 
+                            
+                    },
+                    details.infoText
+                  ]}>
                         Working
                     </Text>
 
-                    <Text>
+                    <Text style={[
+                    {
+                      color:
+                        status === 'Done' 
+                          ? "#00830B"
+                          : '#89898E' 
+                            
+                    },
+                    details.infoText
+                  ]}>
                         Done
                     </Text>
                 </View>
               </View>
             </View>
 
-                {/* OTHER DETAILS*/}
+                {/* BOTTOM DETAILS*/}
                 <View style={details.bottomDetailsDiv}>
                     
                   <View style={details.iAmALine}>
@@ -164,6 +237,12 @@ const details = StyleSheet.create({
     
   },
 
+  sameNavButtonStyles: {
+    padding: 13,
+    
+    
+  },
+
   bottomDetailsDiv: { 
     backgroundColor: "white",
     borderBottomWidth: 1,
@@ -179,6 +258,12 @@ const details = StyleSheet.create({
 
   },
 
+  navContainer: {
+    flex: 1,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
+
   bottomText: {
     paddingTop: 15,
     paddingBottom: 15,
@@ -190,6 +275,12 @@ const details = StyleSheet.create({
 
   wOTitle: {
     fontWeight: '600',
+  },
+
+  navLine1: {
+    borderBottomWidth: 4,
+    borderBottomColor: '#00830B',
+    width: 150,
   },
 
   topDetailsDiv: {
@@ -207,10 +298,10 @@ const details = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     flexDirection: 'row',
-    marginTop: 20,
-
-    
+    marginTop: 20, 
   },
+
+  
 
   infoBackground: {
     borderRadius: 7,

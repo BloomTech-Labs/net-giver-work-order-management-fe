@@ -180,8 +180,8 @@ export const wOForm = StyleSheet.create({
   imgUpload: {
     width: 375,
     height: 250,
-    // marginLeft: "auto",
-    // marginRight: "auto"
+    marginLeft: "auto",
+    marginRight: "auto"
   },
   statusView: {
     flex: 1,

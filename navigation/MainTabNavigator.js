@@ -60,7 +60,7 @@ const WorkOrderStack = createStackNavigator(
                 });
               }}
             >
-              <Text>Logout</Text>
+              <Text style={[{fontSize:17} , {color: '#00830B'}]}>Edit</Text>
             </TouchableOpacity>
           </View>
         )
