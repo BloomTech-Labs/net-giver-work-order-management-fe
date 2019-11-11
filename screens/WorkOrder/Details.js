@@ -48,36 +48,7 @@ const Details = ({ navigation }) => {
 
     return (
         <ScrollView>
-
-          {/* NAV */}
-        <TouchableHighlight 
-        underlayColor='#00830B'
-        >
-
-          <View style={details.navContainer}>
-
-            {/* NAV DETAILS BUTTON DIV */}
-            <View style={[details.navDetailsButton, details.sameNavButtonStyles]}>
-              <Text style={[details.navDText, {color: '#00830B'},{fontWeight: "600"}, {fontSize:16}]}>
-                Details
-              </Text>
-            </View>
-
-            <View style={details.navUnderLine1}></View>
-
-            {/* NAV UPDATE BUTTON DIV */}
-            <View style={[details.navUpdatesButton, details.sameNavButtonStyles]}>
-              <Text style={[{color: '#89898E'}, {fontWeight: "600"}, {fontSize:16}]}>
-                Updates
-              </Text>
-            </View>
-        
-            <View style={details.navUnderLine2}></View>
-
-          </View>
-
-        </TouchableHighlight>
-
+{/* 
 
             {/* IMAGE */}
             <View style={details.imgDiv}>
@@ -238,9 +209,12 @@ const details = StyleSheet.create({
   },
 
   sameNavButtonStyles: {
-    padding: 13,
-    
-    
+     padding: 13,
+     
+  },
+
+  navDetailsButton: {
+    paddingLeft: 15,
   },
 
   bottomDetailsDiv: { 
@@ -260,8 +234,11 @@ const details = StyleSheet.create({
 
   navContainer: {
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     flexDirection: 'row',
+    
+
+    
   },
 
   bottomText: {
@@ -277,11 +254,11 @@ const details = StyleSheet.create({
     fontWeight: '600',
   },
 
-  navLine1: {
-    borderBottomWidth: 4,
-    borderBottomColor: '#00830B',
-    width: 150,
-  },
+  // navLine1: {
+  //   borderBottomWidth: 4,
+  //   borderBottomColor: '#00830B',
+  //   width: 150,
+  // },
 
   topDetailsDiv: {
     margin: 25,
