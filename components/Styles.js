@@ -57,17 +57,16 @@ export const wOForm = StyleSheet.create({
     padding: 5,
     marginBottom: 10
   },
-  imgCardTop: {marginTop: 10, marginBottom: 10},
-  imgCardBot: { marginTop: 10},
+  imgCardTop: { marginTop: 10, marginBottom: 10 },
+  imgCardBot: { marginTop: 10 },
   touchImage: {},
   imgUpload: {
     width: 150,
     height: 150,
     marginLeft: "auto",
     marginRight: "auto",
-    marginBottom:10
+    marginBottom: 10
     // fontFamily: "IBMPlexSans-Regular"
-    
   },
   statusView: {
     flex: 1,
@@ -84,13 +83,12 @@ export const wOForm = StyleSheet.create({
     textAlign: "left",
     width: "100%",
     fontFamily: "IBMPlexSans-Regular"
-
   },
   statusDiv: {
     flexDirection: "row",
     margin: "auto",
     alignItems: "center",
-    justifyContent:"space-between",
+    justifyContent: "space-between",
     borderWidth: 0,
     backgroundColor: "white",
     height: 100,
@@ -98,30 +96,31 @@ export const wOForm = StyleSheet.create({
     marginTop: 0,
     borderRadius: 0
   },
-  statusButton: {flexDirection:'column'},
+  statusButton: { flexDirection: "column" },
   statusButtons: {
     backgroundColor: "#f4f3f3",
     borderWidth: 1,
     borderRadius: 5,
     borderColor: "#C5C2C2",
     margin: 3,
-    flexDirection:'column',
-    width: 80,
+    flexDirection: "column",
+    width: 80
   },
-  statusButtonsText: { color: "#89898E",
-  fontFamily: "IBMPlexSans-Regular",
-  textAlign: "center", fontSize: 14 },
+  statusButtonsText: {
+    color: "#89898E",
+    fontFamily: "IBMPlexSans-Regular",
+    textAlign: "center",
+    fontSize: 14
+  },
   statusButtonsActive: {
     backgroundColor: "#009900"
   },
-  submitButton:{
+  submitButton: {
     backgroundColor: "#009900"
-
   },
   statusButtonsTextActive: {
     color: "white",
-  fontFamily: "IBMPlexSans-Regular",
-
+    fontFamily: "IBMPlexSans-Regular"
   },
   priorityDiv: {
     flexDirection: "row",
@@ -133,7 +132,7 @@ export const wOForm = StyleSheet.create({
     width: "100%",
     marginTop: 0,
     borderRadius: 0,
-    justifyContent:'space-between'
+    justifyContent: "space-between"
   },
   priorityButtons: {
     backgroundColor: "#f4f3f3",
@@ -148,7 +147,7 @@ export const wOForm = StyleSheet.create({
     color: "#89898E",
     textAlign: "center",
     fontSize: 14,
-  fontFamily: "IBMPlexSans-Regular",
+    fontFamily: "IBMPlexSans-Regular",
     marginTop: "auto",
     marginBottom: "auto"
   },
@@ -166,8 +165,7 @@ export const wOForm = StyleSheet.create({
     color: "white",
     textAlign: "center",
     fontSize: 14,
-  fontFamily: "IBMPlexSans-Regular",
-
+    fontFamily: "IBMPlexSans-Regular"
   },
   hidden: {
     display: "none",
@@ -189,7 +187,7 @@ export const wOForm = StyleSheet.create({
     borderLeftWidth: 0,
     backgroundColor: "#ffffff",
     borderColor: "#C5C2C2",
-  fontFamily: "IBMPlexSans-Regular",
+    fontFamily: "IBMPlexSans-Regular",
 
     width: "102%",
     alignSelf: "center",
@@ -201,14 +199,14 @@ export const wOForm = StyleSheet.create({
     borderRightWidth: 0,
     borderLeftWidth: 0,
     backgroundColor: "#ffffff",
-  fontFamily: "IBMPlexSans-Regular",
+    fontFamily: "IBMPlexSans-Regular",
 
     borderColor: "#C5C2C2",
     width: "102%",
     alignSelf: "center",
     padding: 10,
     height: 90,
-    textAlignVertical: "top",
+    textAlignVertical: "top"
   }
 });
 export const wOList = StyleSheet.create({
@@ -289,8 +287,6 @@ export const wOList = StyleSheet.create({
     marginBottom: 1
   }
 });
-
-
 
 export const loginStyles = StyleSheet.create({
   logo: {
@@ -395,32 +391,32 @@ export const loginStyles = StyleSheet.create({
 });
 export const cbc = StyleSheet.create({
   container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#F5FCFF',
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F5FCFF"
   },
   textMain: {
-      fontSize: 20,
-      textAlign: 'center',
-      margin: 10,
-      fontFamily: 'IBMPlexSans-Regular',
+    fontSize: 20,
+    textAlign: "center",
+    margin: 10,
+    fontFamily: "IBMPlexSans-Regular"
   },
   button: {
-      backgroundColor: '#009900',
-      borderWidth: 2,
-      borderColor: '#EDF1F3',
-      alignSelf: 'center',
-      borderRadius: 4,
-      width: '96%',
-      fontFamily: 'IBMPlexSans-Regular',
+    backgroundColor: "#009900",
+    borderWidth: 2,
+    borderColor: "#EDF1F3",
+    alignSelf: "center",
+    borderRadius: 4,
+    width: "96%",
+    fontFamily: "IBMPlexSans-Regular"
   },
   buttonText: {
-      fontFamily: 'IBMPlexSans-Regular',
-      alignSelf: 'center',
-      color: 'white',
-      fontSize: 20,
-      fontWeight: 'bold',
-      padding: 10,
-  },
- })
+    fontFamily: "IBMPlexSans-Regular",
+    alignSelf: "center",
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+    padding: 10
+  }
+});
