@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 const plex = "fontFamily: 'IBMPlexSans-Regular'";
+
 export const styles = StyleSheet.create({
   button: {
     backgroundColor: "#006E13",
@@ -49,139 +50,23 @@ export const styles = StyleSheet.create({
     height: 40
   }
 });
-
-export const wOList = StyleSheet.create({
-  card: {
-        width: "100%",
-        borderTopColor: '#E5E5E5',
-        borderTopWidth: 4,
-        paddingLeft: 9,
-        paddingRight: 14,
-        paddingTop: 13,
-        paddingBottom: 31,
-        alignSelf: 'center',
-        flexDirection: 'row',
-
-    },
-    info: {
-        borderRadius: 4,
-        height: 20
-    },
-    infoText: {
-        fontSize: 14,
-        textAlign: 'center'
-    },
-    status: {
-        width: 84,
-    },
-    priority: {
-        width: 40,
-        marginLeft: 5
-    },
-    qr: {
-        width: 65,
-        color: '#8B9195',
-        backgroundColor: '#F2F5F7'
-    },
-
-    cardMiddle: {
-      //width: 160,
-      flex: 1,
-      //paddingRight: 5,
-
-    },
-
-    qrPriority: {
-        flexDirection: 'row',
-        marginTop: 12,
-        marginLeft: 'auto',
-        alignSelf: 'flex-end'
-    },
-    text: {
-        flex: 1,
-        flexWrap: 'wrap',
-        fontSize: 14,
-        lineHeight: 22,
-    },
-    cardSubContent: {
-        flexDirection: "column"
-    },
-    cardLeft: {
-      width: 'auto',
-    },
-    cardRight: {
-        
-        alignItems: 'flex-end',
-        marginLeft: 'auto'
-    },
-    image: {
-        flex: 1,
-        flexWrap: 'wrap',
-        width: 64,
-        height: 64,
-        borderRadius: 4,
-        marginRight: 22,
-    },
-    title: {
-        flex: 1,
-        width: '100%',
-        flexWrap: 'wrap',
-        fontSize: 17,
-        fontWeight: 'bold',
-        marginBottom: 1,
-    },
-});
-
-
-// export const wOList = StyleSheet.create({
-//   card: {
-//     borderWidth: 1,
-//     width: "95%",
-//     alignSelf: "center",
-//     borderColor: "grey",
-//     flexDirection: "row",
-//     marginBottom: 4
-//   },
-//   cardLeft: {
-//     flex: 2,
-//     textAlign: "right",
-//     padding: 10
-//   },
-//   cardMiddle: {
-//     flex: 4,
-//     padding: 5
-//   },
-//   cardRight: {
-//     flex: 2,
-//     justifyContent: "center"
-//   },
-//   image: {
-//     width: 100,
-//     height: 100
-//   },
-//   title: {
-//     fontSize: 20,
-//     fontWeight: "700",
-//     marginBottom: 10
-//   }
-// });
-
 export const wOForm = StyleSheet.create({
   imgCard: {
     borderWidth: 1,
     marginTop: 5,
     padding: 5,
-    marginBottom: 5
+    marginBottom: 10
   },
-  imgCardTop: {},
-  imgCardBot: {},
-  imgCardBot: {},
+  imgCardTop: { marginTop: 10, marginBottom: 10 },
+  imgCardBot: { marginTop: 10 },
   touchImage: {},
   imgUpload: {
     width: 375,
     height: 250,
     marginLeft: "auto",
-    marginRight: "auto"
+    marginRight: "auto",
+    marginBottom: 10
+    // fontFamily: "IBMPlexSans-Regular"
   },
   statusView: {
     flex: 1,
@@ -190,18 +75,20 @@ export const wOForm = StyleSheet.create({
     justifyContent: "space-between",
     padding: 0,
     borderWidth: 0,
-    borderBottomWidth: 1,
+    // borderBottomWidth: 1,
     alignItems: "center",
     padding: 5
   },
   statusText: {
     textAlign: "left",
-    width: "100%"
+    width: "100%",
+    fontFamily: "IBMPlexSans-Regular"
   },
   statusDiv: {
     flexDirection: "row",
     margin: "auto",
     alignItems: "center",
+    justifyContent: "space-between",
     borderWidth: 0,
     backgroundColor: "white",
     height: 100,
@@ -209,19 +96,31 @@ export const wOForm = StyleSheet.create({
     marginTop: 0,
     borderRadius: 0
   },
+  statusButton: { flexDirection: "column" },
   statusButtons: {
     backgroundColor: "#f4f3f3",
     borderWidth: 1,
     borderRadius: 5,
     borderColor: "#C5C2C2",
-    margin: 3
+    margin: 3,
+    flexDirection: "column",
+    width: 80
   },
-  statusButtonsText: { color: "#009900", textAlign: "center", fontSize: 14 },
+  statusButtonsText: {
+    color: "#89898E",
+    fontFamily: "IBMPlexSans-Regular",
+    textAlign: "center",
+    fontSize: 14
+  },
   statusButtonsActive: {
     backgroundColor: "#009900"
   },
+  submitButton: {
+    backgroundColor: "#009900"
+  },
   statusButtonsTextActive: {
-    color: "white"
+    color: "white",
+    fontFamily: "IBMPlexSans-Regular"
   },
   priorityDiv: {
     flexDirection: "row",
@@ -232,7 +131,8 @@ export const wOForm = StyleSheet.create({
     height: 100,
     width: "100%",
     marginTop: 0,
-    borderRadius: 0
+    borderRadius: 0,
+    justifyContent: "space-between"
   },
   priorityButtons: {
     backgroundColor: "#f4f3f3",
@@ -244,9 +144,10 @@ export const wOForm = StyleSheet.create({
     width: 80
   },
   priorityButtonsText: {
-    color: "black",
+    color: "#89898E",
     textAlign: "center",
     fontSize: 14,
+    fontFamily: "IBMPlexSans-Regular",
     marginTop: "auto",
     marginBottom: "auto"
   },
@@ -263,7 +164,8 @@ export const wOForm = StyleSheet.create({
   priorityButtonsTextActive: {
     color: "white",
     textAlign: "center",
-    fontSize: 14
+    fontSize: 14,
+    fontFamily: "IBMPlexSans-Regular"
   },
   hidden: {
     display: "none",
@@ -285,26 +187,108 @@ export const wOForm = StyleSheet.create({
     borderLeftWidth: 0,
     backgroundColor: "#ffffff",
     borderColor: "#C5C2C2",
+    fontFamily: "IBMPlexSans-Regular",
+
     width: "102%",
     alignSelf: "center",
     padding: 10
   },
   textInput1: {
     borderTopWidth: 1,
-    borderBottomWidth: 1,
+    borderBottomWidth: 0,
     borderRightWidth: 0,
     borderLeftWidth: 0,
     backgroundColor: "#ffffff",
+    fontFamily: "IBMPlexSans-Regular",
+
     borderColor: "#C5C2C2",
     width: "102%",
     alignSelf: "center",
     padding: 10,
-    height: 90
+    height: 90,
+    textAlignVertical: "top"
+  }
+});
+export const wOList = StyleSheet.create({
+  card: {
+    width: "100%",
+    borderTopColor: "#E5E5E5",
+    borderTopWidth: 4,
+    paddingLeft: 9,
+    paddingRight: 14,
+    paddingTop: 13,
+    paddingBottom: 31,
+    alignSelf: "center",
+    flexDirection: "row"
+  },
+  info: {
+    borderRadius: 4,
+    height: 20
+  },
+  infoText: {
+    fontSize: 14,
+    textAlign: "center"
+  },
+  status: {
+    width: 84
+  },
+  priority: {
+    width: 40,
+    marginLeft: 5
+  },
+  qr: {
+    width: 65,
+    color: "#8B9195",
+    backgroundColor: "#F2F5F7"
+  },
+
+  cardMiddle: {
+    //width: 160,
+    flex: 1
+    //paddingRight: 5,
+  },
+
+  qrPriority: {
+    flexDirection: "row",
+    marginTop: 12,
+    marginLeft: "auto",
+    alignSelf: "flex-end"
+  },
+  text: {
+    flex: 1,
+    flexWrap: "wrap",
+    fontSize: 14,
+    lineHeight: 22
+  },
+  cardSubContent: {
+    flexDirection: "column"
+  },
+  cardLeft: {
+    width: "auto"
+  },
+  cardRight: {
+    alignItems: "flex-end",
+    marginLeft: "auto"
+  },
+  image: {
+    flex: 1,
+    flexWrap: "wrap",
+    width: 64,
+    height: 64,
+    borderRadius: 4,
+    marginRight: 22
+  },
+  title: {
+    flex: 1,
+    width: "100%",
+    flexWrap: "wrap",
+    fontSize: 17,
+    fontWeight: "bold",
+    marginBottom: 1
   }
 });
 
 export const loginStyles = StyleSheet.create({
-  //LOGO CONTAINER -- GET STYLES FROM FIGMA 10/25/2019 SD
   logo: {
     borderWidth: 2,
     position: "absolute",
@@ -403,5 +387,36 @@ export const loginStyles = StyleSheet.create({
     fontFamily: "IBMPlexSans-Regular",
     fontSize: 17
     // fontWeight: "500",
+  }
+});
+export const cbc = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F5FCFF"
+  },
+  textMain: {
+    fontSize: 20,
+    textAlign: "center",
+    margin: 10,
+    fontFamily: "IBMPlexSans-Regular"
+  },
+  button: {
+    backgroundColor: "#009900",
+    borderWidth: 2,
+    borderColor: "#EDF1F3",
+    alignSelf: "center",
+    borderRadius: 4,
+    width: "96%",
+    fontFamily: "IBMPlexSans-Regular"
+  },
+  buttonText: {
+    fontFamily: "IBMPlexSans-Regular",
+    alignSelf: "center",
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+    padding: 10
   }
 });

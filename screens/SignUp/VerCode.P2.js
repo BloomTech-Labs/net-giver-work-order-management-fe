@@ -1,14 +1,26 @@
-import React, {useState} from 'react'
-import {SafeAreaView, Text, TouchableOpacity, TextInput, Image, StyleSheet} from 'react-native'
+import React, { useState } from 'react'
+import {
+    SafeAreaView,
+    Text,
+    TouchableOpacity,
+    TextInput,
+    Image,
+    StyleSheet,
+} from 'react-native'
 
-const VerCode = (props) => {
-    const phone = props.navigation.state.params.phone
-    const [ver , setVer] = useState()
+const VerCode = props => {
+console.log("TCL: props", props)
+    const phone = props.navigation.getParam("phone", "NO PHONE")
+    const [user, setUser] = useState(props.navigation.getParam("user", "NO USER"))
+    console.log('user', user)
+    const [ver, setVer] = useState()
     handleSubmit = () => {
-        if(ver != 6){
+        if (ver === undefined) {
+            alert('Please check your verification code')
+        } else if (ver.length != 6) {
             alert('Please check your verification code')
         } else {
-            props.navigation.navigate('P2', {phone: phone, verCode:ver})
+            props.navigation.navigate('P3', { user: user, verCode: ver, phone:phone })
         }
     }
     return (
@@ -17,16 +29,22 @@ const VerCode = (props) => {
             <Text style={su2.subHead}>We just sent a one-time code to</Text>
             <Text>{'+1' + phone}</Text>
             <TextInput
-            style={su2.input}
-            placeholder="6-digit-code"
-            keyboardType='number-pad'
-            maxLength={6}
-            onChangeText={setVer}
-            value={ver}
-             />
-            <TouchableOpacity style={su2.button} onPress={handleSubmit}><Text style={su2.buttonText}>Sign Up</Text></TouchableOpacity>
-            <Text style={su2.footer}>Contact the Net Giver Team</Text>
-
+                style={su2.input}
+                placeholder="6-digit-code"
+                keyboardType="number-pad"
+                maxLength={6}
+                onChangeText={setVer}
+                value={ver}
+            />
+            <TouchableOpacity style={su2.button} onPress={handleSubmit}>
+                <Text style={su2.buttonText}>Sign Up</Text>
+            </TouchableOpacity>
+            <Text
+                onPress={() => props.navigation.navigate('Contact')}
+                style={su2.footer}
+            >
+                Contact the Net Giver Team
+            </Text>
         </SafeAreaView>
     )
 }
@@ -38,38 +56,40 @@ const su2 = StyleSheet.create({
         fontSize: 22,
         fontWeight: '600',
         marginBottom: 15,
+        fontFamily: 'IBMPlexSans-Regular',
     },
-    subHead:{
+    subHead: {
         fontSize: 17,
         fontWeight: '600',
+        fontFamily: 'IBMPlexSans-Regular',
     },
-    input:{
-        backgroundColor: "#edf1f3",
+    input: {
+        backgroundColor: '#edf1f3',
         borderWidth: 1,
-        borderColor: "#C5C2C2",
-        marginTop:30,
-        marginBottom:35,
-        width:"90%",
-        alignSelf:'center',
+        borderColor: '#C5C2C2',
+        marginTop: 30,
+        marginBottom: 35,
+        width: '90%',
+        fontFamily: 'IBMPlexSans-Regular',
+        alignSelf: 'center',
         padding: 10,
     },
-    button:{
-        alignSelf:'center',
-        marginBottom:35,
-        backgroundColor:'#00830B',
+    button: {
+        alignSelf: 'center',
+        marginBottom: 35,
+        backgroundColor: '#00830B',
         borderRadius: 4,
-        width:"90%",
+        width: '90%',
         padding: 10,
-
     },
-    buttonText:{
-        alignSelf:'center',
-        color:'white'
+    buttonText: {
+        alignSelf: 'center',
+        color: 'white',
+        fontFamily: 'IBMPlexSans-Regular',
     },
-    footer:{
+    footer: {
         fontSize: 17,
-        alignSelf: 'center'
+        fontFamily: 'IBMPlexSans-Regular',
+        alignSelf: 'center',
     },
-
-
 })

@@ -31,6 +31,12 @@ const cache = new InMemoryCache({
       workorder: (_, args, { getCacheKey }) =>
         getCacheKey({ __typename: "Workorder", id: args.id })
     }
+    // Query: {
+    //   workorders: (_, args, { getCacheKey }) =>
+    //     args.edges.ids.map(id =>
+    //       getCacheKey({ __typename: "WorkorderConnection", id: id })
+    //     )
+    // }
   }
 });
 
@@ -147,12 +153,14 @@ export default function App(props) {
     );
   } else {
     return (
-      <View style={styles.container}>
-        {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-        <ApolloProvider client={client}>
-          <AppNavigator />
-        </ApolloProvider>
-      </View>
+      <Root>
+        <View style={styles.container}>
+          {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+          <ApolloProvider client={client}>
+            <AppNavigator />
+          </ApolloProvider>
+        </View>
+      </Root>
     );
   }
 }

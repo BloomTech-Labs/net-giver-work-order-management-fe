@@ -1,5 +1,6 @@
 .expo/
-yarn.lock
+.vscode/.react
+.vscode/
 node_modules/
 notes.txt
 packager-info.json
