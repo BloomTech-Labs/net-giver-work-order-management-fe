@@ -393,3 +393,34 @@ export const loginStyles = StyleSheet.create({
     // fontWeight: "500",
   }
 });
+export const cbc = StyleSheet.create({
+  container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#F5FCFF',
+  },
+  textMain: {
+      fontSize: 20,
+      textAlign: 'center',
+      margin: 10,
+      fontFamily: 'IBMPlexSans-Regular',
+  },
+  button: {
+      backgroundColor: '#009900',
+      borderWidth: 2,
+      borderColor: '#EDF1F3',
+      alignSelf: 'center',
+      borderRadius: 4,
+      width: '96%',
+      fontFamily: 'IBMPlexSans-Regular',
+  },
+  buttonText: {
+      fontFamily: 'IBMPlexSans-Regular',
+      alignSelf: 'center',
+      color: 'white',
+      fontSize: 20,
+      fontWeight: 'bold',
+      padding: 10,
+  },
+ })

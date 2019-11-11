@@ -4,11 +4,12 @@ import {
   View,
   Text,
   ActivityIndicator,
-  AsyncStorage
+  StyleSheet,
+  TouchableOpacity
 } from "react-native";
 import { NavigationActions } from "react-navigation";
-import { Button } from "native-base";
-import { styles } from "../../../components/Styles";
+import { Button } from "react-native-elements";
+import { cbc } from "../../../components/Styles";
 import { gql } from "apollo-boost";
 import { useApolloClient, useMutation, useQuery } from "@apollo/react-hooks";
 
@@ -37,20 +38,22 @@ const CheckBarCode = props => {
   const [createWorkorder, { loading, error }] = useMutation(CREATE_WORK_ORDER, {
     onCompleted({ createWorkorder }) {
       const qrcode = createWorkorder.qrcode;
-      props.navigation.navigate("EditWorkOrder", { ...createWorkorder });
+      props.navigation.navigate("EditWorkOrder", {
+        ...createWorkorder
+      });
     }
   });
 
   if (loading)
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={cbc.container}>
         <ActivityIndicator size="large" color="black" />
         <Text>Creating New Work Order</Text>
       </SafeAreaView>
     );
   if (error) {
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={cbc.container}>
         <ActivityIndicator size="large" color="black" />
         <Text>Error</Text>
       </SafeAreaView>
@@ -58,24 +61,27 @@ const CheckBarCode = props => {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.welcome}>
+    <View style={cbc.container}>
+      <Text style={cbc.textMain}>
         Create A New Work Order number {qrcode}?
       </Text>
-      <Button
+      <TouchableOpacity
         onPress={() =>
           createWorkorder({
             variables: {
               qrcode: qrcode
             }
           })}
-        style={styles.button}
+        style={cbc.button}
       >
-        <Text>Confirm</Text>
-      </Button>
-      <Button onPress={() => props.navigation.goBack()} style={styles.button}>
-        <Text>Go Back!</Text>
-      </Button>
+        <Text style={cbc.buttonText}>Create Work Order</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => props.navigation.goBack()}
+        style={cbc.button}
+      >
+        <Text style={cbc.buttonText}>Go Back</Text>
+      </TouchableOpacity>
     </View>
   );
 };
