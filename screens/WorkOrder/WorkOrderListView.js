@@ -47,11 +47,11 @@ const WorkOrderListView = props => {
   //  const goToWo = workorder =>
   //   props.navigation.push("EditWorkOrder", { ...workorder });
 
-  const goToWo = workorder =>
-    props.navigation.push("EditWorkOrder", {
-      ...workorder,
-      pagetitle: "Edit Workorder"
-    });
+  // const goToWo = workorder =>
+  //   props.navigation.push("EditWorkOrder", {
+  //     ...workorder,
+  //     pagetitle: "Edit Workorder"
+  //   });
 
   const goToDetails = workorder =>
     props.navigation.push("Details", { ...workorder });
@@ -73,7 +73,7 @@ const WorkOrderListView = props => {
     <ScrollView>
       {selectedWo && <EditWorkOrder data={selectedWo} />}
       {data.workorders.edges.map(workorder =>
-        <TouchableOpacity key={workorder.id} onPress={() => goToWo(workorder)}>
+        <TouchableOpacity key={workorder.id} onPress={() => goToDetails(workorder)}>
           <View style={wOList.card}>
             <View style={wOList.cardLeft}>
               {workorder.workorderphoto

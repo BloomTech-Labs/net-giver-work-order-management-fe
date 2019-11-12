@@ -48,7 +48,39 @@ const Details = ({ navigation }) => {
 
     return (
         <ScrollView>
-{/* 
+
+          {/* NAV CONTAINER*/}
+        <TouchableHighlight 
+        underlayColor='#00830B'
+        >
+
+          
+          <View style={[details.navContainer, {borderWidth:2}]}>
+
+            {/* NAV DETAILS BUTTON DIV */}
+            <View style={[details.navDetailsButton, details.sameNavButtonStyles, {borderWidth:2}]}>
+              <Text style={[{textAlign: 'center'}, details.navDText, {color: '#00830B'},{fontWeight: "600"}, {fontSize:16}]}>
+                Details
+              </Text>
+            </View>
+
+            {/* ACTIVE LINE 1 */}
+            <View style={details.navUnderLine1}></View>
+
+            {/* NAV UPDATE BUTTON DIV */}
+            <View style={[details.navUpdatesButton, details.sameNavButtonStyles, {borderWidth:2}]}>
+              <Text style={[{textAlign: 'center'},{color: '#89898E'}, {fontWeight: "600"}, {fontSize:16}]}>
+                Updates
+              </Text>
+            </View>
+            
+            {/* ACTIVE LINE 2 */}
+            <View style={details.navUnderLine2}></View>
+
+          </View>
+
+        </TouchableHighlight>
+
 
             {/* IMAGE */}
             <View style={details.imgDiv}>
@@ -104,12 +136,31 @@ const Details = ({ navigation }) => {
             {/* DETAILS */}
             <View style={{paddingBottom: 15}}>
                  <Text>{detail}</Text> 
-            </View>
 
-            {/* STATUS */}
-              <View style={details.statusDiv1} >
-                <View style={details.statusDiv2}> 
-                    <Text style={[
+            
+    {/* STATUS BUTTON SECTION //////////////////////////////////////////////////// */}
+    <View style={details.statusDiv1}>
+
+        {/* OPEN /////////////// */}
+        <View style={details.iconCircleDiv}> 
+          <View style={[details.iconCircle, {
+                        backgroundColor:
+                          status === 'Open' 
+                            ? "#00830B"
+                            : '#D8D8D8' 
+                              
+                      }, {textAlign: 'center'}]}>  
+            <Icon
+              color="#FFFFFF"
+              type="antdesign"
+              name="unlock"
+              size={25}
+              iconStyle={[details.icon, {margin: 5}]}
+          />
+
+              {/* OPEN TEXT */}
+              <View style={[details.openTextDiv, {marginTop: 7}]}>
+                <Text style={[
                     {
                       color:
                         status === 'Open' 
@@ -117,38 +168,102 @@ const Details = ({ navigation }) => {
                           : '#89898E' 
                             
                     },
-                    details.infoText
+                    details.openText
                   ]}>
                         Open
                     </Text>
-                
-                    <Text style={[
+                </View>
+            </View>
+
+          {/* HOLD ////////////////////// */} 
+          <View style={[details.iconCircle, {
+                        backgroundColor:
+                          status === 'Hold' 
+                            ? "#00830B"
+                            : '#D8D8D8' 
+                              
+                      }, {textAlign: 'center'}]}> 
+                <Icon
+                  color="#FFFFFF"
+                  type="antdesign"
+                  name="pause"
+                  size={25}
+                  iconStyle={{margin: 6}}
+                />
+            
+
+                  {/* HOLD TEXT */}
+                  <View style={[details.holdTextDiv, {marginTop: 7}]}>
+                  <Text style={[
                     {
                       color:
                         status === 'Hold' 
                           ? "#00830B"
-                          : '#89898E' 
-                            
+                          : '#89898E'     
                     },
-                    details.infoText
+                    {marginLeft: 2},
+                    details.holdText
                   ]}>
                         Hold
                     </Text>
-                
-                    <Text style={[
+              </View>
+            </View>
+
+          {/* WORKING ///////////// */}
+          <View style={[details.iconCircle, {
+                        backgroundColor:
+                          status === 'Working' 
+                            ? "#00830B"
+                            : '#D8D8D8' 
+                              
+                      }, {textAlign: 'center'}]}>  
+            <Icon
+              color="#FFFFFF"
+              type="antdesign"
+              name="sync"
+              size={20}
+              iconStyle={{margin: 10}}
+            />
+
+            {/* WORKING TEXT */}
+            <View style={[details.workingTextDiv, {marginTop: 6}]}>
+            <Text style={[
                     {
                       color:
                         status === 'Working' 
                           ? "#00830B"
                           : '#89898E' 
                             
-                    },
-                    details.infoText
+                    }, {width: 60} , {marginLeft: -8},
+                    details.workingText
                   ]}>
                         Working
                     </Text>
+                </View>
+            </View>
+                    
+          {/* DONE /////////////////////// */}
+          <View style={[details.iconCircle, {
+                        backgroundColor:
+                          status === 'Done' 
+                            ? "#00830B"
+                            : '#D8D8D8' 
+                              
+                    }, {textAlign: 'center'}]}>
 
-                    <Text style={[
+              <Icon
+                color="#FFFFFF"
+                type="antdesign"
+                name="lock"
+                size={25}
+                iconStyle={{margin: 6}}
+                      
+              />
+
+               {/* DONE TEXT */}
+               <View style={[details.workingTextDiv, {marginTop: 7}]}>
+
+               <Text style={[
                     {
                       color:
                         status === 'Done' 
@@ -160,6 +275,11 @@ const Details = ({ navigation }) => {
                   ]}>
                         Done
                     </Text>
+               </View>
+              </View>
+          </View>
+
+                
                 </View>
               </View>
             </View>
@@ -188,6 +308,7 @@ const Details = ({ navigation }) => {
                   </View> 
 
                 </View>
+                <TouchableOpacity style={details.editButton}><Text style={[{textAlign: 'center'}, {color: 'white'}]}>Edit</Text></TouchableOpacity>
            </View>
 
         </ScrollView>                 
@@ -271,11 +392,9 @@ const details = StyleSheet.create({
     marginBottom: 13,
   },
 
-  statusDiv2: {
-    flex: 1,
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    marginTop: 20, 
+  statusDiv1: {
+    marginLeft: -20,
+    marginTop: 15, 
   },
 
   
@@ -285,15 +404,41 @@ const details = StyleSheet.create({
     padding: 5,
   },
 
-  imgDiv: {
-    width: 375,
-    height: 200,
-  },
+  // imgDiv: {
+  //   width: 375,
+  //   height: 200,
+  // },
 
   theDetsContainer: {
+    // flex: 1,
+    // justifyContent: 'flex-end',
+  },
+
+  iconCircleDiv: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    marginLeft: 20,
+    marginTop:20 , 
+  },
+
+  iconCircle: {
+    borderRadius: 50,
+    width: 40,
+    height: 40,
+  
+  },
+
+  editButton: {
+    backgroundColor: '#00830B',
+    paddingVertical: 10,
+    borderRadius: 20,
+    width: "35%",
+    alignSelf: "center",
+    justifyContent: "center",
+    margin: 15
   }
+
   
   })
 

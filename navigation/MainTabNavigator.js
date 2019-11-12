@@ -56,13 +56,14 @@ const WorkOrderStack = createStackNavigator(
         headerRight: (
           <View style={{ marginRight: 15 }}>
             <TouchableOpacity
+              // onPress={() => props.navigation.navigate('Logout')}
               onPress={() => {
                 AsyncStorage.removeItem("userToken").then(() => {
                   props.navigation.navigate("Auth");
                 });
               }}
             >
-              <Text style={[{fontSize:17} , {color: '#00830B'}]}>Edit</Text>
+              <Text>Logout</Text>
             </TouchableOpacity>
           </View>
         )

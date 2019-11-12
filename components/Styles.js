@@ -63,9 +63,7 @@ export const wOForm = StyleSheet.create({
   imgUpload: {
     width: 375,
     height: 250,
-    marginLeft: "auto",
-    marginRight: "auto",
-    marginBottom: 10
+    marginLeft: 20
     // fontFamily: "IBMPlexSans-Regular"
   },
   statusView: {
