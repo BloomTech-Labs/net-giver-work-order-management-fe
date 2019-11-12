@@ -51,7 +51,7 @@ const Login = props => {
         return (
             <SafeAreaView style={styles.container}>
                 <Text style={loginStyles.header}>
-                    Invalid Username :( {console.log(error)}
+                    Invalid Username : {console.log(error)}
                 </Text>
                 <Button onPress={goBack} style={styles.button}>
                     <Text>Try again!</Text>
