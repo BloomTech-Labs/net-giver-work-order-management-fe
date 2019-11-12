@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet } from "react-native";
+import { color, font, marpad, dimensions} from './base'
 const plex = "fontFamily: 'IBMPlexSans-Regular'";
 
 export const styles = StyleSheet.create({
