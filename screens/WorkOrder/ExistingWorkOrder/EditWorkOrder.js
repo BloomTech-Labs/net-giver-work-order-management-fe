@@ -8,7 +8,7 @@ import {
 import { Field, Formik } from 'formik'
 import { Text, ActionSheet, Content, Button as NativeButton, Container, } from "native-base";
 import { Icon, Button } from 'react-native-elements'
-import { wOForm } from '../../../components/Styles'
+import { wOForm } from '../../../assets/style'
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { PictureField } from '../../../components/shared/PictureField'

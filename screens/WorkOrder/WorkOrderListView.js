@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import { wOList, styles } from "../../components/Styles";
+import { wOList, styles } from "../../assets/style";
 import EditWorkOrder from "./ExistingWorkOrder/EditWorkOrder";
 const GET_WORKORDERS = gql`
   query workorders($limit: Int) {

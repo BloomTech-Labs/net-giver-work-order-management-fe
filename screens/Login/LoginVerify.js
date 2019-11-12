@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { AsyncStorage, Text, TextInput, View, StyleSheet, Image } from 'react-native'
 // import {connect} from 'react-redux' sd 10/23/2019
 // import {doLogin} from '../../store/actions/authActions' sd 10/23/2019
-import { styles , loginStyles} from '../../components/Styles'
+import { styles , loginStyles} from '../../assets/style'
 import { Button } from 'native-base'
 import { gql } from 'apollo-boost'
 import { useApolloClient, useMutation } from '@apollo/react-hooks'

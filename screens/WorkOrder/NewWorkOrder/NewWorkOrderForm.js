@@ -27,7 +27,7 @@ import {
 } from "native-base";
 import { Icon } from "react-native-elements";
 import axios from "axios";
-import { wOList } from "../../../components/Styles";
+import { wOList } from "../../../assets/style";
 import { StackActions, NavigationActions } from "react-navigation";
 import { gql } from "apollo-boost";
 import { useApolloClient, useMutation } from "@apollo/react-hooks";

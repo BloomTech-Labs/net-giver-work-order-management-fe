@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import axios from "axios";
 import { Button } from "native-base";
-import { loginStyles, styles } from "../../components/Styles";
+import { loginStyles, styles } from "../../assets/style";
 import logo from "../../components/Images/NetGiverLogo.svg";
 import SafeAreaView from "react-native-safe-area-view";
 import { gql } from "apollo-boost";

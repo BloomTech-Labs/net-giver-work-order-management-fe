@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { NavigationActions } from "react-navigation";
 import { Button } from "react-native-elements";
-import { cbc } from "../../../components/Styles";
+import { cbc } from "../../../assets/style";
 import { gql } from "apollo-boost";
 import { useApolloClient, useMutation, useQuery } from "@apollo/react-hooks";
 
