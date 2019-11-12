@@ -19,7 +19,8 @@ import * as ImagePicker from "expo-image-picker";
 import { ReactNativeFile } from "apollo-upload-client";
 import * as Permissions from "expo-permissions";
 import { fieldsConflictMessage } from "graphql/validation/rules/OverlappingFieldsCanBeMerged";
-
+import { font, color } from "../../../assets/style/base"
+import { topBtn } from "../../../assets/style/components/buttons"
 
 const EDIT_WO = gql`
     mutation editWorkorder(
@@ -133,32 +134,6 @@ const EditWorkOrder = ({ navigation }) => {
         WO_PIC,
         {}
     )
-
-    const [activePriority, setActivePriority] = useState(0)
-
-    const priorityArray = [
-        {
-            name: 'Low',
-            color: '#087FFF',
-            backgroundColor: '#E2F5FC',
-        },
-        {
-            name: 'Medium',
-            color: '#07BD51',
-            backgroundColor: '#CBFBCB',
-        },
-        {
-            name: 'High',
-            color: '#DBA004',
-            backgroundColor: '#FFED9B',
-        },
-        {
-            name: 'Urgent',
-            color: '#FE273A',
-            backgroundColor: '#FFD3D3',
-        },
-    ]
-
 
     const img1 =
         'http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image'
@@ -319,34 +294,7 @@ const EditWorkOrder = ({ navigation }) => {
                         </View>
                         <View style={wOForm.statusView}>
                             <View style={wOForm.priorityDiv}>
-                            <TouchableOpacity
-                                style={[
-                                    wOForm.priorityButtons,
-
-                                    activePriority === 1
-                                        ? {
-                                              backgroundColor: '#237804',
-                                          }
-                                        : { backgroundColor: 'white' },
-                                ]}
-                                onPress={() => {
-                                    setPriority('Low')
-                                    setActivePriority(1)
-                                }}
-                            >
-                                <Text
-                                    style={[
-                                        activePriority === 1
-                                            ? {
-                                                  color: 'white',
-                                              }
-                                            : { color: '#237804' },
-                                    ]}
-                                >
-                                    Low
-                                </Text>
-                            </TouchableOpacity>
-                                {/* <Button
+                                <Button
                                     onPress={() =>
                                         setFieldValue('priority', 'Low')
                                     }
@@ -354,12 +302,12 @@ const EditWorkOrder = ({ navigation }) => {
                                     title="Low"
                                     titleStyle={wOForm.priorityButtonsText}
                                     disabled={values.priority === 'Low'}
-                                    disabledStyle={wOForm.statusButtonsActive}
+                                    disabledStyle={{backgroundColor: color.accLow}}
                                     disabledTitleStyle={
-                                        wOForm.statusButtonsTextActive
+                                        {fontFamily: font.reg, color: color.priLow}
                                     }
                                 />
-                                <Button */}
+                                <Button
                                     onPress={() =>
                                         setFieldValue('priority', 'Medium')
                                     }
@@ -367,9 +315,9 @@ const EditWorkOrder = ({ navigation }) => {
                                     title="Medium"
                                     titleStyle={wOForm.priorityButtonsText}
                                     disabled={values.priority === 'Medium'}
-                                    disabledStyle={wOForm.statusButtonsActive}
+                                    disabledStyle={{backgroundColor: color.accMed}}
                                     disabledTitleStyle={
-                                        wOForm.statusButtonsTextActive
+                                        {fontFamily: font.reg, color: color.priMed}
                                     }
                                 />
                                 <Button
@@ -380,9 +328,9 @@ const EditWorkOrder = ({ navigation }) => {
                                     title="High"
                                     titleStyle={wOForm.priorityButtonsText}
                                     disabled={values.priority === 'High'}
-                                    disabledStyle={wOForm.statusButtonsActive}
+                                    disabledStyle={{backgroundColor: color.accHigh}}
                                     disabledTitleStyle={
-                                        wOForm.statusButtonsTextActive
+                                        {fontFamily: font.reg, color: color.priHigh}
                                     }
                                 />
                                 <Button
@@ -393,16 +341,15 @@ const EditWorkOrder = ({ navigation }) => {
                                     title="Urgent"
                                     titleStyle={wOForm.priorityButtonsText}
                                     disabled={values.priority === 'Urgent'}
-                                    disabledStyle={wOForm.statusButtonsActive}
+                                    disabledStyle={{backgroundColor: color.accUrg}}
                                     disabledTitleStyle={
-                                        wOForm.statusButtonsTextActive
+                                        {fontFamily: font.reg, color: color.priUrg}
                                     }
                                 />
                             </View>
                         </View>
                         <View style={wOForm.imgCard}>
                             <View style={wOForm.imgCardTop}>
-                                <Text>Tap on image to upload.</Text>
                             </View>
                             <View style={wOForm.imgCardBot}>
                                 {/* <TouchableOpacity
@@ -441,6 +388,7 @@ const EditWorkOrder = ({ navigation }) => {
                                         >
                                             {({ field, form }) => (
                                                 <NativeButton
+                                                style={topBtn.fullWidthBtn}
                                                     onPress={()=>
                                                         ActionSheet.show(
                                                             {
@@ -473,7 +421,7 @@ const EditWorkOrder = ({ navigation }) => {
                                                             }
                                                         )}
                                                 >
-                                                    <Text>Choose a Photo</Text>
+                                                    <Text style={topBtn.btnFont}>Choose a Photo</Text>
                                                 </NativeButton>
                                             )}
                                         </Field>
