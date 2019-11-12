@@ -248,7 +248,7 @@ AccountStack.path = "";
 const tabNavigator = createBottomTabNavigator({
   WorkOrderStack,
   QRStack,
-  AccountStack
+  // AccountStack
 });
 
 tabNavigator.path = "";
