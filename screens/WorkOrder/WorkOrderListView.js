@@ -112,13 +112,11 @@ const WorkOrderListView = props => {
                 style={[
                   {
                     backgroundColor:
-                      workorder.status === "Not Started"
+                      workorder.status === "Open"
                         ? "white"
-                        : workorder.status === "In Progress"
+                        : workorder.status === "Working"
                           ? "#07BD51"
-                          : workorder.status === "Complete"
-                            ? "#FFD3D3"
-                            : "#878C90",
+                          : workorder.status === "Done" ? "#FFD3D3" : "#878C90",
                     width: "100%"
                   },
                   wOList.info,
@@ -129,15 +127,13 @@ const WorkOrderListView = props => {
                   style={[
                     {
                       color:
-                        workorder.status === "Not Started"
+                        workorder.status === "Open"
                           ? "#087FFF"
-                          : workorder.status === "In Progress"
+                          : workorder.status === "Working"
                             ? "white"
-                            : workorder.status === "Complete"
-                              ? "#FE273A"
-                              : "white",
+                            : workorder.status === "Done" ? "#FE273A" : "white",
                       borderColor:
-                        workorder.status === "Not Started" ? "#878C90" : ""
+                        workorder.status === "Open" ? "#878C90" : "white"
                     },
                     wOList.infoText
                   ]}
