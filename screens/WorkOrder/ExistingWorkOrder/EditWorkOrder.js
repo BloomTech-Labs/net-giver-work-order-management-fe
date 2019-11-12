@@ -4,9 +4,11 @@ import {
     View,
     TextInput,
     Image,
+    TouchableOpacity,
+    Text,
 } from 'react-native'
 import { Field, Formik } from 'formik'
-import { Text, ActionSheet, Content, Button as NativeButton, Container, } from "native-base";
+import { ActionSheet, Content, Button as NativeButton, Container, } from "native-base";
 import { Icon, Button } from 'react-native-elements'
 import { wOForm } from '../../../components/Styles'
 import { useMutation } from '@apollo/react-hooks'
@@ -131,6 +133,33 @@ const EditWorkOrder = ({ navigation }) => {
         WO_PIC,
         {}
     )
+
+    const [activePriority, setActivePriority] = useState(0)
+
+    const priorityArray = [
+        {
+            name: 'Low',
+            color: '#087FFF',
+            backgroundColor: '#E2F5FC',
+        },
+        {
+            name: 'Medium',
+            color: '#07BD51',
+            backgroundColor: '#CBFBCB',
+        },
+        {
+            name: 'High',
+            color: '#DBA004',
+            backgroundColor: '#FFED9B',
+        },
+        {
+            name: 'Urgent',
+            color: '#FE273A',
+            backgroundColor: '#FFD3D3',
+        },
+    ]
+
+
     const img1 =
         'http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image'
     const BUTTONS = [
@@ -290,7 +319,34 @@ const EditWorkOrder = ({ navigation }) => {
                         </View>
                         <View style={wOForm.statusView}>
                             <View style={wOForm.priorityDiv}>
-                                <Button
+                            <TouchableOpacity
+                                style={[
+                                    wOForm.priorityButtons,
+
+                                    activePriority === 1
+                                        ? {
+                                              backgroundColor: '#237804',
+                                          }
+                                        : { backgroundColor: 'white' },
+                                ]}
+                                onPress={() => {
+                                    setPriority('Low')
+                                    setActivePriority(1)
+                                }}
+                            >
+                                <Text
+                                    style={[
+                                        activePriority === 1
+                                            ? {
+                                                  color: 'white',
+                                              }
+                                            : { color: '#237804' },
+                                    ]}
+                                >
+                                    Low
+                                </Text>
+                            </TouchableOpacity>
+                                {/* <Button
                                     onPress={() =>
                                         setFieldValue('priority', 'Low')
                                     }
@@ -303,7 +359,7 @@ const EditWorkOrder = ({ navigation }) => {
                                         wOForm.statusButtonsTextActive
                                     }
                                 />
-                                <Button
+                                <Button */}
                                     onPress={() =>
                                         setFieldValue('priority', 'Medium')
                                     }
