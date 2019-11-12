@@ -21,6 +21,7 @@ import * as Permissions from "expo-permissions";
 import { fieldsConflictMessage } from "graphql/validation/rules/OverlappingFieldsCanBeMerged";
 import { font, color } from "../../../assets/style/base"
 import { topBtn } from "../../../assets/style/components/buttons"
+import { StackActions, NavigationActions } from 'react-navigation';
 
 const EDIT_WO = gql`
     mutation editWorkorder(
@@ -134,6 +135,11 @@ const EditWorkOrder = ({ navigation }) => {
         WO_PIC,
         {}
     )
+
+    const resetAction = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: 'EditWorkOrder' })],
+      });
 
     const img1 =
         'http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image'
@@ -440,7 +446,10 @@ const EditWorkOrder = ({ navigation }) => {
                       </View>
                         <View>
                             <Button
-                                onPress={handleSubmit}
+                                onPress={() => {
+                                    handleSubmit
+                                    navigation.dispatch(resetAction);
+                                }}
                                 buttonStyle={wOForm.submitButton}
                                 titleStyle={wOForm.statusButtonsTextActive}
                                 title="Submit"
