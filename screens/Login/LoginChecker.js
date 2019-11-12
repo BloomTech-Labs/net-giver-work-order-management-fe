@@ -1,6 +1,6 @@
 import React from "react";
 import { ActivityIndicator, View, StyleSheet } from "react-native";
-import { styles } from "../../components/Styles";
+import { styles } from "../../assets/style";
 const LoginChecker = props => {
   const token = props.navigation.state.params.token;
   if (token) {

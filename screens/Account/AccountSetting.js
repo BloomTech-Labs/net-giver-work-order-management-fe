@@ -3,7 +3,7 @@ import { SafeAreaView, Image, StyleSheet, Text, View } from "react-native";
 import { useQuery } from "@apollo/react-hooks";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
-import { styles } from "../../components/Styles";
+import { styles } from "../../assets/style";
 
 const ME = gql`
   query currentUser {

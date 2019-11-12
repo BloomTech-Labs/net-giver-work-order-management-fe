@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import {SafeAreaView, Text, TouchableOpacity, TextInput, Image, StyleSheet} from 'react-native'
+import {topBtn} from '../../assets/style/components/buttons'
 const Phone = (props) => {
     const [phone, setPhone] = useState();
     initialState = {
@@ -46,8 +47,8 @@ const Phone = (props) => {
             onChangeText={setPhone}
             value={phone}
              />
-            <TouchableOpacity style={su1.button} onPress={handleSubmit}><Text style={su1.buttonText}>Get Started</Text></TouchableOpacity>
-            <Text onPress={() => props.navigation.navigate('Contact')} style={su1.subHead}>Contact the Net Giver Team</Text>
+            <TouchableOpacity style={topBtn.fullWidthBtn} onPress={handleSubmit}><Text style={topBtn.btnFont}>Get Started</Text></TouchableOpacity>
+            <Text onPress={() => props.navigation.navigate('Contact')} style={su1.footer}>Contact the Net Giver Team</Text>
 
         </SafeAreaView>
     )
@@ -83,21 +84,12 @@ const su1 = StyleSheet.create({
         padding: 10,
         fontFamily: "IBMPlexSans-Regular",
     },
-    button:{
-        alignSelf:'center',
-        marginBottom:35,
-        backgroundColor:'#00830B',
-        borderRadius: 4,
-        width:"90%",
-        padding: 10,
-
-    },
-    buttonText:{
-        alignSelf:'center',
-        color:'white',
+    footer:{
+        fontSize: 17,
+        alignSelf: 'center',
         fontFamily: "IBMPlexSans-Regular",
-    },
-
+        marginTop: 35
+    }
 
 })
   
