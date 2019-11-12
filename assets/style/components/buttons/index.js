@@ -25,6 +25,11 @@ export const topBtn = StyleSheet.create({
         marginTop:marpad.md,
         marginBottom:marpad.md,
     },
+    fullWidthBtnMarginBottom: {
+        ...baseBtnStyle,
+        width: "90%",
+        marginBottom:marpad.xl,
+    },
     halfWidthBtn: {
         ...baseBtnStyle,
         width: "45%",

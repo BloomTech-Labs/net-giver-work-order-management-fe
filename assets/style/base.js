@@ -10,6 +10,8 @@ export const color = {
     black: "#000000",
     priGreen: "#00830B",
     greyText: "#89898E",
+    inputBorder: "#C5C2C2",
+    input: "#EDF1F3",
     priLow: "#00830B",
     priMed: "#087FFF",
     priHigh: "#E1AA08",

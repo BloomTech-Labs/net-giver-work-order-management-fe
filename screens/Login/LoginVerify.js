@@ -1,11 +1,22 @@
-import React, { useState } from 'react'
-import { AsyncStorage, Text, TextInput, View, StyleSheet, Image } from 'react-native'
-// import {connect} from 'react-redux' sd 10/23/2019
-// import {doLogin} from '../../store/actions/authActions' sd 10/23/2019
-import { styles , loginStyles} from '../../assets/style'
-import { Button } from 'native-base'
-import { gql } from 'apollo-boost'
-import { useApolloClient, useMutation } from '@apollo/react-hooks'
+import React, { useState } from "react"
+import {
+    AsyncStorage,
+    Text,
+    TextInput,
+    View,
+    StyleSheet,
+    Image,
+    TouchableOpacity,
+    SafeAreaView,
+} from "react-native"
+import { styles, loginStyles } from "../../assets/style"
+import { Button } from "native-base"
+import { gql } from "apollo-boost"
+import { useApolloClient, useMutation } from "@apollo/react-hooks"
+import { topBtn } from "../../assets/style/components/buttons"
+import { spacer } from "../../assets/style/components/margins"
+import { text } from "../../assets/style/components/text"
+import { txtInput } from "../../assets/style/components/inputs"
 
 export const AUTHY_VERIFY_DEV = gql`
     mutation authyVerifyDev($username: String!, $code: String!) {
@@ -20,39 +31,44 @@ const LoginVerify = props => {
     // GETS USERNAME OUT OF PROPS 10/24/2019 SD
     const username = props.navigation.state.params.username
     //SETS VERIFY CODE FROM USER INPUT 10/24/2019 SD
-    const [vercode, onChangeText] = useState('')
-    const [token, setToken] = useState('')
+    const [vercode, onChangeText] = useState("")
+    const [token, setToken] = useState("")
     const client = useApolloClient()
     const [authyVerifyDev, { loading, error }] = useMutation(AUTHY_VERIFY_DEV, {
         onCompleted({ authyVerifyDev }) {
             const token = authyVerifyDev.token
             client.writeData({ data: { isLoggedIn: true } })
-            AsyncStorage.setItem('userToken', token).then(() => {
-                props.navigation.navigate('WorkOrderList')
+            AsyncStorage.setItem("userToken", token).then(() => {
+                props.navigation.navigate("WorkOrderList")
             })
         },
     })
 
     //SENDS BACK TO LOGIN INCASE OF NO TOKEN 10/24/2019 SD
     const goBack = () => {
-        props.navigation.navigate('Login')
+        props.navigation.navigate("Login")
     }
     return (
-        <View style={styles.container}>
-             <Image style={loginStyles.logo} source={require('../../components/Images/ng.png')}/>
-            <Text>Please Verify Your Code</Text>
+        <SafeAreaView style={styles.containerNoJustify}>
+            <Image
+                style={spacer.perlgTop}
+                source={require("../../components/Images/ng.png")}
+            />
+            <Text style={text.headerSmTop}>Sign In</Text>
+            <Text style={text.subheader}>Please Verify Your Code</Text>
+            <View style={spacer.persmBot} />
             <TextInput
-                style={styles.loginTextInput}
+                style={txtInput.fullWidthInputMarginBottom}
                 placeholder="Verification Code"
                 name="vercode"
                 id="vercode"
                 value={vercode}
                 autoCapitalize="none"
                 onChangeText={text => onChangeText(text)}
-                onFocus={() => onChangeText('')}
+                onFocus={() => onChangeText("")}
             />
-            <Button
-                style={loginStyles.buttons}
+            <TouchableOpacity
+                style={topBtn.fullWidthBtnMarginBottom}
                 onPress={() =>
                     authyVerifyDev({
                         variables: {
@@ -62,19 +78,24 @@ const LoginVerify = props => {
                     })
                 }
             >
-                <Text style={loginStyles.buttonText}>Verify Access</Text>
-            </Button>
-            <Text style={{marginTop: 5}}>
-                Didn't get the code? Try Again!
-            </Text>
+                <Text style={topBtn.btnFont}>Verify Access</Text>
+            </TouchableOpacity>
+            <Text style={text.subheader}>Didn't get the code? Try Again!</Text>
+            <View style={spacer.xsBot} />
 
-            <Button
-                    style={[loginStyles.buttons, {marginTop: 20}]}
-                    onPress={goBack}
-                  >
-                    <Text style={loginStyles.buttonText}>Get Another Code!</Text>
-            </Button>
-        </View>
+            <TouchableOpacity
+                style={topBtn.fullWidthBtnMarginBottom}
+                onPress={() => props.navigation.goBack()}
+            >
+                <Text style={topBtn.btnFont}>Go Back</Text>
+            </TouchableOpacity>
+            <Text
+                style={text.subheader}
+                onPress={() => props.navigation.navigate("Contact")}
+            >
+                Contact Netgiver Team
+            </Text>
+        </SafeAreaView>
     )
 }
 
