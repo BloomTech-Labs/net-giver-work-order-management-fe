@@ -8,6 +8,7 @@ import {
     Image,
     StyleSheet,
 } from 'react-native'
+import {topBtn} from '../../assets/style/components/buttons'
 
 const Email = props => {
     const { navigation } = props
@@ -76,8 +77,8 @@ const Email = props => {
                 onChangeText={setEmail}
                 value={email}
             />
-            <TouchableOpacity style={su3.button} onPress={handleSubmit}>
-                <Text style={su3.buttonText}>Get Started</Text>
+            <TouchableOpacity style={topBtn.fullWidthBtnMargin} onPress={handleSubmit}>
+                <Text style={topBtn.btnFont}>Get Started</Text>
             </TouchableOpacity>
             <View style={su3.tosBox}>
                 <Text style={su3.tosFont}>
@@ -145,6 +146,7 @@ const su3 = StyleSheet.create({
         alignSelf: 'center',
         padding: 10,
         fontFamily: 'IBMPlexSans-Regular',
+       
     },
     button: {
         alignSelf: 'center',
@@ -164,6 +166,7 @@ const su3 = StyleSheet.create({
     },
     tosBox: {
         marginBottom: 40,
+     
     },
     tosFont: {
         fontSize: 15,
@@ -172,4 +175,5 @@ const su3 = StyleSheet.create({
     underline: {
         textDecorationLine: 'underline',
     },
+   
 })
