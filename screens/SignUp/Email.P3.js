@@ -159,6 +159,8 @@ const su3 = StyleSheet.create({
         alignSelf: 'center',
         color: 'white',
         fontFamily: 'IBMPlexSans-Regular',
+        fontSize:17,
+
     },
     tosBox: {
         marginBottom: 40,

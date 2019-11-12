@@ -96,6 +96,7 @@ const su1 = StyleSheet.create({
         alignSelf:'center',
         color:'white',
         fontFamily: "IBMPlexSans-Regular",
+        fontSize:17,
     },
 
 
