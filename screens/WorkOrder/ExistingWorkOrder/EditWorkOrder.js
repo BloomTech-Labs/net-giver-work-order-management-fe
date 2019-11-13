@@ -4,11 +4,13 @@ import {
     View,
     TextInput,
     Image,
+    TouchableOpacity,
+    Text,
 } from 'react-native'
 import { Field, Formik } from 'formik'
-import { Text, ActionSheet, Content, Button as NativeButton, Container, } from "native-base";
+import { ActionSheet, Content, Button as NativeButton, Container, } from "native-base";
 import { Icon, Button } from 'react-native-elements'
-import { wOForm } from '../../../components/Styles'
+import { wOForm } from '../../../assets/style'
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { PictureField } from '../../../components/shared/PictureField'
@@ -17,7 +19,8 @@ import * as ImagePicker from "expo-image-picker";
 import { ReactNativeFile } from "apollo-upload-client";
 import * as Permissions from "expo-permissions";
 import { fieldsConflictMessage } from "graphql/validation/rules/OverlappingFieldsCanBeMerged";
-
+import { font, color } from "../../../assets/style/base"
+import { topBtn } from "../../../assets/style/components/buttons"
 
 const EDIT_WO = gql`
     mutation editWorkorder(
@@ -131,6 +134,7 @@ const EditWorkOrder = ({ navigation }) => {
         WO_PIC,
         {}
     )
+
     const img1 =
         'http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image'
     const BUTTONS = [
@@ -182,7 +186,6 @@ const EditWorkOrder = ({ navigation }) => {
                                 onChangeText={handleChange('detail')}
                                 onBlur={handleBlur('detail')}
                                 value={values.detail}
-                                value={wo.detail}
                                 style={wOForm.textInput1}
                                 multiline={true}
                                 placeholder="Detailed Description"
@@ -298,9 +301,9 @@ const EditWorkOrder = ({ navigation }) => {
                                     title="Low"
                                     titleStyle={wOForm.priorityButtonsText}
                                     disabled={values.priority === 'Low'}
-                                    disabledStyle={wOForm.statusButtonsActive}
+                                    disabledStyle={{backgroundColor: color.accLow}}
                                     disabledTitleStyle={
-                                        wOForm.statusButtonsTextActive
+                                        {fontFamily: font.reg, color: color.priLow}
                                     }
                                 />
                                 <Button
@@ -311,9 +314,9 @@ const EditWorkOrder = ({ navigation }) => {
                                     title="Medium"
                                     titleStyle={wOForm.priorityButtonsText}
                                     disabled={values.priority === 'Medium'}
-                                    disabledStyle={wOForm.statusButtonsActive}
+                                    disabledStyle={{backgroundColor: color.accMed}}
                                     disabledTitleStyle={
-                                        wOForm.statusButtonsTextActive
+                                        {fontFamily: font.reg, color: color.priMed}
                                     }
                                 />
                                 <Button
@@ -324,9 +327,9 @@ const EditWorkOrder = ({ navigation }) => {
                                     title="High"
                                     titleStyle={wOForm.priorityButtonsText}
                                     disabled={values.priority === 'High'}
-                                    disabledStyle={wOForm.statusButtonsActive}
+                                    disabledStyle={{backgroundColor: color.accHigh}}
                                     disabledTitleStyle={
-                                        wOForm.statusButtonsTextActive
+                                        {fontFamily: font.reg, color: color.priHigh}
                                     }
                                 />
                                 <Button
@@ -337,16 +340,15 @@ const EditWorkOrder = ({ navigation }) => {
                                     title="Urgent"
                                     titleStyle={wOForm.priorityButtonsText}
                                     disabled={values.priority === 'Urgent'}
-                                    disabledStyle={wOForm.statusButtonsActive}
+                                    disabledStyle={{backgroundColor: color.accUrg}}
                                     disabledTitleStyle={
-                                        wOForm.statusButtonsTextActive
+                                        {fontFamily: font.reg, color: color.priUrg}
                                     }
                                 />
                             </View>
                         </View>
                         <View style={wOForm.imgCard}>
                             <View style={wOForm.imgCardTop}>
-                                <Text>Tap on image to upload.</Text>
                             </View>
                             <View style={wOForm.imgCardBot}>
                                 {/* <TouchableOpacity
@@ -385,6 +387,7 @@ const EditWorkOrder = ({ navigation }) => {
                                         >
                                             {({ field, form }) => (
                                                 <NativeButton
+                                                style={topBtn.fullWidthBtn}
                                                     onPress={()=>
                                                         ActionSheet.show(
                                                             {
@@ -417,7 +420,7 @@ const EditWorkOrder = ({ navigation }) => {
                                                             }
                                                         )}
                                                 >
-                                                    <Text>Choose a Photo</Text>
+                                                    <Text style={topBtn.btnFont}>Choose a Photo</Text>
                                                 </NativeButton>
                                             )}
                                         </Field>
