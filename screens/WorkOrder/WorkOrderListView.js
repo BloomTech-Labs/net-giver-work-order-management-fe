@@ -59,8 +59,16 @@ const WorkOrderListView = props => {
   //     pagetitle: "Edit Workorder"
   //   });
 
+  const formatDate = (createdAt) => {
+    const date = new Date(createdAt);
+    let formattedDate = date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear();
+    return formattedDate;
+  }
+  
+
   const goToDetails = workorder =>
-    props.navigation.push("Details", { ...workorder });
+    props.navigation.push("Details", { ...workorder, createdAt: formatDate(workorder.createdAt) });
+    
 
   if (loading)
     return (
@@ -111,7 +119,7 @@ const WorkOrderListView = props => {
                   </Text>
                 </View>
                 <Text style={wOList.text} numberOfLines={1}>
-                  10/22/19, 2:52PM
+                  {formatDate(workorder.createdAt)}
                   {/* {workorder.dateCreated} */}
                 </Text>
               </View>
