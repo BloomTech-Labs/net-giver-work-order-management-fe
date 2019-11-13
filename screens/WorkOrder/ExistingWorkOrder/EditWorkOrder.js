@@ -108,7 +108,8 @@ const updateWo = async ({
       detail: values.detail,
       priority: values.priority,
       status: values.status,
-      title: values.title
+      title: values.title,
+      photo: values.photo,
     }
   });
 
