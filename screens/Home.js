@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, { Component } from "react";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
 const Home = props => {
   const { navigate } = props.navigation;
@@ -8,11 +8,10 @@ const Home = props => {
       <View style={homeStyle.logo}>Logo</View>
       <Text style={styles.welcome}>Net Giver Work Order Management</Text>
       <View style={styles.wrapper}>
-        {/* NAVIGATE TO LOGIN OR SIGNUP PAGE */}
-        <TouchableOpacity onPress={() => navigate('Login')}>
+        <TouchableOpacity onPress={() => navigate("Login")}>
           <Text style={styles.link}>Login</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigate('P1')}>
+        <TouchableOpacity onPress={() => navigate("P1")}>
           <Text style={styles.link}>Signup</Text>
         </TouchableOpacity>
       </View>
@@ -23,22 +22,22 @@ const Home = props => {
 const homeStyle = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F5FCFF"
   },
   welcome: {
     fontSize: 20,
-    textAlign: 'center',
+    textAlign: "center",
     margin: 10
   },
   wrapper: {
-    flexDirection: 'row'
+    flexDirection: "row"
   },
   link: {
     fontSize: 16,
-    textAlign: 'center',
-    color: 'blue',
+    textAlign: "center",
+    color: "blue",
     marginBottom: 5,
     margin: 10
   }

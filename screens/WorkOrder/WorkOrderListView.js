@@ -73,7 +73,10 @@ const WorkOrderListView = props => {
     <ScrollView>
       {selectedWo && <EditWorkOrder data={selectedWo} />}
       {data.workorders.edges.map(workorder =>
-        <TouchableOpacity key={workorder.id} onPress={() => goToWo(workorder)}>
+        <TouchableOpacity
+          key={workorder.id}
+          onPress={() => goToDetails(workorder)}
+        >
           <View style={wOList.card}>
             <View style={wOList.cardLeft}>
               {workorder.workorderphoto

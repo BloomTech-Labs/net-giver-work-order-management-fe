@@ -1,95 +1,182 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import {
-    SafeAreaView,
-    Text,
-    TouchableOpacity,
-    TextInput,
-    Image,
-    StyleSheet,
-} from 'react-native'
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  Button,
+  Image,
+  StyleSheet
+} from "react-native";
+import * as Yup from "yup";
+import { Field, Formik } from "formik";
+import { Header, Content, Item, Input, Toast } from "native-base";
+import { useMutation, useQuery, useLazyQuery } from "@apollo/react-hooks";
+import gql from "graphql-tag";
+import { su1, su2, su3 } from "./SignUpStyles";
+import ErrorMessage from "./ErrorMessage";
 
-const VerCode = props => {
-console.log("TCL: props", props)
-    const phone = props.navigation.getParam("phone", "NO PHONE")
-    const [user, setUser] = useState(props.navigation.getParam("user", "NO USER"))
-    console.log('user', user)
-    const [ver, setVer] = useState()
-    handleSubmit = () => {
-        if (ver === undefined) {
-            alert('Please check your verification code')
-        } else if (ver.length != 6) {
-            alert('Please check your verification code')
-        } else {
-            props.navigation.navigate('P3', { user: user, verCode: ver, phone:phone })
-        }
+const GET_VER_CODE = gql`
+  query getCode($phone: String!, $email: String!) {
+    getCode(phone: $phone, email: $email) {
+      cellPhone
     }
-    return (
-        <SafeAreaView>
-            <Text style={su2.header}>We need to verify your phone number</Text>
-            <Text style={su2.subHead}>We just sent a one-time code to</Text>
-            <Text>{'+1' + phone}</Text>
-            <TextInput
-                style={su2.input}
-                placeholder="6-digit-code"
-                keyboardType="number-pad"
-                maxLength={6}
-                onChangeText={setVer}
-                value={ver}
-            />
-            <TouchableOpacity style={su2.button} onPress={handleSubmit}>
-                <Text style={su2.buttonText}>Sign Up</Text>
-            </TouchableOpacity>
-            <Text
-                onPress={() => props.navigation.navigate('Contact')}
-                style={su2.footer}
-            >
-                Contact the Net Giver Team
-            </Text>
-        </SafeAreaView>
-    )
-}
+  }
+`;
 
-export default VerCode
-const su2 = StyleSheet.create({
-    header: {
-        marginTop: 100,
-        fontSize: 22,
-        fontWeight: '600',
-        marginBottom: 15,
-        fontFamily: 'IBMPlexSans-Regular',
-    },
-    subHead: {
-        fontSize: 17,
-        fontWeight: '600',
-        fontFamily: 'IBMPlexSans-Regular',
-    },
-    input: {
-        backgroundColor: '#edf1f3',
-        borderWidth: 1,
-        borderColor: '#C5C2C2',
-        marginTop: 30,
-        marginBottom: 35,
-        width: '90%',
-        fontFamily: 'IBMPlexSans-Regular',
-        alignSelf: 'center',
-        padding: 10,
-    },
-    button: {
-        alignSelf: 'center',
-        marginBottom: 35,
-        backgroundColor: '#00830B',
-        borderRadius: 4,
-        width: '90%',
-        padding: 10,
-    },
-    buttonText: {
-        alignSelf: 'center',
-        color: 'white',
-        fontFamily: 'IBMPlexSans-Regular',
-    },
-    footer: {
-        fontSize: 17,
-        fontFamily: 'IBMPlexSans-Regular',
-        alignSelf: 'center',
-    },
-})
+const VERIFY_CODE = gql`
+  mutation verifyCode($authyId: String!, $code: String!) {
+    verifyCode(authyId: $authyId, code: $code) {
+      user {
+        id
+        phone
+        authyId
+      }
+      token
+    }
+  }
+`;
+const isEmail = RegExp(
+  "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+);
+
+const handleSubmit = ({
+  values,
+  verifyCode,
+  resendVerCode,
+  navigation,
+  setSubmitting,
+  setErrors
+}) => {
+  const { code, authyId } = values;
+  if (verifyCode) {
+    verifyCode({ variables: { authyId: authyId, code: code } })
+      .then(response => {
+        const { signUp } = response;
+        navigation.navigate("P3", { ...signUp });
+      })
+      .catch(e => {
+        const errors = e.graphQLErrors.map(error => {
+          setErrors({ form: error.message });
+        });
+      });
+  }
+  if (resendVerCode) {
+    resendVerCode({ variables: { authyId: authyId, code: code } })
+      .then(response => {
+        const { signUp } = response;
+        navigation.navigate("P3", { ...signUp });
+      })
+      .catch(e => {
+        const errors = e.graphQLErrors.map(error => {
+          setErrors({ form: error.message });
+        });
+      });
+  }
+};
+
+const VerCode = ({ navigation }) => {
+  // const { email, phone } = navigation.state.params;
+  const email = "bryantpatton@gmail.com";
+  const phone = "4153163549";
+  const authyId = "82620055";
+  const { loading, data, errored } = useQuery(GET_VER_CODE, {
+    variables: {
+      email: email,
+      phone: phone
+    }
+  });
+  const [resendVerCode] = useLazyQuery(GET_VER_CODE, {
+    variables: {
+      email: email,
+      phone: phone
+    }
+  });
+  const [verifyCode, { error }] = useMutation(VERIFY_CODE, {});
+  return (
+    <Formik
+      initialValues={{
+        phone: phone,
+        email: email,
+        code: "",
+        authyId: authyId,
+        username: "",
+        password: "password",
+        displayName: "",
+        photo: null
+      }}
+      validationSchema={Yup.object({
+        code: Yup.string()
+          .length(7, "Enter 7 digit code")
+          .required("Code Required")
+      })}
+      onSubmit={(values, { setSubmitting, setErrors }) =>
+        handleSubmit({
+          verifyCode,
+          resendVerCode,
+          navigation,
+          values,
+          setSubmitting,
+          setErrors
+        })}
+      render={({
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        values,
+        errors,
+        isValid,
+        touched,
+        setFieldValue,
+        status,
+        isSubmitting
+      }) =>
+        <SafeAreaView>
+          <Text style={su2.header}>We need to verify your phone number</Text>
+          <Text style={su2.subHead}>We just sent a one-time code to</Text>
+          <Text>
+            {`+1 ${values.phone}`}
+          </Text>
+          <Field style={su1.input} name="code">
+            {({ field, form }) =>
+              <Item regular>
+                <Input
+                  onChangeText={handleChange("code")}
+                  onBlur={handleBlur("code")}
+                  placeholder="7 digit code"
+                  keyboardType="phone-pad"
+                  //   maxLength={10}
+                  value={values.code}
+                />
+              </Item>}
+          </Field>
+          <ErrorMessage errorValue={errors.code} />
+          <Button
+            onPress={handleSubmit}
+            disabled={!isValid}
+            buttonstyle={su2.button}
+            title="Create Profile"
+            titleStyle={su2.buttonText}
+            loading={isSubmitting}
+          />
+          <ErrorMessage errorValue={errors.form}>
+            {/* <Button
+              onPress={handleSubmit("resendVerCode")}
+              disabled={!isValid}
+              buttonstyle={su2.button}
+              title="Create Profile"
+              titleStyle={su2.buttonText}
+              loading={isSubmitting}
+            /> */}
+          </ErrorMessage>
+          <Text
+            onPress={() => navigation.navigate("Contact")}
+            style={su2.footer}
+          >
+            Contact the Net Giver Team
+          </Text>
+        </SafeAreaView>}
+    />
+  );
+};
+
+export default VerCode;

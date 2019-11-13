@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Button,
+  TabRouter,
   TouchableOpacity,
   AsyncStorage
 } from "react-native";
@@ -16,9 +17,11 @@ import BarcodeScanner from "../screens/WorkOrder/BarCodeScanner/BarCodeScanner";
 import CheckBarCode from "../screens/WorkOrder/BarCodeScanner/CheckBarCode";
 import NewWorkOrderForm from "../screens/WorkOrder/NewWorkOrder/NewWorkOrderForm";
 import EditWorkOrder from "../screens/WorkOrder/ExistingWorkOrder/EditWorkOrder";
+import Comments from "../screens/WorkOrder/ExistingWorkOrder/Comments";
 import CameraModule from "../components/camera/Camera";
 import Details from "../screens/WorkOrder/Details";
 import GalleryScreen from "../components/camera/GalleryScreen";
+import { CustomTabs } from "./WoCustomTabs";
 
 const config = Platform.select({
   web: { headerMode: "screen" },
@@ -49,10 +52,31 @@ const WorkOrderStack = createStackNavigator(
     },
 
     //DETAILS PAGE 11/05/2019 KS
-    Details: {
-      screen: Details,
+    // Details: {
+    //   screen: Details,
+    //   navigationOptions: props => ({
+    //     title: "Details",
+    //     headerRight: (
+    //       <View style={{ marginRight: 15 }}>
+    //         <TouchableOpacity
+    //           onPress={() => {
+    //             AsyncStorage.removeItem("userToken").then(() => {
+    //               props.navigation.navigate("Auth");
+    //             });
+    //           }}
+    //         >
+    //           <Text>Logout</Text>
+    //         </TouchableOpacity>
+    //       </View>
+    //     )
+    //   })
+    //   // path: 'workorder/:id',
+    // },
+
+    EditWorkOrder: {
+      screen: EditWorkOrder,
       navigationOptions: props => ({
-        title: "Details",
+        title: "Edit Work Order",
         headerRight: (
           <View style={{ marginRight: 15 }}>
             <TouchableOpacity
@@ -68,11 +92,29 @@ const WorkOrderStack = createStackNavigator(
         )
       })
     },
-
-    EditWorkOrder: {
-      screen: EditWorkOrder,
+    Details: {
+      screen: CustomTabs,
       navigationOptions: props => ({
-        title: "Edit Work Order",
+        title: "Work Order",
+        headerRight: (
+          <View style={{ marginRight: 15 }}>
+            <TouchableOpacity
+              onPress={() => {
+                AsyncStorage.removeItem("userToken").then(() => {
+                  props.navigation.navigate("Auth");
+                });
+              }}
+            >
+              <Text>Logout</Text>
+            </TouchableOpacity>
+          </View>
+        )
+      })
+    },
+    Comments: {
+      screen: Comments,
+      navigationOptions: props => ({
+        title: "Work Order",
         headerRight: (
           <View style={{ marginRight: 15 }}>
             <TouchableOpacity

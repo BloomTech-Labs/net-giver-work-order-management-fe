@@ -16,7 +16,9 @@ import { CameraField } from '../../../components/shared/CameraField'
 import * as ImagePicker from "expo-image-picker";
 import { ReactNativeFile } from "apollo-upload-client";
 import * as Permissions from "expo-permissions";
-import { fieldsConflictMessage } from "graphql/validation/rules/OverlappingFieldsCanBeMerged";
+import {
+    SafeAreaView
+} from "react-navigation";
 
 
 const EDIT_WO = gql`
@@ -167,6 +169,7 @@ const EditWorkOrder = ({ navigation }) => {
                 setFieldValue,
             }) => (
                 <ScrollView style={{ backgroundColor: '#f8f5f4' }}>
+                    <SafeAreaView forceInset={{ horizontal: "always", bottom: "always" }}>
                     <View>
                         <View style={{ marginTop: 15 }}>
                             <TextInput
@@ -443,7 +446,9 @@ const EditWorkOrder = ({ navigation }) => {
                             />
                         </View>
                     </View>
+                        </SafeAreaView>
                 </ScrollView>
+                
             )}
         />
     )

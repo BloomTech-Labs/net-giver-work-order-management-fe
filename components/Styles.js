@@ -325,16 +325,13 @@ export const loginStyles = StyleSheet.create({
     color: "black"
   },
   loginTextInput: {
-    position: "absolute",
-    left: "4.27%",
-    right: "4.27%",
-    top: "45.28%",
-    bottom: "46.48%",
-    color: "black",
-    backgroundColor: "#EDF1F3",
+    backgroundColor: "#edf1f3",
     borderWidth: 1,
-    // box-sizing: border-box,
-    borderRadius: 4,
+    borderColor: "#C5C2C2",
+    marginTop: 30,
+    marginBottom: 35,
+    width: "90%",
+    alignSelf: "center",
     padding: 10,
     fontFamily: "IBMPlexSans-Regular"
   },

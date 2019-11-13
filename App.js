@@ -7,7 +7,8 @@ import {
   StatusBar,
   StyleSheet,
   View,
-  AsyncStorage
+  AsyncStorage,
+  Image
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import AppNavigator from "./navigation/AppNavigator";
@@ -135,8 +136,8 @@ const client = new ApolloClient({
     //   // uri: "http://localhost:3000/graphql"
     //   uri: "https://netgiver-stage.herokuapp.com/graphql"
     // })
-    // createUploadLink({ uri: "http://localhost:3000/graphql" })
-    createUploadLink({ uri: "https://netgiver-stage.herokuapp.com/graphql" })
+    createUploadLink({ uri: "http://localhost:3000/graphql" })
+    // createUploadLink({ uri: "https://netgiver-stage.herokuapp.com/graphql" })
   ]),
   cache
 });
@@ -165,7 +166,44 @@ export default function App(props) {
   }
 }
 
+function cacheImages(images) {
+  return images.map(image => {
+    if (typeof image === "string") {
+      return Image.prefetch(image);
+    } else {
+      return Asset.fromModule(image).downloadAsync();
+    }
+  });
+}
+
+function cacheFonts(fonts) {
+  return fonts.map(font => Font.loadAsync(font));
+}
+const fonts = {
+  // This is the font that we are using for our tab bar
+  ...Ionicons.font,
+  // We include SpaceMono because we use it in HomeScreen.js. Feel free to
+  // remove this if you are not using it in your app
+
+  "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf"),
+  Roboto_medium: require("./assets/fonts/Roboto_medium.ttf"),
+  "IBMPlexSans-Regular": require("./assets/fonts/IBMPlexSans-Regular.ttf"),
+  "IBMPlexSans-Bold": require("./assets/fonts/IBMPlexSans-Bold.ttf"),
+  "IBMPlexSans-Medium": require("./assets/fonts/IBMPlexSans-Medium.ttf")
+};
 async function loadResourcesAsync() {
+  const imageAssets = cacheImages([
+    require("./components/Images/ng.png"),
+    "http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image",
+    "http://placehold.jp/006e13/ffffff/200x250.png?text=Placeholder%20Image"
+  ]);
+
+  const fontAssets = cacheFonts([fonts]);
+
+  await Promise.all([...imageAssets, ...fontAssets]);
+}
+
+async function loadResourcesAsync2() {
   await Promise.all([
     Asset.loadAsync([
       require("./assets/images/robot-dev.png"),
