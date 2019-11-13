@@ -49,7 +49,7 @@ const resetToken = onError(({ networkError }) => {
     networkError.statusCode === 400
   ) {
     // remove cached token on 401 from the server
-    token = null;
+    const token = null;
   }
 });
 
@@ -109,6 +109,7 @@ const client = new ApolloClient({
         networkError.statusCode === 400
       ) {
         // remove cached token on 401 from the server
+        let token;
         return (token = null);
       }
       if (networkError) console.log(`[Network error]: ${networkError}`);
