@@ -8,6 +8,7 @@ import { color, font } from "../assets/style/base";
 // STYLE CONFIGURATION FOR TOP TAB NAVIGATOR 11/13/2019 SD
 // https://reactnavigation.org/docs/en/material-top-tab-navigator.html#tabnavigatorconfig
 const config = {
+  initialRouteName: "Details",
   tabBarOptions: {
     style: {
       backgroundColor: "white"
@@ -17,6 +18,7 @@ const config = {
       fontFamily: font.med,
       fontSize: font.md
     },
+
     upperCaseLabel: false,
     indicatorStyle: {
       backgroundColor: color.priGreen,
@@ -31,39 +33,13 @@ const TopTab = createMaterialTopTabNavigator(
     Details: {
       screen: Details,
       navigationOptions: props => ({
-        title: "Details",
-        headerRight: (
-          <View style={{ marginRight: 15 }}>
-            <TouchableOpacity
-              onPress={() => {
-                AsyncStorage.removeItem("userToken").then(() => {
-                  props.navigation.navigate("Auth");
-                });
-              }}
-            >
-              <Text>Logout</Text>
-            </TouchableOpacity>
-          </View>
-        )
+        title: "Details"
       })
     },
     Comments: {
       screen: Comments,
       navigationOptions: props => ({
-        title: "Comments",
-        headerRight: (
-          <View style={{ marginRight: 15 }}>
-            <TouchableOpacity
-              onPress={() => {
-                AsyncStorage.removeItem("userToken").then(() => {
-                  props.navigation.navigate("Auth");
-                });
-              }}
-            >
-              <Text>Logout</Text>
-            </TouchableOpacity>
-          </View>
-        )
+        title: "Comments"
       })
     }
   },

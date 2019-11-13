@@ -1,95 +1,146 @@
-import React, {useState} from 'react'
-import {SafeAreaView, Text, TouchableOpacity, TextInput, Image, StyleSheet} from 'react-native'
-import {topBtn} from '../../assets/style/components/buttons'
-const Phone = (props) => {
-    const [phone, setPhone] = useState();
-    initialState = {
+import React, { useState } from "react";
+import {
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  Button,
+  Image,
+  StyleSheet
+} from "react-native";
+import * as Yup from "yup";
+import { Field, Formik } from "formik";
+import { Header, Content, Item, Input, Toast } from "native-base";
+import { useMutation } from "@apollo/react-hooks";
+import gql from "graphql-tag";
+import { su1, su2, su3 } from "./SignUpStyles";
+import ErrorMessage from "./ErrorMessage";
+
+const SIGN_UP = gql`
+  mutation registerAuthy($phone: String!, $email: String!) {
+    registerAuthy(phone: $phone, email: $email) {
+      user {
+        id
+        email
+        phone
+        authyId
+      }
+    }
+  }
+`;
+
+const handleSubmit = ({
+  values,
+  registerAuthy,
+  navigation,
+  setSubmitting,
+  setErrors
+}) => {
+  const { phone, email } = values;
+  registerAuthy({ variables: { phone: phone, email: email } })
+    .then(response => {
+      const { registerAuthy } = response;
+      navigation.navigate("P2", { ...registerAuthy });
+    })
+    .catch(e => {
+      const errors = e.graphQLErrors.map(error => {
+        // alert(error.message);
+        setErrors({ form: error.message });
+      });
+    });
+};
+
+const Phone = ({ navigation }) => {
+  const [registerAuthy, { loading, error }] = useMutation(SIGN_UP, {});
+  return (
+    <Formik
+      initialValues={{
         phone: "",
-        username: "",
-        email:"",
-        password: "password",
-        displayName:"",
-        photo: null
-        }
-        
-        const [user, setUser] = useState(initialState)
-    handleSubmit = () => {
-        if(phone === undefined){
-            alert('Here Please Enter a Valid Phone Number')
-            console.log(user)
-            
-        } else if (phone.length != 10) {
-            alert('There Please Enter a Valid Phone Number')
-            console.log(user)
-
-
-        } 
-        else {
-            setUser(user => ({...user, phone:phone}))
-            console.log(phone)
-            props.navigation.navigate('P2', {user: user, phone: phone})
-            
-        }
-    }
-    return (
+        email: ""
+      }}
+      validationSchema={Yup.object({
+        phone: Yup.string()
+          .length(10, "Enter 10 digit phone number")
+          .required("Phone Required"),
+        email: Yup.string()
+          .min(3, "email must be at least 3 characters")
+          .max(255)
+          .email("Invalid email")
+          .required("Required")
+      })}
+      onSubmit={(values, { setSubmitting, setErrors }) =>
+        handleSubmit({
+          registerAuthy,
+          navigation,
+          values,
+          setSubmitting,
+          setErrors
+        })}
+      render={({
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        values,
+        errors,
+        isValid,
+        touched,
+        setFieldValue,
+        status,
+        isSubmitting
+      }) =>
         <SafeAreaView>
-            <Image         
+          <Image
             style={su1.logo}
-            source={require("../../components/Images/ng.png")} />
-            <Text style={su1.header}>Sign Up</Text>
-            <Text style={su1.subHead}>And leave your paperwork behind!</Text>
-            <TextInput
-            style={su1.input}
-            placeholder="Enter your Phone Number"
-            keyboardType='phone-pad'
-            autoCompleteType='tel'
-            maxLength={10}
-            onChangeText={setPhone}
-            value={phone}
-             />
-            <TouchableOpacity style={topBtn.fullWidthBtn} onPress={handleSubmit}><Text style={topBtn.btnFont}>Get Started</Text></TouchableOpacity>
-            <Text onPress={() => props.navigation.navigate('Contact')} style={su1.footer}>Contact the Net Giver Team</Text>
+            source={require("../../components/Images/ng.png")}
+          />
+          <Text style={su1.header}>Sign Up</Text>
+          <Text style={su1.subHead}>And leave your paperwork behind!</Text>
+          <Field style={su1.input} name="phone">
+            {({ field, form }) =>
+              <Item regular>
+                <Input
+                  onChangeText={handleChange("phone")}
+                  onBlur={handleBlur("phone")}
+                  placeholder="Enter your Phone Number"
+                  keyboardType="phone-pad"
+                  autoCompleteType="tel"
+                  maxLength={10}
+                  value={values.phone}
+                />
+              </Item>}
+          </Field>
+          <ErrorMessage errorValue={errors.phone} />
+          <Field style={su1.input} name="email">
+            {({ field, form }) =>
+              <Item regular>
+                <Input
+                  onChangeText={handleChange("email")}
+                  onBlur={handleBlur("email")}
+                  onBlur={handleBlur("email")}
+                  style={su1.input}
+                  placeholder="Enter your Email"
+                  value={values.email}
+                />
+              </Item>}
+          </Field>
+          <ErrorMessage errorValue={errors.email} />
+          <Button
+            onPress={handleSubmit}
+            disabled={!isValid}
+            buttonStyle={su1.button}
+            title="Get Started"
+            titleStyle={su1.buttonText}
+            loading={isSubmitting}
+          />
+          <ErrorMessage errorValue={errors.form} />
+          <Text
+            onPress={() => navigation.navigate("Contact")}
+            style={su1.subHead}
+          >
+            Contact the Net Giver Team
+          </Text>
+        </SafeAreaView>}
+    />
+  );
+};
 
-        </SafeAreaView>
-    )
-}
-export default Phone
-const su1 = StyleSheet.create({
-    logo: {
-        width: 108,
-        alignSelf:'center',
-        marginTop: 50,
-        marginBottom: 35,
-
-    },
-    header: {
-        fontSize: 24,
-        alignSelf: 'center',
-        marginBottom: 15,
-        fontFamily: "IBMPlexSans-Regular",
-    },
-    subHead:{
-        fontSize: 17,
-        alignSelf: 'center',
-        fontFamily: "IBMPlexSans-Regular",
-    },
-    input:{
-        backgroundColor: "#edf1f3",
-        borderWidth: 1,
-        borderColor: "#C5C2C2",
-        marginTop:30,
-        marginBottom:35,
-        width:"90%",
-        alignSelf:'center',
-        padding: 10,
-        fontFamily: "IBMPlexSans-Regular",
-    },
-    footer:{
-        fontSize: 17,
-        alignSelf: 'center',
-        fontFamily: "IBMPlexSans-Regular",
-        marginTop: 35
-    }
-
-})
-  
+export default Phone;
