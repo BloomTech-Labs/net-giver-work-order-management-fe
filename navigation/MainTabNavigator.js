@@ -14,11 +14,18 @@ import WorkOrderListView from "../screens/WorkOrder/WorkOrderListView";
 import AccountSettings from "../screens/Account/AccountSetting";
 import BarcodeScanner from "../screens/WorkOrder/BarCodeScanner/BarCodeScanner";
 import CheckBarCode from "../screens/WorkOrder/BarCodeScanner/CheckBarCode";
-import NewWorkOrderForm from "../screens/WorkOrder/NewWorkOrder/NewWorkOrderForm";
 import EditWorkOrder from "../screens/WorkOrder/ExistingWorkOrder/EditWorkOrder";
 import CameraModule from "../components/camera/Camera";
 import Details from "../screens/WorkOrder/Details";
 import GalleryScreen from "../components/camera/GalleryScreen";
+import Comments from "../screens/WorkOrder/ExistingWorkOrder/WorkOrderComments/Comments";
+import TopTab from "./TopTabNavigator";
+import { color, font } from "../assets/style/base";
+
+const handleTabPress = ({ navigation, defaultHandler }) => {
+  navigation.popToTop();
+  defaultHandler();
+};
 
 const config = Platform.select({
   web: { headerMode: "screen" },
@@ -49,8 +56,9 @@ const WorkOrderStack = createStackNavigator(
     },
 
     //DETAILS PAGE 11/05/2019 KS
+    //RENDER THE TOPTAB NAV WHICH RENDERS THE DETAILS PAGE AND THEN ALLOWS YOU TO NAVIGATE TO THE COMMENTS PAGE 11/13/2019 SD
     Details: {
-      screen: Details,
+      screen: TopTab,
       navigationOptions: props => ({
         title: "Details",
         headerRight: (
@@ -68,7 +76,6 @@ const WorkOrderStack = createStackNavigator(
         )
       })
     },
-
     EditWorkOrder: {
       screen: EditWorkOrder,
       navigationOptions: props => ({
@@ -97,8 +104,6 @@ const WorkOrderStack = createStackNavigator(
   },
   config
 );
-// console.log("TCL: WorkOrderStack", WorkOrderStack)
-
 WorkOrderStack.navigationOptions = {
   header: "List View",
   tabBarLabel: "List View",
@@ -122,6 +127,7 @@ const QRStack = createStackNavigator(
       screen: BarcodeScanner,
       navigationOptions: props => ({
         title: "QR Scanner",
+        tabBarOnPress: handleTabPress,
         headerRight: (
           <View style={{ marginRight: 15 }}>
             <TouchableOpacity
@@ -245,11 +251,33 @@ AccountStack.navigationOptions = {
 
 AccountStack.path = "";
 
-const tabNavigator = createBottomTabNavigator({
-  WorkOrderStack,
-  QRStack,
-  // AccountStack
-});
+const configBottomTab = {
+  tabBarOptions: {
+    style: {
+      backgroundColor: "white"
+    },
+    labelStyle: {
+      color: color.priGreen,
+      fontFamily: font.reg,
+      fontSize: font.sm
+    },
+    upperCaseLabel: false,
+    indicatorStyle: {
+      backgroundColor: color.priGreen,
+      height: 3
+    },
+    inactiveTintColor: color.greyText
+  }
+};
+
+const tabNavigator = createBottomTabNavigator(
+  {
+    WorkOrderStack,
+    QRStack
+    // AccountStack
+  },
+  configBottomTab
+);
 
 tabNavigator.path = "";
 

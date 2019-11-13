@@ -14,6 +14,11 @@ import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { styles } from "../../assets/style";
 import EditWorkOrder from "./ExistingWorkOrder/EditWorkOrder";
+import { topBtn } from '../../assets/style/components/buttons'
+import { spacer } from '../../assets/style/components/margins'
+import { text } from '../../assets/style/components/text'
+import { txtInput } from '../../assets/style/components/inputs'
+import {color, font, marpad} from '../../assets/style/base'
 const GET_WORKORDERS = gql`
   query workorders($limit: Int) {
     workorders(limit: $limit) {
@@ -48,11 +53,11 @@ const WorkOrderListView = props => {
   //  const goToWo = workorder =>
   //   props.navigation.push("EditWorkOrder", { ...workorder });
 
-  const goToWo = workorder =>
-    props.navigation.push("EditWorkOrder", {
-      ...workorder,
-      pagetitle: "Edit Workorder"
-    });
+  // const goToWo = workorder =>
+  //   props.navigation.push("EditWorkOrder", {
+  //     ...workorder,
+  //     pagetitle: "Edit Workorder"
+  //   });
 
   const goToDetails = workorder =>
     props.navigation.push("Details", { ...workorder });
@@ -74,7 +79,7 @@ const WorkOrderListView = props => {
     <ScrollView>
       {selectedWo && <EditWorkOrder data={selectedWo} />}
       {data.workorders.edges.map(workorder =>
-        <TouchableOpacity key={workorder.id} onPress={() => goToWo(workorder)}>
+        <TouchableOpacity key={workorder.id} onPress={() => goToDetails(workorder)}>
           <View style={wOList.card}>
             <View style={wOList.cardLeft}>
               {workorder.workorderphoto

@@ -57,60 +57,68 @@ export const styles = StyleSheet.create({
 })
 export const wOForm = StyleSheet.create({
     imgCard: {
-        borderWidth: 1,
-        marginTop: 5,
-        padding: 5,
-        marginBottom: 10,
-        backgroundColor: color.white,
     },
-    imgCardTop: { marginTop: 10, marginBottom: 10 },
-    imgCardBot: { marginTop: 10 },
     touchImage: {},
     imgUpload: {
-        width: 150,
-        height: 150,
-        marginLeft: "auto",
-        marginRight: "auto",
-        marginBottom: 10,
+        width: 80,
+        height: 80
         // fontFamily: "IBMPlexSans-Regular"
     },
+    imgContainer: {
+        paddingTop: 16,
+        paddingLeft: 16,
+        paddingBottom: 14,
+        borderBottomWidth: .5,
+        borderBottomColor: '#BFBCBC'
+    },
+    psContainer: {
+        paddingTop: 4,
+        paddingHorizontal: '2%',
+        borderBottomWidth: .5,
+        borderColor: '#BFBCBC'
+    },
+    photoHandlerButton: {
+        paddingTop: 17,
+        paddingBottom: 18,
+        paddingLeft: 16,
+        backgroundColor: 'white',
+        width: '100%',
+        borderBottomWidth: .5,
+        borderBottomColor: "#BFBCBC",
+        marginBottom: 41,
+        shadowOffset: { height: 0, width: 0 },
+        shadowOpacity: 0,
+        elevation:0
+    },
+    photoHandlerText: {
+        fontSize: 17,   
+    },
+    updateButtonContainer: {
+        paddingTop: 4,
+        paddingBottom: 4
+    },
+    updateButtonText: {
+        fontSize: 15, 
+        color: '#323338',
+        marginBottom: 4,
+    },
     statusView: {
-        flex: 1,
-        backgroundColor: "white",
-        // justifyContent: "flex-start",
+        flexDirection: 'row',
         justifyContent: "space-between",
-        padding: 0,
-        borderWidth: 0,
-        // borderBottomWidth: 1,
-        alignItems: "center",
-        padding: 5,
+        paddingBottom: 12,
     },
     statusText: {
         textAlign: "left",
         width: "100%",
         fontFamily: "IBMPlexSans-Regular",
     },
-    statusDiv: {
-        flexDirection: "row",
-        margin: "auto",
-        alignItems: "center",
-        justifyContent: "space-between",
-        borderWidth: 0,
-        backgroundColor: "white",
-        height: 100,
-        width: "100%",
-        marginTop: 0,
-        borderRadius: 0,
-    },
     statusButton: { flexDirection: "column" },
     statusButtons: {
-        backgroundColor: "#f4f3f3",
-        borderWidth: 1,
+        backgroundColor: "#f4f3f3", 
         borderRadius: 5,
-        borderColor: "#C5C2C2",
-        margin: 3,
         flexDirection: "column",
         width: 80,
+        height: 53,
     },
     statusButtonsText: {
         color: "#89898E",
@@ -123,6 +131,8 @@ export const wOForm = StyleSheet.create({
     },
     submitButton: {
         backgroundColor: "#009900",
+        marginHorizontal: '2%',
+        marginBottom: 63
     },
     statusButtonsTextActive: {
         color: "white",
@@ -134,18 +144,13 @@ export const wOForm = StyleSheet.create({
         alignItems: "center",
         borderWidth: 0,
         backgroundColor: "white",
-        height: 100,
         width: "100%",
-        marginTop: 0,
-        borderRadius: 0,
         justifyContent: "space-between",
+        paddingBottom: 12
     },
     priorityButtons: {
         backgroundColor: "#f4f3f3",
-        borderWidth: 1,
         borderRadius: 5,
-        borderColor: "#C5C2C2",
-        margin: 3,
         height: 55,
         width: 80,
     },
@@ -187,33 +192,30 @@ export const wOForm = StyleSheet.create({
     },
     textInput: {
         marginTop: -15,
-        borderTopWidth: 1,
-        borderBottomWidth: 0,
-        borderRightWidth: 0,
-        borderLeftWidth: 0,
+        borderBottomWidth: .5,
         backgroundColor: "#ffffff",
-        borderColor: "#C5C2C2",
+        borderColor: "#BFBCBC",
         fontFamily: "IBMPlexSans-Regular",
-
+        fontSize: 17,
         width: "102%",
+        color: '#89898E',
         alignSelf: "center",
         padding: 10,
     },
     textInput1: {
-        borderTopWidth: 1,
-        borderBottomWidth: 0,
-        borderRightWidth: 0,
-        borderLeftWidth: 0,
+        borderBottomWidth: .5,
         backgroundColor: "#ffffff",
         fontFamily: "IBMPlexSans-Regular",
-
-        borderColor: "#C5C2C2",
+        fontSize: 17,
+        borderColor: "#BFBCBC",
         width: "102%",
         alignSelf: "center",
+        color: '#89898E',
         padding: 10,
         height: 90,
         textAlignVertical: "top",
     },
+    
 })
 
 export const loginStyles = StyleSheet.create({
