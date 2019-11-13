@@ -415,7 +415,7 @@ const EditWorkOrder = ({ navigation }) => {
                             }
                           )}
                       >
-                        <Text style={wOForm.photoHandlerText}>Add Image</Text>
+                        <Text style={[wOForm.photoHandlerText, {marginBottom: -12}]}>Add Image</Text>
                       </NativeButton>}
                   </Field>
                 </Content>
