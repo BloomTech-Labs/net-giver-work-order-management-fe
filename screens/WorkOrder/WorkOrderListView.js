@@ -13,11 +13,11 @@ import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { wOList, styles } from "../../assets/style";
 import EditWorkOrder from "./ExistingWorkOrder/EditWorkOrder";
-import { topBtn } from '../../assets/style/components/buttons'
-import { spacer } from '../../assets/style/components/margins'
-import { text } from '../../assets/style/components/text'
-import { txtInput } from '../../assets/style/components/inputs'
-import {color, font, marpad} from '../../assets/style/base'
+import { topBtn } from "../../assets/style/components/buttons";
+import { spacer } from "../../assets/style/components/margins";
+import { text } from "../../assets/style/components/text";
+import { txtInput } from "../../assets/style/components/inputs";
+import { color, font, marpad } from "../../assets/style/base";
 const GET_WORKORDERS = gql`
   query workorders($limit: Int) {
     workorders(limit: $limit) {
@@ -46,7 +46,7 @@ const GET_WORKORDERS = gql`
 const WorkOrderListView = props => {
   const [sentFrom, setSentFrom] = useState();
   const { data, loading, error } = useQuery(GET_WORKORDERS, {
-    variables: { limit: 5 }
+    variables: { limit: 20 }
   });
   const [selectedWo, setSelectedWo] = useState(null);
   //  const goToWo = workorder =>
@@ -78,7 +78,10 @@ const WorkOrderListView = props => {
     <ScrollView>
       {selectedWo && <EditWorkOrder data={selectedWo} />}
       {data.workorders.edges.map(workorder =>
-        <TouchableOpacity key={workorder.id} onPress={() => goToDetails(workorder)}>
+        <TouchableOpacity
+          key={workorder.id}
+          onPress={() => goToDetails(workorder)}
+        >
           <View style={wOList.card}>
             <View style={wOList.cardLeft}>
               {workorder.workorderphoto
