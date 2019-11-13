@@ -156,8 +156,8 @@ const QRStack = createStackNavigator(
         )
       })
     },
-    NewWorkOrder: {
-      screen: NewWorkOrderForm,
+    EditWorkOrder: {
+      screen: EditWorkOrder,
       navigationOptions: props => ({
         title: "Create Work Order",
         headerRight: (
