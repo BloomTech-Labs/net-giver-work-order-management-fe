@@ -7,6 +7,7 @@ import {
     Image,
     StyleSheet,
 } from 'react-native'
+import {topBtn} from '../../assets/style/components/buttons'
 
 const VerCode = props => {
 console.log("TCL: props", props)
@@ -36,8 +37,8 @@ console.log("TCL: props", props)
                 onChangeText={setVer}
                 value={ver}
             />
-            <TouchableOpacity style={su2.button} onPress={handleSubmit}>
-                <Text style={su2.buttonText}>Sign Up</Text>
+            <TouchableOpacity style={topBtn.fullWidthBtn} onPress={handleSubmit}>
+                <Text style={topBtn.btnFont}>Sign Up</Text>
             </TouchableOpacity>
             <Text
                 onPress={() => props.navigation.navigate('Contact')}
@@ -86,10 +87,13 @@ const su2 = StyleSheet.create({
         alignSelf: 'center',
         color: 'white',
         fontFamily: 'IBMPlexSans-Regular',
+        fontSize:17,
+
     },
     footer: {
         fontSize: 17,
         fontFamily: 'IBMPlexSans-Regular',
         alignSelf: 'center',
+        marginTop:35
     },
 })

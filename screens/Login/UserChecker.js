@@ -1,6 +1,6 @@
 import React from "react";
 import { ActivityIndicator, View, StyleSheet } from "react-native";
-import { styles } from "../../components/Styles";
+import { styles } from "../../assets/style";
 // import {connect} from 'react-redux'
 
 const UserChecker = props => {

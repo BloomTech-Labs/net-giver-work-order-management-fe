@@ -11,8 +11,13 @@ import {
 } from "react-native";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import { wOList, styles } from "../../components/Styles";
+import { wOList, styles } from "../../assets/style";
 import EditWorkOrder from "./ExistingWorkOrder/EditWorkOrder";
+import { topBtn } from '../../assets/style/components/buttons'
+import { spacer } from '../../assets/style/components/margins'
+import { text } from '../../assets/style/components/text'
+import { txtInput } from '../../assets/style/components/inputs'
+import {color, font, marpad} from '../../assets/style/base'
 const GET_WORKORDERS = gql`
   query workorders($limit: Int) {
     workorders(limit: $limit) {
