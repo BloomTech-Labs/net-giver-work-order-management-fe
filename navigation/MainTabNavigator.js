@@ -20,6 +20,13 @@ import Details from "../screens/WorkOrder/Details";
 import GalleryScreen from "../components/camera/GalleryScreen";
 import Comments from "../screens/WorkOrder/ExistingWorkOrder/WorkOrderComments/Comments";
 import TopTab from "./TopTabNavigator";
+import { color, font } from "../assets/style/base";
+
+const handleTabPress = ({ navigation, defaultHandler }) => {
+  navigation.popToTop();
+  defaultHandler();
+};
+
 const config = Platform.select({
   web: { headerMode: "screen" },
   default: {}
@@ -120,6 +127,7 @@ const QRStack = createStackNavigator(
       screen: BarcodeScanner,
       navigationOptions: props => ({
         title: "QR Scanner",
+        tabBarOnPress: handleTabPress,
         headerRight: (
           <View style={{ marginRight: 15 }}>
             <TouchableOpacity
@@ -243,11 +251,33 @@ AccountStack.navigationOptions = {
 
 AccountStack.path = "";
 
-const tabNavigator = createBottomTabNavigator({
-  WorkOrderStack,
-  QRStack
-  // AccountStack
-});
+const configBottomTab = {
+  tabBarOptions: {
+    style: {
+      backgroundColor: "white"
+    },
+    labelStyle: {
+      color: color.priGreen,
+      fontFamily: font.reg,
+      fontSize: font.sm
+    },
+    upperCaseLabel: false,
+    indicatorStyle: {
+      backgroundColor: color.priGreen,
+      height: 3
+    },
+    inactiveTintColor: color.greyText
+  }
+};
+
+const tabNavigator = createBottomTabNavigator(
+  {
+    WorkOrderStack,
+    QRStack
+    // AccountStack
+  },
+  configBottomTab
+);
 
 tabNavigator.path = "";
 
