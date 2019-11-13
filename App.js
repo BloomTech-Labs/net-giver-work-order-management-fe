@@ -183,11 +183,7 @@ function cacheFonts(fonts) {
 const fonts = {
   // This is the font that we are using for our tab bar
   ...Ionicons.font,
-  // We include SpaceMono because we use it in HomeScreen.js. Feel free to
-  // remove this if you are not using it in your app
 
-  "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf"),
-  Roboto_medium: require("./assets/fonts/Roboto_medium.ttf"),
   "IBMPlexSans-Regular": require("./assets/fonts/IBMPlexSans-Regular.ttf"),
   "IBMPlexSans-Bold": require("./assets/fonts/IBMPlexSans-Bold.ttf"),
   "IBMPlexSans-Medium": require("./assets/fonts/IBMPlexSans-Medium.ttf")

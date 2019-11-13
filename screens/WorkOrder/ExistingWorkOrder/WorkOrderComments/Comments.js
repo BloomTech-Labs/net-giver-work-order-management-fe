@@ -64,8 +64,6 @@ const ADD_COMMENT = gql`
   }
 `;
 
-const img1 = require("../../../../components/Images/ng.png");
-
 const Comments = ({ navigation }) => {
   const {
     id,
@@ -109,12 +107,11 @@ const Comments = ({ navigation }) => {
   if (error)
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={wOList.title}>Error :(</Text>
+        <Text style={wOList.title}>Error </Text>
       </SafeAreaView>
     );
 
   async function onSend(messages) {
-    const workorderId = "226";
     const text = messages[0].text;
 
     await addComment({
@@ -134,7 +131,7 @@ const Comments = ({ navigation }) => {
           return {
             _id: comment.id,
             text: comment.text,
-            createdAt: comment.createdAt,
+            createdAt: new Date(comment.createdAt),
             user: {
               _id: comment.user.id,
               name: comment.user.username,
