@@ -7,11 +7,12 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
-  FlatList
+  FlatList,
+  StyleSheet,
 } from "react-native";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import { wOList, styles } from "../../assets/style";
+import { styles } from "../../assets/style";
 import EditWorkOrder from "./ExistingWorkOrder/EditWorkOrder";
 const GET_WORKORDERS = gql`
   query workorders($limit: Int) {
@@ -66,7 +67,7 @@ const WorkOrderListView = props => {
   if (error)
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={wOList.title}>Error :(</Text>
+        <Text style={wOList.title}>Error</Text>
       </SafeAreaView>
     );
   return (
@@ -141,13 +142,11 @@ const WorkOrderListView = props => {
                   {workorder.status}
                 </Text>
               </View>
-              <View style={wOList.qrPriority}>
-                <Text style={[wOList.info, wOList.qr, wOList.infoText]}>
-                  #{workorder.id}
-                </Text>
+              <View style={wOList.priorityBox}>
                 <View
                   style={[
                     {
+                      
                       backgroundColor:
                         workorder.priority === "Low"
                           ? "#E2F5FC"
@@ -164,6 +163,7 @@ const WorkOrderListView = props => {
                   <Text
                     style={[
                       {
+                        
                         color:
                           workorder.priority === "Low"
                             ? "#087FFF"
@@ -181,6 +181,11 @@ const WorkOrderListView = props => {
                     {workorder.priority}
                   </Text>
                 </View>
+                <View style={[wOList.qrBox]}>
+                <Text style={[wOList.info, wOList.qr, wOList.infoText]}>
+                  #{workorder.qrcode}
+                </Text>
+                </View>
               </View>
             </View>
           </View>
@@ -190,3 +195,92 @@ const WorkOrderListView = props => {
   );
 };
 export default WorkOrderListView;
+
+const wOList = StyleSheet.create({
+  card: {
+      width: "100%",
+      borderTopColor: "#E5E5E5",
+      borderTopWidth: 4,
+      paddingLeft: 9,
+      paddingRight: 14,
+      paddingTop: 13,
+      paddingBottom: 31,
+      alignSelf: "center",
+      flexDirection: "row",
+  },
+  info: {
+      borderRadius: 4,
+      height: 20,
+  },
+  infoText: {
+      fontSize: 14,
+      textAlign: "center",
+  },
+  status: {
+      width: 84,
+  },
+  priority: {
+      width: 40,
+      marginLeft: 5,
+  },
+  qr: {
+      width: 65,
+      color: "#8B9195",
+      backgroundColor: "#F2F5F7",
+  },
+  qrBox: {
+    flexDirection: "row",
+  },
+
+  cardMiddle: {
+      //width: 160,
+      flex: 1,
+      //paddingRight: 5,
+      marginTop: 6,
+
+  },
+
+  priorityBox: {
+      flexDirection: "column",
+      marginTop: 6,
+      marginLeft: "auto",
+      alignSelf: "flex-end",
+  },
+  text: {
+      flex: 1,
+      flexWrap: "wrap",
+      fontSize: 14,
+      lineHeight: 22,
+  },
+  cardSubContent: {
+      flexDirection: "column",
+
+
+  },
+  cardLeft: {
+      width: "auto",
+
+  },
+  cardRight: {
+    flexDirection: "column",
+      alignItems: "flex-end",
+      marginLeft: "auto",
+
+  },
+  image: {
+      flex: 1,
+      flexWrap: "wrap",
+      width: 64,
+      height: 64,
+      borderRadius: 4,
+      marginRight: 22,
+  },
+  title: {
+      flex: 1,
+      width: "100%",
+      flexWrap: "wrap",
+      fontSize: 17,
+      fontWeight: "bold",
+      marginBottom: 1,
+  },
+})
