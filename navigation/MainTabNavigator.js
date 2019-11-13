@@ -37,6 +37,7 @@ const WorkOrderStack = createStackNavigator(
     WorkOrderList: {
       screen: WorkOrderListView,
       navigationOptions: props => ({
+        tabBarOnPress: handleTabPress,
         // title: "Work Order List View",
         headerRight: (
           <View style={{ marginRight: 15 }}>
