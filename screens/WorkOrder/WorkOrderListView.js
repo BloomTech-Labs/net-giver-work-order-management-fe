@@ -217,17 +217,26 @@ const wOList = StyleSheet.create({
       textAlign: "center",
   },
   status: {
-      width: 84,
+      width: 65,
+      alignSelf: "flex-end",
   },
+
   priority: {
-      width: 40,
+      width: 65,
+      marginBottom: 6,
+      marginTop: 6,
       marginLeft: 5,
   },
+ 
   qr: {
       width: 65,
       color: "#8B9195",
       backgroundColor: "#F2F5F7",
+      alignSelf: "flex-end",
+      marginLeft: 5,
+
   },
+
   qrBox: {
     flexDirection: "row",
   },
@@ -236,13 +245,11 @@ const wOList = StyleSheet.create({
       //width: 160,
       flex: 1,
       //paddingRight: 5,
-      marginTop: 6,
 
   },
 
   priorityBox: {
       flexDirection: "column",
-      marginTop: 6,
       marginLeft: "auto",
       alignSelf: "flex-end",
   },
@@ -265,6 +272,10 @@ const wOList = StyleSheet.create({
     flexDirection: "column",
       alignItems: "flex-end",
       marginLeft: "auto",
+      marginTop: 6,
+
+      marginBottom: 6,
+
 
   },
   image: {
