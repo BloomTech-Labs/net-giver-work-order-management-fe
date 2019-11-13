@@ -1,256 +1,273 @@
-import React from "react";
+import React from "react"
 import {
-  Platform,
-  Text,
-  View,
-  Button,
-  TouchableOpacity,
-  AsyncStorage
-} from "react-native";
-import { createBottomTabNavigator } from "react-navigation-tabs";
-import { createStackNavigator } from "react-navigation-stack";
-import TabBarIcon from "../components/TabBarIcon";
-import WorkOrderListView from "../screens/WorkOrder/WorkOrderListView";
-import AccountSettings from "../screens/Account/AccountSetting";
-import BarcodeScanner from "../screens/WorkOrder/BarCodeScanner/BarCodeScanner";
-import CheckBarCode from "../screens/WorkOrder/BarCodeScanner/CheckBarCode";
-import NewWorkOrderForm from "../screens/WorkOrder/NewWorkOrder/NewWorkOrderForm";
-import EditWorkOrder from "../screens/WorkOrder/ExistingWorkOrder/EditWorkOrder";
-import CameraModule from "../components/camera/Camera";
-import Details from "../screens/WorkOrder/Details";
-import GalleryScreen from "../components/camera/GalleryScreen";
-
+    Platform,
+    Text,
+    View,
+    Button,
+    TouchableOpacity,
+    AsyncStorage,
+} from "react-native"
+import { createBottomTabNavigator } from "react-navigation-tabs"
+import { createStackNavigator } from "react-navigation-stack"
+import TabBarIcon from "../components/TabBarIcon"
+import WorkOrderListView from "../screens/WorkOrder/WorkOrderListView"
+import AccountSettings from "../screens/Account/AccountSetting"
+import BarcodeScanner from "../screens/WorkOrder/BarCodeScanner/BarCodeScanner"
+import CheckBarCode from "../screens/WorkOrder/BarCodeScanner/CheckBarCode"
+import EditWorkOrder from "../screens/WorkOrder/ExistingWorkOrder/EditWorkOrder"
+import CameraModule from "../components/camera/Camera"
+import Details from "../screens/WorkOrder/Details"
+import GalleryScreen from "../components/camera/GalleryScreen"
+import Comments from "../screens/WorkOrder/ExistingWorkOrder/WorkOrderComments/Comments"
+import TopTab from "./TopTabNavigator"
 const config = Platform.select({
-  web: { headerMode: "screen" },
-  default: {}
-});
+    web: { headerMode: "screen" },
+    default: {},
+})
 
 const WorkOrderStack = createStackNavigator(
-  {
-    WorkOrderList: {
-      screen: WorkOrderListView,
-      navigationOptions: props => ({
-        // title: "Work Order List View",
-        headerRight: (
-          <View style={{ marginRight: 15 }}>
-            <TouchableOpacity
-              // onPress={() => props.navigation.navigate('Logout')}
-              onPress={() => {
-                AsyncStorage.removeItem("userToken").then(() => {
-                  props.navigation.navigate("Auth");
-                });
-              }}
-            >
-              <Text>Logout</Text>
-            </TouchableOpacity>
-          </View>
-        )
-      })
-    },
+    {
+        WorkOrderList: {
+            screen: WorkOrderListView,
+            navigationOptions: props => ({
+                // title: "Work Order List View",
+                headerRight: (
+                    <View style={{ marginRight: 15 }}>
+                        <TouchableOpacity
+                            // onPress={() => props.navigation.navigate('Logout')}
+                            onPress={() => {
+                                AsyncStorage.removeItem("userToken").then(
+                                    () => {
+                                        props.navigation.navigate("Auth")
+                                    }
+                                )
+                            }}
+                        >
+                            <Text>Logout</Text>
+                        </TouchableOpacity>
+                    </View>
+                ),
+            }),
+        },
 
-    //DETAILS PAGE 11/05/2019 KS
-    Details: {
-      screen: Details,
-      navigationOptions: props => ({
-        title: "Details",
-        headerRight: (
-          <View style={{ marginRight: 15 }}>
-            <TouchableOpacity
-              onPress={() => {
-                AsyncStorage.removeItem("userToken").then(() => {
-                  props.navigation.navigate("Auth");
-                });
-              }}
-            >
-              <Text>Logout</Text>
-            </TouchableOpacity>
-          </View>
-        )
-      })
+        //DETAILS PAGE 11/05/2019 KS
+        //RENDER THE TOPTAB NAV WHICH RENDERS THE DETAILS PAGE AND THEN ALLOWS YOU TO NAVIGATE TO THE COMMENTS PAGE 11/13/2019 SD
+        Details: {
+            screen: TopTab,
+            navigationOptions: props => ({
+                title: "Details",
+                headerRight: (
+                    <View style={{ marginRight: 15 }}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                AsyncStorage.removeItem("userToken").then(
+                                    () => {
+                                        props.navigation.navigate("Auth")
+                                    }
+                                )
+                            }}
+                        >
+                            <Text>Logout</Text>
+                        </TouchableOpacity>
+                    </View>
+                ),
+            }),
+        },
+        EditWorkOrder: {
+            screen: EditWorkOrder,
+            navigationOptions: props => ({
+                title: "Edit Work Order",
+                headerRight: (
+                    <View style={{ marginRight: 15 }}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                AsyncStorage.removeItem("userToken").then(
+                                    () => {
+                                        props.navigation.navigate("Auth")
+                                    }
+                                )
+                            }}
+                        >
+                            <Text>Logout</Text>
+                        </TouchableOpacity>
+                    </View>
+                ),
+            }),
+        },
+        CameraModule: {
+            screen: CameraModule,
+        },
+        GalleryScreen: {
+            screen: GalleryScreen,
+        },
     },
-
-    EditWorkOrder: {
-      screen: EditWorkOrder,
-      navigationOptions: props => ({
-        title: "Edit Work Order",
-        headerRight: (
-          <View style={{ marginRight: 15 }}>
-            <TouchableOpacity
-              onPress={() => {
-                AsyncStorage.removeItem("userToken").then(() => {
-                  props.navigation.navigate("Auth");
-                });
-              }}
-            >
-              <Text>Logout</Text>
-            </TouchableOpacity>
-          </View>
-        )
-      })
-    },
-    CameraModule: {
-      screen: CameraModule
-    },
-    GalleryScreen: {
-      screen: GalleryScreen
-    }
-  },
-  config
-);
-// console.log("TCL: WorkOrderStack", WorkOrderStack)
-
+    config
+)
 WorkOrderStack.navigationOptions = {
-  header: "List View",
-  tabBarLabel: "List View",
+    header: "List View",
+    tabBarLabel: "List View",
 
-  tabBarIcon: ({ focused }) =>
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === "ios"
-          ? `ios-information-circle${focused ? "" : "-outline"}`
-          : "md-information-circle"
-      }
-    />
-};
+    tabBarIcon: ({ focused }) => (
+        <TabBarIcon
+            focused={focused}
+            name={
+                Platform.OS === "ios"
+                    ? `ios-information-circle${focused ? "" : "-outline"}`
+                    : "md-information-circle"
+            }
+        />
+    ),
+}
 
-WorkOrderStack.path = "";
+WorkOrderStack.path = ""
 
 const QRStack = createStackNavigator(
-  {
-    BarCodeScanner: {
-      screen: BarcodeScanner,
-      navigationOptions: props => ({
-        title: "QR Scanner",
-        headerRight: (
-          <View style={{ marginRight: 15 }}>
-            <TouchableOpacity
-              onPress={() => {
-                AsyncStorage.removeItem("userToken").then(() => {
-                  props.navigation.navigate("Auth");
-                });
-              }}
-            >
-              <Text>Logout</Text>
-            </TouchableOpacity>
-          </View>
-        )
-      })
+    {
+        BarCodeScanner: {
+            screen: BarcodeScanner,
+            navigationOptions: props => ({
+                title: "QR Scanner",
+                headerRight: (
+                    <View style={{ marginRight: 15 }}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                AsyncStorage.removeItem("userToken").then(
+                                    () => {
+                                        props.navigation.navigate("Auth")
+                                    }
+                                )
+                            }}
+                        >
+                            <Text>Logout</Text>
+                        </TouchableOpacity>
+                    </View>
+                ),
+            }),
+        },
+        CheckBarCode: {
+            screen: CheckBarCode,
+            navigationOptions: props => ({
+                title: "Verify QR Code",
+                headerRight: (
+                    <View style={{ marginRight: 15 }}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                AsyncStorage.removeItem("userToken").then(
+                                    () => {
+                                        props.navigation.navigate("Auth")
+                                    }
+                                )
+                            }}
+                        >
+                            <Text>Logout</Text>
+                        </TouchableOpacity>
+                    </View>
+                ),
+            }),
+        },
+        EditWorkOrder: {
+            screen: EditWorkOrder,
+            navigationOptions: props => ({
+                title: "Create Work Order",
+                headerRight: (
+                    <View style={{ marginRight: 15 }}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                AsyncStorage.removeItem("userToken").then(
+                                    () => {
+                                        props.navigation.navigate("Auth")
+                                    }
+                                )
+                            }}
+                        >
+                            <Text>Logout</Text>
+                        </TouchableOpacity>
+                    </View>
+                ),
+            }),
+        },
+        CameraModule: {
+            screen: CameraModule,
+            navigationOptions: props => ({
+                title: "Take a Photo",
+                headerRight: (
+                    <View style={{ marginRight: 15 }}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                AsyncStorage.removeItem("userToken").then(
+                                    () => {
+                                        props.navigation.navigate("Auth")
+                                    }
+                                )
+                            }}
+                        >
+                            <Text>Logout</Text>
+                        </TouchableOpacity>
+                    </View>
+                ),
+            }),
+        },
     },
-    CheckBarCode: {
-      screen: CheckBarCode,
-      navigationOptions: props => ({
-        title: "Verify QR Code",
-        headerRight: (
-          <View style={{ marginRight: 15 }}>
-            <TouchableOpacity
-              onPress={() => {
-                AsyncStorage.removeItem("userToken").then(() => {
-                  props.navigation.navigate("Auth");
-                });
-              }}
-            >
-              <Text>Logout</Text>
-            </TouchableOpacity>
-          </View>
-        )
-      })
-    },
-    NewWorkOrder: {
-      screen: NewWorkOrderForm,
-      navigationOptions: props => ({
-        title: "Create Work Order",
-        headerRight: (
-          <View style={{ marginRight: 15 }}>
-            <TouchableOpacity
-              onPress={() => {
-                AsyncStorage.removeItem("userToken").then(() => {
-                  props.navigation.navigate("Auth");
-                });
-              }}
-            >
-              <Text>Logout</Text>
-            </TouchableOpacity>
-          </View>
-        )
-      })
-    },
-    CameraModule: {
-      screen: CameraModule,
-      navigationOptions: props => ({
-        title: "Take a Photo",
-        headerRight: (
-          <View style={{ marginRight: 15 }}>
-            <TouchableOpacity
-              onPress={() => {
-                AsyncStorage.removeItem("userToken").then(() => {
-                  props.navigation.navigate("Auth");
-                });
-              }}
-            >
-              <Text>Logout</Text>
-            </TouchableOpacity>
-          </View>
-        )
-      })
-    }
-  },
-  config
-);
+    config
+)
 
 QRStack.navigationOptions = {
-  tabBarLabel: "QR Scanner",
-  tabBarIcon: ({ focused }) =>
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === "ios" ? "ios-add" : "md-add"}
-    />
-};
+    tabBarLabel: "QR Scanner",
+    tabBarIcon: ({ focused }) => (
+        <TabBarIcon
+            focused={focused}
+            name={Platform.OS === "ios" ? "ios-add" : "md-add"}
+        />
+    ),
+}
 
-QRStack.path = "";
+QRStack.path = ""
 
 const AccountStack = createStackNavigator(
-  {
-    AccountSettings: {
-      screen: AccountSettings,
-      navigationOptions: props => ({
-        title: "Account Settings",
-        headerRight: (
-          <View style={{ marginRight: 15 }}>
-            <TouchableOpacity
-              onPress={() => {
-                AsyncStorage.removeItem("userToken").then(() => {
-                  props.navigation.navigate("Auth");
-                });
-              }}
-            >
-              <Text>Logout</Text>
-            </TouchableOpacity>
-          </View>
-        )
-      })
-    }
-  },
-  config
-);
+    {
+        AccountSettings: {
+            screen: AccountSettings,
+            navigationOptions: props => ({
+                title: "Account Settings",
+                headerRight: (
+                    <View style={{ marginRight: 15 }}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                AsyncStorage.removeItem("userToken").then(
+                                    () => {
+                                        props.navigation.navigate("Auth")
+                                    }
+                                )
+                            }}
+                        >
+                            <Text>Logout</Text>
+                        </TouchableOpacity>
+                    </View>
+                ),
+            }),
+        },
+    },
+    config
+)
 
 AccountStack.navigationOptions = {
-  tabBarLabel: "User Profile",
-  tabBarIcon: ({ focused }) =>
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === "ios" ? "ios-options" : "md-options"}
-    />
-};
+    tabBarLabel: "User Profile",
+    tabBarIcon: ({ focused }) => (
+        <TabBarIcon
+            focused={focused}
+            name={Platform.OS === "ios" ? "ios-options" : "md-options"}
+        />
+    ),
+}
 
-AccountStack.path = "";
+AccountStack.path = ""
 
 const tabNavigator = createBottomTabNavigator({
-  WorkOrderStack,
-  QRStack,
-  // AccountStack
-});
+    WorkOrderStack,
+    QRStack,
+    // AccountStack
+})
 
-tabNavigator.path = "";
+tabNavigator.path = ""
 
-export default tabNavigator;
+export default tabNavigator
