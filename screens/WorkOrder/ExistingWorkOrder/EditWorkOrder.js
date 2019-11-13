@@ -6,6 +6,7 @@ import {
     Image,
     TouchableOpacity,
     Text,
+    Platform
 } from 'react-native'
 import { Field, Formik } from 'formik'
 import { ActionSheet, Content, Button as NativeButton, Container, } from "native-base";
@@ -73,6 +74,7 @@ const updateWo = async ({
     uploadWorkorderphoto,
     navigation,
 }) => {
+    console.log(values);
     if (values.photo.uri) {
         console.log(values.photo)
         const picresult = await uploadWorkorderphoto({
@@ -81,6 +83,8 @@ const updateWo = async ({
                 workorderId: values.id,
             },
         })
+
+
         const editresult = await editWorkorder({
             variables: {
                 id: values.id,
@@ -136,10 +140,6 @@ const EditWorkOrder = ({ navigation }) => {
         {}
     )
 
-    const resetAction = StackActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({ routeName: 'EditWorkOrder' })],
-      });
 
     const img1 =
         'http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image'
@@ -177,7 +177,7 @@ const EditWorkOrder = ({ navigation }) => {
                 setFieldValue,
             }) => (
                 <ScrollView style={{ backgroundColor: '#f8f5f4' }}>
-                    <View>
+                    <View style={{backgroundColor: 'white'}}>
                         <View style={{ marginTop: 15 }}>
                             <TextInput
                                 onChangeText={handleChange('title')}
@@ -198,194 +198,180 @@ const EditWorkOrder = ({ navigation }) => {
                                 placeholder="Detailed Description"
                             />
                         </View>
-                        <View style={{ backgroundColor: 'white', padding: 3 }}>
-                            <Text sytle={wOForm.statusText}>
-                                Tap to update status:
-                            </Text>
-                        </View>
-                        <View style={wOForm.statusView}>
-                            <View style={wOForm.statusDiv}>
-                                <View style={wOForm.statusButton}>
+                        <View style={wOForm.psContainer}>
+                            <View style={wOForm.updateButtonContainer}>
+                                <Text style={wOForm.updateButtonText}>
+                                    Tap to update status:
+                                </Text>
+                                <View style={wOForm.statusView}>
+                                        <View style={wOForm.statusButton}>
+                                            <Button
+                                                onPress={() =>
+                                                    setFieldValue('status', 'Open')
+                                                }
+                                                buttonStyle={wOForm.statusButtons}
+                                                titleStyle={wOForm.statusButtonsText}
+                                                disabled={values.status === 'Open'}
+                                                disabledStyle={
+                                                    wOForm.statusButtonsActive
+                                                }
+                                                disabledTitleStyle={
+                                                    wOForm.statusButtonsTextActive
+                                                }
+                                                icon={
+                                                    <Icon
+                                                        color= {status === 'Open' ? 'white' : '#89898E'}
+                                                        type="antdesign"
+                                                        name="unlock"
+                                                        size={20}
+                                                    />
+                                                }
+                                                title="Open"
+                                            />
+                                        </View>
+                                        <Button
+                                            onPress={() =>
+                                                setFieldValue('status', 'Hold')
+                                            }
+                                            buttonStyle={wOForm.statusButtons}
+                                            titleStyle={wOForm.statusButtonsText}
+                                            disabled={values.status === 'Hold'}
+                                            disabledStyle={wOForm.statusButtonsActive}
+                                            disabledTitleStyle={
+                                                wOForm.statusButtonsTextActive
+                                            }
+                                            icon={
+                                                <Icon
+                                                    color= {status === 'Hold' ? 'white' : '#89898E'}
+                                                    type="antdesign"
+                                                    name="pause"
+                                                    size={20}
+                                                />
+                                            }
+                                            title="Hold"
+                                        />
+                                        <Button
+                                            onPress={() =>
+                                                setFieldValue('status', 'Working')
+                                            }
+                                            buttonStyle={wOForm.statusButtons}
+                                            titleStyle={wOForm.statusButtonsText}
+                                            disabled={values.status === 'Working'}
+                                            disabledStyle={wOForm.statusButtonsActive}
+                                            disabledTitleStyle={
+                                                wOForm.statusButtonsTextActive
+                                            }
+                                            icon={
+                                                <Icon
+                                                    color= {status === 'Working' ? 'white' : '#89898E'}
+                                                    type="antdesign"
+                                                    name="sync"
+                                                    size={20}
+                                                />
+                                            }
+                                            title="Working"
+                                        />
+                                        <Button
+                                            onPress={() =>
+                                                setFieldValue('status', 'Done')
+                                            }
+                                            buttonStyle={wOForm.statusButtons}
+                                            titleStyle={wOForm.statusButtonsText}
+                                            disabled={values.status === 'Done'}
+                                            disabledStyle={wOForm.statusButtonsActive}
+                                            disabledTitleStyle={
+                                                wOForm.statusButtonsTextActive
+                                            }
+                                            icon={
+                                                <Icon
+                                                    color= {status === 'Done' ? 'white' : '#89898E'}
+                                                    type="antdesign"
+                                                    name="lock"
+                                                    size={20}
+                                                />
+                                            }
+                                            title="Done"
+                                        />
+                                </View>
+                            </View>
+                            <View style={wOForm.updateButtonContainer}>
+                                <Text style={wOForm.updateButtonText}>Tap to update priority:</Text>
+                                <View style={wOForm.statusView}>
+                                <View style={wOForm.priorityDiv}>
                                     <Button
                                         onPress={() =>
-                                            setFieldValue('status', 'Open')
+                                            setFieldValue('priority', 'Low')
                                         }
-                                        buttonStyle={wOForm.statusButtons}
-                                        titleStyle={wOForm.statusButtonsText}
-                                        disabled={values.status === 'Open'}
-                                        disabledStyle={
-                                            wOForm.statusButtonsActive
-                                        }
+                                        buttonStyle={wOForm.priorityButtons}
+                                        title="Low"
+                                        titleStyle={wOForm.priorityButtonsText}
+                                        disabled={values.priority === 'Low'}
+                                        disabledStyle={{backgroundColor: color.accLow}}
                                         disabledTitleStyle={
-                                            wOForm.statusButtonsTextActive
+                                            {fontFamily: font.reg, color: color.priLow}
                                         }
-                                        icon={
-                                            <Icon
-                                                color="black"
-                                                type="antdesign"
-                                                name="unlock"
-                                                size={20}
-                                            />
+                                    />
+                                    <Button
+                                        onPress={() =>
+                                            setFieldValue('priority', 'Medium')
                                         }
-                                        title="Open"
+                                        buttonStyle={wOForm.priorityButtons}
+                                        title="Medium"
+                                        titleStyle={wOForm.priorityButtonsText}
+                                        disabled={values.priority === 'Medium'}
+                                        disabledStyle={{backgroundColor: color.accMed}}
+                                        disabledTitleStyle={
+                                            {fontFamily: font.reg, color: color.priMed}
+                                        }
+                                    />
+                                    <Button
+                                        onPress={() =>
+                                            setFieldValue('priority', 'High')
+                                        }
+                                        buttonStyle={wOForm.priorityButtons}
+                                        title="High"
+                                        titleStyle={wOForm.priorityButtonsText}
+                                        disabled={values.priority === 'High'}
+                                        disabledStyle={{backgroundColor: color.accHigh}}
+                                        disabledTitleStyle={
+                                            {fontFamily: font.reg, color: color.priHigh}
+                                        }
+                                    />
+                                    <Button
+                                        onPress={() =>
+                                            setFieldValue('priority', 'Urgent')
+                                        }
+                                        buttonStyle={wOForm.priorityButtons}
+                                        title="Urgent"
+                                        titleStyle={wOForm.priorityButtonsText}
+                                        disabled={values.priority === 'Urgent'}
+                                        disabledStyle={{backgroundColor: color.accUrg}}
+                                        disabledTitleStyle={
+                                            {fontFamily: font.reg, color: color.priUrg}
+                                        }
                                     />
                                 </View>
-                                <Button
-                                    onPress={() =>
-                                        setFieldValue('status', 'Hold')
-                                    }
-                                    buttonStyle={wOForm.statusButtons}
-                                    titleStyle={wOForm.statusButtonsText}
-                                    disabled={values.status === 'Hold'}
-                                    disabledStyle={wOForm.statusButtonsActive}
-                                    disabledTitleStyle={
-                                        wOForm.statusButtonsTextActive
-                                    }
-                                    icon={
-                                        <Icon
-                                            color="black"
-                                            type="antdesign"
-                                            name="pause"
-                                            size={20}
-                                        />
-                                    }
-                                    title="Hold"
-                                />
-                                <Button
-                                    onPress={() =>
-                                        setFieldValue('status', 'Working')
-                                    }
-                                    buttonStyle={wOForm.statusButtons}
-                                    titleStyle={wOForm.statusButtonsText}
-                                    disabled={values.status === 'Working'}
-                                    disabledStyle={wOForm.statusButtonsActive}
-                                    disabledTitleStyle={
-                                        wOForm.statusButtonsTextActive
-                                    }
-                                    icon={
-                                        <Icon
-                                            color="black"
-                                            type="antdesign"
-                                            name="sync"
-                                            size={20}
-                                        />
-                                    }
-                                    title="Working"
-                                />
-                                <Button
-                                    onPress={() =>
-                                        setFieldValue('status', 'Done')
-                                    }
-                                    buttonStyle={wOForm.statusButtons}
-                                    titleStyle={wOForm.statusButtonsText}
-                                    disabled={values.status === 'Done'}
-                                    disabledStyle={wOForm.statusButtonsActive}
-                                    disabledTitleStyle={
-                                        wOForm.statusButtonsTextActive
-                                    }
-                                    icon={
-                                        <Icon
-                                            color="black"
-                                            type="antdesign"
-                                            name="lock"
-                                            size={20}
-                                        />
-                                    }
-                                    title="Done"
-                                />
                             </View>
-                        </View>
-                        <View style={{ backgroundColor: 'white' }}>
-                            <Text>Tap to update priority:</Text>
-                        </View>
-                        <View style={wOForm.statusView}>
-                            <View style={wOForm.priorityDiv}>
-                                <Button
-                                    onPress={() =>
-                                        setFieldValue('priority', 'Low')
-                                    }
-                                    buttonStyle={wOForm.priorityButtons}
-                                    title="Low"
-                                    titleStyle={wOForm.priorityButtonsText}
-                                    disabled={values.priority === 'Low'}
-                                    disabledStyle={{backgroundColor: color.accLow}}
-                                    disabledTitleStyle={
-                                        {fontFamily: font.reg, color: color.priLow}
-                                    }
-                                />
-                                <Button
-                                    onPress={() =>
-                                        setFieldValue('priority', 'Medium')
-                                    }
-                                    buttonStyle={wOForm.priorityButtons}
-                                    title="Medium"
-                                    titleStyle={wOForm.priorityButtonsText}
-                                    disabled={values.priority === 'Medium'}
-                                    disabledStyle={{backgroundColor: color.accMed}}
-                                    disabledTitleStyle={
-                                        {fontFamily: font.reg, color: color.priMed}
-                                    }
-                                />
-                                <Button
-                                    onPress={() =>
-                                        setFieldValue('priority', 'High')
-                                    }
-                                    buttonStyle={wOForm.priorityButtons}
-                                    title="High"
-                                    titleStyle={wOForm.priorityButtonsText}
-                                    disabled={values.priority === 'High'}
-                                    disabledStyle={{backgroundColor: color.accHigh}}
-                                    disabledTitleStyle={
-                                        {fontFamily: font.reg, color: color.priHigh}
-                                    }
-                                />
-                                <Button
-                                    onPress={() =>
-                                        setFieldValue('priority', 'Urgent')
-                                    }
-                                    buttonStyle={wOForm.priorityButtons}
-                                    title="Urgent"
-                                    titleStyle={wOForm.priorityButtonsText}
-                                    disabled={values.priority === 'Urgent'}
-                                    disabledStyle={{backgroundColor: color.accUrg}}
-                                    disabledTitleStyle={
-                                        {fontFamily: font.reg, color: color.priUrg}
-                                    }
-                                />
                             </View>
                         </View>
                         <View style={wOForm.imgCard}>
-                            <View style={wOForm.imgCardTop}>
-                            </View>
                             <View style={wOForm.imgCardBot}>
                                 {/* <TouchableOpacity
                                     style={wOForm.touchImage}
                                     onPress={() => PictureField}
                                 > */}
                                     {values.photo.uri ? (
-                                        <Image
-                                            style={wOForm.imgUpload}
-                                            source={{
-                                                uri: values.photo.uri,
-                                            }}
-                                        />
-                                    ) : values.workorderphoto ? (
-                                        <Image
-                                            style={wOForm.imgUpload}
-                                            source={{
-                                                uri: values.workorderphoto.path,
-                                            }}
-                                        />
-                                    ) : (
-                                        <Image
-                                            style={wOForm.imgUpload}
-                                            source={{
-                                                uri: img1,
-                                            }}
-                                        />
-                                    )}
+                                        <View style={wOForm.imgContainer}>
+                                            <Image
+                                                style={wOForm.imgUpload}
+                                                source={{
+                                                    uri: values.photo.uri,
+                                                }}
+                                            />
+                                        </View>
+                                    ) : null}
                                 {/* </TouchableOpacity> */}
-                                    <Content padder>
+                                    <Content>
                                         <Field
                                             style={wOForm.imgUpload}
                                             titleStyle={wOForm.statusButtonsTextActive}
@@ -394,7 +380,8 @@ const EditWorkOrder = ({ navigation }) => {
                                         >
                                             {({ field, form }) => (
                                                 <NativeButton
-                                                style={topBtn.fullWidthBtn}
+                                                
+                                                style={wOForm.photoHandlerButton}
                                                     onPress={()=>
                                                         ActionSheet.show(
                                                             {
@@ -405,20 +392,25 @@ const EditWorkOrder = ({ navigation }) => {
                                                             buttonIndex => {
                                                                 if (buttonIndex !== 2) {
                                                                     const find = async () => {
-                                                                        const { status } = await Permissions.getAsync(buttonIndex === 0 ? Permissions.CAMERA_ROLL : Permissions.CAMERA);
+                                                                        const { status } = await Permissions.getAsync((buttonIndex === 0 ? Permissions.CAMERA_ROLL : Permissions.CAMERA));
+                                                                        console.log(status);
                                                                         if (status !== "granted") {
-                                                                            await Permissions.askAsync(buttonIndex === 0 ? Permissions.CAMERA_ROLL : Permissions.CAMERA);
+                                                                            await Permissions.askAsync((buttonIndex === 0 ? Permissions.CAMERA_ROLL : Permissions.CAMERA));
                                                                         }
-                                                                        const imageResult = (buttonIndex === 0 ? await ImagePicker.launchImageLibraryAsync({}) : await ImagePicker.launchCameraAsync({}));
+                                                                        
+                                                                        const imageResult = await (buttonIndex === 0 ? ImagePicker.launchImageLibraryAsync({}) : ImagePicker.launchCameraAsync({}));
+                                                                        console.log(imageResult);
                                                                         const fileName = imageResult.uri.split("/").pop();
+                                                                        
                                                                         const match = /\.(\w+)$/.exec(fileName);
                                                                         const mimeType = match ? `image/${match[1]}` : `image`;
                                                                         if (!imageResult.cancelled) {
                                                                             const file = new ReactNativeFile({
                                                                                 uri: imageResult.uri,
-                                                                                type: imageResult.type,
+                                                                                type: imageResult.type + (Platform.OS === 'ios' ? '' : '/jpeg'),
                                                                                 name: mimeType
                                                                             });
+                                                                            
                                                                             setFieldValue('photo', file);
                                                                         }
                                                                     }
@@ -427,7 +419,7 @@ const EditWorkOrder = ({ navigation }) => {
                                                             }
                                                         )}
                                                 >
-                                                    <Text style={topBtn.btnFont}>Choose a Photo</Text>
+                                                    <Text style={wOForm.photoHandlerText}>Add Image</Text>
                                                 </NativeButton>
                                             )}
                                         </Field>
@@ -446,10 +438,7 @@ const EditWorkOrder = ({ navigation }) => {
                       </View>
                         <View>
                             <Button
-                                onPress={() => {
-                                    handleSubmit
-                                    navigation.dispatch(resetAction);
-                                }}
+                                onPress={handleSubmit}
                                 buttonStyle={wOForm.submitButton}
                                 titleStyle={wOForm.statusButtonsTextActive}
                                 title="Submit"
