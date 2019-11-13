@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import axios from "axios";
 import { Button } from "native-base";
-
 import { loginStyles, styles } from "../../components/Styles";
 import logo from "../../components/Images/NetGiverLogo.svg";
 import SafeAreaView from "react-native-safe-area-view";
@@ -65,7 +64,6 @@ const Login = props => {
         style={loginStyles.logo}
         source={require("../../components/Images/ng.png")}
       />
-      {/* </View> */}
       <Text style={loginStyles.header}>Sign In</Text>
       <Text style={loginStyles.subHeader}>
         And leave your paperwork behind!
@@ -79,9 +77,8 @@ const Login = props => {
         onChangeText={text => onChangeText(text)}
         onFocus={() => onChangeText("")}
       />
-      {/* <View style={loginStyles.signIn}> */}
       <Button
-        style={[loginStyles.buttons, {marginTop: 20}]}
+        style={[loginStyles.signIn, { marginTop: 20 }]}
         onPress={() =>
           signInDev({
             variables: {
@@ -96,7 +93,7 @@ const Login = props => {
 
       <Button
         onPress={() => props.navigation.navigate("P1")}
-        style={[loginStyles.buttons, {marginTop: 20}]}
+        style={[loginStyles.signUp, { marginTop: 20 }]}
       >
         <Text style={loginStyles.buttonText}>Sign Up</Text>
       </Button>

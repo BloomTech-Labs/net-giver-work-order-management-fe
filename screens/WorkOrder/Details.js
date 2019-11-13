@@ -23,6 +23,7 @@ import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { PictureField } from "../../components/shared/PictureField";
 import { CameraField } from "../../components/shared/CameraField";
+import EditWorkOrder from "./ExistingWorkOrder/EditWorkOrder";
 
 
 
@@ -39,9 +40,23 @@ const Details = ({ navigation }) => {
     user,
     user: { username },
     workorderphoto } = navigation.state.params;
-
+    
     const [onPressDetails, setOnPressDetails] = useState();
     const [onPressUpdates, setOnPressUpdats] = useState();
+    console.log(id)
+    const [sentFrom, setSentFrom] = useState();
+
+    const [wo, setWo] = useState(initialState) 
+const initialState = { 
+  id: id,
+  qrcode: qrcode,
+  detail: detail,
+  priority: priority,
+  status: status,
+  title: title,
+  }
+  
+ 
 
   const img1 =
     "http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image";
@@ -308,7 +323,13 @@ const Details = ({ navigation }) => {
                   </View> 
 
                 </View>
-                <TouchableOpacity style={details.editButton}><Text style={[{textAlign: 'center'}, {color: 'white'}]}>Edit</Text></TouchableOpacity>
+                <TouchableOpacity style={details.editButton} onPress={() => navigation.navigate('EditWorkOrder',
+                {id: id,
+        qrcode: qrcode,
+        detail: detail,
+        priority: priority,
+        status: status,
+        title: title, user: user.username} )}><Text style={[{textAlign: 'center'}, {color: 'white'}]}>Edit</Text></TouchableOpacity>
            </View>
 
         </ScrollView>                 
@@ -433,7 +454,7 @@ const details = StyleSheet.create({
     backgroundColor: '#00830B',
     paddingVertical: 10,
     borderRadius: 20,
-    width: "35%",
+    width: "45%",
     alignSelf: "center",
     justifyContent: "center",
     margin: 15

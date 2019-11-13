@@ -4,16 +4,20 @@ import {
     View,
     TextInput,
     Image,
-    TouchableOpacity,
 } from 'react-native'
 import { Field, Formik } from 'formik'
-import { Text } from 'native-base'
+import { Text, ActionSheet, Content, Button as NativeButton, Container, } from "native-base";
 import { Icon, Button } from 'react-native-elements'
 import { wOForm } from '../../../components/Styles'
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { PictureField } from '../../../components/shared/PictureField'
 import { CameraField } from '../../../components/shared/CameraField'
+import * as ImagePicker from "expo-image-picker";
+import { ReactNativeFile } from "apollo-upload-client";
+import * as Permissions from "expo-permissions";
+import { fieldsConflictMessage } from "graphql/validation/rules/OverlappingFieldsCanBeMerged";
+
 
 const EDIT_WO = gql`
     mutation editWorkorder(
@@ -122,14 +126,19 @@ const EditWorkOrder = ({ navigation }) => {
         detail: detail,
     })
     const [editWorkorder, { loading, error }] = useMutation(EDIT_WO, {})
-
+    console.log(navigation.state.params)
     const [uploadWorkorderphoto, { picloading, picerror }] = useMutation(
         WO_PIC,
         {}
     )
     const img1 =
         'http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image'
-
+    const BUTTONS = [
+        { text: 'Gallery' },
+        { text: 'Take Photo' },
+        { text: 'Cancel' },
+    ]
+    const CANCEL_INDEX = 2;
     return (
         <Formik
             initialValues={{
@@ -340,10 +349,10 @@ const EditWorkOrder = ({ navigation }) => {
                                 <Text>Tap on image to upload.</Text>
                             </View>
                             <View style={wOForm.imgCardBot}>
-                                <TouchableOpacity
+                                {/* <TouchableOpacity
                                     style={wOForm.touchImage}
                                     onPress={() => PictureField}
-                                >
+                                > */}
                                     {values.photo.uri ? (
                                         <Image
                                             style={wOForm.imgUpload}
@@ -366,20 +375,56 @@ const EditWorkOrder = ({ navigation }) => {
                                             }}
                                         />
                                     )}
-                                    <Field
-                                        name="photo"
-                                        title="Photo from Gallery"
-                                        component={PictureField}
-                                        style={wOForm.imgUpload}
-                                        titleStyle={
-                                            wOForm.statusButtonsTextActive
-                                        }
-                                        buttonStyle={wOForm.submitButton}
-                                    />
-                                </TouchableOpacity>
+                                {/* </TouchableOpacity> */}
+                                    <Content padder>
+                                        <Field
+                                            style={wOForm.imgUpload}
+                                            titleStyle={wOForm.statusButtonsTextActive}
+                                            buttonStyle={wOForm.submitButton}
+                                            name="photo"
+                                        >
+                                            {({ field, form }) => (
+                                                <NativeButton
+                                                    onPress={()=>
+                                                        ActionSheet.show(
+                                                            {
+                                                                options: BUTTONS,
+                                                                cancelButtonIndex: CANCEL_INDEX,
+                                                                title: "Add an image"
+                                                            },
+                                                            buttonIndex => {
+                                                                if (buttonIndex !== 2) {
+                                                                    const find = async () => {
+                                                                        const { status } = await Permissions.getAsync(buttonIndex === 0 ? Permissions.CAMERA_ROLL : Permissions.CAMERA);
+                                                                        if (status !== "granted") {
+                                                                            await Permissions.askAsync(buttonIndex === 0 ? Permissions.CAMERA_ROLL : Permissions.CAMERA);
+                                                                        }
+                                                                        const imageResult = (buttonIndex === 0 ? await ImagePicker.launchImageLibraryAsync({}) : await ImagePicker.launchCameraAsync({}));
+                                                                        const fileName = imageResult.uri.split("/").pop();
+                                                                        const match = /\.(\w+)$/.exec(fileName);
+                                                                        const mimeType = match ? `image/${match[1]}` : `image`;
+                                                                        if (!imageResult.cancelled) {
+                                                                            const file = new ReactNativeFile({
+                                                                                uri: imageResult.uri,
+                                                                                type: imageResult.type,
+                                                                                name: mimeType
+                                                                            });
+                                                                            setFieldValue('photo', file);
+                                                                        }
+                                                                    }
+                                                                    find();
+                                                                }
+                                                            }
+                                                        )}
+                                                >
+                                                    <Text>Choose a Photo</Text>
+                                                </NativeButton>
+                                            )}
+                                        </Field>
+                                    </Content>
                             </View>
-                            <View style={wOForm.imgCardBot}>
-                                 <Field
+                            {/* <View style={wOForm.imgCardBot}> */}
+                                 {/* <Field
                                     name="photo"
                                     title="Photo from Camera"
                                     component={CameraField}
@@ -387,9 +432,8 @@ const EditWorkOrder = ({ navigation }) => {
                                     titleStyle={wOForm.statusButtonsTextActive}
                                     buttonStyle={wOForm.submitButton}
                                 />
-                            </View>
-                        </View>
-
+                            </View> */}
+                      </View>
                         <View>
                             <Button
                                 onPress={handleSubmit}
