@@ -186,7 +186,6 @@ const EditWorkOrder = ({ navigation }) => {
                                 onChangeText={handleChange('detail')}
                                 onBlur={handleBlur('detail')}
                                 value={values.detail}
-                                value={wo.detail}
                                 style={wOForm.textInput1}
                                 multiline={true}
                                 placeholder="Detailed Description"
