@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   StyleSheet,
+  SafeAreaView,
   Text,
   TextInput,
   View,
@@ -10,11 +11,14 @@ import {
 } from "react-native";
 import axios from "axios";
 import { Button } from "native-base";
-import { loginStyles, styles } from "../../components/Styles";
+import { styles } from "../../assets/style";
 import logo from "../../components/Images/NetGiverLogo.svg";
-import SafeAreaView from "react-native-safe-area-view";
 import { gql } from "apollo-boost";
 import { useApolloClient, useMutation } from "@apollo/react-hooks";
+import { topBtn } from "../../assets/style/components/buttons";
+import { spacer } from "../../assets/style/components/margins";
+import { text } from "../../assets/style/components/text";
+import { txtInput } from "../../assets/style/components/inputs";
 
 export const SIGN_IN_DEV = gql`
   mutation signInDev($username: String!) {
@@ -44,13 +48,13 @@ const Login = props => {
   if (loading)
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={loginStyles.header}>Loading</Text>
+        <Text style={text.header}>Loading</Text>
       </SafeAreaView>
     );
   if (error)
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={loginStyles.header}>
+        <Text style={text.header}>
           Invalid Username :( {console.log(error)}
         </Text>
         <Button onPress={goBack} style={styles.button}>
@@ -59,17 +63,16 @@ const Login = props => {
       </SafeAreaView>
     );
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.containerNoJustify}>
       <Image
-        style={loginStyles.logo}
+        style={spacer.perlgTop}
         source={require("../../components/Images/ng.png")}
       />
-      <Text style={loginStyles.header}>Sign In</Text>
-      <Text style={loginStyles.subHeader}>
-        And leave your paperwork behind!
-      </Text>
+      <Text style={text.headerSmTop}>Sign In</Text>
+      <Text style={text.subheader}>And leave your paperwork behind!</Text>
+      <View style={spacer.persmBot} />
       <TextInput
-        style={loginStyles.loginTextInput}
+        style={txtInput.fullWidthInputMarginBottom}
         placeholder="Username"
         name="username"
         value={username}
@@ -77,8 +80,8 @@ const Login = props => {
         onChangeText={text => onChangeText(text)}
         onFocus={() => onChangeText("")}
       />
-      <Button
-        style={[loginStyles.signIn, { marginTop: 20 }]}
+      <TouchableOpacity
+        style={topBtn.fullWidthBtnMarginBottom}
         onPress={() =>
           signInDev({
             variables: {
@@ -86,19 +89,24 @@ const Login = props => {
             }
           })}
       >
-        <Text style={loginStyles.buttonText}>Sign In</Text>
-      </Button>
-
-      <Text style={loginStyles.buttonHeader}>Don't Have an Account?</Text>
-
-      <Button
+        <Text style={topBtn.btnFont}>Sign In</Text>
+      </TouchableOpacity>
+      <Text style={text.subheader}>Don't Have an Account?</Text>
+      <View style={spacer.xsBot} />
+      <TouchableOpacity
+        style={topBtn.fullWidthBtnMarginBottom}
         onPress={() => props.navigation.navigate("P1")}
-        style={[loginStyles.signUp, { marginTop: 20 }]}
       >
-        <Text style={loginStyles.buttonText}>Sign Up</Text>
-      </Button>
+        <Text style={topBtn.btnFont}>Sign Up</Text>
+      </TouchableOpacity>
+
       {/* NEEDS TO LINK TO CONTACT */}
-      <Text style={loginStyles.footerText}>Contact Netgiver Team</Text>
+      <Text
+        style={text.subheader}
+        onPress={() => props.navigation.navigate("Contact")}
+      >
+        Contact Netgiver Team
+      </Text>
     </SafeAreaView>
   );
 };

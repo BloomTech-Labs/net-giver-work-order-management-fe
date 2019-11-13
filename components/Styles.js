@@ -61,11 +61,9 @@ export const wOForm = StyleSheet.create({
   imgCardBot: { marginTop: 10 },
   touchImage: {},
   imgUpload: {
-    width: 150,
-    height: 150,
-    marginLeft: "auto",
-    marginRight: "auto",
-    marginBottom: 10
+    width: 375,
+    height: 250,
+    marginLeft: 20
     // fontFamily: "IBMPlexSans-Regular"
   },
   statusView: {

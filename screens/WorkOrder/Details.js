@@ -6,6 +6,7 @@ import {
   // Text,
   Alert,
   Image,
+  SafeAreaView,
   Picker,
   StyleSheet,
   TouchableOpacity,
@@ -16,8 +17,9 @@ import {
 import { Field, Formik } from "formik";
 import { Text } from "native-base";
 import { Icon, Button, ButtonGroup } from "react-native-elements";
-import { wOForm, wOList, styles } from "../../components/Styles";
-import { SafeAreaView, NavigationActions } from "react-navigation";
+import { wOList, styles } from "../../assets/style";
+import { color } from "../../assets/style/base";
+import { StackActions, NavigationActions } from "react-navigation";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { PictureField } from "../../components/shared/PictureField";
@@ -57,6 +59,8 @@ const Details = ({ navigation }) => {
 
   return (
     <ScrollView>
+      {/* NAV CONTAINER*/}
+
       {/* IMAGE */}
       <View style={details.imgDiv}>
         {workorderphoto
@@ -88,10 +92,10 @@ const Details = ({ navigation }) => {
                 {
                   backgroundColor:
                     priority === "Low"
-                      ? "#E2F5FC"
+                      ? color.accLow
                       : priority === "Medium"
-                        ? "#FBF2D7"
-                        : priority === "High" ? "#FFD3D3" : "#F2F5F7"
+                        ? color.accMed
+                        : priority === "High" ? color.accHigh : color.accUrg
                 },
                 details.infoBackground
               ]}
@@ -102,10 +106,10 @@ const Details = ({ navigation }) => {
                   {
                     color:
                       priority === "Low"
-                        ? "#087FFF"
+                        ? color.priLow
                         : priority === "Medium"
-                          ? "#E1AA08"
-                          : priority === "High" ? "#FE273A" : "#8B9195"
+                          ? color.priMed
+                          : priority === "High" ? color.priHigh : color.priUrg
                   },
                   details.infoText
                 ]}
@@ -114,16 +118,11 @@ const Details = ({ navigation }) => {
               </Text>
             </View>
           </View>
-
-          {/* DETAILS */}
           <View style={{ paddingBottom: 15 }}>
             <Text>
               {detail}
             </Text>
-
-            {/* STATUS BUTTON SECTION //////////////////////////////////////////////////// */}
             <View style={details.statusDiv1}>
-              {/* OPEN /////////////// */}
               <View style={details.iconCircleDiv}>
                 <View
                   style={[
@@ -424,6 +423,164 @@ const details = StyleSheet.create({
     alignSelf: "center",
     justifyContent: "center",
     margin: 15
+  }
+});
+
+export const wOForm = StyleSheet.create({
+  imgCard: {
+    borderWidth: 1,
+    marginTop: 5,
+    padding: 5,
+    marginBottom: 10
+  },
+  imgCardTop: { marginTop: 10, marginBottom: 10 },
+  imgCardBot: { marginTop: 10 },
+  touchImage: {},
+  imgUpload: {
+    width: 375,
+    height: 250,
+    marginLeft: 20
+    // fontFamily: "IBMPlexSans-Regular"
+  },
+  statusView: {
+    flex: 1,
+    backgroundColor: "white",
+    // justifyContent: "flex-start",
+    justifyContent: "space-between",
+    padding: 0,
+    borderWidth: 0,
+    // borderBottomWidth: 1,
+    alignItems: "center",
+    padding: 5
+  },
+  statusText: {
+    textAlign: "left",
+    width: "100%",
+    fontFamily: "IBMPlexSans-Regular"
+  },
+  statusDiv: {
+    flexDirection: "row",
+    margin: "auto",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderWidth: 0,
+    backgroundColor: "white",
+    height: 100,
+    width: "100%",
+    marginTop: 0,
+    borderRadius: 0
+  },
+  statusButton: { flexDirection: "column" },
+  statusButtons: {
+    backgroundColor: "#f4f3f3",
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#C5C2C2",
+    margin: 3,
+    flexDirection: "column",
+    width: 80
+  },
+  statusButtonsText: {
+    color: "#89898E",
+    fontFamily: "IBMPlexSans-Regular",
+    textAlign: "center",
+    fontSize: 14
+  },
+  statusButtonsActive: {
+    backgroundColor: "#009900"
+  },
+  submitButton: {
+    backgroundColor: "#009900"
+  },
+  statusButtonsTextActive: {
+    color: "white",
+    fontFamily: "IBMPlexSans-Regular"
+  },
+  priorityDiv: {
+    flexDirection: "row",
+    margin: "auto",
+    alignItems: "center",
+    borderWidth: 0,
+    backgroundColor: "white",
+    height: 100,
+    width: "100%",
+    marginTop: 0,
+    borderRadius: 0,
+    justifyContent: "space-between"
+  },
+  priorityButtons: {
+    backgroundColor: "#f4f3f3",
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#C5C2C2",
+    margin: 3,
+    height: 55,
+    width: 80
+  },
+  priorityButtonsText: {
+    color: "#89898E",
+    textAlign: "center",
+    fontSize: 14,
+    fontFamily: "IBMPlexSans-Regular",
+    marginTop: "auto",
+    marginBottom: "auto"
+  },
+
+  priorityButtonsActive: {
+    backgroundColor: "#009900",
+    width: "23%",
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#C5C2C2",
+    padding: 5,
+    height: 53
+  },
+  priorityButtonsTextActive: {
+    color: "white",
+    textAlign: "center",
+    fontSize: 14,
+    fontFamily: "IBMPlexSans-Regular"
+  },
+  hidden: {
+    display: "none",
+    alignSelf: "center"
+  },
+  button: {
+    backgroundColor: "#006E13",
+    borderWidth: 2,
+    borderColor: "#EDF1F3",
+    width: "96%",
+    alignSelf: "center",
+    justifyContent: "center"
+  },
+  textInput: {
+    marginTop: -15,
+    borderTopWidth: 1,
+    borderBottomWidth: 0,
+    borderRightWidth: 0,
+    borderLeftWidth: 0,
+    backgroundColor: "#ffffff",
+    borderColor: "#C5C2C2",
+    fontFamily: "IBMPlexSans-Regular",
+
+    width: "102%",
+    alignSelf: "center",
+    padding: 10
+  },
+  textInput1: {
+    borderTopWidth: 1,
+    borderBottomWidth: 0,
+    borderRightWidth: 0,
+    borderLeftWidth: 0,
+    backgroundColor: "#ffffff",
+    fontFamily: "IBMPlexSans-Regular",
+
+    borderColor: "#C5C2C2",
+    width: "102%",
+    alignSelf: "center",
+    padding: 10,
+    height: 90,
+    textAlignVertical: "top"
   }
 });
 

@@ -4,13 +4,18 @@ import {
   Text,
   TextInput,
   View,
-  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity,
   Image
 } from "react-native";
-import { styles, loginStyles, wOForm } from "../../components/Styles";
+import { styles, loginStyles } from "../../assets/style";
 import { Button } from "native-base";
 import { gql } from "apollo-boost";
 import { useApolloClient, useMutation } from "@apollo/react-hooks";
+import { topBtn } from "../../assets/style/components/buttons";
+import { spacer } from "../../assets/style/components/margins";
+import { text } from "../../assets/style/components/text";
+import { txtInput } from "../../assets/style/components/inputs";
 
 export const AUTHY_VERIFY_DEV = gql`
   mutation authyVerifyDev($username: String!, $code: String!) {
@@ -39,14 +44,16 @@ const LoginVerify = props => {
     props.navigation.navigate("Login");
   };
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.containerNoJustify}>
       <Image
-        style={loginStyles.logo}
+        style={spacer.perlgTop}
         source={require("../../components/Images/ng.png")}
       />
-      <Text>Please Verify Your Code</Text>
+      <Text style={text.headerSmTop}>Sign In</Text>
+      <Text style={text.subheader}>Please Verify Your Code</Text>
+      <View style={spacer.persmBot} />
       <TextInput
-        style={styles.loginTextInput}
+        style={txtInput.fullWidthInputMarginBottom}
         placeholder="Verification Code"
         name="vercode"
         id="vercode"
@@ -55,8 +62,8 @@ const LoginVerify = props => {
         onChangeText={text => onChangeText(text)}
         onFocus={() => onChangeText("")}
       />
-      <Button
-        style={wOForm.submitButton}
+      <TouchableOpacity
+        style={topBtn.fullWidthBtnMarginBottom}
         onPress={() =>
           authyVerifyDev({
             variables: {
@@ -65,15 +72,24 @@ const LoginVerify = props => {
             }
           })}
       >
-        <Text style={loginStyles.buttonText}>Verify Access</Text>
-      </Button>
+        <Text style={topBtn.btnFont}>Verify Access</Text>
+      </TouchableOpacity>
       <Text style={{ marginTop: 5 }}>Didn't get the code? Try Again!</Text>
+      <View style={spacer.xsBot} />
 
-      <Button style={[wOForm.submitButton, { marginTop: 20 }]} onPress={goBack}>
-        <Text style={loginStyles.buttonText}>Get Another Code!</Text>
-      </Button>
-    </View>
+      <TouchableOpacity
+        style={topBtn.fullWidthBtnMarginBottom}
+        onPress={goBack}
+      >
+        <Text style={topBtn.btnFont}>Go Back</Text>
+      </TouchableOpacity>
+      <Text
+        style={text.subheader}
+        onPress={() => props.navigation.navigate("Contact")}
+      >
+        Contact Netgiver Team
+      </Text>
+    </SafeAreaView>
   );
 };
-
 export default LoginVerify;

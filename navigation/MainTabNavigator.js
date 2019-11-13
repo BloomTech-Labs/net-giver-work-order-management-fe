@@ -4,7 +4,6 @@ import {
   Text,
   View,
   Button,
-  TabRouter,
   TouchableOpacity,
   AsyncStorage
 } from "react-native";
@@ -15,13 +14,16 @@ import WorkOrderListView from "../screens/WorkOrder/WorkOrderListView";
 import AccountSettings from "../screens/Account/AccountSetting";
 import BarcodeScanner from "../screens/WorkOrder/BarCodeScanner/BarCodeScanner";
 import CheckBarCode from "../screens/WorkOrder/BarCodeScanner/CheckBarCode";
-import NewWorkOrderForm from "../screens/WorkOrder/NewWorkOrder/NewWorkOrderForm";
 import EditWorkOrder from "../screens/WorkOrder/ExistingWorkOrder/EditWorkOrder";
-import Comments from "../screens/WorkOrder/ExistingWorkOrder/Comments";
 import CameraModule from "../components/camera/Camera";
-import Details from "../screens/WorkOrder/Details";
 import GalleryScreen from "../components/camera/GalleryScreen";
-import { CustomTabs } from "./WoCustomTabs";
+import TopTab from "./TopTabNavigator";
+import { color, font } from "../assets/style/base";
+
+const handleTabPress = ({ navigation, defaultHandler }) => {
+  navigation.popToTop();
+  defaultHandler();
+};
 
 const config = Platform.select({
   web: { headerMode: "screen" },
@@ -33,7 +35,7 @@ const WorkOrderStack = createStackNavigator(
     WorkOrderList: {
       screen: WorkOrderListView,
       navigationOptions: props => ({
-        // title: "Work Order List View",
+        title: "Work Order List View",
         headerRight: (
           <View style={{ marginRight: 15 }}>
             <TouchableOpacity
@@ -50,29 +52,6 @@ const WorkOrderStack = createStackNavigator(
         )
       })
     },
-
-    //DETAILS PAGE 11/05/2019 KS
-    // Details: {
-    //   screen: Details,
-    //   navigationOptions: props => ({
-    //     title: "Details",
-    //     headerRight: (
-    //       <View style={{ marginRight: 15 }}>
-    //         <TouchableOpacity
-    //           onPress={() => {
-    //             AsyncStorage.removeItem("userToken").then(() => {
-    //               props.navigation.navigate("Auth");
-    //             });
-    //           }}
-    //         >
-    //           <Text>Logout</Text>
-    //         </TouchableOpacity>
-    //       </View>
-    //     )
-    //   })
-    //   // path: 'workorder/:id',
-    // },
-
     EditWorkOrder: {
       screen: EditWorkOrder,
       navigationOptions: props => ({
@@ -92,39 +71,21 @@ const WorkOrderStack = createStackNavigator(
         )
       })
     },
+
     Details: {
-      screen: CustomTabs,
-      navigationOptions: props => ({
-        title: "Work Order",
+      screen: TopTab,
+      navigationOptions: ({ navigation }) => ({
+        title: "Details",
         headerRight: (
           <View style={{ marginRight: 15 }}>
             <TouchableOpacity
               onPress={() => {
-                AsyncStorage.removeItem("userToken").then(() => {
-                  props.navigation.navigate("Auth");
+                navigation.navigate("EditWorkOrder", {
+                  ...navigation.state.params
                 });
               }}
             >
-              <Text>Logout</Text>
-            </TouchableOpacity>
-          </View>
-        )
-      })
-    },
-    Comments: {
-      screen: Comments,
-      navigationOptions: props => ({
-        title: "Work Order",
-        headerRight: (
-          <View style={{ marginRight: 15 }}>
-            <TouchableOpacity
-              onPress={() => {
-                AsyncStorage.removeItem("userToken").then(() => {
-                  props.navigation.navigate("Auth");
-                });
-              }}
-            >
-              <Text>Logout</Text>
+              <Text>Edit</Text>
             </TouchableOpacity>
           </View>
         )
@@ -139,8 +100,6 @@ const WorkOrderStack = createStackNavigator(
   },
   config
 );
-// console.log("TCL: WorkOrderStack", WorkOrderStack)
-
 WorkOrderStack.navigationOptions = {
   header: "List View",
   tabBarLabel: "List View",
@@ -164,6 +123,7 @@ const QRStack = createStackNavigator(
       screen: BarcodeScanner,
       navigationOptions: props => ({
         title: "QR Scanner",
+        tabBarOnPress: handleTabPress,
         headerRight: (
           <View style={{ marginRight: 15 }}>
             <TouchableOpacity
@@ -198,25 +158,25 @@ const QRStack = createStackNavigator(
         )
       })
     },
-    NewWorkOrder: {
-      screen: NewWorkOrderForm,
-      navigationOptions: props => ({
-        title: "Create Work Order",
-        headerRight: (
-          <View style={{ marginRight: 15 }}>
-            <TouchableOpacity
-              onPress={() => {
-                AsyncStorage.removeItem("userToken").then(() => {
-                  props.navigation.navigate("Auth");
-                });
-              }}
-            >
-              <Text>Logout</Text>
-            </TouchableOpacity>
-          </View>
-        )
-      })
-    },
+    // EditWorkOrder: {
+    //   screen: EditWorkOrder,
+    //   navigationOptions: props => ({
+    //     title: "Create Work Order",
+    //     headerRight: (
+    //       <View style={{ marginRight: 15 }}>
+    //         <TouchableOpacity
+    //           onPress={() => {
+    //             AsyncStorage.removeItem("userToken").then(() => {
+    //               props.navigation.navigate("Auth");
+    //             });
+    //           }}
+    //         >
+    //           <Text>Logout</Text>
+    //         </TouchableOpacity>
+    //       </View>
+    //     )
+    //   })
+    // },
     CameraModule: {
       screen: CameraModule,
       navigationOptions: props => ({
@@ -287,11 +247,33 @@ AccountStack.navigationOptions = {
 
 AccountStack.path = "";
 
-const tabNavigator = createBottomTabNavigator({
-  WorkOrderStack,
-  QRStack,
-  AccountStack
-});
+const configBottomTab = {
+  tabBarOptions: {
+    style: {
+      backgroundColor: "white"
+    },
+    labelStyle: {
+      color: color.priGreen,
+      fontFamily: font.reg,
+      fontSize: font.sm
+    },
+    upperCaseLabel: false,
+    indicatorStyle: {
+      backgroundColor: color.priGreen,
+      height: 3
+    },
+    inactiveTintColor: color.greyText
+  }
+};
+
+const tabNavigator = createBottomTabNavigator(
+  {
+    WorkOrderStack,
+    QRStack
+    // AccountStack
+  },
+  configBottomTab
+);
 
 tabNavigator.path = "";
 
