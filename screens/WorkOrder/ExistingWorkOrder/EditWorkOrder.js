@@ -99,15 +99,6 @@ const updateWo = async ({
       }
     });
 
-    navigation.state.params.onGoBack({
-      id: values.id,
-      qrcode: values.qrcode,
-      detail: values.detail,
-      priority: values.priority,
-      status: values.status,
-      title: values.title,
-      workorderphoto: (values.photo.uri ? values.photo : values.workorderphoto)
-  });
     navigation.goBack();
   }
   const editresult = await editWorkorder({
@@ -127,15 +118,6 @@ const updateWo = async ({
   //   null;
   // }
 
-  navigation.state.params.onGoBack({
-    id: values.id,
-    qrcode: values.qrcode,
-    detail: values.detail,
-    priority: values.priority,
-    status: values.status,
-    title: values.title,
-    workorderphoto: (values.photo.uri ? values.photo : values.workorderphoto)
-});
   navigation.goBack();
 };
 

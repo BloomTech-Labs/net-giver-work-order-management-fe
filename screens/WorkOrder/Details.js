@@ -336,21 +336,17 @@ const Details = ({ navigation }) => {
         <TouchableOpacity
           style={details.editButton}
           onPress={() => {
-            const refresh=(data)=> {
-              navigation.setParams(data)
-            }
 
-          //   navigation.navigate("EditWorkOrder", {
-          //     id: id,
-          //     // qrcode: qrcode,
-          //     detail: detail,
-          //     priority: priority,
-          //     status: status,
-          //     title: title,
-          //     user: user.username,
-          //     workorderphoto: workorderphoto,
-          //     onGoBack: refresh
-            // })
+            navigation.navigate("EditWorkOrder", {
+              id: id,
+              qrcode: data.workorder.qrcode,
+              detail: data.workorder.detail,
+              priority: data.workorder.priority,
+              status: data.workorder.status,
+              title: data.workorder.title,
+              user: data.workorder.user.username,
+              workorderphoto: data.workorder.workorderphoto
+            })
           }
           }
             
