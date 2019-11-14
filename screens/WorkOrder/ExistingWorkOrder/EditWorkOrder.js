@@ -79,9 +79,8 @@ const updateWo = async ({
   uploadWorkorderphoto,
   navigation
 }) => {
-  console.log(values);
   if (values.photo.uri) {
-    console.log(values.photo);
+    
     const picresult = await uploadWorkorderphoto({
       variables: {
         photo: values.photo,
@@ -99,6 +98,16 @@ const updateWo = async ({
         title: values.title
       }
     });
+
+    navigation.state.params.onGoBack({
+      id: values.id,
+      qrcode: values.qrcode,
+      detail: values.detail,
+      priority: values.priority,
+      status: values.status,
+      title: values.title,
+      workorderphoto: (values.photo ? values.photo : values.workorderphoto)
+  });
     navigation.goBack();
   }
   const editresult = await editWorkorder({
@@ -118,6 +127,15 @@ const updateWo = async ({
   //   null;
   // }
 
+  navigation.state.params.onGoBack({
+    id: values.id,
+    qrcode: values.qrcode,
+    detail: values.detail,
+    priority: values.priority,
+    status: values.status,
+    title: values.title,
+    workorderphoto: (values.photo.uri ? values.photo : values.workorderphoto)
+});
   navigation.goBack();
 };
 
@@ -134,12 +152,12 @@ const EditWorkOrder = ({ navigation }) => {
     workorderphoto
   } = navigation.state.params;
 
+  console.log("PHOTO", workorderphoto)
   const [wo, setWo] = useState({
     id: id,
     detail: detail
   });
   const [editWorkorder, { loading, error }] = useMutation(EDIT_WO, {});
-  console.log(navigation.state.params);
   const [uploadWorkorderphoto, { picloading, picerror }] = useMutation(
     WO_PIC,
     {}
@@ -165,13 +183,15 @@ const EditWorkOrder = ({ navigation }) => {
         workorderphoto: workorderphoto,
         photo: {}
       }}
-      onSubmit={async values =>
+      onSubmit={async values => {
+        console.log(values)
+        console.log(values.photo.uri)
         updateWo({
           values,
           editWorkorder,
           uploadWorkorderphoto,
           navigation
-        })}
+        })}}
       render={({
         handleChange,
         handleBlur,
@@ -216,7 +236,7 @@ const EditWorkOrder = ({ navigation }) => {
                       disabledTitleStyle={wOForm.statusButtonsTextActive}
                       icon={
                         <Icon
-                          color={status === "Open" ? "white" : "#89898E"}
+                          color={values.status === "Open" ? "white" : "#89898E"}
                           type="antdesign"
                           name="unlock"
                           size={20}
@@ -234,7 +254,7 @@ const EditWorkOrder = ({ navigation }) => {
                     disabledTitleStyle={wOForm.statusButtonsTextActive}
                     icon={
                       <Icon
-                        color={status === "Hold" ? "white" : "#89898E"}
+                        color={values.status === "Hold" ? "white" : "#89898E"}
                         type="antdesign"
                         name="pause"
                         size={20}
@@ -251,7 +271,7 @@ const EditWorkOrder = ({ navigation }) => {
                     disabledTitleStyle={wOForm.statusButtonsTextActive}
                     icon={
                       <Icon
-                        color={status === "Working" ? "white" : "#89898E"}
+                        color={values.status === "Working" ? "white" : "#89898E"}
                         type="antdesign"
                         name="sync"
                         size={20}
@@ -268,7 +288,7 @@ const EditWorkOrder = ({ navigation }) => {
                     disabledTitleStyle={wOForm.statusButtonsTextActive}
                     icon={
                       <Icon
-                        color={status === "Done" ? "white" : "#89898E"}
+                        color={values.status === "Done" ? "white" : "#89898E"}
                         type="antdesign"
                         name="lock"
                         size={20}
@@ -386,7 +406,6 @@ const EditWorkOrder = ({ navigation }) => {
                                         : Permissions.CAMERA
                                     );
                                   }
-
                                   const imageResult = await (buttonIndex === 0
                                     ? ImagePicker.launchImageLibraryAsync({})
                                     : ImagePicker.launchCameraAsync({}));
@@ -398,7 +417,7 @@ const EditWorkOrder = ({ navigation }) => {
                                   const match = /\.(\w+)$/.exec(fileName);
                                   const mimeType = match
                                     ? `image/${match[1]}`
-                                    : `image`;
+                                    : "image";
                                   if (!imageResult.cancelled) {
                                     const file = new ReactNativeFile({
                                       uri: imageResult.uri,
@@ -407,7 +426,7 @@ const EditWorkOrder = ({ navigation }) => {
                                         (Platform.OS === "ios" ? "" : "/jpeg"),
                                       name: mimeType
                                     });
-
+                                    console.log(file);
                                     setFieldValue("photo", file);
                                   }
                                 };
