@@ -106,7 +106,7 @@ const updateWo = async ({
       priority: values.priority,
       status: values.status,
       title: values.title,
-      workorderphoto: (values.photo ? values.photo : values.workorderphoto)
+      workorderphoto: (values.photo.uri ? values.photo : values.workorderphoto)
   });
     navigation.goBack();
   }
