@@ -1,5 +1,10 @@
 import React, { useEffect } from "react";
-import { SafeAreaView, ActivityIndicator, StyleSheet } from "react-native";
+import {
+  SafeAreaView,
+  ActivityIndicator,
+  StyleSheet,
+  Platform
+} from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import moment from "moment";
@@ -20,7 +25,7 @@ import {
   Text,
   Spinner
 } from "native-base";
-
+import CustomActions from "./CustomActions";
 import { topBtn } from "../../../../assets/style/components/buttons";
 import { spacer } from "../../../../assets/style/components/margins";
 import { text } from "../../../../assets/style/components/text";
@@ -36,6 +41,7 @@ const COMMENTS = gql`
         id
         text
         createdAt
+        image
         user {
           id
           username
@@ -53,6 +59,7 @@ const ADD_COMMENT = gql`
       id
       text
       createdAt
+      image
       user {
         id
         username
@@ -84,19 +91,13 @@ const Comments = ({ navigation }) => {
     onCompleted({ addComment }) {
       refetch();
     }
-    // update(cache, { data: { addComment } }) {
-    //   const { comments } = cache.readQuery({
-    //     query: COMMENTS,
-    //     variables: {
-    //       id: "226"
-    //     }
-    //   });
-    //   cache.writeQuery({
-    //     query: COMMENTS,
-    //     data: { comments: comments.concat([addComment]) }
-    //   });
-    // }
   });
+
+  const renderCustomActions = props =>
+    Platform.OS === "web"
+      ? null
+      : <CustomActions {...props} onSend={messages => onSend(messages)} />;
+
   if (loading)
     return (
       <SafeAreaView style={styles.container}>
@@ -113,9 +114,10 @@ const Comments = ({ navigation }) => {
 
   async function onSend(messages) {
     const text = messages[0].text;
+    const image = messages[0].image;
 
     await addComment({
-      variables: { comment: { text: text, workorderId: id } }
+      variables: { comment: { text: text, workorderId: id, photo: image } }
     });
   }
 
@@ -123,8 +125,11 @@ const Comments = ({ navigation }) => {
     <Container>
       <GiftedChat
         onSend={messages => onSend(messages)}
+        showUserAvatar={true}
+        renderActions={renderCustomActions}
         // user={{
-        //   _id: props.auth.user.id
+        //   _id: 1,
+        //   name: "bryant"
         // }}
         messages={// (idx(queryResult, _ => _.data.group.chat.messages) || [])
         data.workorder.comments.map(comment => {
@@ -132,6 +137,7 @@ const Comments = ({ navigation }) => {
             _id: comment.id,
             text: comment.text,
             createdAt: new Date(comment.createdAt),
+            image: comment.image,
             user: {
               _id: comment.user.id,
               name: comment.user.username,
@@ -144,88 +150,6 @@ const Comments = ({ navigation }) => {
   );
 };
 const wOList = StyleSheet.create({
-  card: {
-    width: "100%",
-    borderTopColor: "#E5E5E5",
-    borderTopWidth: 4,
-    paddingLeft: 9,
-    paddingRight: 14,
-    paddingTop: 13,
-    paddingBottom: 31,
-    alignSelf: "center",
-    flexDirection: "row"
-  },
-  info: {
-    borderRadius: 4,
-    height: 20
-  },
-  infoText: {
-    fontSize: 14,
-    textAlign: "center"
-  },
-  status: {
-    width: 65,
-    alignSelf: "flex-end"
-  },
-
-  priority: {
-    width: 65,
-    marginBottom: 6,
-    marginTop: 6,
-    marginLeft: 5
-  },
-
-  qr: {
-    width: 65,
-    color: "#8B9195",
-    backgroundColor: "#F2F5F7",
-    alignSelf: "flex-end",
-    marginLeft: 5
-  },
-
-  qrBox: {
-    flexDirection: "row"
-  },
-
-  cardMiddle: {
-    //width: 160,
-    flex: 1
-    //paddingRight: 5,
-  },
-
-  priorityBox: {
-    flexDirection: "column",
-    marginLeft: "auto",
-    alignSelf: "flex-end"
-  },
-  text: {
-    flex: 1,
-    flexWrap: "wrap",
-    fontSize: 14,
-    lineHeight: 22
-  },
-  cardSubContent: {
-    flexDirection: "column"
-  },
-  cardLeft: {
-    width: "auto"
-  },
-  cardRight: {
-    flexDirection: "column",
-    alignItems: "flex-end",
-    marginLeft: "auto",
-    marginTop: 6,
-
-    marginBottom: 6
-  },
-  image: {
-    flex: 1,
-    flexWrap: "wrap",
-    width: 64,
-    height: 64,
-    borderRadius: 4,
-    marginRight: 22
-  },
   title: {
     flex: 1,
     width: "100%",
