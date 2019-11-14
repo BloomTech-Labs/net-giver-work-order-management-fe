@@ -36,12 +36,14 @@ const Details = ({ navigation }) => {
     title,
     user,
     user: { username },
-    workorderphoto
+    workorderphoto,
+    createdAt
   } = navigation.state.params;
+
+  console.log(navigation.state.params)
 
   const [onPressDetails, setOnPressDetails] = useState();
   const [onPressUpdates, setOnPressUpdats] = useState();
-  console.log(id);
   const [sentFrom, setSentFrom] = useState();
 
   const [wo, setWo] = useState(initialState);
@@ -67,7 +69,7 @@ const Details = ({ navigation }) => {
           ? <Image
               style={wOForm.imgUpload}
               source={{
-                uri: workorderphoto.path
+                uri: (workorderphoto.uri ? workorderphoto.uri : workorderphoto.path)
               }}
             />
           : <Image
@@ -274,7 +276,7 @@ const Details = ({ navigation }) => {
 
           <View style={details.iAmALine}>
             <Text style={details.bottomTitle}>Created On</Text>
-            <Text style={details.bottomText}>Some Date</Text>
+            <Text style={details.bottomText}>{createdAt}</Text>
           </View>
 
           <View style={details.iAmALine}>
@@ -293,7 +295,11 @@ const Details = ({ navigation }) => {
         </View>
         <TouchableOpacity
           style={details.editButton}
-          onPress={() =>
+          onPress={() => {
+            const refresh=(data)=> {
+              navigation.setParams(data)
+            }
+
             navigation.navigate("EditWorkOrder", {
               id: id,
               qrcode: qrcode,
@@ -301,8 +307,12 @@ const Details = ({ navigation }) => {
               priority: priority,
               status: status,
               title: title,
-              user: user.username
+              user: user.username,
+              workorderphoto: workorderphoto,
+              onGoBack: refresh
             })}
+          }
+            
         >
           <Text style={[{ textAlign: "center" }, { color: "white" }]}>
             Edit
