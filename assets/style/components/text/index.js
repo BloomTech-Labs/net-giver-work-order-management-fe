@@ -15,13 +15,34 @@ export const text = StyleSheet.create({
         ...baseFontBold,
         fontSize: font.xl,
     },
-    headerSmTop:{
+    headerSmTop: {
         ...baseFontBold,
         fontSize: font.xl,
-        marginTop:marpad.sm,
+        marginTop: marpad.sm,
     },
-    subheader:{
+    subheader: {
         ...baseFont,
-        fontSize: font.md
+        fontSize: font.md,
     },
+    subheaderSmBot: {
+        ...baseFont,
+        fontSize: font.md,
+        marginBottom: marpad.sm,
+    },
+    smTxt: {
+        ...baseFont,
+        fontSize: font.sm,
+    },
+    smTxtSmBot: {
+        ...baseFont,
+        fontSize: font.sm,
+        marginBottom: marpad.sm,
+    },
+    smTxtSmBotML: {
+        ...baseFont,
+        fontSize: font.sm,
+        marginBottom: marpad.sm,
+
+    },
+
 })

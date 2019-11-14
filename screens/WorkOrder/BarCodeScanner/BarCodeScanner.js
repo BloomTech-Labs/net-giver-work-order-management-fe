@@ -94,7 +94,7 @@ const BarcodeScanner = props => {
   const addWithoutQr = () => {
     console.log(`addWithoutQr`);
     var genQr = "n" + Date.now().toString().slice(7, 11);
-    // var genQr = "000006";
+    // var genQr = "n7330";
     setQrcode(genQr);
     getQrcode({ variables: { qrcode: genQr } });
   };
