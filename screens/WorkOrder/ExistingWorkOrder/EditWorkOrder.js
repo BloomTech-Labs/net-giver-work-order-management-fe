@@ -236,7 +236,7 @@ const EditWorkOrder = ({ navigation }) => {
                       disabledTitleStyle={wOForm.statusButtonsTextActive}
                       icon={
                         <Icon
-                          color={status === "Open" ? "white" : "#89898E"}
+                          color={values.status === "Open" ? "white" : "#89898E"}
                           type="antdesign"
                           name="unlock"
                           size={20}
@@ -254,7 +254,7 @@ const EditWorkOrder = ({ navigation }) => {
                     disabledTitleStyle={wOForm.statusButtonsTextActive}
                     icon={
                       <Icon
-                        color={status === "Hold" ? "white" : "#89898E"}
+                        color={values.status === "Hold" ? "white" : "#89898E"}
                         type="antdesign"
                         name="pause"
                         size={20}
@@ -271,7 +271,7 @@ const EditWorkOrder = ({ navigation }) => {
                     disabledTitleStyle={wOForm.statusButtonsTextActive}
                     icon={
                       <Icon
-                        color={status === "Working" ? "white" : "#89898E"}
+                        color={values.status === "Working" ? "white" : "#89898E"}
                         type="antdesign"
                         name="sync"
                         size={20}
@@ -288,7 +288,7 @@ const EditWorkOrder = ({ navigation }) => {
                     disabledTitleStyle={wOForm.statusButtonsTextActive}
                     icon={
                       <Icon
-                        color={status === "Done" ? "white" : "#89898E"}
+                        color={values.status === "Done" ? "white" : "#89898E"}
                         type="antdesign"
                         name="lock"
                         size={20}
