@@ -59,8 +59,16 @@ const WorkOrderListView = props => {
   //     pagetitle: "Edit Workorder"
   //   });
 
+  const formatDate = (createdAt) => {
+    const date = new Date(createdAt);
+    let formattedDate = date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear();
+    return formattedDate;
+  }
+  
+
   const goToDetails = workorder =>
-    props.navigation.push("Details", { ...workorder });
+    props.navigation.push("Details", { ...workorder, createdAt: formatDate(workorder.createdAt) });
+    
 
   if (loading)
     return (
@@ -111,7 +119,7 @@ const WorkOrderListView = props => {
                   </Text>
                 </View>
                 <Text style={wOList.text} numberOfLines={1}>
-                  10/22/19, 2:52PM
+                  {formatDate(workorder.createdAt)}
                   {/* {workorder.dateCreated} */}
                 </Text>
               </View>
@@ -126,10 +134,13 @@ const WorkOrderListView = props => {
                         : workorder.status === "Working"
                           ? "#07BD51"
                           : workorder.status === "Done" ? "#FFD3D3" : "#878C90",
+                    borderWidth: (workorder.status === "Open" ? .5 : 0),
+                    borderColor: '#878C90',
                     width: "100%"
                   },
                   wOList.info,
                   wOList.status
+                
                 ]}
               >
                 <Text
@@ -137,7 +148,7 @@ const WorkOrderListView = props => {
                     {
                       color:
                         workorder.status === "Open"
-                          ? "#087FFF"
+                          ? "#878C90"
                           : workorder.status === "Working"
                             ? "white"
                             : workorder.status === "Done" ? "#FE273A" : "white",
