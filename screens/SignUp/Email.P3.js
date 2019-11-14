@@ -1,179 +1,272 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import {
-    SafeAreaView,
-    View,
-    Text,
-    TouchableOpacity,
-    TextInput,
-    Image,
-    StyleSheet,
-} from 'react-native'
-import {topBtn} from '../../assets/style/components/buttons'
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  Button,
+  View,
+  Image,
+  TextInput
+} from "react-native";
+import * as Yup from "yup";
+import { Field, Formik } from "formik";
+import { useMutation, useQuery, useLazyQuery } from "@apollo/react-hooks";
+import gql from "graphql-tag";
+import { su1, su2, su3 } from "./SignUpStyles";
+import ErrorMessage from "./ErrorMessage";
+import * as ImagePicker from "expo-image-picker";
+import { ReactNativeFile } from "apollo-upload-client";
+import * as Permissions from "expo-permissions";
+import {
+  Text as NativeText,
+  ActionSheet,
+  Content,
+  Button as NativeButton,
+  Container,
+  Toast
+} from "native-base";
 
-const Email = props => {
-    const { navigation } = props
-    const [phone, setPhone] = useState(navigation.getParam('phone', 'NO PHONE'))
-    const [ver, setVer] = useState(navigation.getParam('verCode', 'NO VER'))
-
-    const [userName, setUserName] = useState()
-    const [email, setEmail] = useState()
-    const [photo, setPhoto] = useState(navigation.getParam('photo', 'nophoto'))
-    const [photouri, setPhotouri] = useState(photo.uri)
-    const placeholderImg =
-        'http://placehold.jp/006e13/ffffff/200x200.png?text=Click%20to%20Add%20an%20Image'
-    const isEmail = RegExp(
-        "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
-    )
-    handleSubmit = () => {
-        if (isEmail.test(email) == true)
-        {alert('It Works')}
-        else {
-        {alert('Please Enter a Valid Email Address')}
-
-        }
+const GET_VER_CODE = gql`
+  query getCode($phone: String!, $email: String!) {
+    getCode(phone: $phone, email: $email) {
+      cellPhone
     }
-    toCamera = () => {
-        props.navigation.navigate('CameraModule', {
-            from: 'P3',
-            phone: phone,
-            verCode: ver,
-        })
+  }
+`;
+
+const VERIFY_CODE = gql`
+  mutation verifyCode($authyId: String!, $code: String!) {
+    verifyCode(authyId: $authyId, code: $code) {
+      user {
+        id
+        phone
+        authyId
+      }
+      token
     }
-    return (
+  }
+`;
+const isEmail = RegExp(
+  "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+);
+
+const handleSubmit = ({
+  values,
+  verifyCode,
+  resendVerCode,
+  navigation,
+  setSubmitting,
+  setErrors
+}) => {
+  const { code, authyId } = values;
+  if (verifyCode) {
+    verifyCode({ variables: { authyId: authyId, code: code } })
+      .then(response => {
+        const { signUp } = response;
+        navigation.navigate("P3", { ...signUp });
+      })
+      .catch(e => {
+        const errors = e.graphQLErrors.map(error => {
+          setErrors({ form: error.message });
+        });
+      });
+  }
+  if (resendVerCode) {
+    resendVerCode({ variables: { authyId: authyId, code: code } })
+      .then(response => {
+        const { signUp } = response;
+        navigation.navigate("P3", { ...signUp });
+      })
+      .catch(e => {
+        const errors = e.graphQLErrors.map(error => {
+          setErrors({ form: error.message });
+        });
+      });
+  }
+};
+
+const Email = ({ navigation }) => {
+  // const { email, phone } = navigation.state.params;
+  const email = "bryantpatton@gmail.com";
+  const phone = "4153163549";
+  const authyId = "82620055";
+  const [photo, setPhoto] = useState(navigation.getParam("photo", "nophoto"));
+  const [photouri, setPhotouri] = useState(photo.uri);
+  const placeholderImg =
+    "http://placehold.jp/006e13/ffffff/200x200.png?text=Click%20to%20Add%20an%20Image";
+  const BUTTONS = [
+    { text: "Gallery" },
+    { text: "Take Photo" },
+    { text: "Cancel" }
+  ];
+  const CANCEL_INDEX = 2;
+  const [verifyCode, { error }] = useMutation(VERIFY_CODE, {});
+  return (
+    <Formik
+      initialValues={{
+        phone: phone,
+        email: email,
+        code: "",
+        authyId: authyId,
+        displayName: "",
+        password: "password",
+        displayName: "",
+        photo: {}
+      }}
+      validationSchema={Yup.object({
+        code: Yup.string()
+          .length(7, "Enter 7 digit code")
+          .required("Code Required")
+      })}
+      onSubmit={(values, { setSubmitting, setErrors }) =>
+        handleSubmit({
+          verifyCode,
+          resendVerCode,
+          navigation,
+          values,
+          setSubmitting,
+          setErrors
+        })}
+      toCamera={navigation =>
+        navigation.navigate("CameraModule", {
+          from: "P3",
+          phone: phone,
+          verCode: ver
+        })}
+      render={({
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        values,
+        errors,
+        isValid,
+        touched,
+        setFieldValue,
+        status,
+        isSubmitting,
+        toCamera
+      }) =>
         <SafeAreaView>
-            <Text style={su3.header}>Create your Profile</Text>
-            <Text style={su3.subHead}>
-                So your colleagues can recognize you!
+          <Text style={su3.header}>Create your Profile</Text>
+          <Text style={su3.subHead}>So your colleagues can recognize you!</Text>
+          <TouchableOpacity style={su3.avatar} onPress={toCamera}>
+            {values.photo.uri
+              ? <Image
+                  style={su3.image}
+                  source={{
+                    uri: values.photo.uri
+                  }}
+                />
+              : <Image
+                  style={su3.image}
+                  source={{
+                    uri: placeholderImg
+                  }}
+                />}
+            <Text style={su3.avatarText}>Tap to add</Text>
+          </TouchableOpacity>
+          {/* <Content padder> */}
+          <Field
+            style={su3.avatar}
+            titleStyle={su3.subHead}
+            //   buttonStyle={wOForm.submitButton}
+            name="photo"
+          >
+            {({ field, form }) =>
+              <NativeButton
+                onPress={() =>
+                  ActionSheet.show(
+                    {
+                      options: BUTTONS,
+                      cancelButtonIndex: CANCEL_INDEX,
+                      title: "Add an image"
+                    },
+                    buttonIndex => {
+                      if (buttonIndex !== 2) {
+                        const find = async () => {
+                          const { status } = await Permissions.getAsync(
+                            buttonIndex === 0
+                              ? Permissions.CAMERA_ROLL
+                              : Permissions.CAMERA
+                          );
+                          if (status !== "granted") {
+                            await Permissions.askAsync(
+                              buttonIndex === 0
+                                ? Permissions.CAMERA_ROLL
+                                : Permissions.CAMERA
+                            );
+                          }
+                          const imageResult =
+                            buttonIndex === 0
+                              ? await ImagePicker.launchImageLibraryAsync({})
+                              : await ImagePicker.launchCameraAsync({});
+                          const fileName = imageResult.uri.split("/").pop();
+                          const match = /\.(\w+)$/.exec(fileName);
+                          const mimeType = match
+                            ? `image/${match[1]}`
+                            : `image`;
+                          if (!imageResult.cancelled) {
+                            const file = new ReactNativeFile({
+                              uri: imageResult.uri,
+                              type: imageResult.type,
+                              name: mimeType
+                            });
+                            setFieldValue("photo", file);
+                          }
+                        };
+                        find();
+                      }
+                    }
+                  )}
+              >
+                <Text>Choose a Photo</Text>
+              </NativeButton>}
+          </Field>
+          {/* </Content> */}
+          <TextInput
+            style={su3.input}
+            placeholder="displayName"
+            onChangeText={handleChange("displayName")}
+            onBlur={handleBlur("displayName")}
+            value={values.displayName}
+          />
+          <TextInput
+            style={su3.input}
+            placeholder="Email"
+            onChangeText={handleChange("email")}
+            onBlur={handleBlur("email")}
+            value={values.email}
+          />
+          <TouchableOpacity style={su3.button} onPress={handleSubmit}>
+            <Text style={su3.buttonText}>Get Started</Text>
+          </TouchableOpacity>
+          <View style={su3.tosBox}>
+            <Text style={su3.tosFont}>
+              By pressing "Next" above, you agree to our{" "}
+              <Text
+                onPress={() => navigation.navigate("TOS")}
+                style={su3.underline}
+              >
+                terms of service{" "}
+              </Text>
+              and{" "}
+              <Text
+                style={su3.underline}
+                onPress={() => navigation.navigate("PP")}
+              >
+                privacy policy.
+              </Text>
             </Text>
+          </View>
+          <Text
+            onPress={() => navigation.navigate("Contact")}
+            style={su3.subHead}
+          >
+            Contact the Net Giver Team
+          </Text>
+        </SafeAreaView>}
+    />
+  );
+};
 
-            <TouchableOpacity style={su3.avatar} onPress={toCamera}>
-                {photouri ? (
-                    <Image
-                        style={su3.image}
-                        source={{
-                            uri: photouri,
-                        }}
-                    />
-                ) : (
-                    <Image
-                        style={su3.image}
-                        source={{
-                            uri: placeholderImg,
-                        }}
-                    />
-                )}
-                {/* <Image style={su3.image} source={{ uri: photouri }} /> */}
-                <Text style={su3.avatarText}>Tap to add</Text>
-            </TouchableOpacity>
-            <TextInput
-                style={su3.input}
-                placeholder="UserName"
-                onChangeText={setUserName}
-                value={userName}
-            />
-            <TextInput
-                style={su3.input}
-                placeholder="Email"
-                onChangeText={setEmail}
-                value={email}
-            />
-            <TouchableOpacity style={topBtn.fullWidthBtnMargin} onPress={handleSubmit}>
-                <Text style={topBtn.btnFont}>Get Started</Text>
-            </TouchableOpacity>
-            <View style={su3.tosBox}>
-                <Text style={su3.tosFont}>
-                    By pressing "Next" above, you agree to our{' '}
-                    <Text
-                        onPress={() => navigation.navigate('TOS')}
-                        style={su3.underline}
-                    >
-                        terms of service{' '}
-                    </Text>
-                    and{' '}
-                    <Text
-                        style={su3.underline}
-                        onPress={() => navigation.navigate('PP')}
-                    >
-                        privacy policy.
-                    </Text>
-                </Text>
-            </View>
-            <Text
-                onPress={() => navigation.navigate('Contact')}
-                style={su3.subHead}
-            >
-                Contact the Net Giver Team
-            </Text>
-        </SafeAreaView>
-    )
-}
-
-export default Email
-const su3 = StyleSheet.create({
-    header: {
-        fontSize: 24,
-        alignSelf: 'center',
-        fontFamily: 'IBMPlexSans-Regular',
-        marginTop: 15,
-        marginBottom: 20,
-        fontWeight: 'bold',
-    },
-    subHead: {
-        fontSize: 17,
-        alignSelf: 'center',
-        fontFamily: 'IBMPlexSans-Regular',
-        marginBottom: 50,
-    },
-    avatar: {
-        alignSelf: 'center',
-    },
-    avatarText: {
-        alignSelf: 'center',
-        fontFamily: 'IBMPlexSans-Regular',
-    },
-
-    image: {
-        width: 200,
-        height: 200,
-        borderRadius: 100,
-    },
-    input: {
-        backgroundColor: '#edf1f3',
-        borderWidth: 1,
-        borderColor: '#C5C2C2',
-        marginTop: 20,
-        width: '90%',
-        alignSelf: 'center',
-        padding: 10,
-        fontFamily: 'IBMPlexSans-Regular',
-       
-    },
-    button: {
-        alignSelf: 'center',
-        marginBottom: 10,
-        backgroundColor: '#00830B',
-        borderRadius: 4,
-        width: '90%',
-        padding: 10,
-        marginTop: 30,
-    },
-    buttonText: {
-        alignSelf: 'center',
-        color: 'white',
-        fontFamily: 'IBMPlexSans-Regular',
-        fontSize:17,
-
-    },
-    tosBox: {
-        marginBottom: 40,
-     
-    },
-    tosFont: {
-        fontSize: 15,
-        fontFamily: 'IBMPlexSans-Regular',
-    },
-    underline: {
-        textDecorationLine: 'underline',
-    },
-   
-})
+export default Email;

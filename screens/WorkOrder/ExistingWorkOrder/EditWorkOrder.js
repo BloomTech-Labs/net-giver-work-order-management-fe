@@ -371,7 +371,14 @@ const EditWorkOrder = ({ navigation }) => {
                         }}
                       />
                     </View>
-                  : null}
+                  : values.workorderphoto
+                    ? <Image
+                        style={wOForm.imgUpload}
+                        source={{
+                          uri: values.workorderphoto.path
+                        }}
+                      />
+                    : null}
                 {/* </TouchableOpacity> */}
                 <Content>
                   <Field
@@ -413,7 +420,6 @@ const EditWorkOrder = ({ navigation }) => {
                                   const fileName = imageResult.uri
                                     .split("/")
                                     .pop();
-
                                   const match = /\.(\w+)$/.exec(fileName);
                                   const mimeType = match
                                     ? `image/${match[1]}`
@@ -421,10 +427,8 @@ const EditWorkOrder = ({ navigation }) => {
                                   if (!imageResult.cancelled) {
                                     const file = new ReactNativeFile({
                                       uri: imageResult.uri,
-                                      type:
-                                        imageResult.type +
-                                        (Platform.OS === "ios" ? "" : "/jpeg"),
-                                      name: mimeType
+                                      type: imageResult.type,
+                                      name: "image"
                                     });
                                     console.log(file);
                                     setFieldValue("photo", file);
