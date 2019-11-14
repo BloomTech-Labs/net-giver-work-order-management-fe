@@ -1,26 +1,21 @@
-import React, { useState, useRef, useContext, useEffect } from "react";
-import { withFormik, Formik, Form, FormikErrors, FormikProps, Field } from "formik";
+import React, { useState, useRef } from "react";
+import { Formik, Form, Field } from "formik";
 import {
-  StyleSheet,
   Text,
   View,
-  TextInput,
   KeyboardAvoidingView,
   TouchableOpacity,
   Image,
-  Alert,
   ActivityIndicator,
   AsyncStorage
 } from "react-native";
 import Swiper from 'react-native-swiper';
-import { Overlay, Card, Button } from "react-native-elements";
+import { Overlay } from "react-native-elements";
 import * as Yup from 'yup';
 import { Ionicons } from '@expo/vector-icons';
-import { UserContext } from "../../context/userState";
 import { loginStyles } from '../../assets/style';
-import { isUpdateExpression } from "@babel/types";
 import { gql } from "apollo-boost";
-import { useApolloClient, useMutation, useQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import { signupstyles, pages} from './SignupStyles'
 import {InputField} from '../../components/shared/InputField'
 import { PictureField } from '../../components/shared/PictureField'

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { SafeAreaView, Image, StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { SafeAreaView, Text} from "react-native";
 import { useQuery } from "@apollo/react-hooks";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";

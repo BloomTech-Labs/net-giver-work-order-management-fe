@@ -1,18 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   SafeAreaView,
   Text,
-  TouchableOpacity,
   Button,
   Image,
-  StyleSheet
 } from "react-native";
 import * as Yup from "yup";
 import { Field, Formik } from "formik";
-import { Header, Content, Item, Input, Toast } from "native-base";
+import { Item, Input } from "native-base";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import { su1, su2, su3 } from "./SignUpStyles";
+import { su1 } from "./SignUpStyles";
 import ErrorMessage from "./ErrorMessage";
 
 const SIGN_UP = gql`

@@ -1,6 +1,6 @@
 // ORIGINAL FILE CREATED BY GEORGE 11/5/2019 SD & BP
 
-import React, { useState, useRef, useContext, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { Formik } from 'formik';
 import {
   StyleSheet,
@@ -10,7 +10,6 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   Image,
-  Alert,
   ActivityIndicator,
   AsyncStorage
 } from "react-native";
@@ -18,11 +17,9 @@ import Swiper from 'react-native-swiper';
 import { Overlay } from 'react-native-elements';
 import * as Yup from 'yup';
 import { Ionicons } from '@expo/vector-icons';
-import { UserContext } from "../../context/userState";
 import { loginStyles } from '../../assets/style';
-import { isUpdateExpression } from "@babel/types";
 import { gql } from "apollo-boost";
-import { useApolloClient, useMutation, useQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 
 const SIGN_UP = gql`
   mutation signUp(

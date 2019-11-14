@@ -8,8 +8,7 @@ import {
   TouchableOpacity,
   Image
 } from "react-native";
-import { styles, loginStyles } from "../../assets/style";
-import { Button } from "native-base";
+import { styles } from "../../assets/style";
 import { gql } from "apollo-boost";
 import { useApolloClient, useMutation } from "@apollo/react-hooks";
 import { topBtn } from "../../assets/style/components/buttons";

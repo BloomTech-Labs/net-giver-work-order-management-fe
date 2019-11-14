@@ -3,7 +3,6 @@ import {
   SafeAreaView,
   Text,
   TouchableOpacity,
-  Button,
   View,
   Image,
   TextInput
@@ -12,18 +11,15 @@ import * as Yup from "yup";
 import { Field, Formik } from "formik";
 import { useMutation, useQuery, useLazyQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import { su1, su2, su3 } from "./SignUpStyles";
-import ErrorMessage from "./ErrorMessage";
+import { su3 } from "./SignUpStyles";
 import * as ImagePicker from "expo-image-picker";
 import { ReactNativeFile } from "apollo-upload-client";
 import * as Permissions from "expo-permissions";
 import {
   Text as NativeText,
   ActionSheet,
-  Content,
   Button as NativeButton,
-  Container,
-  Toast
+
 } from "native-base";
 
 const GET_VER_CODE = gql`

@@ -1,18 +1,14 @@
 import React, { useState } from "react";
 import {
-  StyleSheet,
   SafeAreaView,
   Text,
   TextInput,
   View,
   TouchableOpacity,
-  Alert,
   Image
 } from "react-native";
-import axios from "axios";
 import { Button } from "native-base";
 import { styles } from "../../assets/style";
-import logo from "../../components/Images/NetGiverLogo.svg";
 import { gql } from "apollo-boost";
 import { useApolloClient, useMutation } from "@apollo/react-hooks";
 import { topBtn } from "../../assets/style/components/buttons";

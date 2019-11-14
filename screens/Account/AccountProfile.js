@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import { StyleSheet, Text, View } from 'react-native'
-import { Avatar, Button, Card, Icon } from 'react-native-elements'
 
 const AccountProfile = props => {
     navigationOptions = {

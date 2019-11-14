@@ -4,30 +4,22 @@ import {
   View,
   TextInput,
   Image,
-  TouchableOpacity,
   Text,
-  Platform
 } from "react-native";
 import { Field, Formik } from "formik";
 import {
   ActionSheet,
   Content,
   Button as NativeButton,
-  Container
 } from "native-base";
 import { Icon, Button } from "react-native-elements";
 import { wOForm } from "../../../assets/style";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import { PictureField } from "../../../components/shared/PictureField";
-import { CameraField } from "../../../components/shared/CameraField";
 import * as ImagePicker from "expo-image-picker";
 import { ReactNativeFile } from "apollo-upload-client";
 import * as Permissions from "expo-permissions";
-import { fieldsConflictMessage } from "graphql/validation/rules/OverlappingFieldsCanBeMerged";
 import { font, color } from "../../../assets/style/base";
-import { topBtn } from "../../../assets/style/components/buttons";
-import { StackActions, NavigationActions } from "react-navigation";
 
 const EDIT_WO = gql`
   mutation editWorkorder(

@@ -1,30 +1,14 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
 import {
   ScrollView,
   View,
-
-  // Text,
-  Alert,
   Image,
-  SafeAreaView,
-  Picker,
   StyleSheet,
   TouchableOpacity,
-  TouchableHighlight,
-  ActivityIndicator,
-  BackHandler
 } from "react-native";
-import { Field, Formik } from "formik";
 import { Text } from "native-base";
-import { Icon, Button, ButtonGroup } from "react-native-elements";
-import { wOList, styles } from "../../assets/style";
+import { Icon } from "react-native-elements";
 import { color } from "../../assets/style/base";
-import { StackActions, NavigationActions } from "react-navigation";
-import { useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
-import { PictureField } from "../../components/shared/PictureField";
-import { CameraField } from "../../components/shared/CameraField";
-import EditWorkOrder from "./ExistingWorkOrder/EditWorkOrder";
 
 const Details = ({ navigation }) => {
   const {

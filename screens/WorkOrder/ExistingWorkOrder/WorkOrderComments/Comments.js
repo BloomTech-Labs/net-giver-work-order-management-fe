@@ -1,36 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   SafeAreaView,
   ActivityIndicator,
   StyleSheet,
-  Platform
+  Platform,
 } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
 import { useMutation, useQuery } from "@apollo/react-hooks";
-import moment from "moment";
-import idx from "idx";
 import gql from "graphql-tag";
 import {
   Container,
-  Header,
-  Title,
-  Content,
-  Button,
-  Footer,
-  FooterTab,
-  Body,
-  Left,
-  Right,
-  Icon,
   Text,
-  Spinner
 } from "native-base";
 import CustomActions from "./CustomActions";
-import { topBtn } from "../../../../assets/style/components/buttons";
-import { spacer } from "../../../../assets/style/components/margins";
-import { text } from "../../../../assets/style/components/text";
-import { txtInput } from "../../../../assets/style/components/inputs";
-import { color, font, marpad } from "../../../../assets/style/base";
 import { styles } from "../../../../assets/style";
 
 const COMMENTS = gql`

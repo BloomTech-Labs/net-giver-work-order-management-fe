@@ -1,5 +1,4 @@
 import { StyleSheet } from "react-native";
-import React, { useState, useRef, useContext, useEffect } from "react";
 import * as Yup from "yup";
 
 export const signupstyles = StyleSheet.create({
