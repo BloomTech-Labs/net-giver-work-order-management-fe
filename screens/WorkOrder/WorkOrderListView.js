@@ -139,8 +139,8 @@ const WorkOrderListView = props => {
                     width: "100%"
                   },
                   wOList.info,
-                  wOList.status,
-                {}
+                  wOList.status
+                
                 ]}
               >
                 <Text

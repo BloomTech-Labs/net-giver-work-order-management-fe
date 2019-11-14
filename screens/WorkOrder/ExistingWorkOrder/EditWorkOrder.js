@@ -99,18 +99,7 @@ const updateWo = async ({
         title: values.title
       }
     });
-
-    navigation.state.params.onGoBack({
-      id: values.id,
-      qrcode: values.qrcode,
-      detail: values.detail,
-      priority: values.priority,
-      status: values.status,
-      title: values.title,
-      workorderphoto: values.photo
-  });
     navigation.goBack();
-    
   }
   const editresult = await editWorkorder({
     variables: {
@@ -120,7 +109,7 @@ const updateWo = async ({
       priority: values.priority,
       status: values.status,
       title: values.title,
-      photo: values.photo,
+      // photo: values.photo,
     }
   });
 
@@ -129,15 +118,6 @@ const updateWo = async ({
   //   null;
   // }
 
-  navigation.state.params.onGoBack({
-    id: values.id,
-    qrcode: values.qrcode,
-    detail: values.detail,
-    priority: values.priority,
-    status: values.status,
-    title: values.title,
-    workorderphoto: values.photo
-});
   navigation.goBack();
 };
 
