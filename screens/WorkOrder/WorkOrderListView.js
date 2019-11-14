@@ -134,10 +134,13 @@ const WorkOrderListView = props => {
                         : workorder.status === "Working"
                           ? "#07BD51"
                           : workorder.status === "Done" ? "#FFD3D3" : "#878C90",
+                    borderWidth: (workorder.status === "Open" ? .5 : 0),
+                    borderColor: '#878C90',
                     width: "100%"
                   },
                   wOList.info,
-                  wOList.status
+                  wOList.status,
+                {}
                 ]}
               >
                 <Text
@@ -145,7 +148,7 @@ const WorkOrderListView = props => {
                     {
                       color:
                         workorder.status === "Open"
-                          ? "#087FFF"
+                          ? "#878C90"
                           : workorder.status === "Working"
                             ? "white"
                             : workorder.status === "Done" ? "#FE273A" : "white",
