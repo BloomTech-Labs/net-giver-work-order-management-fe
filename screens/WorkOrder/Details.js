@@ -39,7 +39,8 @@ const Details = ({ navigation }) => {
     workorderphoto,
     createdAt
   } = navigation.state.params;
-  
+
+  console.log(navigation.state.params)
 
   const [onPressDetails, setOnPressDetails] = useState();
   const [onPressUpdates, setOnPressUpdats] = useState();
@@ -307,6 +308,7 @@ const Details = ({ navigation }) => {
               status: status,
               title: title,
               user: user.username,
+              workorderphoto: workorderphoto,
               onGoBack: refresh
             })}
           }
