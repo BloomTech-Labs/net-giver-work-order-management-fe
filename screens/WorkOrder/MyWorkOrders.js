@@ -12,8 +12,40 @@ import { text } from "../../assets/style/components/text"
 import { txtInput } from "../../assets/style/components/inputs"
 import { color, font, marpad, cnt, mar } from "../../assets/style/base"
 import { styles } from "../../assets/style"
+import { useQuery } from "@apollo/react-hooks"
+import gql from "graphql-tag"
+
+const GET_WORKORDERS = gql`
+    query workorders($limit: Int) {
+        workorders(limit: $limit) {
+            edges {
+                id
+                detail
+                createdAt
+                qrcode
+                priority
+                status
+                title
+                user {
+                    username
+                }
+                workorderphoto {
+                    path
+                }
+            }
+            pageInfo {
+                hasNextPage
+                endCursor
+            }
+        }
+    }
+`
 
 const MyWorkOrders = props => {
+    const { data, loading, error } = useQuery(GET_WORKORDERS, {
+        variables: { limit: 20 },
+    })
+
     return (
         <SafeAreaView style={cnt.cntNJ}>
             <Text style={text.header}>MyWorkOrders</Text>

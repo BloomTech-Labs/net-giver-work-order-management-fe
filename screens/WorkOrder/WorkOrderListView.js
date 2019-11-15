@@ -47,8 +47,9 @@ const GET_WORKORDERS = gql`
 const WorkOrderListView = props => {
   const [sentFrom, setSentFrom] = useState();
   const { data, loading, error } = useQuery(GET_WORKORDERS, {
-    variables: { limit: 20 }
+    variables: { limit: 20 },
   });
+  
   const [selectedWo, setSelectedWo] = useState(null);
   //  const goToWo = workorder =>
   //   props.navigation.push("EditWorkOrder", { ...workorder });
