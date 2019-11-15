@@ -39,3 +39,27 @@ export const marpad = {
     lg: 25,
     xl: 30,
 }
+
+export const cnt = StyleSheet.create({
+
+    cntNJ: {
+        flex: 1,
+        alignItems: "center",
+        backgroundColor: color.white,
+    },
+ 
+    
+})
+
+export const mar = StyleSheet.create({
+
+    smMarLR: {
+        marginRight:marpad.sm,
+        marginLeft:marpad.sm,
+    },
+    marLgLSmR: {
+        marginLeft: marpad.lg,
+        marginRight: marpad.sm
+    }
+    
+})

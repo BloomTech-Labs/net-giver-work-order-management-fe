@@ -19,8 +19,10 @@ const config = Platform.select({
 
 const AuthStackNavigator = createStackNavigator(
   {
+
     Login: {
       screen: Login,
+
       navigationOptions: {
         header: null
       }
@@ -34,7 +36,7 @@ const AuthStackNavigator = createStackNavigator(
     VerifyLogin: {
       screen: LoginVerify,
       navigationOptions: {
-        header: null
+        title: "Submit Code"
       }
     },
     CheckLogin: {
@@ -86,9 +88,12 @@ const AuthStackNavigator = createStackNavigator(
       navigationOptions: {
         title: "Privacy Policy"
       }
-    }
+    },
   },
   config
 );
 
+AuthStackNavigator.initialRouteName = {
+  Login
+};
 export default AuthStackNavigator;

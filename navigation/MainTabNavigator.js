@@ -16,9 +16,7 @@ import BarcodeScanner from "../screens/WorkOrder/BarCodeScanner/BarCodeScanner";
 import CheckBarCode from "../screens/WorkOrder/BarCodeScanner/CheckBarCode";
 import EditWorkOrder from "../screens/WorkOrder/ExistingWorkOrder/EditWorkOrder";
 import CameraModule from "../components/camera/Camera";
-import Details from "../screens/WorkOrder/Details";
 import GalleryScreen from "../components/camera/GalleryScreen";
-import Comments from "../screens/WorkOrder/ExistingWorkOrder/WorkOrderComments/Comments";
 import TopTab from "./TopTabNavigator";
 import { color, font } from "../assets/style/base";
 
@@ -55,13 +53,10 @@ const WorkOrderStack = createStackNavigator(
         )
       })
     },
-
-    //DETAILS PAGE 11/05/2019 KS
-    //RENDER THE TOPTAB NAV WHICH RENDERS THE DETAILS PAGE AND THEN ALLOWS YOU TO NAVIGATE TO THE COMMENTS PAGE 11/13/2019 SD
-    Details: {
-      screen: TopTab,
+    EditWorkOrder: {
+      screen: EditWorkOrder,
       navigationOptions: props => ({
-        title: "Details",
+        title: "Edit Work Order",
         headerRight: (
           <View style={{ marginRight: 15 }}>
             <TouchableOpacity
@@ -77,20 +72,21 @@ const WorkOrderStack = createStackNavigator(
         )
       })
     },
-    EditWorkOrder: {
-      screen: EditWorkOrder,
-      navigationOptions: props => ({
-        title: "Edit Work Order",
+
+    Details: {
+      screen: TopTab,
+      navigationOptions: ({ navigation }) => ({
+        title: "Details",
         headerRight: (
           <View style={{ marginRight: 15 }}>
             <TouchableOpacity
               onPress={() => {
-                AsyncStorage.removeItem("userToken").then(() => {
-                  props.navigation.navigate("Auth");
+                navigation.navigate("EditWorkOrder", {
+                  ...navigation.state.params
                 });
               }}
             >
-              <Text>Logout</Text>
+              <Text>Edit</Text>
             </TouchableOpacity>
           </View>
         )
@@ -163,25 +159,25 @@ const QRStack = createStackNavigator(
         )
       })
     },
-    EditWorkOrder: {
-      screen: EditWorkOrder,
-      navigationOptions: props => ({
-        title: "Create Work Order",
-        headerRight: (
-          <View style={{ marginRight: 15 }}>
-            <TouchableOpacity
-              onPress={() => {
-                AsyncStorage.removeItem("userToken").then(() => {
-                  props.navigation.navigate("Auth");
-                });
-              }}
-            >
-              <Text>Logout</Text>
-            </TouchableOpacity>
-          </View>
-        )
-      })
-    },
+    // EditWorkOrder: {
+    //   screen: EditWorkOrder,
+    //   navigationOptions: props => ({
+    //     title: "Create Work Order",
+    //     headerRight: (
+    //       <View style={{ marginRight: 15 }}>
+    //         <TouchableOpacity
+    //           onPress={() => {
+    //             AsyncStorage.removeItem("userToken").then(() => {
+    //               props.navigation.navigate("Auth");
+    //             });
+    //           }}
+    //         >
+    //           <Text>Logout</Text>
+    //         </TouchableOpacity>
+    //       </View>
+    //     )
+    //   })
+    // },
     CameraModule: {
       screen: CameraModule,
       navigationOptions: props => ({
