@@ -15,7 +15,7 @@ import { styles } from "../../assets/style"
 
 const MyWorkOrders = props => {
     return (
-        <SafeAreaView style={styles.containerNoJustify}>
+        <SafeAreaView style={cnt.cntNJ}>
             <Text style={text.header}>MyWorkOrders</Text>
         </SafeAreaView>
     )
