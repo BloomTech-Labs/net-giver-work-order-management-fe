@@ -113,7 +113,7 @@ const Details = ({ navigation }) => {
               }}
             />
           : <Image
-              style={details.imgUpload}
+              style={wOForm.imgUpload}
               source={{
                 uri: img1
               }}
@@ -486,7 +486,7 @@ export const wOForm = StyleSheet.create({
   imgUpload: {
     width: 375,
     height: 250,
-    marginLeft: 20
+    alignSelf: "center"
     // fontFamily: "IBMPlexSans-Regular"
   },
   statusView: {

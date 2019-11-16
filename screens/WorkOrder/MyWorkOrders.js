@@ -39,12 +39,34 @@ const GET_WORKORDERS = gql`
             }
         }
     }
-`
+`;
+
+const GET_WORKORDER = gql`
+  query workorder($id: ID!) {
+    workorder(id: $id) {
+        id
+        detail
+        createdAt
+        qrcode
+        priority
+        status
+        title
+        user {
+          username
+        }
+        workorderphoto {
+          path
+        }
+    }
+  }
+`;
 
 const MyWorkOrders = props => {
     const { data, loading, error } = useQuery(GET_WORKORDERS, {
         variables: { limit: 20 },
     })
+
+    console.log(props.navigation)
 
     return (
         <SafeAreaView style={cnt.cntNJ}>

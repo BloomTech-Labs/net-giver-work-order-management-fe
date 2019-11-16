@@ -38,12 +38,12 @@ const TopTabNavListView = createMaterialTopTabNavigator(
                 title: "All Work Orders",
             }),
         },
-        MyWorkOrders: {
-            screen: MyWorkOrders,
-            navigationOptions: props => ({
-                title: "My Work Orders",
-            }),
-        },
+        // MyWorkOrders: {
+        //     screen: MyWorkOrders,
+        //     navigationOptions: props => ({
+        //         title: "My Work Orders",
+        //     }),
+        // },
     },
     // BE SURE TO PUT IN THE STYLING CONFIGURATION 11/13/2019 SD
     config

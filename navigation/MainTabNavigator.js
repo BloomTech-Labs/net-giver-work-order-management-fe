@@ -108,15 +108,15 @@ const WorkOrderStack = createStackNavigator(
 )
 WorkOrderStack.navigationOptions = {
     header: "List View",
-    tabBarLabel: "List View",
+    tabBarLabel: "Work Orders",
 
     tabBarIcon: ({ focused }) => (
         <TabBarIcon
             focused={focused}
             name={
                 Platform.OS === "ios"
-                    ? `ios-information-circle${focused ? "" : "-outline"}`
-                    : "md-information-circle"
+                    ? `ios-menu${focused ? "" : "-outline"}`
+                    : "md-menu"
             }
         />
     ),
@@ -214,11 +214,11 @@ const QRStack = createStackNavigator(
 )
 
 QRStack.navigationOptions = {
-    tabBarLabel: "QR Scanner",
+    tabBarLabel: "Scan",
     tabBarIcon: ({ focused }) => (
         <TabBarIcon
             focused={focused}
-            name={Platform.OS === "ios" ? "ios-add" : "md-add"}
+            name={Platform.OS === "ios" ? "ios-qr-scanner" : "md-qr-scanner"}
         />
     ),
 }
