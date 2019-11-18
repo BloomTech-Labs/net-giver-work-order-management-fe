@@ -14,12 +14,13 @@ import WorkOrderListView from "../screens/WorkOrder/WorkOrderListView";
 import AccountSettings from "../screens/Account/AccountSetting";
 import BarcodeScanner from "../screens/WorkOrder/BarCodeScanner/BarCodeScanner";
 import CheckBarCode from "../screens/WorkOrder/BarCodeScanner/CheckBarCode";
+import BarCodeChecker from "../screens/WorkOrder/BarCodeScanner/BarCodeChecker";
 import EditWorkOrder from "../screens/WorkOrder/ExistingWorkOrder/EditWorkOrder";
 import CameraModule from "../components/camera/Camera";
 import GalleryScreen from "../components/camera/GalleryScreen";
 import TopTab from "./TopTabNavigator";
 import { color, font } from "../assets/style/base";
-
+import Email from "../screens/SignUp/Email.P3";
 const handleTabPress = ({ navigation, defaultHandler }) => {
   navigation.popToTop();
   defaultHandler();
@@ -140,6 +141,9 @@ const QRStack = createStackNavigator(
         )
       })
     },
+    BarCodeChecker: {
+      screen: BarCodeChecker
+    },
     CheckBarCode: {
       screen: CheckBarCode,
       navigationOptions: props => ({
@@ -159,25 +163,7 @@ const QRStack = createStackNavigator(
         )
       })
     },
-    // EditWorkOrder: {
-    //   screen: EditWorkOrder,
-    //   navigationOptions: props => ({
-    //     title: "Create Work Order",
-    //     headerRight: (
-    //       <View style={{ marginRight: 15 }}>
-    //         <TouchableOpacity
-    //           onPress={() => {
-    //             AsyncStorage.removeItem("userToken").then(() => {
-    //               props.navigation.navigate("Auth");
-    //             });
-    //           }}
-    //         >
-    //           <Text>Logout</Text>
-    //         </TouchableOpacity>
-    //       </View>
-    //     )
-    //   })
-    // },
+
     CameraModule: {
       screen: CameraModule,
       navigationOptions: props => ({
@@ -215,7 +201,7 @@ QRStack.path = "";
 const AccountStack = createStackNavigator(
   {
     AccountSettings: {
-      screen: AccountSettings,
+      screen: Email,
       navigationOptions: props => ({
         title: "Account Settings",
         headerRight: (
@@ -270,8 +256,8 @@ const configBottomTab = {
 const tabNavigator = createBottomTabNavigator(
   {
     WorkOrderStack,
-    QRStack
-    // AccountStack
+    QRStack,
+    AccountStack
   },
   configBottomTab
 );

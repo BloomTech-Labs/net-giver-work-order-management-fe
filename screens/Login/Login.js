@@ -73,7 +73,7 @@ const Login = props => {
       <View style={spacer.persmBot} />
       <TextInput
         style={txtInput.fullWidthInputMarginBottom}
-        placeholder="Username"
+        placeholder="username or phone number"
         name="username"
         value={username}
         autoCapitalize="none"

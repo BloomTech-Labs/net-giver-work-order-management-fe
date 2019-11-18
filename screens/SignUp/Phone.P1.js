@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
   SafeAreaView,
   Text,
-  TouchableOpacity,
+  View,
   Button,
   Image,
   StyleSheet
@@ -14,6 +14,12 @@ import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { su1, su2, su3 } from "./SignUpStyles";
 import ErrorMessage from "./ErrorMessage";
+import { styles } from "../../assets/style";
+import FormButton from "./components/FormButton";
+import { topBtn } from "../../assets/style/components/buttons";
+import { spacer } from "../../assets/style/components/margins";
+import { text } from "../../assets/style/components/text";
+import { txtInput } from "../../assets/style/components/inputs";
 
 const SIGN_UP = gql`
   mutation registerAuthy($phone: String!, $email: String!) {
@@ -38,7 +44,7 @@ const handleSubmit = ({
   const { phone, email } = values;
   registerAuthy({ variables: { phone: phone, email: email } })
     .then(response => {
-      const { registerAuthy } = response;
+      const { registerAuthy } = response.data;
       navigation.navigate("P2", { ...registerAuthy });
     })
     .catch(e => {
@@ -49,24 +55,28 @@ const handleSubmit = ({
     });
 };
 
+const validationSchema = Yup.object({
+  phone: Yup.string()
+    .label("phone")
+    .length(10, "Enter 10 digit phone number")
+    .required("Phone Required"),
+  email: Yup.string()
+    .label("email")
+    .max(255)
+    .email("Invalid email")
+    .required("Email Required")
+});
+
 const Phone = ({ navigation }) => {
   const [registerAuthy, { loading, error }] = useMutation(SIGN_UP, {});
+  const goToLogin = () => navigation.navigate("Login");
   return (
     <Formik
       initialValues={{
         phone: "",
         email: ""
       }}
-      validationSchema={Yup.object({
-        phone: Yup.string()
-          .length(10, "Enter 10 digit phone number")
-          .required("Phone Required"),
-        email: Yup.string()
-          .min(3, "email must be at least 3 characters")
-          .max(255)
-          .email("Invalid email")
-          .required("Required")
-      })}
+      validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, setErrors }) =>
         handleSubmit({
           registerAuthy,
@@ -94,31 +104,33 @@ const Phone = ({ navigation }) => {
           />
           <Text style={su1.header}>Sign Up</Text>
           <Text style={su1.subHead}>And leave your paperwork behind!</Text>
-          <Field style={su1.input} name="phone">
+          <View style={spacer.persmBot} />
+          <Field name="phone">
             {({ field, form }) =>
-              <Item regular>
+              <Item style={su1.input}>
                 <Input
+                  name={"phone"}
+                  value={values.phone}
                   onChangeText={handleChange("phone")}
                   onBlur={handleBlur("phone")}
                   placeholder="Enter your Phone Number"
                   keyboardType="phone-pad"
                   autoCompleteType="tel"
                   maxLength={10}
-                  value={values.phone}
                 />
               </Item>}
           </Field>
-          <ErrorMessage errorValue={errors.phone} />
-          <Field style={su1.input} name="email">
+          <ErrorMessage errorValue={touched.phone && errors.phone} />
+          <Field name="email">
             {({ field, form }) =>
-              <Item regular>
+              <Item style={su1.input}>
                 <Input
+                  name={"email"}
+                  value={values.email}
                   onChangeText={handleChange("email")}
                   onBlur={handleBlur("email")}
-                  onBlur={handleBlur("email")}
-                  style={su1.input}
                   placeholder="Enter your Email"
-                  value={values.email}
+                  autoCapitalize="none"
                 />
               </Item>}
           </Field>

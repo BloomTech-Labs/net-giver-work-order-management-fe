@@ -2,18 +2,24 @@ import React, { useState } from "react";
 import {
   SafeAreaView,
   Text,
-  TouchableOpacity,
+  View,
   Button,
-  Image,
+  AsyncStorage,
   StyleSheet
 } from "react-native";
 import * as Yup from "yup";
 import { Field, Formik } from "formik";
 import { Header, Content, Item, Input, Toast } from "native-base";
-import { useMutation, useQuery, useLazyQuery } from "@apollo/react-hooks";
+import {
+  useMutation,
+  useQuery,
+  useLazyQuery,
+  useApolloClient
+} from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { su1, su2, su3 } from "./SignUpStyles";
 import ErrorMessage from "./ErrorMessage";
+import { spacer } from "../../assets/style/components/margins";
 
 const GET_VER_CODE = gql`
   query getCode($phone: String!, $email: String!) {
@@ -42,7 +48,7 @@ const isEmail = RegExp(
 const handleSubmit = ({
   values,
   verifyCode,
-  resendVerCode,
+  client,
   navigation,
   setSubmitting,
   setErrors
@@ -51,21 +57,15 @@ const handleSubmit = ({
   if (verifyCode) {
     verifyCode({ variables: { authyId: authyId, code: code } })
       .then(response => {
-        const { signUp } = response;
-        navigation.navigate("P3", { ...signUp });
+        const { verifyCode } = response.data;
+        const token = verifyCode.token;
+        client.writeData({ data: { isLoggedIn: true } });
+        AsyncStorage.setItem("userToken", token);
+        navigation.navigate("P3", { ...verifyCode });
       })
-      .catch(e => {
-        const errors = e.graphQLErrors.map(error => {
-          setErrors({ form: error.message });
-        });
-      });
-  }
-  if (resendVerCode) {
-    resendVerCode({ variables: { authyId: authyId, code: code } })
-      .then(response => {
-        const { signUp } = response;
-        navigation.navigate("P3", { ...signUp });
-      })
+      // .then(signUp => {
+      //   navigation.navigate("P3", { ...signUp });
+      // })
       .catch(e => {
         const errors = e.graphQLErrors.map(error => {
           setErrors({ form: error.message });
@@ -75,33 +75,25 @@ const handleSubmit = ({
 };
 
 const VerCode = ({ navigation }) => {
-  // const { email, phone } = navigation.state.params;
-  const email = "bryantpatton@gmail.com";
-  const phone = "4153163549";
-  const authyId = "82620055";
+  const [user, setUser] = useState(navigation.getParam("user", "errr"));
+
+  const client = useApolloClient();
   const { loading, data, errored } = useQuery(GET_VER_CODE, {
     variables: {
-      email: email,
-      phone: phone
+      email: user.email,
+      phone: user.phone
     }
   });
-  const [resendVerCode] = useLazyQuery(GET_VER_CODE, {
-    variables: {
-      email: email,
-      phone: phone
-    }
-  });
+
   const [verifyCode, { error }] = useMutation(VERIFY_CODE, {});
   return (
     <Formik
       initialValues={{
-        phone: phone,
-        email: email,
+        phone: user.phone,
+        email: user.email,
         code: "",
-        authyId: authyId,
+        authyId: user.authyId,
         username: "",
-        password: "password",
-        displayName: "",
         photo: null
       }}
       validationSchema={Yup.object({
@@ -112,7 +104,7 @@ const VerCode = ({ navigation }) => {
       onSubmit={(values, { setSubmitting, setErrors }) =>
         handleSubmit({
           verifyCode,
-          resendVerCode,
+          client,
           navigation,
           values,
           setSubmitting,
@@ -132,24 +124,25 @@ const VerCode = ({ navigation }) => {
       }) =>
         <SafeAreaView>
           <Text style={su2.header}>We need to verify your phone number</Text>
-          <Text style={su2.subHead}>We just sent a one-time code to</Text>
-          <Text>
+          <Text style={su2.subHead}>
+            We just sent a one-time code to
             {`+1 ${values.phone}`}
           </Text>
-          <Field style={su1.input} name="code">
+          <View style={spacer.persmBot} />
+          <Field name="code">
             {({ field, form }) =>
-              <Item regular>
+              <Item style={su1.input}>
                 <Input
+                  name={"code"}
+                  value={values.code}
                   onChangeText={handleChange("code")}
                   onBlur={handleBlur("code")}
                   placeholder="7 digit code"
                   keyboardType="phone-pad"
-                  //   maxLength={10}
-                  value={values.code}
                 />
               </Item>}
           </Field>
-          <ErrorMessage errorValue={errors.code} />
+          <ErrorMessage errorValue={touched.code && errors.code} />
           <Button
             onPress={handleSubmit}
             disabled={!isValid}
@@ -158,16 +151,7 @@ const VerCode = ({ navigation }) => {
             titleStyle={su2.buttonText}
             loading={isSubmitting}
           />
-          <ErrorMessage errorValue={errors.form}>
-            {/* <Button
-              onPress={handleSubmit("resendVerCode")}
-              disabled={!isValid}
-              buttonstyle={su2.button}
-              title="Create Profile"
-              titleStyle={su2.buttonText}
-              loading={isSubmitting}
-            /> */}
-          </ErrorMessage>
+          <ErrorMessage errorValue={errors.form} />
           <Text
             onPress={() => navigation.navigate("Contact")}
             style={su2.footer}

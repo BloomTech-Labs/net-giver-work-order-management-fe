@@ -24,6 +24,9 @@ import { ApolloLink, Observable } from "apollo-link";
 //import { typeDefs, resolvers } from "./resolvers";
 import { setContext } from "apollo-link-context";
 import { createUploadLink } from "apollo-upload-client";
+import { WebSocketLink } from "apollo-link-ws";
+import { split } from "apollo-link";
+import { getMainDefinition } from "apollo-utilities";
 
 /*Cache: persists across sessions. stable images, logos, username */
 const cache = new InMemoryCache({
@@ -92,6 +95,29 @@ const removeToken = async () => {
   // });
 };
 
+const wsLink = new WebSocketLink({
+  uri: `ws://localhost:3000/`,
+  options: {
+    reconnect: true
+  }
+});
+
+const uploadlink = new createUploadLink({
+  uri: "http://localhost:3000/graphql"
+});
+const link = split(
+  // split based on operation type
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === "OperationDefinition" &&
+      definition.operation === "subscription"
+    );
+  },
+  wsLink,
+  uploadlink
+);
+
 const client = new ApolloClient({
   link: ApolloLink.from([
     onError(({ graphQLErrors, networkError }) => {
@@ -133,12 +159,14 @@ const client = new ApolloClient({
       },
       cache
     }),
+    link
     // new HttpLink({
     //   // uri: "http://localhost:3000/graphql"
     //   uri: "https://netgiver-stage.herokuapp.com/graphql"
     // })
     // createUploadLink({ uri: "http://localhost:3000/graphql" })
-    createUploadLink({ uri: "https://netgiver-stage.herokuapp.com/graphql" })
+    // createUploadLink({ uri: "https://netgiver-stage.herokuapp.com/graphql" })
+    // createUploadLink({ uri: "https://netgiver-stage-pr-11.herokuapp.com/" })
   ]),
   cache
 });

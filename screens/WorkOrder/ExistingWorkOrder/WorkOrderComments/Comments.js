@@ -10,27 +10,8 @@ import { useMutation, useQuery } from "@apollo/react-hooks";
 import moment from "moment";
 import idx from "idx";
 import gql from "graphql-tag";
-import {
-  Container,
-  Header,
-  Title,
-  Content,
-  Button,
-  Footer,
-  FooterTab,
-  Body,
-  Left,
-  Right,
-  Icon,
-  Text,
-  Spinner
-} from "native-base";
+import { Container, Text } from "native-base";
 import CustomActions from "./CustomActions";
-import { topBtn } from "../../../../assets/style/components/buttons";
-import { spacer } from "../../../../assets/style/components/margins";
-import { text } from "../../../../assets/style/components/text";
-import { txtInput } from "../../../../assets/style/components/inputs";
-import { color, font, marpad } from "../../../../assets/style/base";
 import { styles } from "../../../../assets/style";
 
 const COMMENTS = gql`
@@ -72,17 +53,7 @@ const ADD_COMMENT = gql`
 `;
 
 const Comments = ({ navigation }) => {
-  const {
-    id,
-    qrcode,
-    detail,
-    priority,
-    status,
-    title,
-    user,
-    user: { username },
-    workorderphoto
-  } = navigation.state.params;
+  const { id } = navigation.state.params;
 
   const { data, loading, error, refetch } = useQuery(COMMENTS, {
     variables: { id: id }
@@ -115,10 +86,13 @@ const Comments = ({ navigation }) => {
   async function onSend(messages) {
     const text = messages[0].text;
     const image = messages[0].image;
-
+    const variables2 = {
+      comment: { text: text, workorderId: id, photo: image }
+    };
     await addComment({
       variables: { comment: { text: text, workorderId: id, photo: image } }
     });
+    console.log(variables2);
   }
 
   return (

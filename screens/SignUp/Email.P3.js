@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
   Button,
+  ActivityIndicator,
   View,
   Image,
   TextInput
@@ -12,6 +13,7 @@ import * as Yup from "yup";
 import { Field, Formik } from "formik";
 import { useMutation, useQuery, useLazyQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
+import { wOList, styles } from "../../assets/style";
 import { su1, su2, su3 } from "./SignUpStyles";
 import ErrorMessage from "./ErrorMessage";
 import * as ImagePicker from "expo-image-picker";
@@ -25,73 +27,53 @@ import {
   Container,
   Toast
 } from "native-base";
+import { USER } from "../../common/queries";
 
-const GET_VER_CODE = gql`
-  query getCode($phone: String!, $email: String!) {
-    getCode(phone: $phone, email: $email) {
-      cellPhone
-    }
-  }
-`;
-
-const VERIFY_CODE = gql`
-  mutation verifyCode($authyId: String!, $code: String!) {
-    verifyCode(authyId: $authyId, code: $code) {
-      user {
-        id
-        phone
-        authyId
+const USER_EDIT = gql`
+  mutation editUser($userInfo: UserInput!) {
+    editUser(userInfo: $userInfo) {
+      id
+      phone
+      authyId
+      email
+      username
+      photo {
+        path
       }
-      token
     }
   }
 `;
-const isEmail = RegExp(
-  "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
-);
 
 const handleSubmit = ({
   values,
-  verifyCode,
-  resendVerCode,
+  editUser,
   navigation,
   setSubmitting,
   setErrors
 }) => {
-  const { code, authyId } = values;
-  if (verifyCode) {
-    verifyCode({ variables: { authyId: authyId, code: code } })
-      .then(response => {
-        const { signUp } = response;
-        navigation.navigate("P3", { ...signUp });
-      })
-      .catch(e => {
-        const errors = e.graphQLErrors.map(error => {
-          setErrors({ form: error.message });
-        });
+  const { username, photo, id } = values;
+  editUser({
+    variables: { userInfo: { id: id, username: username, photo: photo } }
+  })
+    .then(response => {
+      const { editUser } = response.data;
+      navigation.navigate("WorkOrderList", { ...editUser });
+    })
+    .catch(e => {
+      const errors = e.graphQLErrors.map(error => {
+        setErrors({ form: error.message });
       });
-  }
-  if (resendVerCode) {
-    resendVerCode({ variables: { authyId: authyId, code: code } })
-      .then(response => {
-        const { signUp } = response;
-        navigation.navigate("P3", { ...signUp });
-      })
-      .catch(e => {
-        const errors = e.graphQLErrors.map(error => {
-          setErrors({ form: error.message });
-        });
-      });
-  }
+    });
 };
 
 const Email = ({ navigation }) => {
-  // const { email, phone } = navigation.state.params;
-  const email = "bryantpatton@gmail.com";
-  const phone = "4153163549";
-  const authyId = "82620055";
-  const [photo, setPhoto] = useState(navigation.getParam("photo", "nophoto"));
-  const [photouri, setPhotouri] = useState(photo.uri);
+  const { data, loading, error } = useQuery(
+    USER
+    //   {
+    //   fetchPolicy: "no-cache"
+    // }
+  );
+
   const placeholderImg =
     "http://placehold.jp/006e13/ffffff/200x200.png?text=Click%20to%20Add%20an%20Image";
   const BUTTONS = [
@@ -100,38 +82,45 @@ const Email = ({ navigation }) => {
     { text: "Cancel" }
   ];
   const CANCEL_INDEX = 2;
-  const [verifyCode, { error }] = useMutation(VERIFY_CODE, {});
+
+  const [editUser, { error: mutationerror }] = useMutation(USER_EDIT, {});
+
+  if (loading)
+    return (
+      <SafeAreaView style={styles.container}>
+        <ActivityIndicator size="large" color="black" />
+        <Text>Loading</Text>
+      </SafeAreaView>
+    );
+  if (error)
+    return (
+      <SafeAreaView style={styles.container}>
+        <Text>Error</Text>
+      </SafeAreaView>
+    );
   return (
     <Formik
       initialValues={{
-        phone: phone,
-        email: email,
-        code: "",
-        authyId: authyId,
-        displayName: "",
-        password: "password",
-        displayName: "",
-        photo: {}
+        id: data.currentUser.id,
+        phone: data.currentUser.phone,
+        email: data.currentUser.email,
+        authyId: data.currentUser.authyId,
+        username: data.currentUser.username || "",
+        photo: data.currentUser.photo
       }}
       validationSchema={Yup.object({
-        code: Yup.string()
-          .length(7, "Enter 7 digit code")
-          .required("Code Required")
+        username: Yup.string()
+          .min(2, "Min 2")
+          .max(30, "Max 30")
+          .required("Username Required")
       })}
       onSubmit={(values, { setSubmitting, setErrors }) =>
         handleSubmit({
-          verifyCode,
-          resendVerCode,
+          editUser,
           navigation,
           values,
           setSubmitting,
           setErrors
-        })}
-      toCamera={navigation =>
-        navigation.navigate("CameraModule", {
-          from: "P3",
-          phone: phone,
-          verCode: ver
         })}
       render={({
         handleChange,
@@ -149,12 +138,12 @@ const Email = ({ navigation }) => {
         <SafeAreaView>
           <Text style={su3.header}>Create your Profile</Text>
           <Text style={su3.subHead}>So your colleagues can recognize you!</Text>
-          <TouchableOpacity style={su3.avatar} onPress={toCamera}>
-            {values.photo.uri
+          <TouchableOpacity style={su3.avatar}>
+            {values.photo
               ? <Image
                   style={su3.image}
                   source={{
-                    uri: values.photo.uri
+                    uri: values.photo.uri || values.photo.path
                   }}
                 />
               : <Image
@@ -163,7 +152,7 @@ const Email = ({ navigation }) => {
                     uri: placeholderImg
                   }}
                 />}
-            <Text style={su3.avatarText}>Tap to add</Text>
+            <Text style={su3.avatarText}>Profile Photo</Text>
           </TouchableOpacity>
           {/* <Content padder> */}
           <Field
@@ -225,21 +214,15 @@ const Email = ({ navigation }) => {
           {/* </Content> */}
           <TextInput
             style={su3.input}
-            placeholder="displayName"
-            onChangeText={handleChange("displayName")}
-            onBlur={handleBlur("displayName")}
-            value={values.displayName}
-          />
-          <TextInput
-            style={su3.input}
-            placeholder="Email"
-            onChangeText={handleChange("email")}
-            onBlur={handleBlur("email")}
-            value={values.email}
+            placeholder="username"
+            onChangeText={handleChange("username")}
+            onBlur={handleBlur("username")}
+            value={values.username}
           />
           <TouchableOpacity style={su3.button} onPress={handleSubmit}>
             <Text style={su3.buttonText}>Get Started</Text>
           </TouchableOpacity>
+          <ErrorMessage errorValue={errors.form} />
           <View style={su3.tosBox}>
             <Text style={su3.tosFont}>
               By pressing "Next" above, you agree to our{" "}

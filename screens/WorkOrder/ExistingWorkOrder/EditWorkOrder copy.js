@@ -4,25 +4,48 @@ import {
   View,
   TextInput,
   Image,
-  SafeAreaView,
-  ActivityIndicator,
-  Text
+  TouchableOpacity,
+  Text,
+  Platform
 } from "react-native";
 import { Field, Formik } from "formik";
-import { ActionSheet, Content, Button as NativeButton } from "native-base";
+import {
+  ActionSheet,
+  Content,
+  Button as NativeButton,
+  Container
+} from "native-base";
 import { Icon, Button } from "react-native-elements";
 import { wOForm } from "../../../assets/style";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
+import { PictureField } from "../../../components/shared/PictureField";
+import { CameraField } from "../../../components/shared/CameraField";
 import * as ImagePicker from "expo-image-picker";
 import { ReactNativeFile } from "apollo-upload-client";
 import * as Permissions from "expo-permissions";
+import { fieldsConflictMessage } from "graphql/validation/rules/OverlappingFieldsCanBeMerged";
 import { font, color } from "../../../assets/style/base";
-import { styles } from "../../../assets/style";
+import { topBtn } from "../../../assets/style/components/buttons";
+import { StackActions, NavigationActions } from "react-navigation";
 
-const WORKORDER_EDIT = gql`
-  mutation WorkorderEdit($workorder: WorkorderInput!) {
-    workorderEdit(workorder: $workorder) {
+const EDIT_WO = gql`
+  mutation editWorkorder(
+    $qrcode: String!
+    $id: ID!
+    $detail: String
+    $priority: String
+    $status: String
+    $title: String
+  ) {
+    editWorkorder(
+      qrcode: $qrcode
+      id: $id
+      detail: $detail
+      priority: $priority
+      status: $status
+      title: $title
+    ) {
       id
       detail
       createdAt
@@ -40,39 +63,80 @@ const WORKORDER_EDIT = gql`
   }
 `;
 
-const handleSubmit = ({
-  values,
-  workorderEdit,
-  navigation,
-  setErrors,
-  setSubmitting
-}) => {
-  const { id, qrcode, detail, priority, status, title, photo } = values;
-  workorderEdit({
-    variables: {
-      workorder: {
-        id: id,
-        qrcode: qrcode,
-        detail: detail,
-        priority: priority,
-        status: status,
-        title: title,
-        photo: photo
-      }
+const WO_PIC = gql`
+  mutation uploadWorkorderphoto($photo: Upload!, $workorderId: ID!) {
+    uploadWorkorderphoto(photo: $photo, workorderId: $workorderId) {
+      userId
+      filename
+      path
     }
-  })
-    .then(response => {
-      const { workorderEdit } = response;
-      // navigation.navigate("WorkOrderListView");
-      navigation.goBack();
-    })
-    .catch(e => {
-      const errors = e.graphQLErrors.map(error => {
-        alert(error.message);
-        setErrors({ form: error.message });
-        setSubmitting(false);
-      });
+  }
+`;
+
+const updateWo = async ({
+  values,
+  editWorkorder,
+  uploadWorkorderphoto,
+  navigation
+}) => {
+  if (values.photo.uri) {
+    
+    const picresult = await uploadWorkorderphoto({
+      variables: {
+        photo: values.photo,
+        workorderId: values.id
+      }
     });
+
+    const editresult = await editWorkorder({
+      variables: {
+        id: values.id,
+        qrcode: values.qrcode,
+        detail: values.detail,
+        priority: values.priority,
+        status: values.status,
+        title: values.title
+      }
+    });
+
+    navigation.state.params.onGoBack({
+      id: values.id,
+      qrcode: values.qrcode,
+      detail: values.detail,
+      priority: values.priority,
+      status: values.status,
+      title: values.title,
+      workorderphoto: (values.photo.uri ? values.photo : values.workorderphoto)
+  });
+    navigation.goBack();
+  }
+  const editresult = await editWorkorder({
+    variables: {
+      id: values.id,
+      qrcode: values.qrcode,
+      detail: values.detail,
+      priority: values.priority,
+      status: values.status,
+      title: values.title,
+      // photo: values.photo,
+    }
+  });
+
+  // if (get(editresult, "data.workorder")) {
+  //   // navigation.goBack();
+  //   null;
+  // }
+
+  navigation.state.params.onGoBack({
+    id: values.id,
+    qrcode: values.qrcode,
+    detail: values.detail,
+    priority: values.priority,
+    status: values.status,
+    title: values.title,
+    workorderphoto: (values.photo.uri ? values.photo : values.workorderphoto)
+});
+  navigation.goBack();
 };
 
 const EditWorkOrder = ({ navigation }) => {
@@ -88,13 +152,15 @@ const EditWorkOrder = ({ navigation }) => {
     workorderphoto
   } = navigation.state.params;
 
-  const [workorderEdit, { error, loading }] = useMutation(
-    WORKORDER_EDIT,
-    {
-      // onCompleted({ workorderEdit }) {
-      //   refetch();
-      // }
-    }
+  console.log("PHOTO", workorderphoto)
+  const [wo, setWo] = useState({
+    id: id,
+    detail: detail
+  });
+  const [editWorkorder, { loading, error }] = useMutation(EDIT_WO, {});
+  const [uploadWorkorderphoto, { picloading, picerror }] = useMutation(
+    WO_PIC,
+    {}
   );
 
   const img1 =
@@ -105,19 +171,6 @@ const EditWorkOrder = ({ navigation }) => {
     { text: "Cancel" }
   ];
   const CANCEL_INDEX = 2;
-  if (loading)
-    return (
-      <SafeAreaView style={styles.container}>
-        <ActivityIndicator size="large" color="black" />
-        <Text>Loading</Text>
-      </SafeAreaView>
-    );
-  if (error)
-    return (
-      <SafeAreaView style={styles.container}>
-        <Text>Error </Text>
-      </SafeAreaView>
-    );
   return (
     <Formik
       initialValues={{
@@ -128,25 +181,23 @@ const EditWorkOrder = ({ navigation }) => {
         status: status,
         title: title,
         workorderphoto: workorderphoto,
-        photo: null
+        photo: {}
       }}
-      onSubmit={(values, { setErrors, setSubmitting }) => {
-        handleSubmit({
+      onSubmit={async values => {
+        console.log(values)
+        console.log(values.photo.uri)
+        updateWo({
           values,
-          workorderEdit,
-          navigation,
-          setErrors,
-          setSubmitting
-        });
-      }}
+          editWorkorder,
+          uploadWorkorderphoto,
+          navigation
+        })}}
       render={({
         handleChange,
         handleBlur,
         handleSubmit,
         values,
-        setFieldValue,
-        errors,
-        isSubmitting
+        setFieldValue
       }) =>
         <ScrollView style={{ backgroundColor: "#f8f5f4" }}>
           <View style={{ backgroundColor: "white" }}>
@@ -220,9 +271,7 @@ const EditWorkOrder = ({ navigation }) => {
                     disabledTitleStyle={wOForm.statusButtonsTextActive}
                     icon={
                       <Icon
-                        color={
-                          values.status === "Working" ? "white" : "#89898E"
-                        }
+                        color={values.status === "Working" ? "white" : "#89898E"}
                         type="antdesign"
                         name="sync"
                         size={20}
@@ -309,7 +358,11 @@ const EditWorkOrder = ({ navigation }) => {
             </View>
             <View style={wOForm.imgCard}>
               <View style={wOForm.imgCardBot}>
-                {values.photo
+                {/* <TouchableOpacity
+                                    style={wOForm.touchImage}
+                                    onPress={() => PictureField}
+                                > */}
+                {values.photo.uri
                   ? <View style={wOForm.imgContainer}>
                       <Image
                         style={wOForm.imgUpload}
@@ -386,18 +439,21 @@ const EditWorkOrder = ({ navigation }) => {
                             }
                           )}
                       >
-                        <Text
-                          style={[
-                            wOForm.photoHandlerText,
-                            { marginBottom: -12 }
-                          ]}
-                        >
-                          Add Image
-                        </Text>
+                        <Text style={[wOForm.photoHandlerText, {marginBottom: -12}]}>Add Image</Text>
                       </NativeButton>}
                   </Field>
                 </Content>
               </View>
+              {/* <View style={wOForm.imgCardBot}> */}
+              {/* <Field
+                                    name="photo"
+                                    title="Photo from Camera"
+                                    component={CameraField}
+                                    style={wOForm.imgUpload}
+                                    titleStyle={wOForm.statusButtonsTextActive}
+                                    buttonStyle={wOForm.submitButton}
+                                />
+                            </View> */}
             </View>
             <View>
               <Button
