@@ -319,12 +319,14 @@ const EditWorkOrder = ({ navigation }) => {
                       />
                     </View>
                   : values.workorderphoto
-                    ? <Image
-                        style={wOForm.imgUpload}
-                        source={{
-                          uri: values.workorderphoto.path
-                        }}
-                      />
+                    ? <View style={wOForm.imgContainer}>
+                        <Image
+                          style={wOForm.imgUpload}
+                          source={{
+                            uri: values.workorderphoto.path
+                          }}
+                        />
+                      </View>
                     : null}
                 {/* </TouchableOpacity> */}
                 <Content>
@@ -360,6 +362,7 @@ const EditWorkOrder = ({ navigation }) => {
                                         : Permissions.CAMERA
                                     );
                                   }
+                                  console.log("here");
                                   const imageResult = await (buttonIndex === 0
                                     ? ImagePicker.launchImageLibraryAsync({})
                                     : ImagePicker.launchCameraAsync({}));
@@ -374,7 +377,9 @@ const EditWorkOrder = ({ navigation }) => {
                                   if (!imageResult.cancelled) {
                                     const file = new ReactNativeFile({
                                       uri: imageResult.uri,
-                                      type: imageResult.type,
+                                      type:
+                                        imageResult.type +
+                                        (Platform.OS === "ios" ? "" : "/jpeg"),
                                       name: "image"
                                     });
                                     console.log(file);

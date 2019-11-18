@@ -121,7 +121,7 @@ const Details = ({ navigation }) => {
               }}
             />
           : <Image
-              style={details.imgUpload}
+              style={wOForm.imgUpload}
               source={{
                 uri: img1
               }}
@@ -367,10 +367,6 @@ const Details = ({ navigation }) => {
         <TouchableOpacity
           style={details.editButton}
           onPress={() => {
-            const refresh = data => {
-              navigation.setParams(data);
-            };
-
             navigation.navigate("EditWorkOrder", {
               id: id,
               qrcode: data.workorder.qrcode,
@@ -379,8 +375,7 @@ const Details = ({ navigation }) => {
               status: data.workorder.status,
               title: data.workorder.title,
               user: data.workorder.user.username,
-              workorderphoto: data.workorder.workorderphoto,
-              onGoBack: refresh
+              workorderphoto: data.workorder.workorderphoto
             });
           }}
         >
@@ -519,7 +514,7 @@ export const wOForm = StyleSheet.create({
   imgUpload: {
     width: 375,
     height: 250,
-    marginLeft: 20
+    alignSelf: "center"
     // fontFamily: "IBMPlexSans-Regular"
   },
   statusView: {

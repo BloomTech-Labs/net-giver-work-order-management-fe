@@ -43,19 +43,20 @@ const GET_WORKORDERS = gql`
 const WorkOrderListView = props => {
   const [sentFrom, setSentFrom] = useState();
   const { data, loading, error, fetchMore } = useQuery(GET_WORKORDERS, {
-    variables: { limit: 3 }
+    variables: { limit: 10 }
   });
   const [selectedWo, setSelectedWo] = useState(null);
 
+  const [loadingWO, setLoadingWO] = useState(false);
   const onLoadMore = () =>
     fetchMore({
       variables: {
         cursor: data.workorders.pageInfo.endCursor
       },
       updateQuery: (previousResult, { fetchMoreResult }) => {
+        setLoadingWO(false);
         const newEdges = fetchMoreResult.workorders.edges;
         const pageInfo = fetchMoreResult.workorders.pageInfo;
-        console.log(newEdges);
 
         return newEdges.length
           ? {
@@ -70,19 +71,29 @@ const WorkOrderListView = props => {
           : previousResult;
       }
     });
-
   const formatDate = createdAt => {
     const date = new Date(createdAt);
     let formattedDate =
       date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear();
     return formattedDate;
   };
-
   const goToDetails = workorder =>
     props.navigation.push("Details", {
       ...workorder,
       createdAt: formatDate(workorder.createdAt)
     });
+
+  const isCloseToBottom = ({
+    layoutMeasurement,
+    contentOffset,
+    contentSize
+  }) => {
+    const paddingToBottom = 40;
+    return (
+      layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom
+    );
+  };
 
   if (loading)
     return (
@@ -98,7 +109,14 @@ const WorkOrderListView = props => {
       </SafeAreaView>
     );
   return (
-    <ScrollView>
+    <ScrollView
+      onScroll={({ nativeEvent }) => {
+        if (isCloseToBottom(nativeEvent)) {
+          setLoadingWO(true);
+          onLoadMore();
+        }
+      }}
+    >
       <View>
         {data.workorders.edges.map(workorder =>
           <TouchableOpacity
@@ -226,14 +244,20 @@ const WorkOrderListView = props => {
           </TouchableOpacity>
         )}
       </View>
-      <Button onPress={onLoadMore} style={styles.button}>
-        <Text>Try again!</Text>
-      </Button>
+      {loadingWO
+        ? <SafeAreaView
+            style={[
+              styles.container,
+              { backgroundColor: "white", marginVertical: 5 }
+            ]}
+          >
+            <ActivityIndicator size="large" color="black" />
+          </SafeAreaView>
+        : null}
     </ScrollView>
   );
 };
 export default WorkOrderListView;
-
 const wOList = StyleSheet.create({
   card: {
     width: "100%",
@@ -258,14 +282,12 @@ const wOList = StyleSheet.create({
     width: 65,
     alignSelf: "flex-end"
   },
-
   priority: {
     width: 65,
     marginBottom: 6,
     marginTop: 6,
     marginLeft: 5
   },
-
   qr: {
     width: 65,
     color: "#8B9195",
@@ -273,17 +295,14 @@ const wOList = StyleSheet.create({
     alignSelf: "flex-end",
     marginLeft: 5
   },
-
   qrBox: {
     flexDirection: "row"
   },
-
   cardMiddle: {
     //width: 160,
     flex: 1
     //paddingRight: 5,
   },
-
   priorityBox: {
     flexDirection: "column",
     marginLeft: "auto",
@@ -306,7 +325,6 @@ const wOList = StyleSheet.create({
     alignItems: "flex-end",
     marginLeft: "auto",
     marginTop: 6,
-
     marginBottom: 6
   },
   image: {

@@ -20,7 +20,9 @@ import CameraModule from "../components/camera/Camera";
 import GalleryScreen from "../components/camera/GalleryScreen";
 import TopTab from "./TopTabNavigator";
 import { color, font } from "../assets/style/base";
-import Email from "../screens/SignUp/Email.P3";
+
+import TopTabNavListView from "./TopTabNavListView";
+
 const handleTabPress = ({ navigation, defaultHandler }) => {
   navigation.popToTop();
   defaultHandler();
@@ -34,7 +36,7 @@ const config = Platform.select({
 const WorkOrderStack = createStackNavigator(
   {
     WorkOrderList: {
-      screen: WorkOrderListView,
+      screen: TopTabNavListView,
       navigationOptions: props => ({
         tabBarOnPress: handleTabPress,
         // title: "Work Order List View",
@@ -104,15 +106,15 @@ const WorkOrderStack = createStackNavigator(
 );
 WorkOrderStack.navigationOptions = {
   header: "List View",
-  tabBarLabel: "List View",
+  tabBarLabel: "Work Orders",
 
   tabBarIcon: ({ focused }) =>
     <TabBarIcon
       focused={focused}
       name={
         Platform.OS === "ios"
-          ? `ios-information-circle${focused ? "" : "-outline"}`
-          : "md-information-circle"
+          ? `ios-menu${focused ? "" : "-outline"}`
+          : "md-menu"
       }
     />
 };
@@ -188,11 +190,11 @@ const QRStack = createStackNavigator(
 );
 
 QRStack.navigationOptions = {
-  tabBarLabel: "QR Scanner",
+  tabBarLabel: "Scan",
   tabBarIcon: ({ focused }) =>
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === "ios" ? "ios-add" : "md-add"}
+      name={Platform.OS === "ios" ? "ios-qr-scanner" : "md-qr-scanner"}
     />
 };
 
