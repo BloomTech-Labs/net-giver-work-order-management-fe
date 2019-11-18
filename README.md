@@ -43,7 +43,7 @@
 Net Giver Work Order Management is a modern app used to simplify work order utilization. Coordinating work orders among groups of people is difficult, from creating the list of tasks to prioritizing them, then assign them. Digital task lists exist, but they don't connect the tasks at hand to objects in the physical world. Net Giver provides user ease for creating and editing work orders, all in one convenient app. 
 
 
-Key Features
+### Key Features
 
 -    QR scanner (Quick & easy create/update process) 
 -    Creating work orders
@@ -51,7 +51,7 @@ Key Features
 -    Assign work orders
 -    View all work orders in one convenient place
 
-Tech Stack
+## Tech Stack
 
 ### Front end built using: 
 
