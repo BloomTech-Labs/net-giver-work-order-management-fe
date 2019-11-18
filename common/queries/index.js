@@ -15,3 +15,11 @@ export const USER = gql`
     }
   }
 `;
+
+export const GET_VER_CODE = gql`
+  query getCode($phone: String!, $email: String!) {
+    getCode(phone: $phone, email: $email) {
+      cellPhone
+    }
+  }
+`;

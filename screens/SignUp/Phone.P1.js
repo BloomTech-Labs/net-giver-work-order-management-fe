@@ -26,9 +26,15 @@ const SIGN_UP = gql`
     registerAuthy(phone: $phone, email: $email) {
       user {
         id
+        username
         email
+        role
         phone
         authyId
+        displayName
+        photo {
+          path
+        }
       }
     }
   }

@@ -28,6 +28,12 @@ const handleTabPress = ({ navigation, defaultHandler }) => {
   defaultHandler();
 };
 
+const logOut = ({ navigation }) => {
+  AsyncStorage.removeItem("userToken").then(() => {
+    navigation.navigate("Auth");
+  });
+};
+
 const config = Platform.select({
   web: { headerMode: "screen" },
   default: {}
@@ -84,12 +90,12 @@ const WorkOrderStack = createStackNavigator(
           <View style={{ marginRight: 15 }}>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate("EditWorkOrder", {
-                  ...navigation.state.params
+                AsyncStorage.removeItem("userToken").then(() => {
+                  navigation.navigate("Auth");
                 });
               }}
             >
-              <Text>Edit</Text>
+              <Text>Logout</Text>
             </TouchableOpacity>
           </View>
         )
@@ -111,11 +117,7 @@ WorkOrderStack.navigationOptions = {
   tabBarIcon: ({ focused }) =>
     <TabBarIcon
       focused={focused}
-      name={
-        Platform.OS === "ios"
-          ? `ios-menu${focused ? "" : "-outline"}`
-          : "md-menu"
-      }
+      name={Platform.OS === "ios" ? "ios-menu" : "md-menu"}
     />
 };
 

@@ -30,20 +30,24 @@ const GET_VER_CODE = gql`
 `;
 
 const VERIFY_CODE = gql`
-  mutation verifyCode($authyId: String!, $code: String!) {
-    verifyCode(authyId: $authyId, code: $code) {
+  mutation verifyCode($authyId: String!, $code: String!, $email: String!) {
+    verifyCode(authyId: $authyId, code: $code, email: $email) {
       user {
         id
+        username
+        email
+        role
         phone
         authyId
+        displayName
+        photo {
+          path
+        }
       }
       token
     }
   }
 `;
-const isEmail = RegExp(
-  "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
-);
 
 const handleSubmit = ({
   values,
@@ -53,9 +57,9 @@ const handleSubmit = ({
   setSubmitting,
   setErrors
 }) => {
-  const { code, authyId } = values;
+  const { code, authyId, email } = values;
   if (verifyCode) {
-    verifyCode({ variables: { authyId: authyId, code: code } })
+    verifyCode({ variables: { authyId: authyId, code: code, email: email } })
       .then(response => {
         const { verifyCode } = response.data;
         const token = verifyCode.token;
@@ -76,7 +80,6 @@ const handleSubmit = ({
 
 const VerCode = ({ navigation }) => {
   const [user, setUser] = useState(navigation.getParam("user", "errr"));
-
   const client = useApolloClient();
   const { loading, data, errored } = useQuery(GET_VER_CODE, {
     variables: {
@@ -93,7 +96,7 @@ const VerCode = ({ navigation }) => {
         email: user.email,
         code: "",
         authyId: user.authyId,
-        username: "",
+        username: user.authyId,
         photo: null
       }}
       validationSchema={Yup.object({

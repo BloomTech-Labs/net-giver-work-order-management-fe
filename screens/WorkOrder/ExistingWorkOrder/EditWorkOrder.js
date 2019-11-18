@@ -6,7 +6,8 @@ import {
   Image,
   SafeAreaView,
   ActivityIndicator,
-  Text
+  Text,
+  Platform
 } from "react-native";
 import { Field, Formik } from "formik";
 import { ActionSheet, Content, Button as NativeButton } from "native-base";

@@ -51,9 +51,9 @@ const handleSubmit = ({
   setSubmitting,
   setErrors
 }) => {
-  const { username, photo, id } = values;
+  const { username, photo } = values;
   editUser({
-    variables: { userInfo: { id: id, username: username, photo: photo } }
+    variables: { userInfo: { username: username, photo: photo } }
   })
     .then(response => {
       const { editUser } = response.data;
@@ -67,12 +67,9 @@ const handleSubmit = ({
 };
 
 const Email = ({ navigation }) => {
-  const { data, loading, error } = useQuery(
-    USER
-    //   {
-    //   fetchPolicy: "no-cache"
-    // }
-  );
+  const { data, loading, error } = useQuery(USER, {
+    fetchPolicy: "no-cache"
+  });
 
   const placeholderImg =
     "http://placehold.jp/006e13/ffffff/200x200.png?text=Click%20to%20Add%20an%20Image";
@@ -138,7 +135,7 @@ const Email = ({ navigation }) => {
         <SafeAreaView>
           <Text style={su3.header}>Create your Profile</Text>
           <Text style={su3.subHead}>So your colleagues can recognize you!</Text>
-          <TouchableOpacity style={su3.avatar}>
+          {/* <TouchableOpacity style={su3.avatar}>
             {values.photo
               ? <Image
                   style={su3.image}
@@ -153,7 +150,7 @@ const Email = ({ navigation }) => {
                   }}
                 />}
             <Text style={su3.avatarText}>Profile Photo</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           {/* <Content padder> */}
           <Field
             style={su3.avatar}
@@ -162,7 +159,8 @@ const Email = ({ navigation }) => {
             name="photo"
           >
             {({ field, form }) =>
-              <NativeButton
+              <TouchableOpacity
+                style={su3.avatar}
                 onPress={() =>
                   ActionSheet.show(
                     {
@@ -208,8 +206,21 @@ const Email = ({ navigation }) => {
                     }
                   )}
               >
-                <Text>Choose a Photo</Text>
-              </NativeButton>}
+                {values.photo
+                  ? <Image
+                      style={su3.image}
+                      source={{
+                        uri: values.photo.uri || values.photo.path
+                      }}
+                    />
+                  : <Image
+                      style={su3.image}
+                      source={{
+                        uri: placeholderImg
+                      }}
+                    />}
+                <Text style={su3.avatarText}>Profile Photo</Text>
+              </TouchableOpacity>}
           </Field>
           {/* </Content> */}
           <TextInput
@@ -218,6 +229,11 @@ const Email = ({ navigation }) => {
             onChangeText={handleChange("username")}
             onBlur={handleBlur("username")}
             value={values.username}
+          />
+          <TextInput
+            style={su3.input}
+            placeholder="Email"
+            value={values.email}
           />
           <TouchableOpacity style={su3.button} onPress={handleSubmit}>
             <Text style={su3.buttonText}>Get Started</Text>
