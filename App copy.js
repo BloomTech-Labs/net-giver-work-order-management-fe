@@ -21,12 +21,13 @@ import { HttpLink } from "apollo-link-http";
 import { onError } from "apollo-link-error";
 import { withClientState } from "apollo-link-state";
 import { ApolloLink, Observable } from "apollo-link";
+//import { typeDefs, resolvers } from "./resolvers";
 import { setContext } from "apollo-link-context";
 import { createUploadLink } from "apollo-upload-client";
 import { WebSocketLink } from "apollo-link-ws";
 import { split } from "apollo-link";
 import { getMainDefinition } from "apollo-utilities";
-import NavigationService from "./NavigationService";
+
 /*Cache: persists across sessions. stable images, logos, username */
 const cache = new InMemoryCache({
   cacheRedirects: {
@@ -57,41 +58,14 @@ const resetToken = onError(({ networkError }) => {
 
 ///////////////reset token functionality//////////
 
-const request1 = async operation => {
-  const token = await AsyncStorage.getItem("userToken");
+const request = async operation => {
+  const token = (await AsyncStorage.getItem("userToken")) || null;
   operation.setContext({
     headers: {
       "x-token": token
     }
   });
 };
-
-const request = async operation => {
-  const token = await AsyncStorage.getItem("userToken");
-  operation.setContext(({ headers = {}, localToken = token }) => {
-    if (localToken) {
-      headers["x-token"] = localToken;
-    }
-    return {
-      headers
-    };
-  });
-};
-
-const authLink = new ApolloLink((operation, forward) => {
-  operation.setContext(
-    ({ headers = {}, localToken = AsyncStorage.getItem("userToken") }) => {
-      if (localToken) {
-        headers["x-token"] = localToken;
-      }
-      return {
-        headers
-      };
-    }
-  );
-
-  return forward(operation);
-});
 
 const authMiddleware = new ApolloLink(
   (operation, forward) =>
@@ -114,10 +88,11 @@ const authMiddleware = new ApolloLink(
     })
 );
 
-const signOut = async client => {
+const removeToken = async () => {
   await AsyncStorage.removeItem("userToken");
-  client.resetStore();
-  NavigationService.navigate("AuthLoading");
+  // .then(() => {
+  //   this.props.navigation.navigate("Auth");
+  // });
 };
 
 const wsLink = new WebSocketLink({
@@ -128,8 +103,8 @@ const wsLink = new WebSocketLink({
 });
 
 const uploadlink = new createUploadLink({
-  // uri: "https://netgiver-stage.herokuapp.com/graphql"
-  uri: "http://localhost:3000/graphql"
+  uri: "https://netgiver-stage.herokuapp.com/graphql"
+  // uri: "http://localhost:3000/graphql"
 });
 const link = split(
   // split based on operation type
@@ -147,18 +122,14 @@ const link = split(
 const client = new ApolloClient({
   link: ApolloLink.from([
     onError(({ graphQLErrors, networkError }) => {
-      if (graphQLErrors) {
-        graphQLErrors.forEach(({ message, locations, path }) => {
+      if (graphQLErrors)
+        graphQLErrors.forEach(({ message, locations, path }) =>
           console.log(
             `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(
               locations
             )}, Path: ${path}`
-          );
-          if (message === "NOT_AUTHENTICATED") {
-            signOut(client);
-          }
-        });
-      }
+          )
+        );
       if (
         networkError &&
         networkError.name === "ServerError" &&
@@ -209,12 +180,7 @@ export default function App(props) {
         <View style={styles.container}>
           {Platform.OS === "ios" && <StatusBar barStyle="default" />}
           <ApolloProvider client={client}>
-            <AppNavigator
-              ref={navigatorRef => {
-                NavigationService.setTopLevelNavigator(navigatorRef);
-              }}
-            />
-            {/* <AppNavigator /> */}
+            <AppNavigator />
           </ApolloProvider>
         </View>
       </Root>

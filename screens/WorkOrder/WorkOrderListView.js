@@ -128,13 +128,19 @@ const WorkOrderListView = props => {
                 {workorder.workorderphoto
                   ? <Image
                       style={wOList.image}
-                      source={{ uri: workorder.workorderphoto.path }}
+                      source={{
+                        uri: `https://res.cloudinary.com/dtpaltm0r/image/fetch/w_80,h_100/${workorder
+                          .workorderphoto.path}`
+                      }}
+                      // source={{
+                      //   url: workorder.workorderphoto.path
+                      // }}
                     />
                   : <Image
                       style={wOList.image}
                       source={{
                         uri:
-                          "http://placehold.jp/006e13/ffffff/200x250.png?text=Placeholder%20Image"
+                          "http://placehold.jp/006e13/ffffff/80x100.png?text=Placeholder%20Image"
                       }}
                     />}
               </View>

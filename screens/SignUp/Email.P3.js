@@ -133,24 +133,8 @@ const Email = ({ navigation }) => {
         toCamera
       }) =>
         <SafeAreaView>
-          <Text style={su3.header}>Create your Profile</Text>
+          <Text style={su3.header}>Edit Your Profile</Text>
           <Text style={su3.subHead}>So your colleagues can recognize you!</Text>
-          {/* <TouchableOpacity style={su3.avatar}>
-            {values.photo
-              ? <Image
-                  style={su3.image}
-                  source={{
-                    uri: values.photo.uri || values.photo.path
-                  }}
-                />
-              : <Image
-                  style={su3.image}
-                  source={{
-                    uri: placeholderImg
-                  }}
-                />}
-            <Text style={su3.avatarText}>Profile Photo</Text>
-          </TouchableOpacity> */}
           {/* <Content padder> */}
           <Field
             style={su3.avatar}
@@ -234,6 +218,7 @@ const Email = ({ navigation }) => {
             style={su3.input}
             placeholder="Email"
             value={values.email}
+            editable={false}
           />
           <TouchableOpacity style={su3.button} onPress={handleSubmit}>
             <Text style={su3.buttonText}>Get Started</Text>

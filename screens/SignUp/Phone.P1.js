@@ -14,12 +14,7 @@ import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { su1, su2, su3 } from "./SignUpStyles";
 import ErrorMessage from "./ErrorMessage";
-import { styles } from "../../assets/style";
-import FormButton from "./components/FormButton";
-import { topBtn } from "../../assets/style/components/buttons";
 import { spacer } from "../../assets/style/components/margins";
-import { text } from "../../assets/style/components/text";
-import { txtInput } from "../../assets/style/components/inputs";
 
 const SIGN_UP = gql`
   mutation registerAuthy($phone: String!, $email: String!) {

@@ -19,7 +19,6 @@ const config = Platform.select({
 
 const AuthStackNavigator = createStackNavigator(
   {
-
     Login: {
       screen: Login,
 
@@ -61,7 +60,7 @@ const AuthStackNavigator = createStackNavigator(
     P3: {
       screen: Email,
       navigationOptions: {
-        title: "Sign Up"
+        title: "Create Your Profile"
       }
     },
     Contact: {
@@ -88,7 +87,7 @@ const AuthStackNavigator = createStackNavigator(
       navigationOptions: {
         title: "Privacy Policy"
       }
-    },
+    }
   },
   config
 );
