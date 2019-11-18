@@ -20,7 +20,7 @@ import CameraModule from "../components/camera/Camera";
 import GalleryScreen from "../components/camera/GalleryScreen";
 import TopTab from "./TopTabNavigator";
 import { color, font } from "../assets/style/base";
-
+import Email from "../screens/SignUp/Email.P3";
 import TopTabNavListView from "./TopTabNavListView";
 
 const handleTabPress = ({ navigation, defaultHandler }) => {
