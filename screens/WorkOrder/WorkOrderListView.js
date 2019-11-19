@@ -75,7 +75,6 @@ const WorkOrderListView = props => {
   } = useQuery(GET_WORKORDERS, {
     variables: { limit: 10 }
   });
-  const [selectedWo, setSelectedWo] = useState(null);
 
   const [loadingWO, setLoadingWO] = useState(false);
   const onLoadMore = () =>

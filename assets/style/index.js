@@ -1,6 +1,6 @@
 import React from "react"
 import { StyleSheet } from "react-native"
-import { color, font, marpad, dimensions } from "./base"
+import { color, font, mp, dimensions } from "./base"
 
 export const styles = StyleSheet.create({
     button: {

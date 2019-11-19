@@ -86,15 +86,12 @@ const Comments = ({ navigation }) => {
   async function onSend(messages) {
     const text = messages[0].text;
     const image = messages[0].image;
-    const variables2 = {
-      comment: { text: text, workorderId: id, photo: image }
-    };
+
     await addComment({
       variables: {
         comment: { text: text, workorderId: id, photo: image }
       }
     });
-    console.log(variables2);
   }
 
   return (

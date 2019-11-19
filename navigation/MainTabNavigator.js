@@ -20,8 +20,8 @@ import CameraModule from "../components/camera/Camera";
 import GalleryScreen from "../components/camera/GalleryScreen";
 import TopTab from "./TopTabNavigator";
 import { color, font } from "../assets/style/base";
-import Email from "../screens/SignUp/Email.P3";
 import TopTabNavListView from "./TopTabNavListView";
+import Email from "../screens/SignUp/Email.P3";
 
 const handleTabPress = ({ navigation, defaultHandler }) => {
   navigation.popToTop();
@@ -42,10 +42,10 @@ const config = Platform.select({
 const WorkOrderStack = createStackNavigator(
   {
     WorkOrderList: {
-      screen: TopTabNavListView,
+      screen: WorkOrderListView,
       navigationOptions: props => ({
         tabBarOnPress: handleTabPress,
-        // title: "Work Order List View",
+        title: "Work Order List View",
         headerRight: (
           <View style={{ marginRight: 15 }}>
             <TouchableOpacity

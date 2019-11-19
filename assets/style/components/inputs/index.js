@@ -1,10 +1,10 @@
 import { StyleSheet } from "react-native"
-import { color, font, marpad, dimensions } from "../../base"
+import { color, font, mp, dimensions } from "../../base"
 
 const baseInptStyle = {
     backgroundColor: color.input,
     borderRadius: 4,
-    padding: marpad.md,
+    padding: mp.md,
     alignSelf: "center",
     borderWidth: 2,
     borderColor: color.inputBorder,
@@ -24,7 +24,7 @@ export const txtInput = StyleSheet.create({
     fullWidthInputMarginBottom:{
         ...baseInptStyle,
         width:"90%",
-        marginBottom:marpad.xl,
+        marginBottom:mp.xl,
     },
 
 })
