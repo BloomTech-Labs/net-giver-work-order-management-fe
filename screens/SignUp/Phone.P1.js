@@ -6,6 +6,8 @@ import {
     Button,
     Image,
     StyleSheet,
+    TextInput,
+    TouchableOpacity,
 } from "react-native"
 import * as Yup from "yup"
 import { Field, Formik } from "formik"
@@ -116,44 +118,42 @@ const Phone = ({ navigation }) => {
                     <View style={spacer.persmBot} />
                     <Field name="phone">
                         {({ field, form }) => (
-                            <Item style={su1.input}>
-                                <Input
-                                    name={"phone"}
-                                    value={values.phone}
-                                    onChangeText={handleChange("phone")}
-                                    onBlur={handleBlur("phone")}
-                                    placeholder="Enter your Phone Number"
-                                    keyboardType="phone-pad"
-                                    autoCompleteType="tel"
-                                    maxLength={10}
-                                />
-                            </Item>
+                            <TextInput
+                                style={txtInput.fullWidthInputMarginBottom}
+                                name={"phone"}
+                                value={values.phone}
+                                onChangeText={handleChange("phone")}
+                                onBlur={handleBlur("phone")}
+                                placeholder="Enter your Phone Number"
+                                keyboardType="phone-pad"
+                                autoCompleteType="tel"
+                                maxLength={10}
+                            ></TextInput>
                         )}
                     </Field>
                     <ErrorMessage errorValue={touched.phone && errors.phone} />
                     <Field name="email">
                         {({ field, form }) => (
-                            <Item style={su1.input}>
-                                <Input
-                                    name={"email"}
-                                    value={values.email}
-                                    onChangeText={handleChange("email")}
-                                    onBlur={handleBlur("email")}
-                                    placeholder="Enter your Email"
-                                    autoCapitalize="none"
-                                />
-                            </Item>
+                            <TextInput
+                                style={txtInput.fullWidthInput}
+                                name={"email"}
+                                value={values.email}
+                                onChangeText={handleChange("email")}
+                                onBlur={handleBlur("email")}
+                                placeholder="Enter your Email"
+                                autoCapitalize="none"
+                            ></TextInput>
                         )}
                     </Field>
                     <ErrorMessage errorValue={errors.email} />
-                    <Button
+                    <TouchableOpacity
+                        style={topBtn.fullWidthBtn}
                         onPress={handleSubmit}
                         disabled={!isValid}
-                        buttonStyle={su1.button}
-                        title="Get Started"
-                        titleStyle={su1.buttonText}
                         loading={isSubmitting}
-                    />
+                    >
+                        <Text style={topBtn.btnFont}>Get Started</Text>
+                    </TouchableOpacity>
                     <ErrorMessage errorValue={errors.form} />
                     <Text
                         onPress={() => navigation.navigate("Contact")}

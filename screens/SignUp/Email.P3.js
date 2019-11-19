@@ -14,7 +14,6 @@ import { Field, Formik } from "formik"
 import { useMutation, useQuery, useLazyQuery } from "@apollo/react-hooks"
 import gql from "graphql-tag"
 import { wOList, styles } from "../../assets/style"
-import { mar, cnt } from "../../assets/style/base"
 import { su1, su2, su3 } from "./SignUpStyles"
 import ErrorMessage from "./ErrorMessage"
 import * as ImagePicker from "expo-image-picker"
@@ -29,6 +28,10 @@ import {
     Toast,
 } from "native-base"
 import { USER } from "../../common/queries"
+import { topBtn } from "../../assets/style/components/buttons"
+import { text } from "../../assets/style/components/text"
+import { txtInput } from "../../assets/style/components/inputs"
+import { color, font, marpad, cnt, mar } from "../../assets/style/base"
 
 const USER_EDIT = gql`
     mutation editUser($userInfo: UserInput!) {
@@ -242,8 +245,10 @@ const Email = ({ navigation }) => {
                         )}
                     </Field>
                     {/* </Content> */}
+                    <View style={mar.marSmBt} />
+
                     <TextInput
-                        style={su3.input}
+                        style={txtInput.fullWidthInputMarginBottom}
                         placeholder="username"
                         onChangeText={handleChange("username")}
                         onBlur={handleBlur("username")}
@@ -252,8 +257,12 @@ const Email = ({ navigation }) => {
                     <View style={mar.marMdLtMdTp}>
                         <Text>This is your email: {values.email}</Text>
                     </View>
-                    <TouchableOpacity style={su3.button} onPress={handleSubmit}>
-                        <Text style={su3.buttonText}>Submit</Text>
+                    <View style={mar.marMdBt} />
+                    <TouchableOpacity
+                        style={topBtn.fullWidthBtnMargin}
+                        onPress={handleSubmit}
+                    >
+                        <Text style={topBtn.btnFont}>Submit</Text>
                     </TouchableOpacity>
                     <ErrorMessage errorValue={errors.form} />
                     <View style={mar.marMdLtRtBt}>

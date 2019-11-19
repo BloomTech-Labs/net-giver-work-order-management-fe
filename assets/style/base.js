@@ -72,4 +72,14 @@ export const mar = StyleSheet.create({
         marginRight: mp.md,
         marginBottom: mp.md,
     },
+    marCtr: {
+        marginLeft: "auto",
+        marginRight: "auto",
+    },
+    marMdBt: {
+        marginBottom: mp.md,
+    },
+    marSmBt: {
+        marginBottom: mp.sm,
+    },
 })

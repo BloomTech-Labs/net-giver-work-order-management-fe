@@ -21,7 +21,7 @@ import GalleryScreen from "../components/camera/GalleryScreen"
 import TopTab from "./TopTabNavigator"
 import { color, font } from "../assets/style/base"
 import TopTabNavListView from "./TopTabNavListView"
-import Email from "../screens/SignUp/Phone.P1"
+import Email from "../screens/SignUp/VerCode.P2"
 
 const handleTabPress = ({ navigation, defaultHandler }) => {
     navigation.popToTop()
@@ -42,10 +42,10 @@ const config = Platform.select({
 const WorkOrderStack = createStackNavigator(
     {
         WorkOrderList: {
-            screen: TopTabNavListView,
+            screen: WorkOrderListView,
             navigationOptions: props => ({
                 tabBarOnPress: handleTabPress,
-                // title: "Work Order List View",
+                title: "Work Order List View",
                 headerRight: (
                     <View style={{ marginRight: 15 }}>
                         <TouchableOpacity
@@ -278,7 +278,7 @@ const tabNavigator = createBottomTabNavigator(
     {
         WorkOrderStack,
         QRStack,
-        AccountStack,
+        // AccountStack,
     },
     configBottomTab
 )
