@@ -2,8 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import {
   ScrollView,
   View,
-
-  // Text,
   Alert,
   Image,
   SafeAreaView,
@@ -20,60 +18,110 @@ import { Icon, Button, ButtonGroup } from "react-native-elements";
 import { wOList, styles } from "../../assets/style";
 import { color } from "../../assets/style/base";
 import { StackActions, NavigationActions } from "react-navigation";
-import { useMutation } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { PictureField } from "../../components/shared/PictureField";
 import { CameraField } from "../../components/shared/CameraField";
 import EditWorkOrder from "./ExistingWorkOrder/EditWorkOrder";
 
+const GET_WORKORDER = gql`
+  query workorder($id: ID!) {
+    workorder(id: $id) {
+      id
+      detail
+      createdAt
+      qrcode
+      priority
+      status
+      title
+      user {
+        username
+      }
+      workorderphoto {
+        path
+      }
+    }
+  }
+`;
+
 const Details = ({ navigation }) => {
   const {
-    id,
-    qrcode,
-    detail,
-    priority,
-    status,
-    title,
-    user,
-    user: { username },
-    workorderphoto,
-    createdAt
+    id
+    // qrcode,
+    // detail,
+    // priority,
+    // status,
+    // title,
+    // user,
+    // user: { username },
+    // workorderphoto,
+    // createdAt
   } = navigation.state.params;
 
-  console.log(navigation.state.params)
+  const { data, loading, error } = useQuery(GET_WORKORDER, {
+    variables: { id }
+  });
 
+  var createdAt = "2018/3/12";
   const [onPressDetails, setOnPressDetails] = useState();
   const [onPressUpdates, setOnPressUpdats] = useState();
   const [sentFrom, setSentFrom] = useState();
 
-  const [wo, setWo] = useState(initialState);
   const initialState = {
     id: id,
-    qrcode: qrcode,
-    detail: detail,
-    priority: priority,
-    status: status,
-    title: title
+    detail: null,
+    createdAt: null,
+    qrcode: null,
+    priority: null,
+    status: null,
+    title: null,
+    user: {},
+    workorderphoto: {}
   };
+  // const [workorder, setWorkorder] = useState({});
 
   const img1 =
     "http://placehold.jp/006e13/ffffff/200x250.png?text=Click%20to%20Add%20an%20Image";
 
+  if (loading)
+    return (
+      <SafeAreaView style={styles.container}>
+        <ActivityIndicator size="large" color="black" />
+        <Text>Loading</Text>
+      </SafeAreaView>
+    );
+  if (error)
+    return (
+      <SafeAreaView style={styles.container}>
+        <Text>Error</Text>
+      </SafeAreaView>
+    );
+  if (data && data.workorder) {
+    // setWorkorder(data.workorder);
+    const workorder = data.workorder || null;
+  }
+
+  // const mutatedData = React.useMemo(() => {
+  //   // if you want to mutate the data for some reason
+  //   return data
+  // }, [data])
   return (
     <ScrollView>
       {/* NAV CONTAINER*/}
 
       {/* IMAGE */}
       <View style={details.imgDiv}>
-        {workorderphoto
+        {data.workorder.workorderphoto
           ? <Image
               style={wOForm.imgUpload}
               source={{
-                uri: (workorderphoto.uri ? workorderphoto.uri : workorderphoto.path)
+                uri: data.workorder.workorderphoto.uri
+                  ? data.workorder.workorderphoto.uri
+                  : data.workorder.workorderphoto.path
               }}
             />
           : <Image
-              style={details.imgUpload}
+              style={wOForm.imgUpload}
               source={{
                 uri: img1
               }}
@@ -85,7 +133,7 @@ const Details = ({ navigation }) => {
           {/* TITLE */}
           <View style={details.titlePriorityDiv}>
             <Text style={details.wOTitle}>
-              {title}
+              {data.workorder.title}
             </Text>
 
             {/* PRIORITY BOXES */}
@@ -93,11 +141,13 @@ const Details = ({ navigation }) => {
               style={[
                 {
                   backgroundColor:
-                    priority === "Low"
+                    data.workorder.priority === "Low"
                       ? color.accLow
-                      : priority === "Medium"
+                      : data.workorder.priority === "Medium"
                         ? color.accMed
-                        : priority === "High" ? color.accHigh : color.accUrg
+                        : data.workorder.priority === "High"
+                          ? color.accHigh
+                          : color.accUrg
                 },
                 details.infoBackground
               ]}
@@ -107,22 +157,24 @@ const Details = ({ navigation }) => {
                   { fontWeight: "500" },
                   {
                     color:
-                      priority === "Low"
+                      data.workorder.priority === "Low"
                         ? color.priLow
-                        : priority === "Medium"
+                        : data.workorder.priority === "Medium"
                           ? color.priMed
-                          : priority === "High" ? color.priHigh : color.priUrg
+                          : data.workorder.priority === "High"
+                            ? color.priHigh
+                            : color.priUrg
                   },
                   details.infoText
                 ]}
               >
-                {priority}
+                {data.workorder.priority}
               </Text>
             </View>
           </View>
           <View style={{ paddingBottom: 15 }}>
             <Text>
-              {detail}
+              {data.workorder.detail}
             </Text>
             <View style={details.statusDiv1}>
               <View style={details.iconCircleDiv}>
@@ -130,7 +182,8 @@ const Details = ({ navigation }) => {
                   style={[
                     details.iconCircle,
                     {
-                      backgroundColor: status === "Open" ? "#00830B" : "#D8D8D8"
+                      backgroundColor:
+                        data.workorder.status === "Open" ? "#00830B" : "#D8D8D8"
                     },
                     { textAlign: "center" }
                   ]}
@@ -148,7 +201,10 @@ const Details = ({ navigation }) => {
                     <Text
                       style={[
                         {
-                          color: status === "Open" ? "#00830B" : "#89898E"
+                          color:
+                            data.workorder.status === "Open"
+                              ? "#00830B"
+                              : "#89898E"
                         },
                         details.openText
                       ]}
@@ -163,7 +219,8 @@ const Details = ({ navigation }) => {
                   style={[
                     details.iconCircle,
                     {
-                      backgroundColor: status === "Hold" ? "#00830B" : "#D8D8D8"
+                      backgroundColor:
+                        data.workorder.status === "Hold" ? "#00830B" : "#D8D8D8"
                     },
                     { textAlign: "center" }
                   ]}
@@ -181,7 +238,10 @@ const Details = ({ navigation }) => {
                     <Text
                       style={[
                         {
-                          color: status === "Hold" ? "#00830B" : "#89898E"
+                          color:
+                            data.workorder.status === "Hold"
+                              ? "#00830B"
+                              : "#89898E"
                         },
                         { marginLeft: 2 },
                         details.holdText
@@ -198,7 +258,9 @@ const Details = ({ navigation }) => {
                     details.iconCircle,
                     {
                       backgroundColor:
-                        status === "Working" ? "#00830B" : "#D8D8D8"
+                        data.workorder.status === "Working"
+                          ? "#00830B"
+                          : "#D8D8D8"
                     },
                     { textAlign: "center" }
                   ]}
@@ -216,7 +278,10 @@ const Details = ({ navigation }) => {
                     <Text
                       style={[
                         {
-                          color: status === "Working" ? "#00830B" : "#89898E"
+                          color:
+                            data.workorder.status === "Working"
+                              ? "#00830B"
+                              : "#89898E"
                         },
                         { width: 60 },
                         { marginLeft: -8 },
@@ -233,7 +298,8 @@ const Details = ({ navigation }) => {
                   style={[
                     details.iconCircle,
                     {
-                      backgroundColor: status === "Done" ? "#00830B" : "#D8D8D8"
+                      backgroundColor:
+                        data.workorder.status === "Done" ? "#00830B" : "#D8D8D8"
                     },
                     { textAlign: "center" }
                   ]}
@@ -251,7 +317,10 @@ const Details = ({ navigation }) => {
                     <Text
                       style={[
                         {
-                          color: status === "Done" ? "#00830B" : "#89898E"
+                          color:
+                            data.workorder.status === "Done"
+                              ? "#00830B"
+                              : "#89898E"
                         },
                         details.infoText
                       ]}
@@ -270,49 +339,45 @@ const Details = ({ navigation }) => {
           <View style={details.iAmALine}>
             <Text style={details.bottomTitle}>Ticket #</Text>
             <Text style={details.bottomText}>
-              {qrcode}
+              {data.workorder.qrcode}
             </Text>
           </View>
 
           <View style={details.iAmALine}>
             <Text style={details.bottomTitle}>Created On</Text>
-            <Text style={details.bottomText}>{createdAt}</Text>
+            <Text style={details.bottomText}>
+              {createdAt}
+            </Text>
           </View>
 
           <View style={details.iAmALine}>
             <Text style={details.bottomTitle}>Assigned To</Text>
             <Text style={[details.bottomText, details.userRedText]}>
-              {user.username}
+              {data.workorder.user.username}
             </Text>
           </View>
 
           <View style={details.iAmALine}>
             <Text style={details.bottomTitle}>Created By</Text>
             <Text style={[details.bottomText, details.userRedText]}>
-              {user.username}
+              {data.workorder.user.username}
             </Text>
           </View>
         </View>
         <TouchableOpacity
           style={details.editButton}
           onPress={() => {
-            const refresh=(data)=> {
-              navigation.setParams(data)
-            }
-
             navigation.navigate("EditWorkOrder", {
               id: id,
-              qrcode: qrcode,
-              detail: detail,
-              priority: priority,
-              status: status,
-              title: title,
-              user: user.username,
-              workorderphoto: workorderphoto,
-              onGoBack: refresh
-            })}
-          }
-            
+              qrcode: data.workorder.qrcode,
+              detail: data.workorder.detail,
+              priority: data.workorder.priority,
+              status: data.workorder.status,
+              title: data.workorder.title,
+              user: data.workorder.user.username,
+              workorderphoto: data.workorder.workorderphoto
+            });
+          }}
         >
           <Text style={[{ textAlign: "center" }, { color: "white" }]}>
             Edit
@@ -449,7 +514,7 @@ export const wOForm = StyleSheet.create({
   imgUpload: {
     width: 375,
     height: 250,
-    marginLeft: 20
+    alignSelf: "center"
     // fontFamily: "IBMPlexSans-Regular"
   },
   statusView: {

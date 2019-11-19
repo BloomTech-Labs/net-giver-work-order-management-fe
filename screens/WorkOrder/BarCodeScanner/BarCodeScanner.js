@@ -17,57 +17,33 @@ import {
   useMutation,
   useLazyQuery
 } from "@apollo/react-hooks";
-// import { CHECK_FOR_WORKORDER } from "../../../context/resolvers";
 
-const CHECK_FOR_WORKORDER = gql`
-  query workorder($qrcode: String) {
-    workorder(qrcode: $qrcode) {
+const QR_LOOKUP = gql`
+  mutation Qrlookup($qrcode: String!) {
+    qrlookup(qrcode: $qrcode) {
+      found
       id
-      detail
-      createdAt
       qrcode
-      priority
-      status
-      title
-      user {
-        username
-      }
-      workorderphotos {
-        path
-      }
     }
   }
 `;
 
-const BarcodeScanner = props => {
+const BarcodeScanner = ({ navigation }) => {
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
-  const [scanned, setscanned] = useState(false);
-  const [qrcode, setQrcode] = useState(null);
-  const [code, setCode] = useState(null);
-  const [getQrcode, { loading, data }] = useLazyQuery(CHECK_FOR_WORKORDER, {
-    onCompleted({ workorder }) {
-      if (!workorder) {
-        props.navigation.navigate("CheckBarCode", {
-          qrData: qrcode
-        });
-      } else {
-        props.navigation.navigate("EditWorkOrder", {
-          wo: workorder
-        });
-      }
-    }
-  });
-
-  useEffect(
-    () => {
-      const getPermissionsAsync = async () => {
-        const { status } = await Permissions.askAsync(Permissions.CAMERA);
-        setHasCameraPermission("granted");
-      };
-      getPermissionsAsync();
-    },
-    [hasCameraPermission]
+  const [scanned, setScanned] = useState(false);
+  const [code, setCode] = useState("000006");
+  const [qrlookup, { loading, error, data: qrlookupdata }] = useMutation(
+    QR_LOOKUP,
+    {}
   );
+
+  useEffect(() => {
+    const getPermissionsAsync = async () => {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA);
+      setHasCameraPermission("granted");
+    };
+    getPermissionsAsync();
+  }, []);
   if (hasCameraPermission === null) {
     return <Text>Requesting for camera permission</Text>;
   }
@@ -75,11 +51,14 @@ const BarcodeScanner = props => {
     return <Text>No access to camera</Text>;
   }
 
-  const handleBarCodeScanned = ({ data }) => {
-    console.log(`handleBarCodeScanned`);
-    setscanned(true);
-    setQrcode(data);
-    getQrcode({ variables: { qrcode: data } });
+  const handleBarCodeScanned = async ({ data }) => {
+    setScanned(true);
+    setCode(data);
+    await qrlookup({
+      variables: { qrcode: data },
+      fetchPolicy: "no-cache"
+    });
+    return data;
   };
 
   if (loading)
@@ -91,14 +70,22 @@ const BarcodeScanner = props => {
     );
 
   //add a workorder without a qr code
-  const addWithoutQr = () => {
-    console.log(`addWithoutQr`);
-    var genQr = "n" + Date.now().toString().slice(7, 11);
-    // var genQr = "n7330";
-    setQrcode(genQr);
-    getQrcode({ variables: { qrcode: genQr } });
+  const viewExisting = () => {
+    const genQr = "n7330";
+    handleBarCodeScanned({ data: genQr });
   };
-
+  const addNew = () => {
+    const genQr = "n" + Date.now().toString().slice(7, 11);
+    handleBarCodeScanned({ data: genQr });
+  };
+  {
+    qrlookupdata && navigation.navigate("BarCodeChecker", { ...qrlookupdata });
+    // qrlookupdata.qrlookup.found
+    //   ? navigation.push("Details", { id: qrlookupdata.qrlookup.id })
+    //   : navigation.navigate("CheckBarCode", {
+    //       qrData: qrlookupdata.qrlookup.qrcode
+    //     });
+  }
   return (
     // <SafeAreaView style={styles.container}>
     <SafeAreaView
@@ -120,15 +107,15 @@ const BarcodeScanner = props => {
         </View>
         <View style={styles.layerBottom}>
           <View style={styles.fixToText}>
-            <TouchableOpacity style={styles.customBtnBG} onPress={addWithoutQr}>
-              <Text style={styles.customBtnText}>+</Text>
+            <TouchableOpacity style={styles.customBtnBG} onPress={viewExisting}>
+              <Text style={styles.customBtnText}>n7330</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.customBtnBG} onPress={addNew}>
+              <Text style={styles.customBtnText}>New</Text>
             </TouchableOpacity>
           </View>
         </View>
       </BarCodeScanner>
-
-      {scanned &&
-        <Button title={"Tap to Scan Again"} onPress={setscanned(false)} />}
     </SafeAreaView>
     //  </SafeAreaView>
   );
@@ -187,5 +174,3 @@ const styles = StyleSheet.create({
 });
 
 export default BarcodeScanner;
-
-//SD 10/16/19

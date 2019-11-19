@@ -20,15 +20,11 @@ export const su1 = StyleSheet.create({
     fontFamily: "IBMPlexSans-Regular"
   },
   input: {
-    backgroundColor: "#edf1f3",
-    borderWidth: 1,
-    borderColor: "#C5C2C2",
-    marginTop: 30,
-    marginBottom: 35,
     width: "90%",
     alignSelf: "center",
-    padding: 10,
-    fontFamily: "IBMPlexSans-Regular"
+    fontFamily: "IBMPlexSans-Regular",
+    margin: 0,
+    borderWidth: 0
   },
   button: {
     alignSelf: "center",

@@ -1,56 +1,56 @@
 import { StyleSheet } from "react-native"
-import { color, font, marpad, dimensions } from "../../base"
+import { color, font, mp, dimensions } from "../../base"
 
 export const spacer = StyleSheet.create({
     xs: {
-        marginTop: marpad.xs,
-        marginBottom: marpad.xs,
+        marginTop: mp.xs,
+        marginBottom: mp.xs,
     },
     sm: {
-        marginTop: marpad.sm,
-        marginBottom: marpad.sm,
+        marginTop: mp.sm,
+        marginBottom: mp.sm,
     },
     md: {
-        marginTop: marpad.md,
-        marginBottom: marpad.md,
+        marginTop: mp.md,
+        marginBottom: mp.md,
     },
     lg: {
-        marginTop: marpad.lg,
-        marginBottom: marpad.lg,
+        marginTop: mp.lg,
+        marginBottom: mp.lg,
     },
     xl: {
-        marginTop: marpad.xl,
-        marginBottom: marpad.xl,
+        marginTop: mp.xl,
+        marginBottom: mp.xl,
     },
     xsTop: {
-        marginTop: marpad.xs,
+        marginTop: mp.xs,
     },
     smTop: {
-        marginTop: marpad.sm,
+        marginTop: mp.sm,
     },
     mdTop: {
-        marginTop: marpad.md,
+        marginTop: mp.md,
     },
     lgTop: {
-        marginTop: marpad.lg,
+        marginTop: mp.lg,
     },
     xlTop: {
-        marginTop: marpad.xl,
+        marginTop: mp.xl,
     },
     xsBot: {
-        marginBottom: marpad.xs,
+        marginBottom: mp.xs,
     },
     smBot: {
-        marginBottom: marpad.sm,
+        marginBottom: mp.sm,
     },
     mdBot: {
-        marginBottom: marpad.md,
+        marginBottom: mp.md,
     },
     lgBot: {
-        marginBottom: marpad.lg,
+        marginBottom: mp.lg,
     },
     xlBot: {
-        marginBottom: marpad.xl,
+        marginBottom: mp.xl,
     },
     perxs: {
         marginTop: '10%',

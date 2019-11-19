@@ -20,10 +20,21 @@ import { spacer } from "../../assets/style/components/margins";
 import { text } from "../../assets/style/components/text";
 import { txtInput } from "../../assets/style/components/inputs";
 
-export const SIGN_IN_DEV = gql`
-  mutation signInDev($username: String!) {
-    signInDev(username: $username) {
-      username
+export const CHECK_USERNAME = gql`
+  mutation checkUsername($username: String!) {
+    checkUsername(username: $username) {
+      user {
+        id
+        username
+        email
+        role
+        phone
+        authyId
+        displayName
+        photo {
+          path
+        }
+      }
     }
   }
 `;
@@ -32,11 +43,11 @@ const Login = props => {
   const [username, onChangeText] = useState("");
   const client = useApolloClient();
   const { navigation } = props;
-  const [signInDev, { loading, error }] = useMutation(SIGN_IN_DEV, {
-    onCompleted({ signInDev }) {
-      const username = signInDev.username;
-      console.log(username);
-      props.navigation.navigate("VerifyLogin", { username: username });
+  const [checkUsername, { loading, error }] = useMutation(CHECK_USERNAME, {
+    onCompleted({ checkUsername }) {
+      console.log(checkUsername);
+      const user = checkUsername;
+      props.navigation.navigate("VerifyLogin", { ...checkUsername });
       // client.writeData({ data: { isLoggedIn: true } });
     }
   });
@@ -73,7 +84,7 @@ const Login = props => {
       <View style={spacer.persmBot} />
       <TextInput
         style={txtInput.fullWidthInputMarginBottom}
-        placeholder="Username"
+        placeholder="username or phone number"
         name="username"
         value={username}
         autoCapitalize="none"
@@ -83,7 +94,7 @@ const Login = props => {
       <TouchableOpacity
         style={topBtn.fullWidthBtnMarginBottom}
         onPress={() =>
-          signInDev({
+          checkUsername({
             variables: {
               username: username
             }

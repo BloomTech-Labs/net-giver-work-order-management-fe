@@ -11,37 +11,65 @@ import {
 import { styles, loginStyles } from "../../assets/style";
 import { Button } from "native-base";
 import { gql } from "apollo-boost";
-import { useApolloClient, useMutation } from "@apollo/react-hooks";
+import { useApolloClient, useMutation, useQuery } from "@apollo/react-hooks";
 import { topBtn } from "../../assets/style/components/buttons";
 import { spacer } from "../../assets/style/components/margins";
 import { text } from "../../assets/style/components/text";
 import { txtInput } from "../../assets/style/components/inputs";
 
-export const AUTHY_VERIFY_DEV = gql`
-  mutation authyVerifyDev($username: String!, $code: String!) {
-    authyVerifyDev(username: $username, code: $code) {
+const GET_VER_CODE = gql`
+  query getCode($phone: String!, $email: String!) {
+    getCode(phone: $phone, email: $email) {
+      cellPhone
+    }
+  }
+`;
+const VERIFY_CODE = gql`
+  mutation verifyCode($authyId: String!, $code: String!, $email: String!) {
+    verifyCode(authyId: $authyId, code: $code, email: $email) {
+      user {
+        id
+        username
+        email
+        role
+        phone
+        authyId
+        displayName
+        photo {
+          path
+        }
+      }
       token
     }
   }
 `;
 
-const LoginVerify = props => {
-  const username = props.navigation.state.params.username;
+const LoginVerify = ({ navigation }) => {
+  const [user, setUser] = useState(navigation.getParam("user", "errr"));
   const [vercode, onChangeText] = useState("");
-  const [token, setToken] = useState("");
+  const { loading, data, errored } = useQuery(GET_VER_CODE, {
+    variables: {
+      email: user.username,
+      phone: user.phone
+    }
+  });
   const client = useApolloClient();
-  const [authyVerifyDev, { loading, error }] = useMutation(AUTHY_VERIFY_DEV, {
-    onCompleted({ authyVerifyDev }) {
-      const token = authyVerifyDev.token;
+  const [
+    verifyCode,
+    { loading: verifyloading, error }
+  ] = useMutation(VERIFY_CODE, {
+    // variables: { authyId: user.authyId, code: vercode, email: user.email },
+    onCompleted({ verifyCode }) {
+      const token = verifyCode.token;
       client.writeData({ data: { isLoggedIn: true } });
       AsyncStorage.setItem("userToken", token).then(() => {
-        props.navigation.navigate("WorkOrderList");
+        navigation.navigate("WorkOrderList");
       });
     }
   });
 
   const goBack = () => {
-    props.navigation.navigate("Login");
+    navigation.navigate("Login");
   };
   return (
     <SafeAreaView style={styles.containerNoJustify}>
@@ -65,10 +93,11 @@ const LoginVerify = props => {
       <TouchableOpacity
         style={topBtn.fullWidthBtnMarginBottom}
         onPress={() =>
-          authyVerifyDev({
+          verifyCode({
             variables: {
-              username: username,
-              code: vercode
+              authyId: user.authyId,
+              code: vercode,
+              email: user.email
             }
           })}
       >
@@ -85,7 +114,7 @@ const LoginVerify = props => {
       </TouchableOpacity>
       <Text
         style={text.subheader}
-        onPress={() => props.navigation.navigate("Contact")}
+        onPress={() => navigation.navigate("Contact")}
       >
         Contact Netgiver Team
       </Text>

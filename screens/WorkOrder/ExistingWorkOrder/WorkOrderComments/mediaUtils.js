@@ -4,7 +4,7 @@ import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import { ReactNativeFile } from "apollo-upload-client";
 
-import { Alert } from "react-native";
+import { Alert, Platform } from "react-native";
 
 export default async function getPermissionAsync(permission) {
   const { status } = await Permissions.askAsync(permission);
@@ -47,7 +47,7 @@ export async function pickImageAsync(onSend) {
     if (!result.cancelled) {
       const file = new ReactNativeFile({
         uri: result.uri,
-        type: result.type,
+        type: result.type + (Platform.OS === "ios" ? "" : "/jpeg"),
         name: "image"
       });
       onSend([{ image: file }]);
