@@ -52,10 +52,14 @@ const handleSubmit = ({
     setSubmitting,
     setErrors,
 }) => {
-    const { username, photo } = values
+    const { username, photo, newphoto } = values
     editUser({
-        variables: { userInfo: { username: username, photo: photo } },
+        variables: { userInfo: { username: username, photo: newphoto } },
     })
+        .then(response => {
+            const { editUser } = response.data
+            navigation.navigate("WorkOrderList", { ...editUser })
+        })
         .then(response => {
             const { editUser } = response.data
             navigation.navigate("WorkOrderList", { ...editUser })
