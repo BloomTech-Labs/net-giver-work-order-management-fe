@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native"
-import { color, font, marpad, dimensions } from "../../base"
+import { color, font, mp, dimensions } from "../../base"
 
 const baseFont = {
     fontFamily: font.reg,
@@ -18,7 +18,7 @@ export const text = StyleSheet.create({
     headerSmTop: {
         ...baseFontBold,
         fontSize: font.xl,
-        marginTop: marpad.sm,
+        marginTop: mp.sm,
     },
     subheader: {
         ...baseFont,
@@ -27,7 +27,7 @@ export const text = StyleSheet.create({
     subheaderSmBot: {
         ...baseFont,
         fontSize: font.md,
-        marginBottom: marpad.sm,
+        marginBottom: mp.sm,
     },
     smTxt: {
         ...baseFont,
@@ -36,12 +36,12 @@ export const text = StyleSheet.create({
     smTxtSmBot: {
         ...baseFont,
         fontSize: font.sm,
-        marginBottom: marpad.sm,
+        marginBottom: mp.sm,
     },
     smTxtSmBotML: {
         ...baseFont,
         fontSize: font.sm,
-        marginBottom: marpad.sm,
+        marginBottom: mp.sm,
 
     },
 

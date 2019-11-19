@@ -1,10 +1,10 @@
 import { StyleSheet } from "react-native"
-import { color, font, marpad, dimensions } from "../../base"
+import { color, font, mp, dimensions } from "../../base"
 
 const baseBtnStyle = {
     backgroundColor: color.priGreen,
     borderRadius: 4,
-    padding: marpad.xs,
+    padding: mp.xs,
     alignSelf: "center",
     borderWidth: 2,
     borderColor: color.greyText,
@@ -22,13 +22,13 @@ export const topBtn = StyleSheet.create({
     fullWidthBtnMargin: {
         ...baseBtnStyle,
         width: "90%",
-        marginTop:marpad.md,
-        marginBottom:marpad.md,
+        marginTop:mp.md,
+        marginBottom:mp.md,
     },
     fullWidthBtnMarginBottom: {
         ...baseBtnStyle,
         width: "90%",
-        marginBottom:marpad.xl,
+        marginBottom:mp.xl,
     },
     halfWidthBtn: {
         ...baseBtnStyle,
@@ -37,8 +37,8 @@ export const topBtn = StyleSheet.create({
     halfWidthBtnMargin: {
         ...baseBtnStyle,
         width: "45%",
-        marginTop:marpad.md,
-        marginBottom:marpad.md,
+        marginTop:mp.md,
+        marginBottom:mp.md,
     },
     btnFont: {
         fontFamily: font.med,

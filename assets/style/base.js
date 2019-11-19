@@ -32,7 +32,7 @@ export const font = {
     xl: 24,
 }
 
-export const marpad = {
+export const mp = {
     xs: 10,
     sm: 15,
     md: 20,
@@ -41,25 +41,35 @@ export const marpad = {
 }
 
 export const cnt = StyleSheet.create({
-
+    cnt: {
+        flex: 1,
+        alignItems: "center",
+        backgroundColor: color.white,
+        justifyContent: "center",
+    },
     cntNJ: {
         flex: 1,
         alignItems: "center",
         backgroundColor: color.white,
     },
- 
-    
 })
 
 export const mar = StyleSheet.create({
-
     smMarLR: {
-        marginRight:marpad.sm,
-        marginLeft:marpad.sm,
+        marginRight: mp.sm,
+        marginLeft: mp.sm,
+    },
+    marMdLtMdTp: {
+        marginLeft: mp.md,
+        marginTop: mp.md,
     },
     marLgLSmR: {
-        marginLeft: marpad.lg,
-        marginRight: marpad.sm
-    }
-    
+        marginLeft: mp.lg,
+        marginRight: mp.sm,
+    },
+    marMdLtRtBt: {
+        marginLeft: mp.md,
+        marginRight: mp.md,
+        marginBottom: mp.md,
+    },
 })
