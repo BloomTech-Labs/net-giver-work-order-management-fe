@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from "react"
 import {
   SafeAreaView,
   Text,
@@ -8,17 +8,17 @@ import {
   View,
   Image,
   TextInput
-} from "react-native";
-import * as Yup from "yup";
-import { Field, Formik } from "formik";
-import { useMutation, useQuery, useLazyQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
-import { wOList, styles } from "../../assets/style";
-import { su1, su2, su3 } from "./SignUpStyles";
-import ErrorMessage from "./ErrorMessage";
-import * as ImagePicker from "expo-image-picker";
-import { ReactNativeFile } from "apollo-upload-client";
-import * as Permissions from "expo-permissions";
+} from "react-native"
+import * as Yup from "yup"
+import { Field, Formik } from "formik"
+import { useMutation, useQuery, useLazyQuery } from "@apollo/react-hooks"
+import gql from "graphql-tag"
+import { wOList, styles } from "../../assets/style"
+import { su1, su2, su3 } from "./SignUpStyles"
+import ErrorMessage from "./ErrorMessage"
+import * as ImagePicker from "expo-image-picker"
+import { ReactNativeFile } from "apollo-upload-client"
+import * as Permissions from "expo-permissions"
 import {
   Text as NativeText,
   ActionSheet,
@@ -26,8 +26,8 @@ import {
   Button as NativeButton,
   Container,
   Toast
-} from "native-base";
-import { USER } from "../../common/queries";
+} from "native-base"
+import { USER } from "../../common/queries"
 
 const USER_EDIT = gql`
   mutation editUser($userInfo: UserInput!) {
@@ -42,7 +42,7 @@ const USER_EDIT = gql`
       }
     }
   }
-`;
+`
 
 const handleSubmit = ({
   values,
@@ -51,36 +51,36 @@ const handleSubmit = ({
   setSubmitting,
   setErrors
 }) => {
-  const { username, photo, newphoto } = values;
+  const { username, photo, newphoto } = values
   editUser({
     variables: { userInfo: { username: username, photo: newphoto } }
   })
     .then(response => {
-      const { editUser } = response.data;
-      navigation.navigate("WorkOrderList", { ...editUser });
+      const { editUser } = response.data
+      navigation.navigate("WorkOrderList", { ...editUser })
     })
     .catch(e => {
       const errors = e.graphQLErrors.map(error => {
-        setErrors({ form: error.message });
-      });
-    });
-};
+        setErrors({ form: error.message })
+      })
+    })
+}
 
 const Email = ({ navigation }) => {
   const { data, loading, error } = useQuery(USER, {
     fetchPolicy: "no-cache"
-  });
+  })
 
   const placeholderImg =
-    "http://placehold.jp/006e13/ffffff/200x200.png?text=Click%20to%20Add%20an%20Image";
+    "http://placehold.jp/006e13/ffffff/200x200.png?text=Click%20to%20Add%20an%20Image"
   const BUTTONS = [
     { text: "Gallery" },
     { text: "Take Photo" },
     { text: "Cancel" }
-  ];
-  const CANCEL_INDEX = 2;
+  ]
+  const CANCEL_INDEX = 2
 
-  const [editUser, { error: mutationerror }] = useMutation(USER_EDIT, {});
+  const [editUser, { error: mutationerror }] = useMutation(USER_EDIT, {})
 
   if (loading)
     return (
@@ -88,13 +88,13 @@ const Email = ({ navigation }) => {
         <ActivityIndicator size="large" color="black" />
         <Text>Loading</Text>
       </SafeAreaView>
-    );
+    )
   if (error)
     return (
       <SafeAreaView style={styles.container}>
         <Text>Error</Text>
       </SafeAreaView>
-    );
+    )
   return (
     <Formik
       initialValues={{
@@ -160,33 +160,31 @@ const Email = ({ navigation }) => {
                             buttonIndex === 0
                               ? Permissions.CAMERA_ROLL
                               : Permissions.CAMERA
-                          );
+                          )
                           if (status !== "granted") {
                             await Permissions.askAsync(
                               buttonIndex === 0
                                 ? Permissions.CAMERA_ROLL
                                 : Permissions.CAMERA
-                            );
+                            )
                           }
                           const imageResult =
                             buttonIndex === 0
                               ? await ImagePicker.launchImageLibraryAsync({})
-                              : await ImagePicker.launchCameraAsync({});
-                          const fileName = imageResult.uri.split("/").pop();
-                          const match = /\.(\w+)$/.exec(fileName);
-                          const mimeType = match
-                            ? `image/${match[1]}`
-                            : `image`;
+                              : await ImagePicker.launchCameraAsync({})
+                          const fileName = imageResult.uri.split("/").pop()
+                          const match = /\.(\w+)$/.exec(fileName)
+                          const mimeType = match ? `image/${match[1]}` : `image`
                           if (!imageResult.cancelled) {
                             const file = new ReactNativeFile({
                               uri: imageResult.uri,
                               type: imageResult.type,
                               name: mimeType
-                            });
-                            setFieldValue("newphoto", file);
+                            })
+                            setFieldValue("newphoto", file)
                           }
-                        };
-                        find();
+                        }
+                        find()
                       }
                     }
                   )}
@@ -258,7 +256,7 @@ const Email = ({ navigation }) => {
           </Text>
         </SafeAreaView>}
     />
-  );
-};
+  )
+}
 
-export default Email;
+export default Email

@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import {
   Platform,
   Text,
@@ -6,38 +6,38 @@ import {
   Button,
   TouchableOpacity,
   AsyncStorage
-} from "react-native";
-import { createBottomTabNavigator } from "react-navigation-tabs";
-import { createStackNavigator } from "react-navigation-stack";
-import TabBarIcon from "../components/TabBarIcon";
-import WorkOrderListView from "../screens/WorkOrder/WorkOrderListView";
-import AccountSettings from "../screens/Account/AccountSetting";
-import BarcodeScanner from "../screens/WorkOrder/BarCodeScanner/BarCodeScanner";
-import CheckBarCode from "../screens/WorkOrder/BarCodeScanner/CheckBarCode";
-import BarCodeChecker from "../screens/WorkOrder/BarCodeScanner/BarCodeChecker";
-import EditWorkOrder from "../screens/WorkOrder/ExistingWorkOrder/EditWorkOrder";
-import CameraModule from "../components/camera/Camera";
-import GalleryScreen from "../components/camera/GalleryScreen";
-import TopTab from "./TopTabNavigator";
-import { color, font } from "../assets/style/base";
-import TopTabNavListView from "./TopTabNavListView";
-import Email from "../screens/SignUp/Email.P3";
+} from "react-native"
+import { createBottomTabNavigator } from "react-navigation-tabs"
+import { createStackNavigator } from "react-navigation-stack"
+import TabBarIcon from "../components/TabBarIcon"
+import WorkOrderListView from "../screens/WorkOrder/WorkOrderListView"
+import AccountSettings from "../screens/Account/AccountSetting"
+import BarcodeScanner from "../screens/WorkOrder/BarCodeScanner/BarCodeScanner"
+import CheckBarCode from "../screens/WorkOrder/BarCodeScanner/CheckBarCode"
+import BarCodeChecker from "../screens/WorkOrder/BarCodeScanner/BarCodeChecker"
+import EditWorkOrder from "../screens/WorkOrder/ExistingWorkOrder/EditWorkOrder"
+import CameraModule from "../components/camera/Camera"
+import GalleryScreen from "../components/camera/GalleryScreen"
+import TopTab from "./TopTabNavigator"
+import { color, font } from "../assets/style/base"
+import TopTabNavListView from "./TopTabNavListView"
+import Email from "../screens/SignUp/VerCode.P2"
 
 const handleTabPress = ({ navigation, defaultHandler }) => {
-  navigation.popToTop();
-  defaultHandler();
-};
+  navigation.popToTop()
+  defaultHandler()
+}
 
 const logOut = ({ navigation }) => {
   AsyncStorage.removeItem("userToken").then(() => {
-    navigation.navigate("Auth");
-  });
-};
+    navigation.navigate("Auth")
+  })
+}
 
 const config = Platform.select({
   web: { headerMode: "screen" },
   default: {}
-});
+})
 
 const WorkOrderStack = createStackNavigator(
   {
@@ -52,8 +52,8 @@ const WorkOrderStack = createStackNavigator(
               // onPress={() => props.navigation.navigate('Logout')}
               onPress={() => {
                 AsyncStorage.removeItem("userToken").then(() => {
-                  props.navigation.navigate("Auth");
-                });
+                  props.navigation.navigate("Auth")
+                })
               }}
             >
               <Text>Logout</Text>
@@ -71,8 +71,8 @@ const WorkOrderStack = createStackNavigator(
             <TouchableOpacity
               onPress={() => {
                 AsyncStorage.removeItem("userToken").then(() => {
-                  props.navigation.navigate("Auth");
-                });
+                  props.navigation.navigate("Auth")
+                })
               }}
             >
               <Text>Logout</Text>
@@ -91,8 +91,8 @@ const WorkOrderStack = createStackNavigator(
             <TouchableOpacity
               onPress={() => {
                 AsyncStorage.removeItem("userToken").then(() => {
-                  navigation.navigate("Auth");
-                });
+                  navigation.navigate("Auth")
+                })
               }}
             >
               <Text>Logout</Text>
@@ -109,7 +109,7 @@ const WorkOrderStack = createStackNavigator(
     }
   },
   config
-);
+)
 WorkOrderStack.navigationOptions = {
   header: "List View",
   tabBarLabel: "Work Orders",
@@ -119,9 +119,9 @@ WorkOrderStack.navigationOptions = {
       focused={focused}
       name={Platform.OS === "ios" ? "ios-menu" : "md-menu"}
     />
-};
+}
 
-WorkOrderStack.path = "";
+WorkOrderStack.path = ""
 
 const QRStack = createStackNavigator(
   {
@@ -135,8 +135,8 @@ const QRStack = createStackNavigator(
             <TouchableOpacity
               onPress={() => {
                 AsyncStorage.removeItem("userToken").then(() => {
-                  props.navigation.navigate("Auth");
-                });
+                  props.navigation.navigate("Auth")
+                })
               }}
             >
               <Text>Logout</Text>
@@ -157,8 +157,8 @@ const QRStack = createStackNavigator(
             <TouchableOpacity
               onPress={() => {
                 AsyncStorage.removeItem("userToken").then(() => {
-                  props.navigation.navigate("Auth");
-                });
+                  props.navigation.navigate("Auth")
+                })
               }}
             >
               <Text>Logout</Text>
@@ -177,8 +177,8 @@ const QRStack = createStackNavigator(
             <TouchableOpacity
               onPress={() => {
                 AsyncStorage.removeItem("userToken").then(() => {
-                  props.navigation.navigate("Auth");
-                });
+                  props.navigation.navigate("Auth")
+                })
               }}
             >
               <Text>Logout</Text>
@@ -189,7 +189,7 @@ const QRStack = createStackNavigator(
     }
   },
   config
-);
+)
 
 QRStack.navigationOptions = {
   tabBarLabel: "Scan",
@@ -198,9 +198,9 @@ QRStack.navigationOptions = {
       focused={focused}
       name={Platform.OS === "ios" ? "ios-qr-scanner" : "md-qr-scanner"}
     />
-};
+}
 
-QRStack.path = "";
+QRStack.path = ""
 
 const AccountStack = createStackNavigator(
   {
@@ -213,8 +213,8 @@ const AccountStack = createStackNavigator(
             <TouchableOpacity
               onPress={() => {
                 AsyncStorage.removeItem("userToken").then(() => {
-                  props.navigation.navigate("Auth");
-                });
+                  props.navigation.navigate("Auth")
+                })
               }}
             >
               <Text>Logout</Text>
@@ -225,7 +225,7 @@ const AccountStack = createStackNavigator(
     }
   },
   config
-);
+)
 
 AccountStack.navigationOptions = {
   tabBarLabel: "User Profile",
@@ -234,9 +234,9 @@ AccountStack.navigationOptions = {
       focused={focused}
       name={Platform.OS === "ios" ? "ios-options" : "md-options"}
     />
-};
+}
 
-AccountStack.path = "";
+AccountStack.path = ""
 
 const configBottomTab = {
   tabBarOptions: {
@@ -255,17 +255,17 @@ const configBottomTab = {
     },
     inactiveTintColor: color.greyText
   }
-};
+}
 
 const tabNavigator = createBottomTabNavigator(
   {
     WorkOrderStack,
-    QRStack,
-    AccountStack
+    QRStack
+    // AccountStack,
   },
   configBottomTab
-);
+)
 
-tabNavigator.path = "";
+tabNavigator.path = ""
 
-export default tabNavigator;
+export default tabNavigator

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"
 import {
   SafeAreaView,
   ScrollView,
@@ -9,11 +9,11 @@ import {
   ActivityIndicator,
   FlatList,
   StyleSheet
-} from "react-native";
-import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
-import { styles } from "../../assets/style";
-import { Button } from "native-base";
+} from "react-native"
+import { useQuery } from "@apollo/react-hooks"
+import gql from "graphql-tag"
+import { styles } from "../../assets/style"
+import { Button } from "native-base"
 
 const WORKORDER_CREATED = gql`
   subscription {
@@ -35,7 +35,7 @@ const WORKORDER_CREATED = gql`
       }
     }
   }
-`;
+`
 
 const GET_WORKORDERS = gql`
   query Workorders($limit: Int, $cursor: String) {
@@ -62,10 +62,10 @@ const GET_WORKORDERS = gql`
       }
     }
   }
-`;
+`
 
 const WorkOrderListView = props => {
-  const [sentFrom, setSentFrom] = useState();
+  const [sentFrom, setSentFrom] = useState()
   const {
     data,
     loading,
@@ -74,18 +74,18 @@ const WorkOrderListView = props => {
     subscribeToMore
   } = useQuery(GET_WORKORDERS, {
     variables: { limit: 10 }
-  });
+  })
 
-  const [loadingWO, setLoadingWO] = useState(false);
+  const [loadingWO, setLoadingWO] = useState(false)
   const onLoadMore = () =>
     fetchMore({
       variables: {
         cursor: data.workorders.pageInfo.endCursor
       },
       updateQuery: (previousResult, { fetchMoreResult }) => {
-        setLoadingWO(false);
-        const newEdges = fetchMoreResult.workorders.edges;
-        const pageInfo = fetchMoreResult.workorders.pageInfo;
+        setLoadingWO(false)
+        const newEdges = fetchMoreResult.workorders.edges
+        const pageInfo = fetchMoreResult.workorders.pageInfo
 
         return newEdges.length
           ? {
@@ -97,9 +97,9 @@ const WorkOrderListView = props => {
                 pageInfo
               }
             }
-          : previousResult;
+          : previousResult
       }
-    });
+    })
 
   useEffect(
     () => {
@@ -108,15 +108,15 @@ const WorkOrderListView = props => {
           document: WORKORDER_CREATED,
           updateQuery: (previousResult, { subscriptionData }) => {
             if (!subscriptionData.data) {
-              return previousResult;
+              return previousResult
             }
 
-            const { workorderCreated } = subscriptionData.data;
+            const { workorderCreated } = subscriptionData.data
             const prevWorkorders = previousResult.workorders.edges.filter(w => {
               if (w.id !== workorderCreated.workorder.id) {
-                return w;
+                return w
               }
-            });
+            })
             return {
               ...previousResult,
               workorders: {
@@ -127,37 +127,37 @@ const WorkOrderListView = props => {
                   ...prevWorkorders
                 ]
               }
-            };
+            }
           }
-        });
-      subscribeToMoreWorkorders();
+        })
+      subscribeToMoreWorkorders()
     },
     [subscribeToMore]
-  );
+  )
 
   const formatDate = createdAt => {
-    const date = new Date(createdAt);
+    const date = new Date(createdAt)
     let formattedDate =
-      date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear();
-    return formattedDate;
-  };
+      date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear()
+    return formattedDate
+  }
   const goToDetails = workorder =>
     props.navigation.push("Details", {
       ...workorder,
       createdAt: formatDate(workorder.createdAt)
-    });
+    })
 
   const isCloseToBottom = ({
     layoutMeasurement,
     contentOffset,
     contentSize
   }) => {
-    const paddingToBottom = 40;
+    const paddingToBottom = 40
     return (
       layoutMeasurement.height + contentOffset.y >=
       contentSize.height - paddingToBottom
-    );
-  };
+    )
+  }
 
   if (loading)
     return (
@@ -165,19 +165,19 @@ const WorkOrderListView = props => {
         <ActivityIndicator size="large" color="black" />
         <Text style={wOList.title}>Loading</Text>
       </SafeAreaView>
-    );
+    )
   if (error)
     return (
       <SafeAreaView style={styles.container}>
         <Text style={wOList.title}>Error</Text>
       </SafeAreaView>
-    );
+    )
   return (
     <ScrollView
       onScroll={({ nativeEvent }) => {
         if (isCloseToBottom(nativeEvent)) {
-          setLoadingWO(true);
-          onLoadMore();
+          setLoadingWO(true)
+          onLoadMore()
         }
       }}
     >
@@ -325,9 +325,9 @@ const WorkOrderListView = props => {
           </SafeAreaView>
         : null}
     </ScrollView>
-  );
-};
-export default WorkOrderListView;
+  )
+}
+export default WorkOrderListView
 const wOList = StyleSheet.create({
   card: {
     width: "100%",
@@ -413,4 +413,4 @@ const wOList = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 1
   }
-});
+})
