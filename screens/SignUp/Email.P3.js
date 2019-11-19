@@ -51,9 +51,9 @@ const handleSubmit = ({
   setSubmitting,
   setErrors
 }) => {
-  const { username, photo } = values;
+  const { username, photo, newphoto } = values;
   editUser({
-    variables: { userInfo: { username: username, photo: photo } }
+    variables: { userInfo: { username: username, photo: newphoto } }
   })
     .then(response => {
       const { editUser } = response.data;
@@ -103,7 +103,8 @@ const Email = ({ navigation }) => {
         email: data.currentUser.email,
         authyId: data.currentUser.authyId,
         username: data.currentUser.username || "",
-        photo: data.currentUser.photo
+        photo: data.currentUser.photo,
+        newphoto: null
       }}
       validationSchema={Yup.object({
         username: Yup.string()
@@ -182,7 +183,7 @@ const Email = ({ navigation }) => {
                               type: imageResult.type,
                               name: mimeType
                             });
-                            setFieldValue("photo", file);
+                            setFieldValue("newphoto", file);
                           }
                         };
                         find();
@@ -190,19 +191,26 @@ const Email = ({ navigation }) => {
                     }
                   )}
               >
-                {values.photo
+                {values.newphoto
                   ? <Image
                       style={su3.image}
                       source={{
-                        uri: values.photo.uri || values.photo.path
+                        uri: values.newphoto.uri || values.photo.path
                       }}
                     />
-                  : <Image
-                      style={su3.image}
-                      source={{
-                        uri: placeholderImg
-                      }}
-                    />}
+                  : values.photo
+                    ? <Image
+                        style={su3.image}
+                        source={{
+                          uri: values.photo.uri || values.photo.path
+                        }}
+                      />
+                    : <Image
+                        style={su3.image}
+                        source={{
+                          uri: placeholderImg
+                        }}
+                      />}
                 <Text style={su3.avatarText}>Profile Photo</Text>
               </TouchableOpacity>}
           </Field>

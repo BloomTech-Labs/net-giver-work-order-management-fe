@@ -90,7 +90,9 @@ const Comments = ({ navigation }) => {
       comment: { text: text, workorderId: id, photo: image }
     };
     await addComment({
-      variables: { comment: { text: text, workorderId: id, photo: image } }
+      variables: {
+        comment: { text: text, workorderId: id, photo: image }
+      }
     });
     console.log(variables2);
   }
@@ -115,7 +117,9 @@ const Comments = ({ navigation }) => {
             user: {
               _id: comment.user.id,
               name: comment.user.username,
-              avatar: comment.user.photo.path
+              avatar: comment.user.photo
+                ? comment.user.photo.path
+                : "http://placehold.jp/006e13/ffffff/80x100.png?text=Placeholder%20Image"
             }
           };
         })}

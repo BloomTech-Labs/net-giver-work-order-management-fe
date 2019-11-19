@@ -15,9 +15,32 @@ import gql from "graphql-tag";
 import { styles } from "../../assets/style";
 import { Button } from "native-base";
 
+const WORKORDER_CREATED = gql`
+  subscription {
+    workorderCreated {
+      workorder {
+        id
+        detail
+        createdAt
+        qrcode
+        priority
+        status
+        title
+        user {
+          username
+        }
+        workorderphoto {
+          path
+        }
+      }
+    }
+  }
+`;
+
 const GET_WORKORDERS = gql`
   query Workorders($limit: Int, $cursor: String) {
-    workorders(limit: $limit, cursor: $cursor) {
+    workorders(limit: $limit, cursor: $cursor)
+      @connection(key: "WorkordersConnection") {
       edges {
         id
         detail
@@ -40,9 +63,16 @@ const GET_WORKORDERS = gql`
     }
   }
 `;
+
 const WorkOrderListView = props => {
   const [sentFrom, setSentFrom] = useState();
-  const { data, loading, error, fetchMore } = useQuery(GET_WORKORDERS, {
+  const {
+    data,
+    loading,
+    error,
+    fetchMore,
+    subscribeToMore
+  } = useQuery(GET_WORKORDERS, {
     variables: { limit: 10 }
   });
   const [selectedWo, setSelectedWo] = useState(null);
@@ -71,6 +101,41 @@ const WorkOrderListView = props => {
           : previousResult;
       }
     });
+
+  useEffect(
+    () => {
+      const subscribeToMoreWorkorders = () =>
+        subscribeToMore({
+          document: WORKORDER_CREATED,
+          updateQuery: (previousResult, { subscriptionData }) => {
+            if (!subscriptionData.data) {
+              return previousResult;
+            }
+
+            const { workorderCreated } = subscriptionData.data;
+            const prevWorkorders = previousResult.workorders.edges.filter(w => {
+              if (w.id !== workorderCreated.workorder.id) {
+                return w;
+              }
+            });
+            return {
+              ...previousResult,
+              workorders: {
+                ...previousResult.workorders,
+                edges: [
+                  workorderCreated.workorder,
+                  // ...previousResult.workorders.edges
+                  ...prevWorkorders
+                ]
+              }
+            };
+          }
+        });
+      subscribeToMoreWorkorders();
+    },
+    [subscribeToMore]
+  );
+
   const formatDate = createdAt => {
     const date = new Date(createdAt);
     let formattedDate =

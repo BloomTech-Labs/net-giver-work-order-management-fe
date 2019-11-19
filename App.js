@@ -121,7 +121,8 @@ const signOut = async client => {
 };
 
 const wsLink = new WebSocketLink({
-  uri: `https://netgiver-stage.herokuapp.com/graphql`,
+  uri: "http://localhost:3000/graphql",
+  // uri: "https://netgiver-stage.herokuapp.com/graphql",
   options: {
     reconnect: true
   }
