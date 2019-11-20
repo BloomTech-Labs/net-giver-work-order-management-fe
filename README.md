@@ -68,7 +68,12 @@ Net Giver Work Order Management is a modern app used to simplify work order util
 -   Stakeholder preference
 -   Provides a better mobile experience for users, compared to React
 
-🚫List the rest of the front end features and libraries in the same format as the framework above.
+##### Additional Features/Libraries
+
+-   Comments
+-   Formik
+-   Native Base
+-   Yup
 
 #### [Back end](https://github.com/Lambda-School-Labs/net-giver-work-order-management-be) built using:
 
@@ -79,7 +84,9 @@ Net Giver Work Order Management is a modern app used to simplify work order util
 -   Provides fluid user experience
 -   Increase work effectiveness with a familiar piece of technology.
 
-🚫 List the rest of the back end end features and libraries in the same format as the framework above
+##### Additional Features/Libraries
+-   GraphQL
+-   Apollo
 
 # APIs
 
@@ -89,12 +96,10 @@ Authy is the fastest way to add two-factor authentication or passwordless login 
 
 # 5️⃣ Content Licenses
 
-🚫For all content - images, icons, etc, use this table to document permission of use. Remove the two placeholders and add you content to this table
 
 | Image Filename | Source / Creator | License                                                                      |
 | -------------- | ---------------- | ---------------------------------------------------------------------------- |
-| doodles.png    | Nicole Bennett   | [Creative Commons](https://www.toptal.com/designers/subtlepatterns/doodles/) |
-| rings.svg      | Sam Herbert      | [MIT](https://github.com/SamHerbert/SVG-Loaders)                             |
+
 
 # Testing
 
@@ -111,9 +116,6 @@ Authy is the fastest way to add two-factor authentication or passwordless login 
 
 ## Other Scripts
 
-🚫replace these examples with your own
-
-    * typecheck - runs the TypeScript compiler
     * build - creates a build of the application
     * start - starts the production server after a build is created
     * test - runs tests in **tests** directory \* eject - copy the configuration files and dependencies into the project so you have full control over them
