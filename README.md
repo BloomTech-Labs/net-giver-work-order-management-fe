@@ -27,7 +27,6 @@
 <br>
 <br>
 
-🚫 4️⃣ Optional examples of using images with links for your tech stack, make sure to change these to fit your project
 
 ![MIT](https://img.shields.io/packagist/l/doctrine/orm.svg)
 ![reactnative](https://img.shields.io/badge/React%20Native-v0.61-blue)
@@ -38,7 +37,7 @@
 ![enzyme](https://img.shields.io/badge/Enzyme-v3.10.0-red)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-🚫 more info on using badges [here](https://github.com/badges/shields)
+more info on using badges [here](https://github.com/badges/shields)
 
 ## Project Overview
 
