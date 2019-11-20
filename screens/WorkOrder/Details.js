@@ -172,6 +172,7 @@ const Details = ({ navigation }) => {
               </Text>
             </View>
           </View>
+          
           <View style={{ paddingBottom: 15 }}>
             <Text>
               {data.workorder.detail}
@@ -310,6 +311,7 @@ const Details = ({ navigation }) => {
                     name="lock"
                     size={25}
                     iconStyle={{ margin: 6 }}
+                    
                   />
 
                   {/* DONE TEXT */}
@@ -492,9 +494,9 @@ const details = StyleSheet.create({
 
   editButton: {
     backgroundColor: "#00830B",
-    paddingVertical: 10,
-    borderRadius: 20,
-    width: "45%",
+    paddingVertical: 15,
+    borderRadius: 4,
+    width: "95%",
     alignSelf: "center",
     justifyContent: "center",
     margin: 15
