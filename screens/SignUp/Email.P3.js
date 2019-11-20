@@ -3,11 +3,10 @@ import {
     SafeAreaView,
     Text,
     TouchableOpacity,
-    Button,
     ActivityIndicator,
     View,
     Image,
-    TextInput
+    TextInput,
 } from "react-native"
 import * as Yup from "yup"
 import { Field, Formik } from "formik"
@@ -19,16 +18,12 @@ import ErrorMessage from "./ErrorMessage"
 import * as ImagePicker from "expo-image-picker"
 import { ReactNativeFile } from "apollo-upload-client"
 import * as Permissions from "expo-permissions"
-import {
-    Text as NativeText,
-    ActionSheet,
-    Content,
-    Button as NativeButton,
-    Container,
-    Toast
-} from "native-base"
+import { ActionSheet, Content, Button as NativeButton } from "native-base"
 import { USER } from "../../common/queries"
-
+import { topBtn } from "../../assets/style/components/buttons"
+import { text } from "../../assets/style/components/text"
+import { txtInput } from "../../assets/style/components/inputs"
+import { color, font, marpad, cnt, mar } from "../../assets/style/base"
 const USER_EDIT = gql`
     mutation editUser($userInfo: UserInput!) {
         editUser(userInfo: $userInfo) {
@@ -49,11 +44,11 @@ const handleSubmit = ({
     editUser,
     navigation,
     setSubmitting,
-    setErrors
+    setErrors,
 }) => {
     const { username, photo, newphoto } = values
     editUser({
-        variables: { userInfo: { username: username, photo: newphoto } }
+        variables: { userInfo: { username: username, photo: newphoto } },
     })
         .then(response => {
             const { editUser } = response.data
@@ -68,7 +63,7 @@ const handleSubmit = ({
 
 const Email = ({ navigation }) => {
     const { data, loading, error } = useQuery(USER, {
-        fetchPolicy: "no-cache"
+        fetchPolicy: "no-cache",
     })
 
     const placeholderImg =
@@ -76,7 +71,7 @@ const Email = ({ navigation }) => {
     const BUTTONS = [
         { text: "Gallery" },
         { text: "Take Photo" },
-        { text: "Cancel" }
+        { text: "Cancel" },
     ]
     const CANCEL_INDEX = 2
 
@@ -104,13 +99,13 @@ const Email = ({ navigation }) => {
                 authyId: data.currentUser.authyId,
                 username: data.currentUser.username || "",
                 photo: data.currentUser.photo,
-                newphoto: null
+                newphoto: null,
             }}
             validationSchema={Yup.object({
                 username: Yup.string()
                     .min(2, "Min 2")
                     .max(30, "Max 30")
-                    .required("Username Required")
+                    .required("Username Required"),
             })}
             onSubmit={(values, { setSubmitting, setErrors }) =>
                 handleSubmit({
@@ -118,7 +113,7 @@ const Email = ({ navigation }) => {
                     navigation,
                     values,
                     setSubmitting,
-                    setErrors
+                    setErrors,
                 })}
             render={({
                 handleChange,
@@ -131,9 +126,9 @@ const Email = ({ navigation }) => {
                 setFieldValue,
                 status,
                 isSubmitting,
-                toCamera
+                toCamera,
             }) =>
-                <SafeAreaView>
+                <SafeAreaView style={cnt.cnt}>
                     <Text style={su3.header}>Edit Your Profile</Text>
                     <Text style={su3.subHead}>
                         So your colleagues can recognize you!
@@ -153,13 +148,13 @@ const Email = ({ navigation }) => {
                                         {
                                             options: BUTTONS,
                                             cancelButtonIndex: CANCEL_INDEX,
-                                            title: "Add an image"
+                                            title: "Add an image",
                                         },
                                         buttonIndex => {
                                             if (buttonIndex !== 2) {
                                                 const find = async () => {
                                                     const {
-                                                        status
+                                                        status,
                                                     } = await Permissions.getAsync(
                                                         buttonIndex === 0
                                                             ? Permissions.CAMERA_ROLL
@@ -198,7 +193,7 @@ const Email = ({ navigation }) => {
                                                                     imageResult.uri,
                                                                 type:
                                                                     imageResult.type,
-                                                                name: mimeType
+                                                                name: mimeType,
                                                             }
                                                         )
                                                         setFieldValue(
@@ -218,7 +213,7 @@ const Email = ({ navigation }) => {
                                           source={{
                                               uri:
                                                   values.newphoto.uri ||
-                                                  values.photo.path
+                                                  values.photo.path,
                                           }}
                                       />
                                     : values.photo
@@ -227,13 +222,13 @@ const Email = ({ navigation }) => {
                                             source={{
                                                 uri:
                                                     values.photo.uri ||
-                                                    values.photo.path
+                                                    values.photo.path,
                                             }}
                                         />
                                       : <Image
                                             style={su3.image}
                                             source={{
-                                                uri: placeholderImg
+                                                uri: placeholderImg,
                                             }}
                                         />}
                                 <Text style={su3.avatarText}>
@@ -243,25 +238,29 @@ const Email = ({ navigation }) => {
                     </Field>
                     {/* </Content> */}
                     <TextInput
-                        style={su3.input}
+                        style={txtInput.fullWidthInputMarginBottom}
                         placeholder="username"
                         onChangeText={handleChange("username")}
                         onBlur={handleBlur("username")}
                         value={values.username}
                     />
-                    <TextInput
-                        style={su3.input}
-                        placeholder="Email"
-                        value={values.email}
-                        editable={false}
-                    />
-                    <TouchableOpacity style={su3.button} onPress={handleSubmit}>
-                        <Text style={su3.buttonText}>Get Started</Text>
+                    <View style={mar.marMdLtMdTp}>
+                        <Text>
+                            This is your email: {values.email}
+                        </Text>
+                    </View>
+                    <View style={mar.marMdBt} />
+
+                    <TouchableOpacity
+                        style={topBtn.fullWidthBtnMargin}
+                        onPress={handleSubmit}
+                    >
+                        <Text style={topBtn.btnFont}>Submit</Text>
                     </TouchableOpacity>
                     <ErrorMessage errorValue={errors.form} />
-                    <View style={su3.tosBox}>
+                    <View style={mar.marMdLtRtBt}>
                         <Text style={su3.tosFont}>
-                            By pressing "Next" above, you agree to our{" "}
+                            By pressing "Submit" above, you agree to our{" "}
                             <Text
                                 onPress={() => navigation.navigate("TOS")}
                                 style={su3.underline}

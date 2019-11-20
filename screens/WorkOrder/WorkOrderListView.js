@@ -8,7 +8,7 @@ import {
     TouchableOpacity,
     ActivityIndicator,
     FlatList,
-    StyleSheet
+    StyleSheet,
 } from "react-native"
 import { useQuery } from "@apollo/react-hooks"
 import gql from "graphql-tag"
@@ -71,16 +71,16 @@ const WorkOrderListView = props => {
         loading,
         error,
         fetchMore,
-        subscribeToMore
+        subscribeToMore,
     } = useQuery(GET_WORKORDERS, {
-        variables: { limit: 10 }
+        variables: { limit: 10 },
     })
 
     const [loadingWO, setLoadingWO] = useState(false)
     const onLoadMore = () =>
         fetchMore({
             variables: {
-                cursor: data.workorders.pageInfo.endCursor
+                cursor: data.workorders.pageInfo.endCursor,
             },
             updateQuery: (previousResult, { fetchMoreResult }) => {
                 setLoadingWO(false)
@@ -95,13 +95,13 @@ const WorkOrderListView = props => {
                               __typename: previousResult.workorders.__typename,
                               edges: [
                                   ...previousResult.workorders.edges,
-                                  ...newEdges
+                                  ...newEdges,
                               ],
-                              pageInfo
-                          }
+                              pageInfo,
+                          },
                       }
                     : previousResult
-            }
+            },
         })
 
     useEffect(
@@ -129,11 +129,11 @@ const WorkOrderListView = props => {
                                 edges: [
                                     workorderCreated.workorder,
                                     // ...previousResult.workorders.edges
-                                    ...prevWorkorders
-                                ]
-                            }
+                                    ...prevWorkorders,
+                                ],
+                            },
                         }
-                    }
+                    },
                 })
             subscribeToMoreWorkorders()
         },
@@ -154,13 +154,13 @@ const WorkOrderListView = props => {
     const goToDetails = workorder =>
         props.navigation.push("Details", {
             ...workorder,
-            createdAt: formatDate(workorder.createdAt)
+            createdAt: formatDate(workorder.createdAt),
         })
 
     const isCloseToBottom = ({
         layoutMeasurement,
         contentOffset,
-        contentSize
+        contentSize,
     }) => {
         const paddingToBottom = 40
         return (
@@ -204,7 +204,7 @@ const WorkOrderListView = props => {
                                           style={wOList.image}
                                           source={{
                                               uri: `https://res.cloudinary.com/dtpaltm0r/image/fetch/w_80,h_100/${workorder
-                                                  .workorderphoto.path}`
+                                                  .workorderphoto.path}`,
                                           }}
                                           // source={{
                                           //   url: workorder.workorderphoto.path
@@ -214,7 +214,7 @@ const WorkOrderListView = props => {
                                           style={wOList.image}
                                           source={{
                                               uri:
-                                                  "http://placehold.jp/006e13/ffffff/80x100.png?text=Placeholder%20Image"
+                                                  "http://placehold.jp/006e13/ffffff/80x100.png?text=Placeholder%20Image",
                                           }}
                                       />}
                             </View>
@@ -261,10 +261,10 @@ const WorkOrderListView = props => {
                                                     ? 0.5
                                                     : 0,
                                             borderColor: "#878C90",
-                                            width: "100%"
+                                            width: "100%",
                                         },
                                         wOList.info,
-                                        wOList.status
+                                        wOList.status,
                                     ]}
                                 >
                                     <Text
@@ -283,9 +283,9 @@ const WorkOrderListView = props => {
                                                 borderColor:
                                                     workorder.status === "Open"
                                                         ? "#878C90"
-                                                        : "white"
+                                                        : "white",
                                             },
-                                            wOList.infoText
+                                            wOList.infoText,
                                         ]}
                                     >
                                         {workorder.status}
@@ -304,10 +304,10 @@ const WorkOrderListView = props => {
                                                           : workorder.priority ===
                                                             "High"
                                                             ? "#FFED9B"
-                                                            : "#FFD3D3"
+                                                            : "#FFD3D3",
                                             },
                                             wOList.info,
-                                            wOList.priority
+                                            wOList.priority,
                                         ]}
                                     >
                                         <Text
@@ -325,9 +325,9 @@ const WorkOrderListView = props => {
                                                                 ? "#DBA004"
                                                                 : "#FE273A",
                                                     textAlign: "center",
-                                                    width: "100%"
+                                                    width: "100%",
                                                 },
-                                                wOList.infoText
+                                                wOList.infoText,
                                             ]}
                                         >
                                             {workorder.priority}
@@ -338,7 +338,7 @@ const WorkOrderListView = props => {
                                             style={[
                                                 wOList.info,
                                                 wOList.qr,
-                                                wOList.infoText
+                                                wOList.infoText,
                                             ]}
                                         >
                                             #{workorder.qrcode}
@@ -354,7 +354,7 @@ const WorkOrderListView = props => {
                 ? <SafeAreaView
                       style={[
                           styles.container,
-                          { backgroundColor: "white", marginVertical: 5 }
+                          { backgroundColor: "white", marginVertical: 5 },
                       ]}
                   >
                       <ActivityIndicator size="large" color="black" />
@@ -374,64 +374,64 @@ const wOList = StyleSheet.create({
         paddingTop: 13,
         paddingBottom: 31,
         alignSelf: "center",
-        flexDirection: "row"
+        flexDirection: "row",
     },
     info: {
         borderRadius: 4,
-        height: 20
+        height: 20,
     },
     infoText: {
         fontSize: 14,
-        textAlign: "center"
+        textAlign: "center",
     },
     status: {
         width: 65,
-        alignSelf: "flex-end"
+        alignSelf: "flex-end",
     },
     priority: {
         width: 65,
         marginBottom: 6,
         marginTop: 6,
-        marginLeft: 5
+        marginLeft: 5,
     },
     qr: {
         width: 65,
         color: "#8B9195",
         backgroundColor: "#F2F5F7",
         alignSelf: "flex-end",
-        marginLeft: 5
+        marginLeft: 5,
     },
     qrBox: {
-        flexDirection: "row"
+        flexDirection: "row",
     },
     cardMiddle: {
         //width: 160,
-        flex: 1
+        flex: 1,
         //paddingRight: 5,
     },
     priorityBox: {
         flexDirection: "column",
         marginLeft: "auto",
-        alignSelf: "flex-end"
+        alignSelf: "flex-end",
     },
     text: {
         flex: 1,
         flexWrap: "wrap",
         fontSize: 14,
-        lineHeight: 22
+        lineHeight: 22,
     },
     cardSubContent: {
-        flexDirection: "column"
+        flexDirection: "column",
     },
     cardLeft: {
-        width: "auto"
+        width: "auto",
     },
     cardRight: {
         flexDirection: "column",
         alignItems: "flex-end",
         marginLeft: "auto",
         marginTop: 6,
-        marginBottom: 6
+        marginBottom: 6,
     },
     image: {
         flex: 1,
@@ -439,7 +439,7 @@ const wOList = StyleSheet.create({
         width: 64,
         height: 64,
         borderRadius: 4,
-        marginRight: 22
+        marginRight: 22,
     },
     title: {
         flex: 1,
@@ -447,6 +447,6 @@ const wOList = StyleSheet.create({
         flexWrap: "wrap",
         fontSize: 17,
         fontWeight: "bold",
-        marginBottom: 1
-    }
+        marginBottom: 1,
+    },
 })

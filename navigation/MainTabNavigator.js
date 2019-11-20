@@ -5,7 +5,7 @@ import {
     View,
     Button,
     TouchableOpacity,
-    AsyncStorage
+    AsyncStorage,
 } from "react-native"
 import { createBottomTabNavigator } from "react-navigation-tabs"
 import { createStackNavigator } from "react-navigation-stack"
@@ -21,7 +21,7 @@ import GalleryScreen from "../components/camera/GalleryScreen"
 import TopTab from "./TopTabNavigator"
 import { color, font } from "../assets/style/base"
 import TopTabNavListView from "./TopTabNavListView"
-import Email from "../screens/SignUp/VerCode.P2"
+import Email from "../screens/SignUp/Email.P3"
 
 const handleTabPress = ({ navigation, defaultHandler }) => {
     navigation.popToTop()
@@ -36,7 +36,7 @@ const logOut = ({ navigation }) => {
 
 const config = Platform.select({
     web: { headerMode: "screen" },
-    default: {}
+    default: {},
 })
 
 const WorkOrderStack = createStackNavigator(
@@ -61,8 +61,8 @@ const WorkOrderStack = createStackNavigator(
                             <Text>Logout</Text>
                         </TouchableOpacity>
                     </View>
-                )
-            })
+                ),
+            }),
         },
         EditWorkOrder: {
             screen: EditWorkOrder,
@@ -82,8 +82,8 @@ const WorkOrderStack = createStackNavigator(
                             <Text>Logout</Text>
                         </TouchableOpacity>
                     </View>
-                )
-            })
+                ),
+            }),
         },
 
         Details: {
@@ -104,15 +104,15 @@ const WorkOrderStack = createStackNavigator(
                             <Text>Logout</Text>
                         </TouchableOpacity>
                     </View>
-                )
-            })
+                ),
+            }),
         },
         CameraModule: {
-            screen: CameraModule
+            screen: CameraModule,
         },
         GalleryScreen: {
-            screen: GalleryScreen
-        }
+            screen: GalleryScreen,
+        },
     },
     config
 )
@@ -124,7 +124,7 @@ WorkOrderStack.navigationOptions = {
         <TabBarIcon
             focused={focused}
             name={Platform.OS === "ios" ? "ios-menu" : "md-menu"}
-        />
+        />,
 }
 
 WorkOrderStack.path = ""
@@ -150,11 +150,11 @@ const QRStack = createStackNavigator(
                             <Text>Logout</Text>
                         </TouchableOpacity>
                     </View>
-                )
-            })
+                ),
+            }),
         },
         BarCodeChecker: {
-            screen: BarCodeChecker
+            screen: BarCodeChecker,
         },
         CheckBarCode: {
             screen: CheckBarCode,
@@ -174,8 +174,8 @@ const QRStack = createStackNavigator(
                             <Text>Logout</Text>
                         </TouchableOpacity>
                     </View>
-                )
-            })
+                ),
+            }),
         },
 
         CameraModule: {
@@ -196,9 +196,9 @@ const QRStack = createStackNavigator(
                             <Text>Logout</Text>
                         </TouchableOpacity>
                     </View>
-                )
-            })
-        }
+                ),
+            }),
+        },
     },
     config
 )
@@ -209,7 +209,7 @@ QRStack.navigationOptions = {
         <TabBarIcon
             focused={focused}
             name={Platform.OS === "ios" ? "ios-qr-scanner" : "md-qr-scanner"}
-        />
+        />,
 }
 
 QRStack.path = ""
@@ -234,9 +234,9 @@ const AccountStack = createStackNavigator(
                             <Text>Logout</Text>
                         </TouchableOpacity>
                     </View>
-                )
-            })
-        }
+                ),
+            }),
+        },
     },
     config
 )
@@ -247,7 +247,7 @@ AccountStack.navigationOptions = {
         <TabBarIcon
             focused={focused}
             name={Platform.OS === "ios" ? "ios-options" : "md-options"}
-        />
+        />,
 }
 
 AccountStack.path = ""
@@ -255,26 +255,26 @@ AccountStack.path = ""
 const configBottomTab = {
     tabBarOptions: {
         style: {
-            backgroundColor: "white"
+            backgroundColor: "white",
         },
         labelStyle: {
             color: color.priGreen,
             fontFamily: font.reg,
-            fontSize: font.sm
+            fontSize: font.sm,
         },
         upperCaseLabel: false,
         indicatorStyle: {
             backgroundColor: color.priGreen,
-            height: 3
+            height: 3,
         },
-        inactiveTintColor: color.greyText
-    }
+        inactiveTintColor: color.greyText,
+    },
 }
 
 const tabNavigator = createBottomTabNavigator(
     {
         WorkOrderStack,
-        QRStack
+        QRStack,
         // AccountStack,
     },
     configBottomTab

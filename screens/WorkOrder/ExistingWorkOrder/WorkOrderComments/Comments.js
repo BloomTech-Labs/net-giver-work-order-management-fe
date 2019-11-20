@@ -3,7 +3,7 @@ import {
     SafeAreaView,
     ActivityIndicator,
     StyleSheet,
-    Platform
+    Platform,
 } from "react-native"
 import { GiftedChat } from "react-native-gifted-chat"
 import { useMutation, useQuery } from "@apollo/react-hooks"
@@ -56,12 +56,12 @@ const Comments = ({ navigation }) => {
     const { id } = navigation.state.params
 
     const { data, loading, error, refetch } = useQuery(COMMENTS, {
-        variables: { id: id }
+        variables: { id: id },
     })
     const [addComment, { picloading, picerror }] = useMutation(ADD_COMMENT, {
         onCompleted({ addComment }) {
             refetch()
-        }
+        },
     })
 
     const renderCustomActions = props =>
@@ -89,8 +89,8 @@ const Comments = ({ navigation }) => {
 
         await addComment({
             variables: {
-                comment: { text: text, workorderId: id, photo: image }
-            }
+                comment: { text: text, workorderId: id, photo: image },
+            },
         })
     }
 
@@ -116,8 +116,8 @@ const Comments = ({ navigation }) => {
                             name: comment.user.username,
                             avatar: comment.user.photo
                                 ? comment.user.photo.path
-                                : "http://placehold.jp/006e13/ffffff/80x100.png?text=Placeholder%20Image"
-                        }
+                                : "http://placehold.jp/006e13/ffffff/80x100.png?text=Placeholder%20Image",
+                        },
                     }
                 })}
             />
@@ -131,8 +131,8 @@ const wOList = StyleSheet.create({
         flexWrap: "wrap",
         fontSize: 17,
         fontWeight: "bold",
-        marginBottom: 1
-    }
+        marginBottom: 1,
+    },
 })
 
 export default Comments
