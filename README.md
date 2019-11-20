@@ -94,7 +94,7 @@ Net Giver Work Order Management is a modern app used to simplify work order util
 
 Authy is the fastest way to add two-factor authentication or passwordless login to your app. Secure your users’ accounts with high-security checks during logins and step-up transactions to ensure you’re letting the right person in. Easy support for SMS, Voice, OTP, and Push Authentication channels.
 
-# 5️⃣ Content Licenses
+# Content Licenses
 
 
 | Image Filename | Source / Creator | License                                                                      |
@@ -115,11 +115,13 @@ Authy is the fastest way to add two-factor authentication or passwordless login 
 -   To start Expo, type `expo start`
 
 ## Other Scripts
-
-    * build - creates a build of the application
-    * start - starts the production server after a build is created
-    * test - runs tests in **tests** directory \* eject - copy the configuration files and dependencies into the project so you have full control over them
-
+   * "start": "expo start",
+   * "android": "expo start --android",
+   * "ios": "expo start --ios",
+   * "web": "expo start --web",
+   * "eject": "expo eject",
+   * "test": "jest --watchAll"
+    
 # Contributing
 
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
