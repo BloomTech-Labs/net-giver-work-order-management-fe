@@ -63,11 +63,13 @@ const handleSubmit = ({
     }
   })
     .then(response => {
+      console.log("response", response)
       const { workorderEdit } = response;
       // navigation.navigate("WorkOrderListView");
       navigation.goBack();
     })
     .catch(e => {
+      console.log("error", e)
       const errors = e.graphQLErrors.map(error => {
         alert(error.message);
         setErrors({ form: error.message });

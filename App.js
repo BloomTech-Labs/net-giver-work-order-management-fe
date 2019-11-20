@@ -121,7 +121,7 @@ const signOut = async client => {
 };
 
 const wsLink = new WebSocketLink({
-  uri: `https://netgiver-stage.herokuapp.com/graphql`,
+  uri: "https://netgiver-stage.herokuapp.com/graphql",
   options: {
     reconnect: true
   }
@@ -129,7 +129,6 @@ const wsLink = new WebSocketLink({
 
 const uploadlink = new createUploadLink({
   uri: "https://netgiver-stage.herokuapp.com/graphql"
-//   uri: "http://localhost:3000/graphql"
 });
 const link = split(
   // split based on operation type
