@@ -30,12 +30,12 @@
 🚫 4️⃣ Optional examples of using images with links for your tech stack, make sure to change these to fit your project
 
 ![MIT](https://img.shields.io/packagist/l/doctrine/orm.svg)
-![ReactNative](https://img.shields.io/badge/React%20Native-v0.61-blue)
-![GraphQL](https://img.shields.io/badge/GraphQL-v14.5.8-yellow)
-![Node.js](https://img.shields.io/badge/Node.js-12.13.1-yellow)
-![Expo](https://img.shields.io/badge/Expo-v35.0.0-blueviolet)
-![Jest](https://img.shields.io/badge/Jest-v24.9.0-red)
-![Enzyme](https://img.shields.io/badge/Enzyme-v3.10.0-red)
+![reactnative](https://img.shields.io/badge/React%20Native-v0.61-blue)
+![graphql](https://img.shields.io/badge/GraphQL-v14.5.8-yellow)
+![node.js](https://img.shields.io/badge/Node.js-12.13.1-yellow)
+![expo](https://img.shields.io/badge/Expo-v35.0.0-blueviolet)
+![jest](https://img.shields.io/badge/Jest-v24.9.0-red)
+![enzyme](https://img.shields.io/badge/Enzyme-v3.10.0-red)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 🚫 more info on using badges [here](https://github.com/badges/shields)
