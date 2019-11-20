@@ -21,7 +21,7 @@ import GalleryScreen from "../components/camera/GalleryScreen"
 import TopTab from "./TopTabNavigator"
 import { color, font } from "../assets/style/base"
 import TopTabNavListView from "./TopTabNavListView"
-import Email from "../screens/SignUp/VerCode.P2"
+import Email from "../screens/SignUp/Email.P3"
 
 const handleTabPress = ({ navigation, defaultHandler }) => {
     navigation.popToTop()
@@ -51,11 +51,11 @@ const WorkOrderStack = createStackNavigator(
                         <TouchableOpacity
                             // onPress={() => props.navigation.navigate('Logout')}
                             onPress={() => {
-                                AsyncStorage.removeItem("userToken").then(
-                                    () => {
-                                        props.navigation.navigate("Auth")
-                                    }
-                                )
+                                AsyncStorage.removeItem(
+                                    "userToken"
+                                ).then(() => {
+                                    props.navigation.navigate("Auth")
+                                })
                             }}
                         >
                             <Text>Logout</Text>
@@ -72,11 +72,11 @@ const WorkOrderStack = createStackNavigator(
                     <View style={{ marginRight: 15 }}>
                         <TouchableOpacity
                             onPress={() => {
-                                AsyncStorage.removeItem("userToken").then(
-                                    () => {
-                                        props.navigation.navigate("Auth")
-                                    }
-                                )
+                                AsyncStorage.removeItem(
+                                    "userToken"
+                                ).then(() => {
+                                    props.navigation.navigate("Auth")
+                                })
                             }}
                         >
                             <Text>Logout</Text>
@@ -94,11 +94,11 @@ const WorkOrderStack = createStackNavigator(
                     <View style={{ marginRight: 15 }}>
                         <TouchableOpacity
                             onPress={() => {
-                                AsyncStorage.removeItem("userToken").then(
-                                    () => {
-                                        navigation.navigate("Auth")
-                                    }
-                                )
+                                AsyncStorage.removeItem(
+                                    "userToken"
+                                ).then(() => {
+                                    navigation.navigate("Auth")
+                                })
                             }}
                         >
                             <Text>Logout</Text>
@@ -120,12 +120,11 @@ WorkOrderStack.navigationOptions = {
     header: "List View",
     tabBarLabel: "Work Orders",
 
-    tabBarIcon: ({ focused }) => (
+    tabBarIcon: ({ focused }) =>
         <TabBarIcon
             focused={focused}
             name={Platform.OS === "ios" ? "ios-menu" : "md-menu"}
-        />
-    ),
+        />,
 }
 
 WorkOrderStack.path = ""
@@ -141,11 +140,11 @@ const QRStack = createStackNavigator(
                     <View style={{ marginRight: 15 }}>
                         <TouchableOpacity
                             onPress={() => {
-                                AsyncStorage.removeItem("userToken").then(
-                                    () => {
-                                        props.navigation.navigate("Auth")
-                                    }
-                                )
+                                AsyncStorage.removeItem(
+                                    "userToken"
+                                ).then(() => {
+                                    props.navigation.navigate("Auth")
+                                })
                             }}
                         >
                             <Text>Logout</Text>
@@ -165,11 +164,11 @@ const QRStack = createStackNavigator(
                     <View style={{ marginRight: 15 }}>
                         <TouchableOpacity
                             onPress={() => {
-                                AsyncStorage.removeItem("userToken").then(
-                                    () => {
-                                        props.navigation.navigate("Auth")
-                                    }
-                                )
+                                AsyncStorage.removeItem(
+                                    "userToken"
+                                ).then(() => {
+                                    props.navigation.navigate("Auth")
+                                })
                             }}
                         >
                             <Text>Logout</Text>
@@ -187,11 +186,11 @@ const QRStack = createStackNavigator(
                     <View style={{ marginRight: 15 }}>
                         <TouchableOpacity
                             onPress={() => {
-                                AsyncStorage.removeItem("userToken").then(
-                                    () => {
-                                        props.navigation.navigate("Auth")
-                                    }
-                                )
+                                AsyncStorage.removeItem(
+                                    "userToken"
+                                ).then(() => {
+                                    props.navigation.navigate("Auth")
+                                })
                             }}
                         >
                             <Text>Logout</Text>
@@ -206,12 +205,11 @@ const QRStack = createStackNavigator(
 
 QRStack.navigationOptions = {
     tabBarLabel: "Scan",
-    tabBarIcon: ({ focused }) => (
+    tabBarIcon: ({ focused }) =>
         <TabBarIcon
             focused={focused}
             name={Platform.OS === "ios" ? "ios-qr-scanner" : "md-qr-scanner"}
-        />
-    ),
+        />,
 }
 
 QRStack.path = ""
@@ -226,11 +224,11 @@ const AccountStack = createStackNavigator(
                     <View style={{ marginRight: 15 }}>
                         <TouchableOpacity
                             onPress={() => {
-                                AsyncStorage.removeItem("userToken").then(
-                                    () => {
-                                        props.navigation.navigate("Auth")
-                                    }
-                                )
+                                AsyncStorage.removeItem(
+                                    "userToken"
+                                ).then(() => {
+                                    props.navigation.navigate("Auth")
+                                })
                             }}
                         >
                             <Text>Logout</Text>
@@ -245,12 +243,11 @@ const AccountStack = createStackNavigator(
 
 AccountStack.navigationOptions = {
     tabBarLabel: "User Profile",
-    tabBarIcon: ({ focused }) => (
+    tabBarIcon: ({ focused }) =>
         <TabBarIcon
             focused={focused}
             name={Platform.OS === "ios" ? "ios-options" : "md-options"}
-        />
-    ),
+        />,
 }
 
 AccountStack.path = ""

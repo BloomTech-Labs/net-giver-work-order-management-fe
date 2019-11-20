@@ -15,9 +15,32 @@ import gql from "graphql-tag"
 import { styles } from "../../assets/style"
 import { Button } from "native-base"
 
+const WORKORDER_CREATED = gql`
+    subscription {
+        workorderCreated {
+            workorder {
+                id
+                detail
+                createdAt
+                qrcode
+                priority
+                status
+                title
+                user {
+                    username
+                }
+                workorderphoto {
+                    path
+                }
+            }
+        }
+    }
+`
+
 const GET_WORKORDERS = gql`
     query Workorders($limit: Int, $cursor: String) {
-        workorders(limit: $limit, cursor: $cursor) {
+        workorders(limit: $limit, cursor: $cursor)
+            @connection(key: "WorkordersConnection") {
             edges {
                 id
                 detail
@@ -40,24 +63,18 @@ const GET_WORKORDERS = gql`
         }
     }
 `
+
 const WorkOrderListView = props => {
     const [sentFrom, setSentFrom] = useState()
-    const { data, loading, error, fetchMore, refetch } = useQuery(
-        GET_WORKORDERS,
-        {
-            variables: { limit: 10 },
-            fetchPolicy: "no-cache",
-        }
-    )
-
-    useEffect(() => {
-        props.navigation.addListener("willFocus", payload => {
-            console.log("hey")
-            refetch()
-        })
-    }, [])
-
-    const [selectedWo, setSelectedWo] = useState(null)
+    const {
+        data,
+        loading,
+        error,
+        fetchMore,
+        subscribeToMore,
+    } = useQuery(GET_WORKORDERS, {
+        variables: { limit: 10 },
+    })
 
     const [loadingWO, setLoadingWO] = useState(false)
     const onLoadMore = () =>
@@ -86,6 +103,43 @@ const WorkOrderListView = props => {
                     : previousResult
             },
         })
+
+    useEffect(
+        () => {
+            const subscribeToMoreWorkorders = () =>
+                subscribeToMore({
+                    document: WORKORDER_CREATED,
+                    updateQuery: (previousResult, { subscriptionData }) => {
+                        if (!subscriptionData.data) {
+                            return previousResult
+                        }
+
+                        const { workorderCreated } = subscriptionData.data
+                        const prevWorkorders = previousResult.workorders.edges.filter(
+                            w => {
+                                if (w.id !== workorderCreated.workorder.id) {
+                                    return w
+                                }
+                            }
+                        )
+                        return {
+                            ...previousResult,
+                            workorders: {
+                                ...previousResult.workorders,
+                                edges: [
+                                    workorderCreated.workorder,
+                                    // ...previousResult.workorders.edges
+                                    ...prevWorkorders,
+                                ],
+                            },
+                        }
+                    },
+                })
+            subscribeToMoreWorkorders()
+        },
+        [subscribeToMore]
+    )
+
     const formatDate = createdAt => {
         const date = new Date(createdAt)
         let formattedDate =
@@ -138,32 +192,31 @@ const WorkOrderListView = props => {
             }}
         >
             <View>
-                {data.workorders.edges.map(workorder => (
+                {data.workorders.edges.map(workorder =>
                     <TouchableOpacity
                         key={workorder.id}
                         onPress={() => goToDetails(workorder)}
                     >
                         <View style={wOList.card}>
                             <View style={wOList.cardLeft}>
-                                {workorder.workorderphoto ? (
-                                    <Image
-                                        style={wOList.image}
-                                        source={{
-                                            uri: `https://res.cloudinary.com/dtpaltm0r/image/fetch/w_80,h_100/${workorder.workorderphoto.path}`,
-                                        }}
-                                        // source={{
-                                        //   url: workorder.workorderphoto.path
-                                        // }}
-                                    />
-                                ) : (
-                                    <Image
-                                        style={wOList.image}
-                                        source={{
-                                            uri:
-                                                "http://placehold.jp/006e13/ffffff/80x100.png?text=Placeholder%20Image",
-                                        }}
-                                    />
-                                )}
+                                {workorder.workorderphoto
+                                    ? <Image
+                                          style={wOList.image}
+                                          source={{
+                                              uri: `https://res.cloudinary.com/dtpaltm0r/image/fetch/w_80,h_100/${workorder
+                                                  .workorderphoto.path}`,
+                                          }}
+                                          // source={{
+                                          //   url: workorder.workorderphoto.path
+                                          // }}
+                                      />
+                                    : <Image
+                                          style={wOList.image}
+                                          source={{
+                                              uri:
+                                                  "http://placehold.jp/006e13/ffffff/80x100.png?text=Placeholder%20Image",
+                                          }}
+                                      />}
                             </View>
                             <View style={wOList.cardMiddle}>
                                 <View style={{ flexDirection: "row" }}>
@@ -198,11 +251,11 @@ const WorkOrderListView = props => {
                                                     ? "white"
                                                     : workorder.status ===
                                                       "Working"
-                                                    ? "#07BD51"
-                                                    : workorder.status ===
-                                                      "Done"
-                                                    ? "#FFD3D3"
-                                                    : "#878C90",
+                                                      ? "#07BD51"
+                                                      : workorder.status ===
+                                                        "Done"
+                                                        ? "#FFD3D3"
+                                                        : "#878C90",
                                             borderWidth:
                                                 workorder.status === "Open"
                                                     ? 0.5
@@ -222,11 +275,11 @@ const WorkOrderListView = props => {
                                                         ? "#878C90"
                                                         : workorder.status ===
                                                           "Working"
-                                                        ? "white"
-                                                        : workorder.status ===
-                                                          "Done"
-                                                        ? "#FE273A"
-                                                        : "white",
+                                                          ? "white"
+                                                          : workorder.status ===
+                                                            "Done"
+                                                            ? "#FE273A"
+                                                            : "white",
                                                 borderColor:
                                                     workorder.status === "Open"
                                                         ? "#878C90"
@@ -247,11 +300,11 @@ const WorkOrderListView = props => {
                                                         ? "#E2F5FC"
                                                         : workorder.priority ===
                                                           "Medium"
-                                                        ? "#CBFBCB"
-                                                        : workorder.priority ===
-                                                          "High"
-                                                        ? "#FFED9B"
-                                                        : "#FFD3D3",
+                                                          ? "#CBFBCB"
+                                                          : workorder.priority ===
+                                                            "High"
+                                                            ? "#FFED9B"
+                                                            : "#FFD3D3",
                                             },
                                             wOList.info,
                                             wOList.priority,
@@ -266,11 +319,11 @@ const WorkOrderListView = props => {
                                                             ? "#087FFF"
                                                             : workorder.priority ===
                                                               "Medium"
-                                                            ? "#07BD51"
-                                                            : workorder.priority ===
-                                                              "High"
-                                                            ? "#DBA004"
-                                                            : "#FE273A",
+                                                              ? "#07BD51"
+                                                              : workorder.priority ===
+                                                                "High"
+                                                                ? "#DBA004"
+                                                                : "#FE273A",
                                                     textAlign: "center",
                                                     width: "100%",
                                                 },
@@ -295,18 +348,18 @@ const WorkOrderListView = props => {
                             </View>
                         </View>
                     </TouchableOpacity>
-                ))}
+                )}
             </View>
-            {loadingWO ? (
-                <SafeAreaView
-                    style={[
-                        styles.container,
-                        { backgroundColor: "white", marginVertical: 5 },
-                    ]}
-                >
-                    <ActivityIndicator size="large" color="black" />
-                </SafeAreaView>
-            ) : null}
+            {loadingWO
+                ? <SafeAreaView
+                      style={[
+                          styles.container,
+                          { backgroundColor: "white", marginVertical: 5 },
+                      ]}
+                  >
+                      <ActivityIndicator size="large" color="black" />
+                  </SafeAreaView>
+                : null}
         </ScrollView>
     )
 }

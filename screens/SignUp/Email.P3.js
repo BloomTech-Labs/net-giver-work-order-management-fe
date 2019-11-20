@@ -3,7 +3,6 @@ import {
     SafeAreaView,
     Text,
     TouchableOpacity,
-    Button,
     ActivityIndicator,
     View,
     Image,
@@ -19,20 +18,12 @@ import ErrorMessage from "./ErrorMessage"
 import * as ImagePicker from "expo-image-picker"
 import { ReactNativeFile } from "apollo-upload-client"
 import * as Permissions from "expo-permissions"
-import {
-    Text as NativeText,
-    ActionSheet,
-    Content,
-    Button as NativeButton,
-    Container,
-    Toast,
-} from "native-base"
+import { ActionSheet, Content, Button as NativeButton } from "native-base"
 import { USER } from "../../common/queries"
 import { topBtn } from "../../assets/style/components/buttons"
 import { text } from "../../assets/style/components/text"
 import { txtInput } from "../../assets/style/components/inputs"
 import { color, font, marpad, cnt, mar } from "../../assets/style/base"
-
 const USER_EDIT = gql`
     mutation editUser($userInfo: UserInput!) {
         editUser(userInfo: $userInfo) {
@@ -59,10 +50,6 @@ const handleSubmit = ({
     editUser({
         variables: { userInfo: { username: username, photo: newphoto } },
     })
-        .then(response => {
-            const { editUser } = response.data
-            navigation.navigate("WorkOrderList", { ...editUser })
-        })
         .then(response => {
             const { editUser } = response.data
             navigation.navigate("WorkOrderList", { ...editUser })
@@ -112,6 +99,7 @@ const Email = ({ navigation }) => {
                 authyId: data.currentUser.authyId,
                 username: data.currentUser.username || "",
                 photo: data.currentUser.photo,
+                newphoto: null,
             }}
             validationSchema={Yup.object({
                 username: Yup.string()
@@ -126,8 +114,7 @@ const Email = ({ navigation }) => {
                     values,
                     setSubmitting,
                     setErrors,
-                })
-            }
+                })}
             render={({
                 handleChange,
                 handleBlur,
@@ -140,7 +127,7 @@ const Email = ({ navigation }) => {
                 status,
                 isSubmitting,
                 toCamera,
-            }) => (
+            }) =>
                 <SafeAreaView style={cnt.cnt}>
                     <Text style={su3.header}>Edit Your Profile</Text>
                     <Text style={su3.subHead}>
@@ -153,7 +140,7 @@ const Email = ({ navigation }) => {
                         //   buttonStyle={wOForm.submitButton}
                         name="photo"
                     >
-                        {({ field, form }) => (
+                        {({ field, form }) =>
                             <TouchableOpacity
                                 style={su3.avatar}
                                 onPress={() =>
@@ -210,7 +197,7 @@ const Email = ({ navigation }) => {
                                                             }
                                                         )
                                                         setFieldValue(
-                                                            "photo",
+                                                            "newphoto",
                                                             file
                                                         )
                                                     }
@@ -218,35 +205,38 @@ const Email = ({ navigation }) => {
                                                 find()
                                             }
                                         }
-                                    )
-                                }
+                                    )}
                             >
-                                {values.photo ? (
-                                    <Image
-                                        style={su3.image}
-                                        source={{
-                                            uri:
-                                                values.photo.uri ||
-                                                values.photo.path,
-                                        }}
-                                    />
-                                ) : (
-                                    <Image
-                                        style={su3.image}
-                                        source={{
-                                            uri: placeholderImg,
-                                        }}
-                                    />
-                                )}
+                                {values.newphoto
+                                    ? <Image
+                                          style={su3.image}
+                                          source={{
+                                              uri:
+                                                  values.newphoto.uri ||
+                                                  values.photo.path,
+                                          }}
+                                      />
+                                    : values.photo
+                                      ? <Image
+                                            style={su3.image}
+                                            source={{
+                                                uri:
+                                                    values.photo.uri ||
+                                                    values.photo.path,
+                                            }}
+                                        />
+                                      : <Image
+                                            style={su3.image}
+                                            source={{
+                                                uri: placeholderImg,
+                                            }}
+                                        />}
                                 <Text style={su3.avatarText}>
                                     Profile Photo
                                 </Text>
-                            </TouchableOpacity>
-                        )}
+                            </TouchableOpacity>}
                     </Field>
                     {/* </Content> */}
-                    <View style={mar.marSmBt} />
-
                     <TextInput
                         style={txtInput.fullWidthInputMarginBottom}
                         placeholder="username"
@@ -255,9 +245,12 @@ const Email = ({ navigation }) => {
                         value={values.username}
                     />
                     <View style={mar.marMdLtMdTp}>
-                        <Text>This is your email: {values.email}</Text>
+                        <Text>
+                            This is your email: {values.email}
+                        </Text>
                     </View>
                     <View style={mar.marMdBt} />
+
                     <TouchableOpacity
                         style={topBtn.fullWidthBtnMargin}
                         onPress={handleSubmit}
@@ -289,8 +282,7 @@ const Email = ({ navigation }) => {
                     >
                         Contact the Net Giver Team
                     </Text>
-                </SafeAreaView>
-            )}
+                </SafeAreaView>}
         />
     )
 }

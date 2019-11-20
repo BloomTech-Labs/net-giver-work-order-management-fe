@@ -65,9 +65,9 @@ const Comments = ({ navigation }) => {
     })
 
     const renderCustomActions = props =>
-        Platform.OS === "web" ? null : (
-            <CustomActions {...props} onSend={messages => onSend(messages)} />
-        )
+        Platform.OS === "web"
+            ? null
+            : <CustomActions {...props} onSend={messages => onSend(messages)} />
 
     if (loading)
         return (
@@ -86,15 +86,12 @@ const Comments = ({ navigation }) => {
     async function onSend(messages) {
         const text = messages[0].text
         const image = messages[0].image
-        const variables2 = {
-            comment: { text: text, workorderId: id, photo: image },
-        }
+
         await addComment({
             variables: {
                 comment: { text: text, workorderId: id, photo: image },
             },
         })
-        console.log(variables2)
     }
 
     return (
@@ -107,24 +104,22 @@ const Comments = ({ navigation }) => {
                 //   _id: 1,
                 //   name: "bryant"
                 // }}
-                messages={
-                    // (idx(queryResult, _ => _.data.group.chat.messages) || [])
-                    data.workorder.comments.map(comment => {
-                        return {
-                            _id: comment.id,
-                            text: comment.text,
-                            createdAt: new Date(comment.createdAt),
-                            image: comment.image,
-                            user: {
-                                _id: comment.user.id,
-                                name: comment.user.username,
-                                avatar: comment.user.photo
-                                    ? comment.user.photo.path
-                                    : "http://placehold.jp/006e13/ffffff/80x100.png?text=Placeholder%20Image",
-                            },
-                        }
-                    })
-                }
+                messages={// (idx(queryResult, _ => _.data.group.chat.messages) || [])
+                data.workorder.comments.map(comment => {
+                    return {
+                        _id: comment.id,
+                        text: comment.text,
+                        createdAt: new Date(comment.createdAt),
+                        image: comment.image,
+                        user: {
+                            _id: comment.user.id,
+                            name: comment.user.username,
+                            avatar: comment.user.photo
+                                ? comment.user.photo.path
+                                : "http://placehold.jp/006e13/ffffff/80x100.png?text=Placeholder%20Image",
+                        },
+                    }
+                })}
             />
         </Container>
     )
