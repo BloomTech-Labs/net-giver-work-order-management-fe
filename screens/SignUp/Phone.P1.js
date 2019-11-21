@@ -5,7 +5,7 @@ import {
     View,
     Button,
     Image,
-    StyleSheet,
+    KeyboardAvoidingView,
     TextInput,
     TouchableOpacity,
 } from "react-native"
@@ -92,8 +92,7 @@ const Phone = ({ navigation }) => {
                     values,
                     setSubmitting,
                     setErrors,
-                })
-            }
+                })}
             render={({
                 handleChange,
                 handleBlur,
@@ -105,8 +104,8 @@ const Phone = ({ navigation }) => {
                 setFieldValue,
                 status,
                 isSubmitting,
-            }) => (
-                <SafeAreaView>
+            }) =>
+                <KeyboardAvoidingView>
                     <Image
                         style={su1.logo}
                         source={require("../../components/Images/ng.png")}
@@ -117,7 +116,7 @@ const Phone = ({ navigation }) => {
                     </Text>
                     <View style={spacer.persmBot} />
                     <Field name="phone">
-                        {({ field, form }) => (
+                        {({ field, form }) =>
                             <TextInput
                                 style={txtInput.fullWidthInputMarginBottom}
                                 name={"phone"}
@@ -126,14 +125,14 @@ const Phone = ({ navigation }) => {
                                 onBlur={handleBlur("phone")}
                                 placeholder="Enter your Phone Number"
                                 keyboardType="phone-pad"
+                                returnKeyType="done"
                                 autoCompleteType="tel"
                                 maxLength={10}
-                            ></TextInput>
-                        )}
+                            />}
                     </Field>
                     <ErrorMessage errorValue={touched.phone && errors.phone} />
                     <Field name="email">
-                        {({ field, form }) => (
+                        {({ field, form }) =>
                             <TextInput
                                 style={txtInput.fullWidthInput}
                                 name={"email"}
@@ -142,8 +141,9 @@ const Phone = ({ navigation }) => {
                                 onBlur={handleBlur("email")}
                                 placeholder="Enter your Email"
                                 autoCapitalize="none"
-                            ></TextInput>
-                        )}
+                                keyboardType="email-address"
+                                returnKeyType="done"
+                            />}
                     </Field>
                     <ErrorMessage errorValue={errors.email} />
                     <TouchableOpacity
@@ -161,8 +161,7 @@ const Phone = ({ navigation }) => {
                     >
                         Contact the Net Giver Team
                     </Text>
-                </SafeAreaView>
-            )}
+                </KeyboardAvoidingView>}
         />
     )
 }

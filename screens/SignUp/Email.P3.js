@@ -243,6 +243,8 @@ const Email = ({ navigation }) => {
                         onChangeText={handleChange("username")}
                         onBlur={handleBlur("username")}
                         value={values.username}
+                        autoCapitalize="none"
+                        returnKeyType="done"
                     />
                     <View style={mar.marMdLtMdTp}>
                         <Text>
